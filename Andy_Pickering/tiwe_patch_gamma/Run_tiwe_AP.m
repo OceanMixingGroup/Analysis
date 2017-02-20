@@ -21,7 +21,7 @@ addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general/
 
 path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
-path_save='/Users/Andy/Cruises_Research/ChiPod/TIWE/data/';
+path_save='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/';
 
 Flist=dir( fullfile(path_raw, '*tw91*'))
 %

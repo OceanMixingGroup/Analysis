@@ -13,7 +13,7 @@ clear ; close all
 
 % use binned data?
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-load('/Users/Andy/Cruises_Research/ChiPod/TIWE/data/tiwe_1mavg_combined.mat')
+load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')
 addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
 
 cham.THETA=sw_ptmp(cham.S,cham.T,cham.P,0);

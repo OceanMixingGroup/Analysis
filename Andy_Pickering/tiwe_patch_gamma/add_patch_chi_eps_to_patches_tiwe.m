@@ -19,14 +19,14 @@ patch_size_min = 0.25  % min patch size
 usetemp = 1
 
 % load our 'patches' structure
-load(fullfile( '/Users/Andy/Cruises_Research/ChiPod/TIWE/data/',...
+load(fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
     ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']) )
 
 %%
 
 % folder for chameleon data processed over patches
 % (Run_tiwe_AP_forPatches.m)
-data_dir=fullfile('/Users/Andy/Cruises_Research/ChiPod/TIWE/data/avg_patch',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+data_dir=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
 
 chi_all = [] ;
 eps_all = [] ;
@@ -98,7 +98,7 @@ patches.gam_bulk  = gam_bulk;
 patches.gam_bulk_2 = gam_bulk_2;
 patches.gam4 = gam4;
 %%
-save( fullfile( '/Users/Andy/Cruises_Research/ChiPod/TIWE/data/',...
+save( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
     ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 %%

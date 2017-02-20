@@ -12,7 +12,7 @@
 
 clear ; close all
 
-data_dir = '/Users/Andy/Cruises_Research/ChiPod/TIWE/data/avg/' ;
+data_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg/' ;
 
 Flist = dir( fullfile(data_dir,'*mat') )
 Nprof=length(Flist)
@@ -61,14 +61,14 @@ delete(hb)
 %%
 
 cham.MakeInfo=['Made' datestr(now) ' w/ Combine_tiwe_avg_profiles.m']
-save( fullfile('/Users/Andy/Cruises_Research/ChiPod/TIWE/data/','tiwe_1mavg_combined.mat'),'cham')
+save( fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/','tiwe_1mavg_combined.mat'),'cham')
 
 
 %%
 
 clear ; close all
 
-load( fullfile('/Users/Andy/Cruises_Research/ChiPod/TIWE/data/','tiwe_1mavg_combined.mat') )
+load( fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/','tiwe_1mavg_combined.mat') )
 
 figure(1);clf
 agutwocolumn(1)
@@ -141,7 +141,7 @@ linkaxes([ax1 ax2 ax3 ax4])
 
 %%
 
-fig_dir='/Users/Andy/Cruises_Research/ChiPod/TIWE/figures'
+fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
 print(fullfile(fig_dir,'tiwe_avgCombine_N2_dtdz_chi_eps'),'-dpng')
 
 SetNotesFigDir
@@ -163,7 +163,7 @@ ylabel('pdf')
 title('tiwe 1m bin processed by AP')
 
 %%
-fig_dir='/Users/Andy/Cruises_Research/ChiPod/TIWE/figures'
+fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
 print(fullfile(fig_dir,'tiwe_avgCombine_gamma'),'-dpng')
 
 SetNotesFigDir

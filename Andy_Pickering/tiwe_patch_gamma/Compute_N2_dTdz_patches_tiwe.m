@@ -28,7 +28,7 @@ patch_size_min = 0.25  % min patch size
 usetemp = 1
 
 % load patch data (from FindPatches_EQ14_Raw.m)
-datdir='/Users/Andy/Cruises_Research/ChiPod/TIWE/data'
+datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 fname=['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
 load(fullfile(datdir,fname))
 %
@@ -78,7 +78,7 @@ for ip=1:5000%Npatches
         if cnum_loaded~=cnum
             % load chameleon cast
             clear cal cal2 head
-            cham_dir='/Users/Andy/Cruises_Research/ChiPod/TIWE/data/cal';
+            cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
             load( fullfile( cham_dir, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
             cal=cal2;clear cal2
             cnum_loaded=cnum;
@@ -291,12 +291,12 @@ clear ; close all
 
 patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-datdir='/Users/Andy/Cruises_Research/ChiPod/TIWE/data'
+datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 
 load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 % load binned chameleon data
-load('/Users/Andy/Cruises_Research/ChiPod/TIWE/data/tiwe_1mavg_combined.mat')
+load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')
 
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 
@@ -335,7 +335,7 @@ end
 
 patches.MakeInfo = ['Made ' datestr(now) ' w/ Compute_N2_dTdz_patches_tiwe.m'] 
 
-save( fullfile( '/Users/Andy/Cruises_Research/ChiPod/TIWE/data/',...
+save( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
     ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 %%

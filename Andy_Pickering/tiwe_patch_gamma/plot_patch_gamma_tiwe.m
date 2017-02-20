@@ -14,7 +14,7 @@ clear ; close all
 patch_size_min = 0.25  % min patch size
 usetemp = 1
 
-load( fullfile( '/Users/Andy/Cruises_Research/ChiPod/TIWE/data/',...
+load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
     ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']))
 
 %%
@@ -36,7 +36,7 @@ legend([h1 h2 h3],'bin','line','bulk','location','best')
 
 %%
 
-fig_dir='/Users/Andy/Cruises_Research/ChiPod/TIWE/figures'
+fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
 fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gammas_hist']
 print(fullfile(fig_dir,fname),'-dpng')
 

@@ -23,7 +23,7 @@ mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
-datdir='/Users/Andy/Cruises_Research/ChiPod/TIWE/data/cal/'
+datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal/'
 
 % patch options
 save_data = 1 ;         % save data at the end
@@ -100,7 +100,7 @@ delete(hb)
 warning on
 
 if save_data==1
-    savedir = '/Users/Andy/Cruises_Research/ChiPod/TIWE/data/'    
+    savedir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/'    
     fname   = ['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat'] 
     save( fullfile( savedir,fname), 'patch_data')
 end

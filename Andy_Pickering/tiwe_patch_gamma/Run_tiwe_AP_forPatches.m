@@ -33,13 +33,13 @@ addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/cod
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/mfiles/ % calc_chi_AP.m
 
 path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
-path_save=fullfile('/Users/Andy/Cruises_Research/ChiPod/TIWE/data/avg_patch/',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'/');
+path_save=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch/',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'/');
 ChkMkDir(path_save)
 
 Flist=dir( fullfile(path_raw, '*tw91*'))
 
 %~~ load patch data
-datdir='/Users/Andy/Cruises_Research/ChiPod/TIWE/data'
+datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 %%
 
