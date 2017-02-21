@@ -53,17 +53,18 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 
 \begin{itemize}
 
-\item \verb+Process_tiwe_rawprofiles_AP.m+  Processes raw Chameleon files and saves `cal2' files which have the raw/ high-res profiles of temp and salinity. These are used to identify patches.
+\item \verb+Process_tiwe_rawprofiles_AP.m+  Processes raw Chameleon files and saves `cal2' files which have the raw/ high-res profiles of temp and salinity. These are used to identify patches. $\chi$ and $\epsilon$ are not computed for these.
 
 \item \verb+FindPatches_tiwe_Raw.m+ Identifies patches in the profiles made by \verb+Process_tiwe_rawprofiles_AP.m+, using potential temperature.
 
-\item \verb+Run_tiwe_AP_forPatches.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_tiwe_Raw.m+ .
+\item \verb+Compute_N2_dTdz_patches_tiwe.m+ Computes $N^2$ and $T_z$ for patches, using several different methods. SAves results in a structure `patches'.
 
-\item \verb+Run_tiwe_AP.m+ Runs the standard Chameleon processing, producing 1m avg quantities.
+\item \verb+Run_tiwe_AP_forPatches.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_tiwe_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
+
+\item \verb+Run_tiwe_AP.m+ Runs the standard Chameleon processing, producing 1m avg quantities. I modifed this from \verb+run_tw91.m+.
 
 \item \verb+Combine_tiwe_avg_profiles.m+ Combines the avg profiles made in \verb+Run_tiwe_AP.m+ into a single structure with common depths.
 
-\item \verb+Compute_N2_dTdz_patches_tiwe.m+ Computes $N^2$ and $T_z$ for patches, using several different methods.
 
 \end{itemize}
 
@@ -78,9 +79,9 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 
 Temperature gradient is computed for each patch using the following methods:
 \begin{enumerate}
-\item dtdz1 : Take the range of T over the patch and divided by patch height
-\item dtdz2 : Fit a straight line to sorted T using \verb+polyfit+
-\item dtdz3 : Use the 'bulk gradient' from Smyth et al 2001, which is the rms fluctuation from the background (sorted) temperature, divided by the thorpe scale (the rms re-ordering distances).
+\item $dtdz_{range}$ : Take the range of T over the patch and divided by patch height
+\item $dtdz_{line}$ : Fit a straight line to sorted T using \verb+polyfit+
+\item $dtdz_{bulk}$ : Use the 'bulk gradient' from Smyth et al 2001, which is the rms fluctuation from the background (sorted) temperature, divided by the thorpe scale (the rms re-ordering distances).
 \end{enumerate}
 
 
@@ -89,9 +90,9 @@ Temperature gradient is computed for each patch using the following methods:
 
 $N^2$ is computed for each patch using the following methods:
 \begin{enumerate}
-\item $N^2_1$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
-\item $N^2_2$ : Fit a straight line to sorted potential density using polyfit to get $d\rho/dz$, then compute N2.
-\item $N^2_3$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature.
+\item $N^2_{range}$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
+\item $N^2_{line}$ : Fit a straight line to sorted potential density using polyfit to get $d\rho/dz$, then compute N2.
+\item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature.
 \item $N^2_4$ : Compute $N^2$ from the sorted profile (sorted by potential density) using \verb+sw_bfreq+, then take average over the patch. I believe this method is used by some commonly-used overturn codes.
 \end{enumerate}
 
@@ -105,12 +106,12 @@ Mixing Efficiency $\Gamma$ is computed from the following equation using differe
 \end{equation}
 $\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. Gamma is computed for the following 4 combinations:
 \begin{enumerate}
-\item  $N^2_1$, dtdz1
-\item $N^2_2$, dtdz2
-\item $N^2_3$, dtdz3
-\item $N^2_4$, dtdz2
+\item  $\Gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
+\item  $\Gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
+\item  $\Gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
+\item  $\Gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
 \end{enumerate}
-Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded (using these values does have a significant impact on the mean/median of the resulting distribution).
+Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded.
 
 
 
