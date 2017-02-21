@@ -13,7 +13,7 @@
 
 clear ; close all
 
-patch_size_min = 0.25 ; % min patch size
+patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 
@@ -30,28 +30,44 @@ agutwocolumn(1)
 wysiwyg
 
 subplot(221)
-histogram(log10(patches.n2_line(:)),'Normalization','pdf')
+h1=histogram(log10(patches.n2_line(:)),'Normalization','pdf','Edgecolor','none');
 hold on
-histogram(log10(A.N2(:)),'Normalization','pdf')
-xlabel('log_{10}[N^2]')
+h2=histogram(log10(A.N2(:)),h1.BinEdges,'Normalization','pdf','Edgecolor','none')
+xlabel('log_{10}[N^2]','fontsize',16)
+ylabel('pdf','fontsize',16)
+grid on
+legend([h1 h2],'AP','Bill')
 
 subplot(222)
-histogram(log10(patches.dtdz_line(:)),'Normalization','pdf')
+h1=histogram(log10(patches.dtdz_line(:)),'Normalization','pdf','Edgecolor','none');
 hold on
-histogram(real(log10(A.tgrad(:))),'Normalization','pdf')
-xlabel('log_{10}[T_z]')
+histogram(real(log10(A.tgrad(:))),h1.BinEdges,'Normalization','pdf','Edgecolor','none')
+xlabel('log_{10}[T_z]','fontsize',16)
+ylabel('pdf','fontsize',16)
+grid on
 
 subplot(223)
-histogram(log10(patches.chi(:)),'Normalization','pdf')
+h1=histogram(log10(patches.chi(:)),'Normalization','pdf','Edgecolor','none');
 hold on
-histogram(real(log10(A.chi(:))),'Normalization','pdf')
+histogram(real(log10(A.chi(:))),'Normalization','pdf','Edgecolor','none')
 xlabel('log_{10}[\chi]')
+ylabel('pdf')
+grid on
 
 subplot(224)
-histogram(log10(patches.eps(:)),'Normalization','pdf')
+h1=histogram(log10(patches.eps(:)),'Normalization','pdf','Edgecolor','none');
 hold on
-histogram(real(log10(A.eps(:))),'Normalization','pdf')
-xlabel('log_{10}[\epsilon]')
+histogram(real(log10(A.eps(:))),'Normalization','pdf','Edgecolor','none')
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('pdf','fontsize',16)
+grid on
+
+%%
+
+fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_n2_tz_chi_eps_apvsbill_hist']
+print(fullfile(fig_dir,fname),'-dpng')
+
 
 %% compute gamma from Bill's patches
 
@@ -60,9 +76,26 @@ addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/cod
 gam_bill = ComputeGamma(A.N2,A.tgrad,A.chi,A.eps);
 
 figure(2);clf
-histogram(log10(gam_bill(:)))
+hbill=histogram(log10(gam_bill(:)),'Normalization','pdf')
 hold on
-histogram(log10(patches.gam_line(:)))
+hap=histogram(log10(patches.gam_line(:)),'Normalization','pdf')
 freqline(log10(0.2))
+xlim([-3 2])
+ylim([0 1.2])
+grid on
+xlabel('log_{10}[\Gamma]')
+legend([hbill hap],'Bill','AP','location','best')
+title(['tiwe patches, minOT=' num2str(patch_size_min) 'm'])
 
+%%
+
+figure(1);clf
+agutwocolumn(0.5)
+wysiwyg
+h1=histogram(A.Lt(:),'Normalization','pdf');
+hold on
+h2=histogram(patches.Lt(:),h1.BinEdges,'Normalization','pdf');
+legend([h1 h2],'Bill','AP')
+grid on
+xlabel('L_t')
 %%

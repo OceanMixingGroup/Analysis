@@ -27,7 +27,7 @@ datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/da
 
 % patch options
 save_data = 1 ;         % save data at the end
-patch_size_min = 0.25 ; % min patch size
+patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 patch_data=[];
