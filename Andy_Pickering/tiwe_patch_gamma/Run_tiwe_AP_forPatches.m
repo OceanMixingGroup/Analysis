@@ -2,7 +2,9 @@
 %
 % Run_tiwe_AP_forPatches.m
 %
-% Run tiwe Chameleon processing for patches only.
+% Run tiwe Chameleon processing for patches only. Patches are idenfitifed
+% in FindPatches_tiwe_Raw.m, which must be run first.
+% Compute_N2_dTdz_patches_tiwe.m must then be run also.
 %
 % Modified from Run_tiwe_AP.m
 %
@@ -21,7 +23,7 @@
 
 clear all ; close all
 
-patch_size_min = 0.25 ; % min patch size
+patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
@@ -49,7 +51,9 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
-for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
+hb=waitbar(0)
+for cast=1:4000
+    waitbar(cast/4000,hb)
     % bad files: 144
     %disp(cast);
     q.script.num=cast;
@@ -126,6 +130,7 @@ for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
         end % try
     end % if file exists
 end % cast
+delete(hb)
 %sum_tw91
 
 %%
