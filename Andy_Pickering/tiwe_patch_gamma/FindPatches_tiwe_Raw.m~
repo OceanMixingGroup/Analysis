@@ -55,6 +55,8 @@ for ic= 1:length(Flist)
         
         % 2837: start yday 324?
         % 3711: end yday 327
+
+ %       if (cnum>2837 & cnum<3711)
         
         % Load the data for this cast
         load(fullfile(datdir,Flist(ic).name))
@@ -100,13 +102,12 @@ for ic= 1:length(Flist)
                 patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) yday ];
             end
         end
-                
+        
+  %      end % yday 324-327
+        
     end % try
     
-    col_names={'cnum','pstart','pstop','dp','otnsq','otLt','yday'};
-    
-    % save patch data for this profile
-    save(fullfile(save_dir,['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']),'patch_data','col_names')
+    % save patch data for 
     
 end % cnum
 
