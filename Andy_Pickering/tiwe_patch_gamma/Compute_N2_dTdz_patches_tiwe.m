@@ -24,7 +24,7 @@
 clear ; close all
 
 % patch options
-patch_size_min = 0.15  % min patch size
+patch_size_min = 0.25  % min patch size
 usetemp = 1
 
 % load patch data (from FindPatches_EQ14_Raw.m)
@@ -38,6 +38,7 @@ patches.p1   = patch_data(:,2) ;
 patches.p2   = patch_data(:,3) ;
 patches.n2_ot= patch_data(:,5) ;
 patches.Lt   = patch_data(:,6) ;
+patches.yday = patch_data(:,7) ;
 
 % Make empty arrays for results
 Npatches=length(patches.p1);
@@ -65,7 +66,7 @@ cnum_loaded=-5;
 warning off
 hb=waitbar(0);
 
-for ip=1:5000%Npatches
+for ip=1:Npatches
     
     waitbar(ip/Npatches,hb)
     
@@ -76,6 +77,9 @@ for ip=1:5000%Npatches
         
         % check if this cast already loaded to avoid unnecessary re-loading
         if cnum_loaded~=cnum
+            
+            disp(['loading cast ' num2str(cnum)])
+            
             % load chameleon cast
             clear cal cal2 head
             cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';

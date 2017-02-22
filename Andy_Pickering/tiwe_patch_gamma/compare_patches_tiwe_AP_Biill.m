@@ -84,8 +84,14 @@ xlim([-3 2])
 ylim([0 1.2])
 grid on
 xlabel('log_{10}[\Gamma]')
+ylabel('pdf')
 legend([hbill hap],'Bill','AP','location','best')
 title(['tiwe patches, minOT=' num2str(patch_size_min) 'm'])
+
+%%
+fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_apvsbill_hist']
+print(fullfile(fig_dir,fname),'-dpng')
 
 %%
 

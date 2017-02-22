@@ -154,7 +154,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Comparison to previous analysis}
 
-Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $N^2$, $T_z$, and $\chi$ tend to be smaller than Bill's (Figure \ref{comp_bill_ap_1}). Gamma computed from my patch values is smaller than 0.2, centered around..., while gamma from Bill's values is larger than 0.2, centered at about .
+Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $N^2$, $T_z$, and $\chi$ tend to be smaller than Bill's (Figure \ref{comp_bill_ap_1}). Gamma computed from my patch values is smaller than 0.2 (median 0.08), while gamma from Bill's values is larger than 0.2 (median 0.4),(Figure \ref{comp_bill_ap_gam}).
 
 **Note that the number of patches I found is much larger than those in Bill's data. I'm not sure if this is because he joined some patches, or only looked at certain profiles, or had some other threshold? His data doesn't give info on patch locations or profiles so I can't compare them directly to mine.
 
@@ -164,6 +164,14 @@ Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.ma
 \label{comp_bill_ap_1}
 \end{figure}
 %
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_apvsbill_hist.png}
+\caption{Histograms of $\Gamma$ for patches analyzed by myself and Bill.}
+\label{comp_bill_ap_gam}
+\end{figure}
+
+
 
 
 

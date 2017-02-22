@@ -7,14 +7,12 @@
 % Compute_N2_dTdz_patches_tiwe.m must then be run also.
 %
 % Modified from Run_tiwe_AP.m
-%
 % Modified from run_tw91.m
-%
 %
 % Dependencies:
 %   - raw_load.m
 %   - cali_tw91.m
-%   - average_data_gen1.m
+%   - average_data_PATCH_AP.m
 %
 %--------------
 % 2/16/17 - A.Pickering
@@ -23,7 +21,7 @@
 
 clear all ; close all
 
-patch_size_min = 0.15 ; % min patch size
+patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
@@ -43,7 +41,6 @@ Flist=dir( fullfile(path_raw, '*tw91*'))
 %~~ load patch data
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
-%%
 
 global data head cal q
 q.script.pathname =  path_raw;
@@ -51,6 +48,7 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
+
 hb=waitbar(0)
 for cast=1:4000
     waitbar(cast/4000,hb)
@@ -67,14 +65,13 @@ for cast=1:4000
             [data head]=raw_load(q);
             cali_tw91;
             
+            % change S to SAL to conform w/ newer chameleon functions
             cal.SAL=cal.S;
             head.irep.SAL=head.irep.S;
             
             nfft=256;
             warning off
             if bad~=1
-                % average calibrated data into 1m bins
-                %
                 
                 % ~~ get patches for this profile
                 clear igp pstarts pstops
@@ -82,14 +79,12 @@ for cast=1:4000
                 %this_patch=patch_data(igp,:);
                 pstarts = patches.p1(igp) ;
                 pstops  = patches.p2(igp) ;
-                
-                
-                %         avg=average_data_gen_ct01a(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
-              %  avg=average_data_gen1(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
-%*** replace with average_data_PATCH_AP.m **
+                                
+                % compute chi, eps etc. for patches
+                %avg=average_data_gen_ct01a(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
+                %avg=average_data_gen1(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
                 avg=average_data_PATCH_AP(q.series,nfft,pstarts,pstops);
-                
-                %
+                                
                 % remove glitches
                 % flag AZ vibrations
                 %         idaz=find(avg.VARAZ>1.e-02);
@@ -114,14 +109,8 @@ for cast=1:4000
                 %
                 head=calc_dynamic_z(avg,head);
                 
-                % add N2 and dT/dz to 'avg'
-%                 avg.N2=sw_bfrq(avg.S,avg.T,avg.P,0);
-%                 avg.N2=[avg.N2(:) ; nan]';
-%                 avg.DTDZ=diffs(avg.T)./diffs(avg.P);
-%                 avg.DTDZ=avg.DTDZ(:)';
                 
                 % create a seperate .mat data file containing 1m binned data and header
-                %
                 temp=num2str(q.script.num+10000);
                 fn=[q.script.prefix temp(2:5) '_avg'];
                 head.p_max=max(cal.P);
