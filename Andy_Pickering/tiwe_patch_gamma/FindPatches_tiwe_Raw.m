@@ -27,7 +27,7 @@ datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/da
 
 % patch options
 save_data = 1 ;         % save data at the end
-patch_size_min = 0.15 ; % min patch size
+patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 patch_data=[];
@@ -50,8 +50,17 @@ for ic= 1:length(Flist)
         
         fname=Flist(ic).name ;
         cnum=str2num(fname(5:8));
+        
+        % 2837: start yday 324?
+        % 3711: end yday 327
+
+ %       if (cnum>2837 & cnum<3711)
+        
         % Load the data for this cast
         load(fullfile(datdir,Flist(ic).name))
+        
+        clear yday
+        yday=str2num(head.starttime(end-5:end));
         
         cal=cal2; clear cal2
         
@@ -88,9 +97,11 @@ for ic= 1:length(Flist)
         for i=1:length(pstarts)
             % don't keep patches shallower than 10m depth
             if pstarts(i)>10
-                patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) ];
+                patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) yday ];
             end
         end
+        
+  %      end % yday 324-327
         
     end % try
     
