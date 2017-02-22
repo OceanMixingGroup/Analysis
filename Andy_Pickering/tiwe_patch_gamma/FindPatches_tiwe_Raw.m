@@ -32,7 +32,6 @@ save_data = 1 ;         % save data at the end
 patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
-patch_data=[];
 
 % loop through each cast
 warning off
@@ -44,7 +43,9 @@ Flist = dir(fullfile(datdir,'*raw.mat'))
 for ic= 1:length(Flist)
     
     waitbar(ic/length(Flist),hb)
-    
+    clear patch_data
+    patch_data=[];
+
     try
         
         close all
