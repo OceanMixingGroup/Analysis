@@ -60,7 +60,7 @@ for cnum=1:4000
         %    patches.drhodz_bin(ip)= patches.n2_bin(ip) * (nanmean(cham.SIGMA(:,Icham))+1000) / -9.81 ;
         
         %     if log10(patches.eps_bin(ip))>-8.5
-        %         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);
+        patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);
         %     end
         
         % re-save profile
