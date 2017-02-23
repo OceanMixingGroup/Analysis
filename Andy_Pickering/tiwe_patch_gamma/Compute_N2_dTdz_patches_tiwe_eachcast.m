@@ -29,16 +29,13 @@ clear ; close all
 patch_size_min = 0.25  % min patch size
 usetemp = 1
 
-% load patch data (from FindPatches_EQ14_Raw.m)
-%datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-%fname=['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
-%load(fullfile(datdir,fname))
-
 save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 
 hb=waitbar(0)
-for cnum=100%:4000
+warning off
+
+for cnum=1:4000
     waitbar(cnum/4000,hb)
     try
         
@@ -73,20 +70,15 @@ for cnum=100%:4000
         patches.dtdz_range=EmpVec;
         patches.dtdz_line=EmpVec;
         patches.dtdz_bulk=EmpVec;
-        
-        
-        
-        clear cnum
-        cnum=patches.cnum(ip);
-        
+                
         disp(['loading cast ' num2str(cnum)])
         
         % load raw chameleon cast
         clear cal cal2 head
         cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
         load( fullfile( cham_dir, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
-        cal=cal2;clear cal2
-        cnum_loaded=cnum;
+        cal=cal2 ; clear cal2
+        cnum_loaded = cnum;
         
         % compute pot. temp, pot. density etc.
         clear s t p lat ptmp sgth
@@ -104,19 +96,7 @@ for cnum=100%:4000
         lat2=str2num(head.lat.start(idot-2:end))/60;
         lat=nanmean([lat1 lat2]);
         
-        
-        
-        %cnum_loaded=-5;
-        %warning off
-        %hb=waitbar(0);
-        
         for ip=1:Npatches
-            
-            %   waitbar(ip/Npatches,hb)
-            
-            %    try
-            
-            
             
             clear pstarts pstops
             clear iz t_ot s_ot p_ot ptmp_ot sgth_ot
@@ -203,13 +183,25 @@ for cnum=100%:4000
             end
             
         end % ip
+        
+        % save profile
+       save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' ) 
     end % try
 end % cnum
 
 delete(hb)
 warning on
-%
-patches.MakeInfo=['Made ' datestr(now) ' w/ Compute_N2_dTdz_patches_tiwe.m']
+%%
+
+% %% Next combine all profiles into a single structure
+% 
+% hb=waitbar(0)
+% for cnum=1:4000
+% waitbar(cnum/4000,hb)
+% 
+% 
+% end
+%patches.MakeInfo=['Made ' datestr(now) ' w/ Compute_N2_dTdz_patches_tiwe.m']
 %save( fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 %%
@@ -299,58 +291,13 @@ patches.MakeInfo=['Made ' datestr(now) ' w/ Compute_N2_dTdz_patches_tiwe.m']
 % % patches. So for each patch I want to find the closest binned gamma and
 % % then compare those.
 %
-%% Add 1m binned data (interpolated to patch locations)
-
-clear ; close all
-
-patch_size_min = 0.25 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-
-load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
-
-% load binned chameleon data
-load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')
-
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
-
-Npatches = length(patches.cnum) ;
-patches.gam_bin = nan*ones(size(patches.p1)) ;
-patches.n2_bin  = nan*ones(size(patches.p1)) ;
-patches.dtdz_bin= nan*ones(size(patches.p1)) ;
-patches.chi_bin = nan*ones(size(patches.p1)) ;
-patches.eps_bin = nan*ones(size(patches.p1)) ;
-patches.drhodz_bin=nan*ones(size(patches.p1)) ;
-
-for ip=1:5000%Npatches
-    
-    clear cnum pbin pmn val I Icham
-    cnum = patches.cnum(ip) ;
-    Icham= find(cham.cnum==cnum) ;
-    pbin = cham.P;
-    pmn  = nanmean([patches.p1(ip) patches.p2(ip)]) ;
-    
-    clear ig
-    ig=find(~isnan(pbin)) ;
-    patches.n2_bin(ip)    = interp1(pbin(ig) , cham.N2(ig,Icham) , pmn);
-    patches.dtdz_bin(ip)  = interp1(pbin(ig) , cham.DTDZ(ig,Icham) , pmn);
-    patches.chi_bin(ip)   = interp1(pbin(ig) , cham.CHI(ig,Icham) , pmn);
-    patches.eps_bin(ip)   = interp1(pbin(ig) , cham.EPSILON(ig,Icham) , pmn);
-    %    patches.drhodz_bin(ip)= patches.n2_bin(ip) * (nanmean(cham.SIGMA(:,Icham))+1000) / -9.81 ;
-    
-    if log10(patches.eps_bin(ip))>-8.5
-        patches.gam_bin(ip)=ComputeGamma(patches.n2_bin(ip),patches.dtdz_bin(ip),patches.chi_bin(ip),patches.eps_bin(ip));
-    end
-    
-    
-end
 
 %% save again
-
-patches.MakeInfo = ['Made ' datestr(now) ' w/ Compute_N2_dTdz_patches_tiwe.m']
-
-save( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
-    ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+% 
+% patches.MakeInfo = ['Made ' datestr(now) ' w/ Compute_N2_dTdz_patches_tiwe.m']
+% 
+% save( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
+%     ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 %%
 %

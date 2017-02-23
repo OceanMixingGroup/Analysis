@@ -31,7 +31,7 @@ usetemp = 1
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 fname=['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
 load(fullfile(datdir,fname))
-%
+
 patches = struct() ;
 patches.cnum = patch_data(:,1) ;
 patches.p1   = patch_data(:,2) ;
