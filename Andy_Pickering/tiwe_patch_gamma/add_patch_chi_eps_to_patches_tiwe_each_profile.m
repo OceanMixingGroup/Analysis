@@ -46,8 +46,13 @@ for cnum=1:4000
         fname=['tw91' sprintf('%04d',cnum) '_avg.mat'];
         load(fullfile(data_dir,fname))
         
+        if length(patches.p1)==length(avg.CHI)
         patches.chi = avg.CHI(:);
         patches.eps = avg.EPSILON(:);
+        
+        clear ib
+        ib=find(log10(patches.eps)<-8.5);
+        patches.eps(ib)=nan;
         
         % compute gamma for each patch
         patches.gam_range = ComputeGamma(patches.n2_range, patches.dtdz_range, patches.chi, patches.eps);
@@ -56,6 +61,7 @@ for cnum=1:4000
         patches.gam_bulk_2= ComputeGamma(patches.n2_bulk_2, patches.dtdz_bulk, patches.chi, patches.eps);
         patches.gam4 = ComputeGamma(patches.n4, patches.dtdz_line, patches.chi , patches.eps );
         
+        end
         % re-save profile
         save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         
