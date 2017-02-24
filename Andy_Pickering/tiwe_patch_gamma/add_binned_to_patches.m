@@ -2,6 +2,11 @@
 %
 % add_binned_to_patches.m
 %
+% Add binned (standard 1m avg data) chameleon data to patch data for each
+% profile. Binned data are interpolated to patch locations. Patch data for
+% each profile are re-saved with added binned values.
+%
+%
 % Formerly part of Compute_N2_dTdz_patches_tiwe_eachcast.m
 %
 %----------------

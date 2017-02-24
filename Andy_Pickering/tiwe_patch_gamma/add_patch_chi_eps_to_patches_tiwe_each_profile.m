@@ -2,10 +2,10 @@
 %
 % add_patch_chi_eps_to_patches_tiwe_each_profile.m
 %
-% mod from add_patch_chi_eps_to_patches_tiwe.m
+% Modified from add_patch_chi_eps_to_patches_tiwe.m
 %
 % Add chi and epsilon values computed for patches (in
-% Run_tiwe_AP_forPatches.m) to our patches structure.
+% Run_tiwe_AP_forPatches.m) to our patches structure for each profile.
 %
 % Used to be part of Compute_N2_dTdz_patches_tiwe.m
 %
@@ -47,20 +47,20 @@ for cnum=1:4000
         load(fullfile(data_dir,fname))
         
         if length(patches.p1)==length(avg.CHI)
-        patches.chi = avg.CHI(:);
-        patches.eps = avg.EPSILON(:);
-        
-        clear ib
-        ib=find(log10(patches.eps)<-8.5);
-        patches.eps(ib)=nan;
-        
-        % compute gamma for each patch
-        patches.gam_range = ComputeGamma(patches.n2_range, patches.dtdz_range, patches.chi, patches.eps);
-        patches.gam_line  = ComputeGamma(patches.n2_line , patches.dtdz_line , patches.chi, patches.eps);
-        patches.gam_bulk  = ComputeGamma(patches.n2_bulk , patches.dtdz_bulk , patches.chi, patches.eps);
-        patches.gam_bulk_2= ComputeGamma(patches.n2_bulk_2, patches.dtdz_bulk, patches.chi, patches.eps);
-        patches.gam4 = ComputeGamma(patches.n4, patches.dtdz_line, patches.chi , patches.eps );
-        
+            patches.chi = avg.CHI(:);
+            patches.eps = avg.EPSILON(:);
+            
+            clear ib
+            ib=find(log10(patches.eps)<-8.5);
+            patches.eps(ib)=nan;
+            
+            % compute gamma for each patch
+            patches.gam_range = ComputeGamma(patches.n2_range, patches.dtdz_range, patches.chi, patches.eps);
+            patches.gam_line  = ComputeGamma(patches.n2_line , patches.dtdz_line , patches.chi, patches.eps);
+            patches.gam_bulk  = ComputeGamma(patches.n2_bulk , patches.dtdz_bulk , patches.chi, patches.eps);
+            patches.gam_bulk_2= ComputeGamma(patches.n2_bulk_2, patches.dtdz_bulk, patches.chi, patches.eps);
+            patches.gam4 = ComputeGamma(patches.n4, patches.dtdz_line, patches.chi , patches.eps );
+            
         end
         % re-save profile
         save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )

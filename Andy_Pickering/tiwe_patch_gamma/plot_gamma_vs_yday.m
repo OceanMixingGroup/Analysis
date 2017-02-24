@@ -2,6 +2,7 @@
 %
 % plot_gamma_vs_yday.m
 %
+% Plot gamma estimated for TIWE patches vs yday
 %
 %-------------
 % 2/24/17 - A.Pickering

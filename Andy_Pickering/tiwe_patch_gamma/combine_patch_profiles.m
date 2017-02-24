@@ -2,6 +2,7 @@
 %
 % combine_patch_profiles.m
 %
+% Combine patch data from each profile into a single structure.
 %
 % *add field Npatches for each cnum
 %
