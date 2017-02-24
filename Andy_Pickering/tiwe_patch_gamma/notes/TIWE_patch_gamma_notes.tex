@@ -16,7 +16,7 @@
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/}
 }
 
-\title{Patch/Gamma Analysis for TIWEchameleon patches}
+\title{Patch/Gamma Analysis for TIWE chameleon patches}
 \author{Andy Pickering}
 %\date{}                                           % Activate to display a given date or no date
 
@@ -140,12 +140,17 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist.png}
-\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$.}
+\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_307_329.png}
+\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For all profiles.}
 \label{patchgam}
 \end{figure}
 %
-
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_324_327.png}
+%\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For profiles on yday 324-327.}
+%\label{patchgam}
+%\end{figure}
 
 
 
@@ -154,81 +159,56 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Comparison to previous analysis}
 
-Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $N^2$, $T_z$, and $\chi$ tend to be smaller than Bill's (Figure \ref{comp_bill_ap_1}). Gamma computed from my patch values is smaller than 0.2 (median 0.08), while gamma from Bill's values is larger than 0.2 (median 0.4),(Figure \ref{comp_bill_ap_gam}).
+Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $T_z$, and $\chi$ tend to be significantly smaller than Bill's (Figure \ref{comp_bill_ap_1}). Gamma computed from my patch values (using all profiles) is smaller than 0.2 (median 0.08), while gamma from Bill's values is larger than 0.2 (median 0.4),(Figure \ref{comp_bill_ap_gam}).
 
-**Note that the number of patches I found is much larger than those in Bill's data. I'm not sure if this is because he joined some patches, or only looked at certain profiles, or had some other threshold? His data doesn't give info on patch locations or profiles so I can't compare them directly to mine.
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_n2_tz_chi_eps_apvsbill_hist.png}
-\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill.}
+\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_307_329.png}
+\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for *all* profiles.}
 \label{comp_bill_ap_1}
 \end{figure}
 %
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_apvsbill_hist.png}
-\caption{Histograms of $\Gamma$ for patches analyzed by myself and Bill.}
+\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_apvsbill_hist_yday_307_329.png}
+\caption{Histograms of $\Gamma$ for patches analyzed by myself and Bill. Data for *all* profiles.}
 \label{comp_bill_ap_gam}
 \end{figure}
 
 
 
+\clearpage
+%~~~~~~~~~~~~~~~~
+\subsection{Yday 324-327}
+
+I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for theTIWE patches. So I remade the previous figures using only data from that time period (Figures \ref{comp_bill_ap_324_327},\ref{comp_bill_ap_gam_324_327}). Using this data, I get  gammas centered around 0.2 and close to Bill's estimates. 
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327.png}
+\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327.}
+\label{comp_bill_ap_324_327}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_apvsbill_hist_yday_324_327.png}
+\caption{Histograms of $\Gamma$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327.}
+\label{comp_bill_ap_gam_324_327}
+\end{figure}
 
 
 
-%
-%%~~~~~~~~~~~~~~~~~~~~~
-%\section{Comparison to binned $\Gamma$}
-%
-%The mixing efficiencies computed by patch are compared to values computed using the binned (1m) chameleon data. I found the closest binned data point to each patch and computed gamma with those values. Using the binned data to compute $\Gamma$ results in lower values of mixing efficiencies by about a factor of 2 (Figure \ref{gam_binVspatch}).
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_cham_gamma_binVspatch.png}
-%\caption{$\Gamma$ computed from binned data (at patch locations) and for patches. Vertical lines indicate medians.}
-%\label{gam_binVspatch}
-%\end{figure}
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_cham_LOGgamma_binVspatch.png}
-%\caption{$\Gamma$ computed from binned data (at patch locations) and for patches. Vertical lines indicate medians. Black dashed line is log10[0.2].}
-%\label{LOGgam_binVspatch}
-%\end{figure}
-%
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_binVspatch_gamma.png}
-%\caption{$log_{10}\Gamma$ computed from binned data (at patch locations) vs for patches. Red lines indicate $\Gamma=0.2$. Diagonal black line is slope of 1.}
-%\label{}
-%\end{figure}
-%
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_cham_gamma_binVspatch_scatter.png}
-%\caption{Scatter plot of $\Gamma$ computed from binned data (at patch locations) and for patches.}
-%\label{gam_binVspatch_scat}
-%\end{figure}
+\clearpage
+%~~~~~~~~~~~~~~~~
+\subsection{Variation of $\Gamma$ over time}
 
-%
-%
-%
-%%~~~~~~~~~~~~~~~~~~~~~
-%\section{Comparison of binned profiles to patch values}
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_binVspatch_N2dTdzChiEps.png}
-%\caption{2D histograms of binned vs patch data (at patch locations) .}
-%\label{binVspatch_2d}
-%\end{figure}
-%
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_cham_gamma_binVspatch_hists.png}
-%\caption{Histograms of binned data (at patch locations) and patche data.}
-%\label{binVspatch_hists}
-%\end{figure}
-%
+Since it appears that $\Gamma$ can vary for different time periods, I wanted to investigate this more. I plotted $\Gamma$ vs yday (Figure \ref{gamvsyday}). It looks like the median $\Gamma$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
 
-
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_vs_yday.png}
+\caption{Plot of $\Gamma$ for patches vs yday. Vertical line is $\Gamma=0.2$. Red circles are the median value for each day.}
+\label{gamvsyday}
+\end{figure}
 
 
 

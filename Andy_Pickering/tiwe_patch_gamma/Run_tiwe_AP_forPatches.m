@@ -36,11 +36,11 @@ path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
 path_save=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch/',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'/');
 ChkMkDir(path_save)
 
-Flist=dir( fullfile(path_raw, '*tw91*'))
+save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 %~~ load patch data
-datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+%datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
+%load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 global data head cal q
 q.script.pathname =  path_raw;
@@ -50,8 +50,11 @@ q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2',
 warning off
 
 hb=waitbar(0)
+
 for cast=1:4000
+
     waitbar(cast/4000,hb)
+    
     % bad files: 144
     %disp(cast);
     q.script.num=cast;
@@ -74,17 +77,21 @@ for cast=1:4000
             if bad~=1
                 
                 % ~~ get patches for this profile
+                clear patches
+                % load the patches for this profile
+                load(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
+                
                 clear igp pstarts pstops
-                igp=find(patches.cnum==cast);
+                %igp=find(patches.cast==cast);
                 %this_patch=patch_data(igp,:);
-                pstarts = patches.p1(igp) ;
-                pstops  = patches.p2(igp) ;
-                                
+                pstarts = patches.p1 ;
+                pstops  = patches.p2 ;
+                
                 % compute chi, eps etc. for patches
                 %avg=average_data_gen_ct01a(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
                 %avg=average_data_gen1(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
                 avg=average_data_PATCH_AP(q.series,nfft,pstarts,pstops);
-                                
+                
                 % remove glitches
                 % flag AZ vibrations
                 %         idaz=find(avg.VARAZ>1.e-02);

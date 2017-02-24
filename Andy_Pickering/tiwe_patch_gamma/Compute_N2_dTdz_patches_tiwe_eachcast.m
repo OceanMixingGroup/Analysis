@@ -35,7 +35,7 @@ addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 hb=waitbar(0)
 warning off
 
-for cnum=1:4000
+for cnum=3818:4000
     waitbar(cnum/4000,hb)
     try
         
