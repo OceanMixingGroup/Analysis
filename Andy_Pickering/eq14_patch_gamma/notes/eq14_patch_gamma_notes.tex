@@ -44,7 +44,7 @@ I'm using the raw Chameleon data files in: \newline
 
 \medskip
 
-All my analysis is in the main folder: \newline  \verb+//Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/+
+All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/+ . This is also a github repository.
 
 
 %~~~~~~~~~~~~~~~~~~~~~
@@ -52,17 +52,17 @@ All my analysis is in the main folder: \newline  \verb+//Users/Andy/Cruises_Rese
 
 \begin{itemize}
 
-\item \verb+Process_??_rawprofiles_AP.m+  Processes raw Chameleon files and saves `cal2' files which have the raw/ high-res profiles of temp and salinity. These are used to identify patches. $\chi$ and $\epsilon$ are not computed for these.
-
 \item \verb+FindPatches_eq14_Raw.m+ Identifies patches in the profiles made by \verb+Process_tiwe_rawprofiles_AP.m+, using potential temperature.
 
-\item \verb+Compute_N2_dTdz_patches_eq14.m+ Computes $N^2$ and $T_z$ for patches, using several different methods. SAves results in a structure `patches'.
+\item \verb+Compute_N2_dTdz_patches_eq14_eachcast.m+ Computes $N^2$ and $T_z$ for patches, using several different methods. SAves results in a structure `patches'.
 
-\item \verb+run_eq14_forPatches.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_tiwe_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
+\item \verb+add_binned_to_patches.m+
 
-%\item \verb+Run_tiwe_AP.m+ Runs the standard Chameleon processing, producing 1m avg quantities. I modifed this from \verb+run_tw91.m+.
+\item \verb+run_eq14_for_PATCHES.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_eq14_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
 
-\item \verb+combine_patch_profiles_eq14.m+ Combines the avg profiles made in \verb+??.m+ into a single structure with common depths.
+\item \verb+add_patch_chi_eps_to_patches_eq14_each_profile.m+
+
+\item \verb+combine_patch_profiles_eq14.m+
 
 
 \end{itemize}
@@ -119,8 +119,8 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 \begin{itemize}
 %\item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
-%\item The median $\Gamma$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
-%\item Gamma computed over patches w/ linear fits is slightly higher than the binned gamma, but still less than $0.2$ (Figure \ref{patchgam}).
+%\item The median $\Gamma$ computed using the 1m avg data is $x$ (Figure \ref{avggam})}.
+\item Gamma computed over patches w/ linear fits is less than $0.2$ (Figure \ref{patchgam}).
 \end{itemize}
 %
 
@@ -138,11 +138,13 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %%
 %
 %
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_307_329.png}
-%\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For all profiles.}
-%\label{patchgam}
-%\end{figure}
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gammas_hist_cast_1_3200.png}
+\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For all profiles.}
+\label{patchgam}
+\end{figure}
+
+
 %
 %
 %\begin{figure}[htbp]
