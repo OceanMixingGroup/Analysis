@@ -1,0 +1,173 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{hyperref}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+
+
+\graphicspath{
+{/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/}
+}
+
+\title{Patch/Gamma Analysis for EQ14 chameleon patches}
+\author{Andy Pickering}
+%\date{}                                           % Activate to display a given date or no date
+
+
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Overview}
+
+The goal of this analysis is to compute mixing efficency ($\Gamma$) for patches in EQ14 chameleon profiles, and see if we obtain values close to $\Gamma=0.2$.
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Data}
+
+Data are made by the `Chameleon' microstructure profiler near the equator during the `EQ14' experiment. 
+\medskip
+
+I'm using the raw Chameleon data files in: \newline
+\verb++
+
+\medskip
+
+All my analysis is in the main folder: \newline  \verb+//Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/+
+
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Methods}
+
+\begin{itemize}
+
+\item \verb+Process_??_rawprofiles_AP.m+  Processes raw Chameleon files and saves `cal2' files which have the raw/ high-res profiles of temp and salinity. These are used to identify patches. $\chi$ and $\epsilon$ are not computed for these.
+
+\item \verb+FindPatches_eq14_Raw.m+ Identifies patches in the profiles made by \verb+Process_tiwe_rawprofiles_AP.m+, using potential temperature.
+
+\item \verb+Compute_N2_dTdz_patches_eq14.m+ Computes $N^2$ and $T_z$ for patches, using several different methods. SAves results in a structure `patches'.
+
+\item \verb+run_eq14_forPatches.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_tiwe_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
+
+%\item \verb+Run_tiwe_AP.m+ Runs the standard Chameleon processing, producing 1m avg quantities. I modifed this from \verb+run_tw91.m+.
+
+\item \verb+combine_patch_profiles_eq14.m+ Combines the avg profiles made in \verb+??.m+ into a single structure with common depths.
+
+
+\end{itemize}
+
+\medskip
+
+%%~~~~~~~
+%\subsection{Overturns}
+%Overturns (patches) are detected for each profile, using potential temperature.
+
+%~~~~~~~
+\subsection{dTdz}
+
+Temperature gradient is computed for each patch using the following methods:
+\begin{enumerate}
+\item $dtdz_{range}$ : Take the range of T over the patch and divided by patch height
+\item $dtdz_{line}$ : Fit a straight line to sorted T using \verb+polyfit+
+\item $dtdz_{bulk}$ : Use the 'bulk gradient' from Smyth et al 2001, which is the rms fluctuation from the background (sorted) temperature, divided by the thorpe scale (the rms re-ordering distances).
+\end{enumerate}
+
+
+%~~~~~~~
+\subsection{N2}
+
+$N^2$ is computed for each patch using the following methods:
+\begin{enumerate}
+\item $N^2_{range}$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
+\item $N^2_{line}$ : Fit a straight line to sorted potential density using polyfit to get $d\rho/dz$, then compute N2.
+\item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature.
+\item $N^2_4$ : Compute $N^2$ from the sorted profile (sorted by potential density) using \verb+sw_bfreq+, then take average over the patch. I believe this method is used by some commonly-used overturn codes.
+\end{enumerate}
+
+
+%~~~~~~~
+\subsection{Mixing Efficiency}
+
+Mixing Efficiency $\Gamma$ is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
+\begin{equation}
+\Gamma=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
+\end{equation}
+$\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. Gamma is computed for the following 4 combinations:
+\begin{enumerate}
+\item  $\Gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
+\item  $\Gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
+\item  $\Gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
+\item  $\Gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
+\end{enumerate}
+Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded.
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Results}
+
+\begin{itemize}
+%\item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
+%\item The median $\Gamma$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
+%\item Gamma computed over patches w/ linear fits is slightly higher than the binned gamma, but still less than $0.2$ (Figure \ref{patchgam}).
+\end{itemize}
+%
+
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_avgCombine_N2_dtdz_chi_eps.png}
+%\caption{Pcolor of the combined 1m avg chameleon data for TIWE. * Note for some reason many $\chi$ values below 150db are bad/missing.}
+%\label{}
+%\end{figure}
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_avgCombine_gamma.png}
+%\caption{Histogram of $\Gamma$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
+%\label{avggam}
+%\end{figure}
+%%
+%
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_307_329.png}
+%\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For all profiles.}
+%\label{patchgam}
+%\end{figure}
+%
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_324_327.png}
+%\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For profiles on yday 324-327.}
+%\label{patchgam}
+%\end{figure}
+
+
+
+
+\clearpage
+%~~~~~~~~~~~~~~~~
+\subsection{Variation of $\Gamma$ over time}
+
+To investigate whether $\Gamma$ varies over time, I plotted $\Gamma$ vs yday (Figure \ref{gamvscnum}).% It looks like the median $\Gamma$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gam_vs_cnum.png}
+\caption{Plot of $\Gamma$ for patches vs cast number. Vertical line is $\Gamma=0.2$. Red circles are the median value for each cast.}
+\label{gamvscnum}
+\end{figure}
+
+
+
+\end{document}  
+
+
