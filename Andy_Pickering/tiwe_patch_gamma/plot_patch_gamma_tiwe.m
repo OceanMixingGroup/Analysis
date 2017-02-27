@@ -19,7 +19,7 @@ load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch
 
 %%
 day_range=[307 329]% all profiles
-day_range=[324 327]% ydays in Smyth et al
+%day_range=[324 327]% ydays in Smyth et al
 id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
 
 %

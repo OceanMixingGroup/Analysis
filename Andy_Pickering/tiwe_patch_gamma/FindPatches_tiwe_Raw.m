@@ -23,8 +23,10 @@ mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
-datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal/'
-save_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
+tiwe_patches_paths
+%
+datdir = save_dir_cal 
+save_dir = save_dir_patch
 ChkMkDir(save_dir)
 
 % patch options
@@ -53,10 +55,7 @@ for ic= 1:length(Flist)
         
         fname=Flist(ic).name ;
         cnum=str2num(fname(5:8));
-        
-        % 2837: start yday 324?
-        % 3711: end yday 327
-        
+                
         % Load the data for this cast
         load(fullfile(datdir,Flist(ic).name))
         
@@ -115,7 +114,7 @@ delete(hb)
 warning on
 
 if save_data==1
-    savedir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/'    
+    savedir = fullfile(analysis_dir, project, 'data' )    
     fname   = ['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat'] 
     save( fullfile( savedir,fname), 'patch_data')
 end

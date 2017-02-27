@@ -19,8 +19,11 @@ clear ; close all
 % patch parameters
 patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+
+tiwe_patches_paths
+
 %datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
+%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 % load binned chameleon data (structure containing all profiles)
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')

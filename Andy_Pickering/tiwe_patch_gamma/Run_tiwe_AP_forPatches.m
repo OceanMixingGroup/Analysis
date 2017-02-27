@@ -33,10 +33,15 @@ addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/cod
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/mfiles/ % calc_chi_AP.m
 
 path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
-path_save=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch/',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'/');
+
+tiwe_patches_paths
+
+%path_save=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch/',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'/');
+path_save = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
 ChkMkDir(path_save)
 
-save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
+
+%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 %~~ load patch data
 %datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
@@ -121,7 +126,8 @@ for cast=1:4000
                 temp=num2str(q.script.num+10000);
                 fn=[q.script.prefix temp(2:5) '_avg'];
                 head.p_max=max(cal.P);
-                eval(['save ' path_save fn ' avg head']);
+                %eval(['save ' path_save fn ' avg head']);
+                save( fullfile(path_save,fn),'avg','head')
             end % if not bad
         end % try
     end % if file exists

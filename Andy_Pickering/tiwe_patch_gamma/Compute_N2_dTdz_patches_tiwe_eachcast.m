@@ -29,13 +29,16 @@ clear ; close all
 patch_size_min = 0.25  % min patch size
 usetemp = 1
 
-save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
+
+tiwe_patches_paths
+
+%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 
 hb=waitbar(0)
 warning off
 
-for cnum=3818:4000
+for cnum=1:4000
     waitbar(cnum/4000,hb)
     try
         
@@ -73,7 +76,8 @@ for cnum=3818:4000
                         
         % load raw chameleon cast
         clear cal cal2 head
-        cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
+        %cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
+        cham_dir = save_dir_cal
         load( fullfile( cham_dir, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
         cal=cal2 ; clear cal2
         cnum_loaded = cnum;

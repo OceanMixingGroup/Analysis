@@ -19,10 +19,12 @@ clear ; close all
 % patch options
 patch_size_min = 0.25  % min patch size
 usetemp = 1
-save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
+
+tiwe_patches_paths
+%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 % folder for chameleon data processed over patches (Run_tiwe_AP_forPatches.m)
-data_dir=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+data_dir=fullfile(save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
 
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 
