@@ -53,17 +53,23 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 
 \begin{itemize}
 
-\item \verb+Process_tiwe_rawprofiles_AP.m+  Processes raw Chameleon files and saves `cal2' files which have the raw/ high-res profiles of temp and salinity. These are used to identify patches. $\chi$ and $\epsilon$ are not computed for these.
-
-\item \verb+FindPatches_tiwe_Raw.m+ Identifies patches in the profiles made by \verb+Process_tiwe_rawprofiles_AP.m+, using potential temperature.
-
-\item \verb+Compute_N2_dTdz_patches_tiwe.m+ Computes $N^2$ and $T_z$ for patches, using several different methods. SAves results in a structure `patches'.
-
-\item \verb+Run_tiwe_AP_forPatches.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_tiwe_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
-
 \item \verb+Run_tiwe_AP.m+ Runs the standard Chameleon processing, producing 1m avg quantities. I modifed this from \verb+run_tw91.m+.
 
 \item \verb+Combine_tiwe_avg_profiles.m+ Combines the avg profiles made in \verb+Run_tiwe_AP.m+ into a single structure with common depths.
+
+\item \verb+Process_tiwe_rawprofiles_AP.m+  Processes raw Chameleon files and saves `cal2' files which have the raw/ high-res profiles of temp and salinity. These are used to identify patches. $\chi$ and $\epsilon$ are not computed for these.
+
+\item \verb+FindPatches_tiwe_Raw.m+ Identifies patches in each profiles made by \verb+Process_tiwe_rawprofiles_AP.m+, using potential temperature.
+
+\item \verb+Compute_N2_dTdz_patches_tiwe_eachcast.m+ Computes $N^2$ and $T_z$ for patches, using several different methods. Saves results for each profile in a structure `patches'.
+
+\item \verb+add_binned_to_patches.m+ Adds the binned (ie the standard 1m avg values) $\chi$ and $\epsilon$ to the profiles of patches at patch locations. Binned profiles are interpolated to patch depths.
+
+\item \verb+Run_tiwe_AP_forPatches.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_tiwe_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
+
+\item \verb+add_patch_chi_eps_to_patches_tiwe_each_profile.m+ adds the values of $\chi$ and $\epsilon$ from \verb+Run_tiwe_AP_forPatches.m+ to the patch profiles.
+
+\item \verb+combine_patch_profiles.m+ combines all the individual patch profiles into a single structure.
 
 
 \end{itemize}
