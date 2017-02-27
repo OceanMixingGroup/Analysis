@@ -28,17 +28,20 @@ mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
-datdir='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/cal'
+eq14_patches_paths
 
-save_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/data/patches/'
+datdir = save_dir_cal
+
+save_dir = save_dir_avg_patch 
 ChkMkDir(save_dir)
+%%
 
 % patch options
 save_data = 1 ;         % save data at the end
 patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
-patch_data=[];
+
 
 % loop through each cast
 warning off
@@ -55,7 +58,9 @@ for cnum= cnums_to_do;
     try
         
         close all
-        clear cal cal2 head
+        clear cal cal2 head patch_data
+        
+        patch_data=[];
         
         % Load the data for this cast
         load(fullfile(datdir,['eq14_' sprintf('%04d',cnum) '.mat']))

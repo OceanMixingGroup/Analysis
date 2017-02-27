@@ -54,14 +54,12 @@ clear all
 % binned processing
 run_test=0;
 
-% load patch data (from FindPatches_EQ14_Raw.m)
-patch_size_min=0.15  % min patch size
+% patch parameters
+patch_size_min=0.25  % min patch size
 usetemp=1
 
-savedir='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc'
-fname=['EQ14_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
-load(fullfile(savedir,fname))
-clear savedir fname
+eq14_patches_paths
+ChkMkDir(save_dir_avg_patch)
 
 addpath /Users/Andy/Cruises_Research/mixingsoftware/Chameleon2/Version2015/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
@@ -72,26 +70,23 @@ addpath /Users/Andy/Cruises_Research/mixingsoftware/calibrate/
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/mfiles/
 
 % define important data and paths
-
 cruise_id = 'eq14';
 depth_max=250;
 
-%path_cham = '~/GDrive/data/eq14/chameleon/';
-path_cham='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/'
-%path_raw = [path_cham 'raw/'];
 path_raw='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/raw/'
 
 % make directories for the single drop .mat files and for the summary file
 % turn warnings off so they don't say that a directory already exists
-warning off
+%warning off
 
-if run_test==1
-    path_save = ['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc/test1m/'];
-else
-    path_save = ['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc/minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '/'];
-end
-ChkMkDir(path_save)
-warning on
+%if run_test==1
+%    path_save = ['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc/test1m/'];
+%else
+%    path_save = ['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc/minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '/'];
+%end
+%ChkMkDir(path_save)
+
+%warning on
 
 % define imporant variables
 % define global variables which are called by many of the scripts
@@ -167,9 +162,12 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
             nfft=128;
             warning off
             
+            % *load patches for this profile*
+            clear patches
+            load(fullfile(save_dir_patch,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']))
+            
             % *** replace with average_data_PATCH_AP.m, need to load patch data also
             % and specify in inputs ***
-            nfft=128;
             
             clear igp pstarts pstops this_patch
             
@@ -177,13 +175,13 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
                 pstarts=1:200;
                 pstops=2:201;
             else
-                igp=find(patch_data(:,1)==cast);
-                this_patch=patch_data(igp,:);
-                pstarts=patch_data(igp,2);
-                pstops=patch_data(igp,3);
+                %igp=find(patch_data(:,1)==cast);
+                %this_patch=patch_data(igp,:);
+                pstarts = patches.p1 ;
+                pstops  = patches.p2 ;
             end
             
-            avg=average_data_PATCH_AP(q.series,nfft,pstarts,pstops);
+            avg = average_data_PATCH_AP(q.series,nfft,pstarts,pstops) ;
             
             if length(avg.P)~=length(pstarts)
                 disp('uh oh')
@@ -191,15 +189,15 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
             
             %~~~ also add N2 from the overturns code for each patch, to
             %compare with the N2 I calc in average_data_PATCH_AP
-            avg.n2_OT=nan*ones(length(avg.P),1);
-            if run_test~=1
-                for ip=1:length(avg.P)
-                    clear ig
-                    ig=find(avg.P(ip)>pstarts & avg.P(ip)<pstops) ;
-                    avg.n2_OT(ip) = this_patch(ig,5);
-                end
-                
-            end
+%             avg.n2_OT=nan*ones(length(avg.P),1);
+%             if run_test~=1
+%                 for ip=1:length(avg.P)
+%                     clear ig
+%                     ig=find(avg.P(ip)>pstarts & avg.P(ip)<pstops) ;
+%                     avg.n2_OT(ip) = this_patch(ig,5);
+%                 end
+%                 
+%             end
             
             %%%%%%%% calculate N2, dSAL/dz, dSAL/dz_rhoorder, dT/dz, dT/dz_rhoorder %%%%%%%%
             % done by using polyfit over 1m sections of density (or reordered
@@ -296,8 +294,8 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
                 'See header for more details on this file',...
                 ['saved on ' datestr(now) ' by run_' q.script.prefix '.m']);
             
-            
-            save(fullfile(path_save,fn),'avg','head')
+                        
+            save( fullfile(save_dir_avg_patch,fn),'avg','head')
             
             
             % if the data is not good, (i.e. if bad == 1), do not save anything
