@@ -31,7 +31,7 @@
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
 
-The goal of this analysis is to compute mixing efficency ($\Gamma$) for patches in TIWE chameleon profiles, and see if we obtain values close to $\Gamma=0.2$.
+The goal of this analysis is to compute mixing coefficent ($\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} $) for patches in TIWE chameleon profiles, and see if we obtain values close to $\Gamma=0.2$.
 
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Data}
@@ -104,18 +104,18 @@ $N^2$ is computed for each patch using the following methods:
 
 
 %~~~~~~~
-\subsection{Mixing Efficiency}
+\subsection{Mixing coefficient (Efficiency)}
 
-Mixing Efficiency $\Gamma$ is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
+Mixing coefficient $\gamma_{\chi\epsilon}$ is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
 \begin{equation}
-\Gamma=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
+\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
 \end{equation}
-$\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. Gamma is computed for the following 4 combinations:
+$\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. $\gamma_{\chi\epsilon}$ is computed for the following 4 combinations:
 \begin{enumerate}
-\item  $\Gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
-\item  $\Gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
-\item  $\Gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
-\item  $\Gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
+\item  $\gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
+\item  $\gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
+\item  $\gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
+\item  $\gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
 \end{enumerate}
 Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded.
 
@@ -126,7 +126,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 \begin{itemize}
 \item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
-\item The median $\Gamma$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
+\item The median $\gamma_{\chi\epsilon}$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
 \item Gamma computed over patches w/ linear fits is slightly higher than the binned gamma, but still less than $0.2$ (Figure \ref{patchgam}).
 \end{itemize}
 %
@@ -139,7 +139,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_avgCombine_gamma.png}
-\caption{Histogram of $\Gamma$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$.}
 \label{avggam}
 \end{figure}
 %
@@ -147,7 +147,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_307_329.png}
-\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For all profiles.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. For all profiles.}
 \label{patchgam}
 \end{figure}
 %
@@ -177,7 +177,7 @@ Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.ma
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_apvsbill_hist_yday_307_329.png}
-\caption{Histograms of $\Gamma$ for patches analyzed by myself and Bill. Data for *all* profiles.}
+\caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself and Bill. Data for *all* profiles.}
 \label{comp_bill_ap_gam}
 \end{figure}
 
@@ -191,14 +191,14 @@ I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327.png}
-\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327.}
+\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{comp_bill_ap_324_327}
 \end{figure}
 
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_apvsbill_hist_yday_324_327.png}
-\caption{Histograms of $\Gamma$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327.}
+\caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{comp_bill_ap_gam_324_327}
 \end{figure}
 
@@ -206,13 +206,13 @@ I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the
 
 \clearpage
 %~~~~~~~~~~~~~~~~
-\subsection{Variation of $\Gamma$ over time}
+\subsection{Variation of $\gamma_{\chi\epsilon}$ over time}
 
-Since it appears that $\Gamma$ can vary for different time periods, I wanted to investigate this more. I plotted $\Gamma$ vs yday (Figure \ref{gamvsyday}). It looks like the median $\Gamma$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
+Since it appears that $\gamma_{\chi\epsilon}$ can vary for different time periods, I wanted to investigate this more. I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvsyday}). It looks like the median $\gamma_{\chi\epsilon}$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_vs_yday.png}
-\caption{Plot of $\Gamma$ for patches vs yday. Vertical line is $\Gamma=0.2$. Red circles are the median value for each day.}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs yday. Vertical line is $\gamma_{\chi\epsilon}=0.2$. Red circles are the median value for each day.}
 \label{gamvsyday}
 \end{figure}
 

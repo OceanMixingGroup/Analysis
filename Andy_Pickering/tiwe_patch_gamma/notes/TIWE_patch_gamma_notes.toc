@@ -3,8 +3,8 @@
 \contentsline {section}{\numberline {3}Methods}{2}{section.3}
 \contentsline {subsection}{\numberline {3.1}dTdz}{3}{subsection.3.1}
 \contentsline {subsection}{\numberline {3.2}N2}{3}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Mixing Efficiency}{3}{subsection.3.3}
+\contentsline {subsection}{\numberline {3.3}Mixing coefficient (Efficiency)}{3}{subsection.3.3}
 \contentsline {section}{\numberline {4}Results}{4}{section.4}
 \contentsline {section}{\numberline {5}Comparison to previous analysis}{8}{section.5}
 \contentsline {subsection}{\numberline {5.1}Yday 324-327}{11}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Variation of $\Gamma $ over time}{14}{subsection.5.2}
+\contentsline {subsection}{\numberline {5.2}Variation of $\gamma _{\chi \epsilon }$ over time}{14}{subsection.5.2}
