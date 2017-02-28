@@ -29,10 +29,9 @@ clear ; close all
 patch_size_min = 0.25  % min patch size
 usetemp = 1
 
-
+% set paths
 tiwe_patches_paths
 
-%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 
 hb=waitbar(0)
@@ -44,7 +43,7 @@ for cnum=1:4000
         
         % load patch data for this profile
         clear patch_data patches
-        load(fullfile(save_dir_patch,['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
+        load(fullfile(save_dir_patch,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
         
         patches = struct() ;
         patches.cnum = patch_data(:,1) ;
@@ -73,7 +72,7 @@ for cnum=1:4000
         patches.dtdz_range=EmpVec;
         patches.dtdz_line=EmpVec;
         patches.dtdz_bulk=EmpVec;
-                        
+        
         % load raw chameleon cast
         clear cal cal2 head
         %cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
@@ -187,7 +186,7 @@ for cnum=1:4000
         end % ip
         
         % save profile
-       save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' ) 
+        save(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
     end % try
 end % cnum
 

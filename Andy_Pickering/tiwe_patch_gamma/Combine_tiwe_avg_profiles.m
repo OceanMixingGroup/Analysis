@@ -33,25 +33,25 @@ cham.P=pvec(:);
 hb=waitbar(0)
 
 for ic=1:length(Flist)
-   
+    
     waitbar(ic/Nprof,hb,'working')
     
     clear fname cnum
     
     fname=Flist(ic).name;
-   
+    
     cnum = str2num(fname(5:8));
     
     load( fullfile( data_dir, fname) )
     
-    try 
-    cham.cnum(ic)     = cnum ;
-    cham.T(:,ic)      = interp1(avg.P,avg.T,pvec) ;
-    cham.S(:,ic)      = interp1(avg.P,avg.S,pvec) ;
-    cham.N2(:,ic)     = interp1(avg.P,avg.N2,pvec) ;
-    cham.DTDZ(:,ic)   = interp1(avg.P,avg.DTDZ,pvec) ;
-    cham.CHI(:,ic)    = interp1(avg.P,avg.CHI,pvec) ;
-    cham.EPSILON(:,ic)= interp1(avg.P,avg.EPSILON,pvec) ;
+    try
+        cham.cnum(ic)     = cnum ;
+        cham.T(:,ic)      = interp1(avg.P,avg.T,pvec) ;
+        cham.S(:,ic)      = interp1(avg.P,avg.S,pvec) ;
+        cham.N2(:,ic)     = interp1(avg.P,avg.N2,pvec) ;
+        cham.DTDZ(:,ic)   = interp1(avg.P,avg.DTDZ,pvec) ;
+        cham.CHI(:,ic)    = interp1(avg.P,avg.CHI,pvec) ;
+        cham.EPSILON(:,ic)= interp1(avg.P,avg.EPSILON,pvec) ;
     end
     
 end

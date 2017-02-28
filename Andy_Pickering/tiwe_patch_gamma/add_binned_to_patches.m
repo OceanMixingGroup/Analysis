@@ -20,10 +20,8 @@ clear ; close all
 patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
+% set paths
 tiwe_patches_paths
-
-%datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 % load binned chameleon data (structure containing all profiles)
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')
@@ -40,7 +38,7 @@ for cnum=1:4000
     try
         
         % load the patches for this profile
-        load(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
         
         % make empty arrays for the binned data
         Npatches = length(patches.cnum) ;
@@ -65,7 +63,6 @@ for cnum=1:4000
         patches.dtdz_bin  = interp1(pbin(ig) , cham.DTDZ(ig,Icham) , pmn);
         patches.chi_bin   = interp1(pbin(ig) , cham.CHI(ig,Icham) , pmn);
         patches.eps_bin   = interp1(pbin(ig) , cham.EPSILON(ig,Icham) , pmn);
-        %    patches.drhodz_bin(ip)= patches.n2_bin(ip) * (nanmean(cham.SIGMA(:,Icham))+1000) / -9.81 ;
         
         %     if log10(patches.eps_bin(ip))>-8.5
         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);

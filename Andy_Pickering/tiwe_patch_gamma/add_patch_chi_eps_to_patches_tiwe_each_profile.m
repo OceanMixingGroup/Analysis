@@ -20,15 +20,15 @@ clear ; close all
 patch_size_min = 0.25  % min patch size
 usetemp = 1
 
+% set paths
 tiwe_patches_paths
-%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 % folder for chameleon data processed over patches (Run_tiwe_AP_forPatches.m)
 data_dir=fullfile(save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
 
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 
-hb=waitbar(0,'compiling patch data from all profiles');
+hb=waitbar(0);
 
 for cnum=1:4000
     
@@ -37,7 +37,7 @@ for cnum=1:4000
     try
         % load the patches for this profile
         clear patches
-        load(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
         
         % add empty arrays for chi and eps
         patches.eps=nan*ones(size(patches.p1));
@@ -65,7 +65,7 @@ for cnum=1:4000
             
         end
         % re-save profile
-        save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        save(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         
     end % try
     

@@ -34,18 +34,11 @@ addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/mfi
 
 path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
 
+% set paths
 tiwe_patches_paths
 
-%path_save=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch/',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'/');
 path_save = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
 ChkMkDir(path_save)
-
-
-%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
-
-%~~ load patch data
-%datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-%load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 global data head cal q
 q.script.pathname =  path_raw;
@@ -57,7 +50,7 @@ warning off
 hb=waitbar(0)
 
 for cast=1:4000
-
+    
     waitbar(cast/4000,hb)
     
     % bad files: 144
@@ -84,11 +77,9 @@ for cast=1:4000
                 % ~~ get patches for this profile
                 clear patches
                 % load the patches for this profile
-                load(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
+                load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
                 
                 clear igp pstarts pstops
-                %igp=find(patches.cast==cast);
-                %this_patch=patch_data(igp,:);
                 pstarts = patches.p1 ;
                 pstops  = patches.p2 ;
                 

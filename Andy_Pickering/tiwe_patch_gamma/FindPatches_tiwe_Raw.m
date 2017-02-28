@@ -23,9 +23,10 @@ mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
+% set paths
 tiwe_patches_paths
-%
-datdir = save_dir_cal 
+
+datdir = save_dir_cal
 save_dir = save_dir_patch
 ChkMkDir(save_dir)
 
@@ -33,7 +34,6 @@ ChkMkDir(save_dir)
 save_data = 1 ;         % save data at the end
 patch_size_min = 0.25 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
 
 % loop through each cast
 warning off
@@ -47,7 +47,7 @@ for ic= 1:length(Flist)
     waitbar(ic/length(Flist),hb)
     clear patch_data
     patch_data=[];
-
+    
     try
         
         close all
@@ -55,7 +55,7 @@ for ic= 1:length(Flist)
         
         fname=Flist(ic).name ;
         cnum=str2num(fname(5:8));
-                
+        
         % Load the data for this cast
         load(fullfile(datdir,Flist(ic).name))
         
@@ -86,7 +86,7 @@ for ic= 1:length(Flist)
         Params.runlmin=0;
         Params.minotsize=patch_size_min;
         Params.usetemp=usetemp;
-
+        
         clear OT
         OT=compute_overturns_discrete_AP(p,t,s,Params);
         
@@ -100,13 +100,13 @@ for ic= 1:length(Flist)
                 patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) yday ];
             end
         end
-                
+        
     end % try
     
     col_names={'cnum','pstart','pstop','dp','otnsq','otLt','yday'};
     
     % save patch data for this profile
-    save(fullfile(save_dir,['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']),'patch_data','col_names')
+    save(fullfile(save_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']),'patch_data','col_names')
     
 end % cnum
 
@@ -114,8 +114,8 @@ delete(hb)
 warning on
 
 if save_data==1
-    savedir = fullfile(analysis_dir, project, 'data' )    
-    fname   = ['tiwe_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat'] 
+    savedir = fullfile(analysis_dir, project, 'data' )
+    fname   = [project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
     save( fullfile( savedir,fname), 'patch_data')
 end
 
