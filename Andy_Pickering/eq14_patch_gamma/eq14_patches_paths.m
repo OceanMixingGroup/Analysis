@@ -6,9 +6,11 @@
 %
 %%
 
+clear analysis_dir project project_short
+
 analysis_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering' ;
 project      = 'eq14_patch_gamma' ;
-
+project_short= 'eq14' ;
 save_dir_patch = fullfile(analysis_dir,project,'data','patches') ;
 
 save_dir_avg   = fullfile(analysis_dir,project,'data','avg') ;
