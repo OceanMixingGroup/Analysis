@@ -32,7 +32,7 @@ eq14_patches_paths
 
 datdir = save_dir_cal
 
-save_dir = save_dir_avg_patch 
+save_dir = save_dir_avg_patch
 ChkMkDir(save_dir)
 %%
 
@@ -103,7 +103,7 @@ for cnum= cnums_to_do;
         col_names={'cnum','pstart','pstop','dp','otnsq','otLt'};
         
         % save patch data for this profile
-        save(fullfile(save_dir,['eq14_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']),'patch_data','col_names')
+        save(fullfile(save_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']),'patch_data','col_names')
         
     end % try
     
@@ -112,10 +112,5 @@ end % cnum
 delete(hb)
 warning on
 
-% if save_data==1
-%     savedir = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc/'
-%     fname   = ['EQ14_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
-%     save( fullfile( savedir,fname), 'patch_data')
-% end
 
 %%

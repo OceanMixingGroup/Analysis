@@ -17,8 +17,8 @@ clear ; close all
 patch_size_min = 0.25  % min patch size
 usetemp = 1
 
+% set paths
 eq14_patches_paths
-%save_dir_patch='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/patches/'
 
 ip=0;
 hb=waitbar(0);
@@ -30,7 +30,7 @@ for cnum=1:3200
         % load the patches for this profile
         % load patch data for this profile
         clear patch_data patches
-        load(fullfile(save_dir_patch,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']))
+        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']))
 
         ip=ip+1;
         
@@ -60,6 +60,6 @@ patches=patch_all; clear patch_all
 %%
 % save combined structure
 save( fullfile( analysis_dir,project,'data/',...
-    ['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+    [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 %%
