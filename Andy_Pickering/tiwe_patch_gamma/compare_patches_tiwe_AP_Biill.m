@@ -78,7 +78,7 @@ print(fullfile(fig_dir,fname),'-dpng')
 
 %% compute gamma from Bill's patches
 
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles
 
 gam_bill = ComputeGamma(A.N2,A.tgrad,A.chi,A.eps);
 

@@ -19,7 +19,7 @@ load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch
 
 %%
 day_range=[307 329]% all profiles
-%day_range=[324 327]% ydays in Smyth et al
+day_range=[324 327]% ydays in Smyth et al
 id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
 
 %
@@ -35,7 +35,7 @@ xlim([-3.5 1.5])
 %ylim([0 1.2])
 freqline(log10(0.2))
 grid on
-xlabel('log_{10}[\Gamma]','fontsize',16)
+xlabel('log_{10}[\gamma_{\chi\epsilon}]','fontsize',16)
 ylabel('pdf','fontsize',16)
 legend([h1 h2 h3],'bin','line','bulk','location','best')
 

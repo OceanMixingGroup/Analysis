@@ -20,11 +20,11 @@ clear all ; close all
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general/
 
-path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
-path_save='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/';
+path_raw  = '/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/' ;
+path_save = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/' ;
 
+% Make list of raw files we have
 Flist=dir( fullfile(path_raw, '*tw91*'))
-%
 
 global data head cal q
 q.script.pathname =  path_raw;
@@ -50,9 +50,9 @@ for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
             if bad~=1
                 % average calibrated data into 1m bins
                 %
-                %         avg=average_data_gen_ct01a(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
+                % avg=average_data_gen_ct01a(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
                 avg=average_data_gen1(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
-                %
+                
                 % remove glitches
                 % flag AZ vibrations
                 %         idaz=find(avg.VARAZ>1.e-02);
@@ -72,19 +72,17 @@ for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
                 avg.EPSILON1(idsur)=NaN; avg.EPSILON2(idsur)=NaN; avg.EPSILON(idsur)=NaN;
                 %
                 warning backtrace
-                %
+                
                 % calc dynamic height
-                %
                 head=calc_dynamic_z(avg,head);
                 
                 % add N2 and dT/dz to 'avg'
-                avg.N2=sw_bfrq(avg.S,avg.T,avg.P,0);
-                avg.N2=[avg.N2(:) ; nan]';
-                avg.DTDZ=diffs(avg.T)./diffs(avg.P);
-                avg.DTDZ=avg.DTDZ(:)';
+                avg.N2  = sw_bfrq(avg.S,avg.T,avg.P,0);
+                avg.N2  = [avg.N2(:) ; nan]';
+                avg.DTDZ= diffs(avg.T)./diffs(avg.P);
+                avg.DTDZ= avg.DTDZ(:)';
                 
                 % create a seperate .mat data file containing 1m binned data and header
-                %
                 temp=num2str(q.script.num+10000);
                 fn=[q.script.prefix temp(2:5) '_avg'];
                 head.p_max=max(cal.P);

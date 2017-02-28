@@ -26,7 +26,7 @@ wysiwyg
 plot(log10(patches.gam_bulk),patches.yday,'.')
 freqline(log10(0.2))
 grid on
-xlabel('log_{10}\Gamma','fontsize',16)
+xlabel('log_{10}[\gamma_{\chi\epsilon}]','fontsize',16)
 ylabel('yday','fontsize',16)
 xlim([-5 3])
 title(['TIWE patches - minOT=' num2str(100*patch_size_min) 'cm' ])
