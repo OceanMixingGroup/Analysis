@@ -34,6 +34,8 @@ tiwe_patches_paths
 
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 
+alpha = -0.2607; % from fit of sgth vs theta
+
 hb=waitbar(0)
 warning off
 
@@ -96,92 +98,21 @@ for cnum=1:4000
         lat1=str2num(head.lat.start(1:idot-3));
         lat2=str2num(head.lat.start(idot-2:end))/60;
         lat=nanmean([lat1 lat2]);
-        
+        %
         for ip=1:Npatches
+        
+            clear out
+            out=compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
+                ,t ,s ,ptmp ,sgth ,alpha , patches.Lt(ip) ) ;c
             
-            clear pstarts pstops
-            clear iz t_ot s_ot p_ot ptmp_ot sgth_ot
+            patches.dtdz_range(ip) = out.dtdz_range ;
+            patches.dtdz_line(ip) = out.dtdz_line ;
+            patches.dtdz_bulk(ip) = out.dtdz_bulk ;
             
-            % get indices of data in patch
-            iz=isin(p,[ patches.p1(ip) patches.p2(ip) ]);
-            
-            if length(iz)>10
-                
-                t_ot=t(iz);
-                s_ot=s(iz);
-                p_ot=p(iz);
-                ptmp_ot=ptmp(iz);
-                sgth_ot=sgth(iz);
-                
-                clear t_sort I
-                [t_sort , I]=sort(t_ot,1,'descend');
-                
-                % sort potential temp
-                clear t_pot t_pot_sort
-                [ptmp_sort , Iptmp]=sort(ptmp_ot,1,'descend');
-                
-                clear DT dz dTdz
-                dT=nanmax(ptmp_ot)-nanmin(ptmp_ot);
-                dz=nanmax(p_ot)-nanmin(p_ot);
-                dTdz=-dT/dz;
-                
-                % fit a line
-                P=polyfit(p_ot,ptmp_sort,1);
-                
-                % save results
-                patches.dtdz_range(ip)=dTdz;
-                
-                patches.dtdz_line(ip)=-P(1);
-                
-                %~~ 'bulk gradient' method from Smyth et al 2001
-                % essentially = rms T (btw sorted/unsorted) /  thorpe scale ?
-                %    t_rms= sqrt( nanmean(( t_ot - t_sort ).^2) );
-                t_rms= sqrt( nanmean(( ptmp_ot - ptmp_sort ).^2) );
-                patches.dtdz_bulk(ip)=  t_rms / patches.Lt(ip) ;
-                
-                %~~ Now do similar for density / N^2
-                
-                [sgth_sort , I]=sort(sgth_ot,1,'ascend');
-                
-                % try the range/dz method
-                drho=nanmax(sgth_ot)-nanmin(sgth_ot);
-                dz=nanmax(p_ot)-nanmin(p_ot);
-                n2_1=9.81/nanmean(sgth_ot)*drho/dz;
-                
-                patches.n2_range(ip)=n2_1;
-                
-                % fit a line to sgth
-                clear P1
-                P1=polyfit(p_ot,sgth_sort,1);
-                
-                % calculate N^2 from this fit
-                clear drhodz n2_2 drho dz n2_3
-                drhodz=-P1(1);
-                patches.drhodz_line(ip)=drhodz;
-                
-                n2_2=-9.81/nanmean(sgth)*drhodz;
-                patches.n2_line(ip)=n2_2;
-                
-                % Smyth eta al says associated N^2=g*bulk gradient (assuming
-                % density controlled by temperature??)
-                % I think missing divide by rho_0 also?
-                %patches.n2_bulk(ip)= 9.81 / nanmean(sgth) * t_rms / patches.Lt(ip)    ;
-                alpha = -0.2607; % from fit of sgth vs theta
-                patches.n2_bulk(ip)= -9.81 / nanmean(sgth) * alpha * t_rms / patches.Lt(ip)    ;
-                
-                % try computing drho/dz using 'bulk' method (instead of
-                % assuming rho only depends on T
-                clear rho_rms
-                rho_rms = sqrt( nanmean(( sgth_ot - sgth_sort ).^2) );
-                patches.drhodz_bulk(ip) = - rho_rms / patches.Lt(ip) ;
-                patches.n2_bulk_2(ip) = - 9.81 / nanmean(sgth) * patches.drhodz_bulk(ip);
-                
-                % compute N^2 w/ sw_bfrq
-                clear n2
-                n2=sw_bfrq(s_ot(I),t_ot(I),p_ot,0.5);
-                patches.n4(ip)=nanmean(n2);
-                
-            end
+            patches.n2_range(ip) = out.n2_range ;
+            patches.n2_line(ip) = out.n2_line ;
+            patches.n2_bulk(ip) = out.n2_bulk ;
+            patches.n4(ip) = out.n4 ;
             
         end % ip
         
