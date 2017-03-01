@@ -149,16 +149,17 @@ print(fullfile(NotesFigDir,'tiwe_avgCombine_N2_dtdz_chi_eps'),'-dpng')
 
 %% Compute gamma from these values
 
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 gam=ComputeGamma(cham.N2(:),cham.DTDZ(:),cham.CHI(:),cham.EPSILON(:));
 
 figure(2);clf
 histogram(real(log10(gam(:))),'EdgeColor','none','Normalization','pdf')
 freqline(log10(0.2))
+freqline(nanmean(log10(gam(:))),'b--')
 xlim([-4 2])
 grid on
-xlabel('log_{10}[\Gamma]')
+xlabel('log_{10}[\gamma_{\chi\epsilon}]')
 ylabel('pdf')
 title('tiwe 1m bin processed by AP')
 

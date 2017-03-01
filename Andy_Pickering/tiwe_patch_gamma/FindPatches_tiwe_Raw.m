@@ -32,7 +32,7 @@ ChkMkDir(save_dir)
 
 % patch options
 save_data = 1 ;         % save data at the end
-patch_size_min = 0.25 ; % min patch size
+patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % loop through each cast

@@ -121,14 +121,15 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \section{Results}
 
 \begin{itemize}
-\item $\gamma_{\chi\epsilon}$ computed for binned data and just over patches is about an order of magnitude less than $0.2$ (Figure \ref{patchgam}).
+\item $\gamma_{\chi\epsilon}$ computed for 1m avg data is about an order of magnitude less than $0.2$ (Figure \ref{avggam}). The data was processed by Sally w/ 2 different c-star values, this doesn't seem to make any difference in the estimated $\gamma_{\chi\epsilon}$.
+\item $\gamma_{\chi\epsilon}$ computed for just patches is about an order of magnitude less than $0.2$ (Figure \ref{patchgam}).
 \end{itemize}
 
 
 % gamma for all binned data
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_binned_gamma.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\gamma=0.2$.}
 \label{avggam}
 \end{figure}
 
@@ -137,6 +138,20 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gammas_hist_cast_1_3200.png}
 \caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles.}
 \label{patchgam}
+\end{figure}
+
+
+%~~~~~~~~~~~
+\subsection{Using smaller fmax?}
+
+I believe the Chameleon data processed by Sally used the standard fmax=32Hz correction/cutoff for the thermistor data. However when I was trying to apply the $\chi$pod method to that data, I looked at some spectra and it looked like the thermistor rolled off much lower, around maybe 7-10hz. So I re-ran the processing using fmax=7hz. Estimates of $\gamma_{\chi\epsilon}$ are about 2-3 times larger (Figure \ref{avggam7hz}), but still significantly less than 0.2 .
+
+% plot of binned gamma using fmax=7?
+% gamma for all binned data
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_binned_gamma_7hz.png}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles, for standard fmax32hz as well as fmax7hz. Vertical dashed line shows $\gamma=0.2$.}
+\label{avggam7hz}
 \end{figure}
 
 
@@ -153,6 +168,22 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 \caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs cast number. Vertical line is $\gamma=0.2$. Red circles are the median value for each cast.}
 \label{gamvscnum}
 \end{figure}
+
+
+
+\clearpage
+%~~~~~~~~~~~~~~~~
+\subsection{Variation of $\gamma_{\chi\epsilon}$ over depth?}
+
+\verb+plot_gamma_vs_depth_eq14.m+
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{.png}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches? vs depth. Vertical line is $\gamma=0.2$. }
+\label{gamvsdepth}
+\end{figure}
+
 
 
 

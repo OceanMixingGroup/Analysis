@@ -64,9 +64,11 @@ for cnum=1:4000
         patches.chi_bin   = interp1(pbin(ig) , cham.CHI(ig,Icham) , pmn);
         patches.eps_bin   = interp1(pbin(ig) , cham.EPSILON(ig,Icham) , pmn);
         
-        %     if log10(patches.eps_bin(ip))>-8.5
+        clear ib
+        ib = find(patches.eps_bin<4e-9);
+        patches.eps_bin(ib) = nan ;
+
         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);
-        %     end
         
         % re-save profile
         save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )

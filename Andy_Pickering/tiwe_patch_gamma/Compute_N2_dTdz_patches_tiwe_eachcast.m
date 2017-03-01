@@ -33,6 +33,7 @@ usetemp = 1
 tiwe_patches_paths
 
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 alpha = -0.2607; % from fit of sgth vs theta
 
@@ -86,7 +87,7 @@ for cnum=1:4000
         % compute pot. temp, pot. density etc.
         clear s t p lat ptmp sgth
         s = cal.SAL(1:end-1); % (end-1) b/c last 2 values are same;
-        s = smooth(s,20);
+        %s = smooth(s,20);
         t = cal.T1 (1:end-1);
         p = cal.P  (1:end-1);
         ptmp=sw_ptmp(s,t,p,0);
@@ -103,7 +104,7 @@ for cnum=1:4000
         
             clear out
             out=compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
-                ,t ,s ,ptmp ,sgth ,alpha , patches.Lt(ip) ) ;c
+                ,t ,s ,ptmp ,sgth ,alpha , patches.Lt(ip) ) ;
             
             patches.dtdz_range(ip) = out.dtdz_range ;
             patches.dtdz_line(ip) = out.dtdz_line ;

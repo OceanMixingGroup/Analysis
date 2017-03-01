@@ -25,8 +25,8 @@ load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data
 
 %%
 
-day_range=[307 329]% all profiles
-%day_range=[324 327]% ydays used in Smyth etal
+%day_range=[307 329]% all profiles
+day_range=[324 327]% ydays used in Smyth etal
 id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
 
 figure(1);clf
@@ -64,11 +64,11 @@ grid on
 subplot(224)
 h1=histogram(log10(patches.eps(id)),'Normalization','pdf','Edgecolor','none');
 hold on
-histogram(real(log10(A.eps(:))),'Normalization','pdf','Edgecolor','none');
+h2=histogram(real(log10(A.eps(:))),'Normalization','pdf','Edgecolor','none');
 xlabel('log_{10}[\epsilon]','fontsize',16)
 ylabel('pdf','fontsize',16)
 grid on
-
+legend([h1 h2],'AP','Bill','location','best')
 %%
 
 fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
@@ -102,7 +102,7 @@ print(fullfile(fig_dir,fname),'-dpng')
 
 %%
 
-figure(1);clf
+figure(3);clf
 agutwocolumn(0.5)
 wysiwyg
 h1=histogram(A.Lt(:),'Normalization','pdf');

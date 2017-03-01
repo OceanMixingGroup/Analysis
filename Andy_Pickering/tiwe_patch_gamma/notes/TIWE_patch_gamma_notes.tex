@@ -76,9 +76,10 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 
 \medskip
 
-%%~~~~~~~
-%\subsection{Overturns}
-%Overturns (patches) are detected for each profile, using potential temperature.
+%~~~~~~~
+\subsection{Overturns}
+
+Overturns (patches) are detected for each profile, using potential temperature. \verb+compute_overturns_discrete_AP.m+ was used to identify patches. Values of $\epsilon <4\times 10^{-9}$ were NaN'ed out (following Smyth et al 2001). 
 
 %~~~~~~~
 \subsection{dTdz}
@@ -167,6 +168,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $T_z$, and $\chi$ tend to be significantly smaller than Bill's (Figure \ref{comp_bill_ap_1}). Gamma computed from my patch values (using all profiles) is smaller than 0.2 (median 0.08), while gamma from Bill's values is larger than 0.2 (median 0.4),(Figure \ref{comp_bill_ap_gam}).
 
+* Note that in Smyth et al 2001, it says patches where $\epsilon < 4 \times 10^{-9}$ were discarded. But there are epsilon values smaller than this in the data Bill shared (bottom=-right of Figure \ref{comp_bill_ap_1})?
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_307_329.png}
@@ -212,7 +214,7 @@ Since it appears that $\gamma_{\chi\epsilon}$ can vary for different time period
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_vs_yday.png}
-\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs yday. Vertical line is $\gamma_{\chi\epsilon}=0.2$. Red circles are the median value for each day.}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs yday. Vertical line is $\gamma_{\chi\epsilon}=0.2$. Red circles are the median value for each day. * what happend on yday 322.326?}
 \label{gamvsyday}
 \end{figure}
 

@@ -5,5 +5,6 @@
 \contentsline {subsection}{\numberline {3.2}N2}{3}{subsection.3.2}
 \contentsline {subsection}{\numberline {3.3}Mixing Efficiency}{3}{subsection.3.3}
 \contentsline {section}{\numberline {4}Results}{4}{section.4}
-\contentsline {subsection}{\numberline {4.1}Variation of $\gamma _{\chi \epsilon }$ over time}{6}{subsection.4.1}
-\contentsline {section}{\numberline {5}Summary}{7}{section.5}
+\contentsline {subsection}{\numberline {4.1}Using smaller fmax?}{6}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Variation of $\gamma _{\chi \epsilon }$ over time}{7}{subsection.4.2}
+\contentsline {section}{\numberline {5}Summary}{8}{section.5}

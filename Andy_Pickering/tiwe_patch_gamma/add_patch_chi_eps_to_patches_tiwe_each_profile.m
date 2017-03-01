@@ -53,7 +53,8 @@ for cnum=1:4000
             patches.eps = avg.EPSILON(:);
             
             clear ib
-            ib=find(log10(patches.eps)<-8.5);
+            %ib=find(log10(patches.eps)<-8.5);
+            ib = find(patches.eps<4e-9);
             patches.eps(ib)=nan;
             
             % compute gamma for each patch
