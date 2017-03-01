@@ -31,20 +31,22 @@
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
 
-The goal of this analysis is to compute mixing efficency ($\Gamma$) for patches in EQ14 chameleon profiles, and see if we obtain values close to $\Gamma=0.2$.
+The goal of this analysis is to compute mixing `coefficident' $\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} $ for patches in EQ14 chameleon profiles, and see if we obtain values close to $\gamma_{\chi\epsilon}=0.2$.
 
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Data}
 
-Data are made by the `Chameleon' microstructure profiler near the equator during the `EQ14' experiment. 
+Data are made by the `Chameleon' microstructure profiler near the equator during the `EQ14' experiment. The data was shared with me by Sally/Jim. My copy is located at : 
+\newline
+\verb+/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/+
 \medskip
 
-I'm using the raw Chameleon data files in: \newline
-\verb++
+Chameleon data already processed by Sally is in : \newline
+\verb+/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/+
 
 \medskip
 
-All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/+ . This is also a github repository.
+This analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/+ . This is also a github repository.
 
 
 %~~~~~~~~~~~~~~~~~~~~~
@@ -99,16 +101,16 @@ $N^2$ is computed for each patch using the following methods:
 %~~~~~~~
 \subsection{Mixing Efficiency}
 
-Mixing Efficiency $\Gamma$ is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
+Mixing Efficiency $\gamma_{\chi\epsilon}$ is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
 \begin{equation}
-\Gamma=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
+\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
 \end{equation}
 $\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. Gamma is computed for the following 4 combinations:
 \begin{enumerate}
-\item  $\Gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
-\item  $\Gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
-\item  $\Gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
-\item  $\Gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
+\item  $\gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
+\item  $\gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
+\item  $\gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
+\item  $\gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
 \end{enumerate}
 Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded.
 
@@ -118,9 +120,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \section{Results}
 
 \begin{itemize}
-%\item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
-%\item The median $\Gamma$ computed using the 1m avg data is $x$ (Figure \ref{avggam})}.
-\item Gamma computed over patches w/ linear fits is less than $0.2$ (Figure \ref{patchgam}).
+\item $\gamma_{\chi\epsilon}$ computed for binned data and just over patches is about an order of magnitude less than $0.2$ (Figure \ref{patchgam}).
 \end{itemize}
 %
 
@@ -132,7 +132,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %
 %\begin{figure}[htbp]
 %\includegraphics[scale=0.8]{tiwe_avgCombine_gamma.png}
-%\caption{Histogram of $\Gamma$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
+%\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
 %\label{avggam}
 %\end{figure}
 %%
@@ -140,7 +140,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gammas_hist_cast_1_3200.png}
-\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For all profiles.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles.}
 \label{patchgam}
 \end{figure}
 
@@ -149,7 +149,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %
 %\begin{figure}[htbp]
 %\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_324_327.png}
-%\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For profiles on yday 324-327.}
+%\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For profiles on yday 324-327.}
 %\label{patchgam}
 %\end{figure}
 
@@ -158,15 +158,26 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 \clearpage
 %~~~~~~~~~~~~~~~~
-\subsection{Variation of $\Gamma$ over time}
+\subsection{Variation of $\gamma_{\chi\epsilon}$ over time}
 
-To investigate whether $\Gamma$ varies over time, I plotted $\Gamma$ vs yday (Figure \ref{gamvscnum}).% It looks like the median $\Gamma$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
+To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvscnum}).% It looks like the median $\gamma_{\chi\epsilon}$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gam_vs_cnum.png}
-\caption{Plot of $\Gamma$ for patches vs cast number. Vertical line is $\Gamma=0.2$. Red circles are the median value for each cast.}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs cast number. Vertical line is $\gamma=0.2$. Red circles are the median value for each cast.}
 \label{gamvscnum}
 \end{figure}
+
+
+
+
+\clearpage
+%~~~~~~~~~~~~~~~~
+\subsection{Summary}
+
+\begin{itemize}
+\item 
+\end{itemize}
 
 
 
