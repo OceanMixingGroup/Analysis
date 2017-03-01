@@ -11,7 +11,6 @@
 \DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
 
 
-
 \graphicspath{
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/}
 }
@@ -49,7 +48,11 @@ Chameleon data already processed by Sally is in : \newline
 This analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/+ . This is also a github repository.
 
 
-%~~~~~~~~~~~~~~~~~~~~~
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Methods}
 
 \begin{itemize}
@@ -62,18 +65,14 @@ This analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Researc
 
 \item \verb+run_eq14_for_PATCHES.m+ Runs the Chameleon processing (including $\chi$ and $\epsilon$) for just the patches identified in \verb+FindPatches_eq14_Raw.m+ . This calls \verb+average_data_PATCH_AP.m+ instead of \verb+average_data_gen1.m+.
 
-\item \verb+add_patch_chi_eps_to_patches_eq14_each_profile.m+
+\item \verb+add_patch_chi_eps_to_patches_eq14_each_profile.m+ Adds  $\chi$ and $\epsilon$ comptued over patches (in \verb+run_eq14_for_PATCHES.m+ ) to patch profiles.
 
-\item \verb+combine_patch_profiles_eq14.m+
+\item \verb+combine_patch_profiles_eq14.m+ Combines all patch profiles into 1 structure.
 
 
 \end{itemize}
 
 \medskip
-
-%%~~~~~~~
-%\subsection{Overturns}
-%Overturns (patches) are detected for each profile, using potential temperature.
 
 %~~~~~~~
 \subsection{dTdz}
@@ -116,42 +115,29 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 
 
-%~~~~~~~~~~~~~~~~~~~~~
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
 
 \begin{itemize}
 \item $\gamma_{\chi\epsilon}$ computed for binned data and just over patches is about an order of magnitude less than $0.2$ (Figure \ref{patchgam}).
 \end{itemize}
-%
 
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{tiwe_avgCombine_N2_dtdz_chi_eps.png}
-%\caption{Pcolor of the combined 1m avg chameleon data for TIWE. * Note for some reason many $\chi$ values below 150db are bad/missing.}
-%\label{}
-%\end{figure}
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{tiwe_avgCombine_gamma.png}
-%\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
-%\label{avggam}
-%\end{figure}
-%%
-%
-%
+
+% gamma for all binned data
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_binned_gamma.png}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\Gamma=0.2$.}
+\label{avggam}
+\end{figure}
+
+% gamma for just patches
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gammas_hist_cast_1_3200.png}
 \caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles.}
 \label{patchgam}
 \end{figure}
-
-
-%
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_324_327.png}
-%\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For profiles on yday 324-327.}
-%\label{patchgam}
-%\end{figure}
 
 
 
@@ -160,7 +146,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %~~~~~~~~~~~~~~~~
 \subsection{Variation of $\gamma_{\chi\epsilon}$ over time}
 
-To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvscnum}).% It looks like the median $\gamma_{\chi\epsilon}$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
+To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvscnum}).
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gam_vs_cnum.png}
@@ -171,12 +157,16 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 
 
+
+
 \clearpage
-%~~~~~~~~~~~~~~~~
-\subsection{Summary}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Summary}
 
 \begin{itemize}
-\item 
+\item $\gamma_{\chi\epsilon}$ computed from 1m binned data (the standard Chameleon processing) is about 10 times smaller than the typical assumed value of 0.2.
+\item $\gamma_{\chi\epsilon}$ computed for just patches is similar (slightly larger?).
+\item $\gamma_{\chi\epsilon}$ does not appear to vary over time/cast number, as was seen in tiwe data.
 \end{itemize}
 
 
