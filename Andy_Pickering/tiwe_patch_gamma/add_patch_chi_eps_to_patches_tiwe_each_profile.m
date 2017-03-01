@@ -17,7 +17,7 @@
 clear ; close all
 
 % patch options
-patch_size_min = 0.25  % min patch size
+patch_size_min = 0.15  % min patch size
 usetemp = 1
 
 % set paths

@@ -63,6 +63,7 @@ delete(hb)
 
 clear patches
 patches=patch_all; clear patch_all
+patches.MakeInfo = ['Made ' datestr(now) ' w/ combine_patch_profiles.m']
 %%
 % save combined structure
 save( fullfile( analysis_dir, project, 'data',...

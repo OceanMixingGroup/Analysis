@@ -21,7 +21,7 @@
 
 clear all ; close all
 
-patch_size_min = 0.25 ; % min patch size
+patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles

@@ -11,7 +11,7 @@
 clear ; close all
 
 % patch options
-patch_size_min = 0.25  % min patch size
+patch_size_min = 0.15  % min patch size
 usetemp = 1
 
 load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
@@ -19,7 +19,7 @@ load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch
 
 %%
 day_range=[307 329]% all profiles
-%day_range=[324 327]% ydays in Smyth et al
+day_range=[324 327]% ydays in Smyth et al
 id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
 
 %
