@@ -20,11 +20,23 @@ clear ; close all
 patch_size_min = 0.15  % min patch size
 usetemp = 1
 
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
+% option to use merged patches
+merge_patches = 1 ;
+min_sep = 0.15 ;
+
 % set paths
 tiwe_patches_paths
 
 % folder for chameleon data processed over patches (Run_tiwe_AP_forPatches.m)
-data_dir=fullfile(save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+if merge_patches==1
+    data_dir = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_merged_minsep_' num2str(min_sep*100)])
+else
+    data_dir = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+end
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 
@@ -36,8 +48,11 @@ for cnum=1:4000
     
     try
         % load the patches for this profile
-        clear patches
-        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        if merge_patches==1
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+        else
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        end
         
         % add empty arrays for chi and eps
         patches.eps=nan*ones(size(patches.p1));
@@ -66,7 +81,11 @@ for cnum=1:4000
             
         end
         % re-save profile
-        save(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        if merge_patches==1
+            save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
+        else
+            save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        end
         
     end % try
     

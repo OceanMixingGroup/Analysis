@@ -29,6 +29,12 @@ clear ; close all
 patch_size_min = 0.15  % min patch size
 usetemp = 1
 
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
+% option to use merged patches
+merge_patches = 1 ;
+min_sep = 0.15 ;
+
 % set paths
 tiwe_patches_paths
 
@@ -46,7 +52,11 @@ for cnum=1:4000
         
         % load patch data for this profile
         clear patch_data patches
-        load(fullfile(save_dir_patch,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
+        if merge_patches==1
+        load(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']))                    
+        else
+        load(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
+        end
         
         patches = struct() ;
         patches.cnum = patch_data(:,1) ;
@@ -118,7 +128,11 @@ for cnum=1:4000
         end % ip
         
         % save profile
-        save(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        if merge_patches==1
+        save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )    
+        else
+        save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        end
     end % try
 end % cnum
 

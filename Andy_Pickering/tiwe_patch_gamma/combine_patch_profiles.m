@@ -14,22 +14,35 @@
 clear ; close all
 
 % patch options
-patch_size_min = 0.25  % min patch size
+patch_size_min = 0.15  % min patch size
 usetemp = 1
+
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
+% option to use merged patches
+merge_patches = 1 ;
+min_sep = 0.15 ;
 
 % set paths
 tiwe_patches_paths
 
 ip=0;
 hb=waitbar(0);
+%
 
 for cnum=1:4000
     waitbar(cnum/4000,hb)
     try
         
         % load the patches for this profile
-        clear patches
-        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        clear patch_data patches
+        if merge_patches==1
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+        else
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        end
+        
+        
         ip=ip+1;
         
         if ip==1
@@ -64,9 +77,14 @@ delete(hb)
 clear patches
 patches=patch_all; clear patch_all
 patches.MakeInfo = ['Made ' datestr(now) ' w/ combine_patch_profiles.m']
+
 %%
 % save combined structure
-save( fullfile( analysis_dir, project, 'data',...
-    [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
-
+if merge_patches==1
+    save( fullfile( analysis_dir, project, 'data',...
+        [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
+else
+    save( fullfile( analysis_dir, project, 'data',...
+        [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+end
 %%

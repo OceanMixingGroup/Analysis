@@ -17,14 +17,25 @@ patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
+% option to use merged patches
+merge_patches = 1 ;
+min_sep = 0.15 ;
+
+
 % load my patches
-load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+if merge_patches==1
+load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100)  '.mat']) )    
+else
+load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']) )
+end
 
 % load Bills patches
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/events_TIWE.mat')
 
 day_range=[307 329]% all profiles
-%day_range=[324 327]% ydays used in Smyth etal
+day_range=[324 327]% ydays used in Smyth etal
 id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
 
 figure(1);clf
@@ -84,7 +95,7 @@ figure(2);clf
 hbill=histogram(log10(gam_bill(:)),'Normalization','pdf','EdgeColor','none')
 hold on
 hap=histogram(log10(patches.gam_line(id)),'Normalization','pdf','EdgeColor','none')
-freqline(log10(0.2))
+freqline(log10(0.2),'k--')
 xlim([-3 2])
 ylim([0 1.2])
 grid on

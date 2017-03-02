@@ -20,6 +20,12 @@ clear ; close all
 patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
+% option to use merged patches
+merge_patches = 1 ;
+min_sep = 0.15 ;
+
 % set paths
 tiwe_patches_paths
 
@@ -38,7 +44,11 @@ for cnum=1:4000
     try
         
         % load the patches for this profile
-        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        if merge_patches==1
+        load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )    
+        else
+        load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        end
         
         % make empty arrays for the binned data
         Npatches = length(patches.cnum) ;
@@ -71,7 +81,11 @@ for cnum=1:4000
         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);
         
         % re-save profile
-        save(fullfile(save_dir_patch,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        if merge_patches==1
+        save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )    
+        else
+        save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        end
         
     end % try
 end % cnum
