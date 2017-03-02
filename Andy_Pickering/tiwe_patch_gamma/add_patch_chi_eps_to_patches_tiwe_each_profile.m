@@ -69,7 +69,7 @@ for cnum=1:4000
             
             clear ib
             %ib=find(log10(patches.eps)<-8.5);
-            ib = find(patches.eps<4e-9);
+            ib = find(patches.eps<0.4e-9);
             patches.eps(ib)=nan;
             
             % compute gamma for each patch

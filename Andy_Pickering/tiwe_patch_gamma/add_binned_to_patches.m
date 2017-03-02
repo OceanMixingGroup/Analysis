@@ -75,7 +75,7 @@ for cnum=1:4000
         patches.eps_bin   = interp1(pbin(ig) , cham.EPSILON(ig,Icham) , pmn);
         
         clear ib
-        ib = find(patches.eps_bin<4e-9);
+        ib = find(patches.eps_bin<0.4e-9);
         patches.eps_bin(ib) = nan ;
 
         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);
