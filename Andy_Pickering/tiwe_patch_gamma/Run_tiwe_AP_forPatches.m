@@ -24,6 +24,10 @@ clear all ; close all
 patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
+% option to use merged patches
+merge_patches = 1 ;
+min_sep = 0.15 ;
+
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general/
@@ -37,7 +41,11 @@ path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
 % set paths
 tiwe_patches_paths
 
+if merge_patches==1
+path_save = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_merged_minsep_' num2str(min_sep*100)])    
+else
 path_save = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+end
 ChkMkDir(path_save)
 
 global data head cal q
@@ -76,8 +84,13 @@ for cast=1:4000
                 
                 % ~~ get patches for this profile
                 clear patches
+                
                 % load the patches for this profile
-                load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
+                if merge_patches==1
+                    load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+                else
+                    load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
+                end
                 
                 clear igp pstarts pstops
                 pstarts = patches.p1 ;
