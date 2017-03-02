@@ -23,17 +23,17 @@ mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
-% set paths
-tiwe_patches_paths
-
-datdir = save_dir_cal
-save_dir = save_dir_patch
-ChkMkDir(save_dir)
-
 % patch options
 save_data = 1 ;         % save data at the end
 patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+
+% set paths
+tiwe_patches_paths
+
+datdir = save_dir_cal
+save_dir = fullfile( save_dir_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+ChkMkDir(save_dir)
 
 % loop through each cast
 warning off
@@ -42,7 +42,7 @@ hb=waitbar(0,'working on profiles');
 Flist = dir(fullfile(datdir,'*raw.mat'))
 %%
 
-for ic= 1:length(Flist)
+for ic= 1000:length(Flist)
     
     waitbar(ic/length(Flist),hb)
     clear patch_data
@@ -65,7 +65,7 @@ for ic= 1:length(Flist)
         cal=cal2; clear cal2
         
         clear s t p lat
-        %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
+        %s=smooth( cal.SAL(1:end-1), 10 ); % (end-1) b/c last 2 values are same;
         s=cal.SAL(1:end-1);
         t=cal.T1(1:end-1);
         p=cal.P(1:end-1) ;

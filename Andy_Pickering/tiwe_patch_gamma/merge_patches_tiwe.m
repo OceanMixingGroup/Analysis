@@ -15,14 +15,13 @@ clear ; close all
 patch_size_min = 0.15  % min patch size
 usetemp = 1
 
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
 % min separation for merging
 min_sep = 0.15;
 
 % set paths
 tiwe_patches_paths
-
-addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
-%addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 hb=waitbar(0)
 warning off
@@ -33,7 +32,7 @@ for cnum=1:4000
         
         % load patch data for this profile
         clear patch_data 
-        load(fullfile(save_dir_patch,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
+        load(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
         
         clear new_patches ip Np
         new_patches = patch_data;
@@ -59,7 +58,7 @@ for cnum=1:4000
         patch_data = new_patches ;
         
         % save profile
-        save(fullfile(save_dir_patch,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patch_data' )
+        save(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patch_data' )
     end % try
 end % cnum
 
