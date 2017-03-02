@@ -10,16 +10,17 @@
 
 clear ; close all
 
+saveplots=1
+
 % patch options
-patch_size_min = 0.15  % min patch size
+patch_size_min = 0.25  % min patch size
 usetemp = 1
 
 load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/',...
     ['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']))
 
-%%
 day_range=[307 329]% all profiles
-day_range=[324 327]% ydays in Smyth et al
+%day_range=[324 327]% ydays in Smyth et al
 id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
 
 %
@@ -38,11 +39,12 @@ grid on
 xlabel('log_{10}[\gamma_{\chi\epsilon}]','fontsize',16)
 ylabel('pdf','fontsize',16)
 legend([h1 h2 h3],'bin','line','bulk','location','best')
-
+title(['yday ' num2str(day_range(1)) ' - ' num2str(day_range(2))])
 %%
 
+if saveplots==1
 fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
 fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gammas_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2)) ]
 print(fullfile(fig_dir,fname),'-dpng')
-
+end
 %%
