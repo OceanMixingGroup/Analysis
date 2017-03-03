@@ -1,3 +1,5 @@
+function []=add_patch_chi_eps_to_patches_tiwe_each_profile(patch_size_min,...
+    usetemp,merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % add_patch_chi_eps_to_patches_tiwe_each_profile.m
@@ -14,17 +16,17 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
 % patch options
-patch_size_min = 0.15  % min patch size
-usetemp = 1
-
-ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+%patch_size_min = 0.4  % min patch size
+%usetemp = 1
 
 % option to use merged patches
-merge_patches = 1 ;
-min_sep = 0.15 ;
+%merge_patches = 0 ;
+%min_sep = 0.15 ;
+
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
 % set paths
 tiwe_patches_paths
@@ -40,7 +42,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 
-hb=waitbar(0);
+hb=waitbar(0,'add_patch_chi_eps_to_patches');
 
 % casts 2836:3711 are ydays 324-327
 
@@ -50,6 +52,7 @@ for cnum=2836:3711 %1:4000
     
     try
         % load the patches for this profile
+        clear patches
         if merge_patches==1
             load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
         else

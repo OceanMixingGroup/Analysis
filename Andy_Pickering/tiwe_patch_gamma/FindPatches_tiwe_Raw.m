@@ -1,3 +1,5 @@
+function []=FindPatches_tiwe_Raw(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % FindPatches_tiwe_Raw.m
@@ -16,7 +18,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
 % Add all the paths we need from mixing software
 mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
@@ -24,8 +26,8 @@ addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
 % patch options
-patch_size_min = 0.4 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+%patch_size_min = 0.4 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % set paths
 tiwe_patches_paths
@@ -35,7 +37,7 @@ ChkMkDir(save_dir)
 
 % loop through each cast
 warning off
-hb=waitbar(0,'working on profiles');
+hb=waitbar(0,'FindPatches_tiwe_Raw');
 
 for cnum=2836:3711%1:4000
     %for ic= 1:length(Flist)
@@ -48,8 +50,7 @@ for cnum=2836:3711%1:4000
         
         close all
         clear cal cal2 head fname
-        
-        
+                
         % Load the data for this cast
         load( fullfile( save_dir_cal, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
         cal=cal2 ; clear cal2

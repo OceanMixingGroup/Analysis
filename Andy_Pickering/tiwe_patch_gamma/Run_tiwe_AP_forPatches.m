@@ -1,3 +1,5 @@
+function []=Run_tiwe_AP_forPatches(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Run_tiwe_AP_forPatches.m
@@ -19,14 +21,17 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear all ; close all
+%clear all ; close all
 
-patch_size_min = 0.15 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+%patch_size_min = 0.4 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % option to use merged patches
-merge_patches = 1 ;
-min_sep = 0.15 ;
+%merge_patches = 0 ;
+%min_sep = 0.15 ;
+
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
@@ -55,9 +60,9 @@ q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2',
     'az2','ax_tilt','ay_tilt'};
 warning off
 
-hb=waitbar(0)
+hb=waitbar(0,'Run_tiwe_AP_forPatches')
 
-for cast=1:4000
+for cast=2836:3711 % 1:4000
     
     waitbar(cast/4000,hb)
     
@@ -87,9 +92,9 @@ for cast=1:4000
                 
                 % load the patches for this profile
                 if merge_patches==1
-                    load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+                    load(fullfile(save_dir_patch, ot_dir, [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
                 else
-                    load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
+                    load(fullfile(save_dir_patch,ot_dir, [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
                 end
                 
                 clear igp pstarts pstops

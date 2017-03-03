@@ -1,3 +1,5 @@
+function []=add_binned_to_patches(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % add_binned_to_patches.m
@@ -14,17 +16,17 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %% Add 1m binned data (interpolated to patch locations)
 
-clear ; close all
+%clear ; close all
 
 % patch parameters
-patch_size_min = 0.15 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
-ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+%patch_size_min = 0.4 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % option to use merged patches
-merge_patches = 1 ;
-min_sep = 0.15 ;
+%merge_patches = 0 ;
+%min_sep = 0.15 ;
+
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
 % set paths
 tiwe_patches_paths

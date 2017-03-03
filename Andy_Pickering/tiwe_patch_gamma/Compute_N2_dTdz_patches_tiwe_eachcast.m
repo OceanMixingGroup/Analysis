@@ -1,3 +1,5 @@
+function []=Compute_N2_dTdz_patches_tiwe_eachcast(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Compute_N2_dTdz_patches_tiwe_eachcast.m
@@ -23,17 +25,17 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
-% patch options
-patch_size_min = 0.15  % min patch size
-usetemp = 1
+% % patch options
+% patch_size_min = 0.4  % min patch size
+% usetemp = 1
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
 % option to use merged patches
-merge_patches = 1 ;
-min_sep = 0.15 ;
+%merge_patches = 0 ;
+%min_sep = 0.15 ;
 
 % set paths
 tiwe_patches_paths
@@ -43,7 +45,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 alpha = -0.2607; % from fit of sgth vs theta
 
-hb=waitbar(0)
+hb=waitbar(0,'Compute_N2_dTdz_patches')
 warning off
 
 for cnum=2836:3711 %1:4000
