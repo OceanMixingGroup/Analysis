@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2017 15:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2017 15:59
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -425,46 +425,11 @@ N[]$ \OT1/cmr/m/n/10.95 from the sorted pro-file (sorted by po-ten-tial den-sit
 y) us-ing []\OT1/cmtt/m/n/10.95 sw_bfreq\OT1/cmr/m/n/10.95 ,
  []
 
-./TIWE_patch_gamma_notes.tex:126: Missing $ inserted.
-<inserted text> 
-                $
-l.126 \item  $\gamma_{range}$ : N^
-                                  {2}_{range}$, $dtdz_{range}$
-? s
-OK, entering \scrollmode...
-./TIWE_patch_gamma_notes.tex:127: Missing $ inserted.
-<inserted text> 
-                $
-l.127 \item  $\gamma_{line}$ : N^
-                                 {2}_{line}$, $dtdz_{line}$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-./TIWE_patch_gamma_notes.tex:128: Missing $ inserted.
-<inserted text> 
-                $
-l.128 \item  $\gamma_{bulk}$ : N^
-                                 {2}_{bulk}$, $dtdz_{bulk}$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-./TIWE_patch_gamma_notes.tex:129: Missing $ inserted.
-<inserted text> 
-                $
-l.129 \item  $\gamma_{range}$ : N^
-                                  {2}_{4}$, $dtdz_{line}$
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
 ./TIWE_patch_gamma_notes.tex:140: Extra }, or forgotten \endgroup.
 l.140 ...vg data is $0.063$ (Figure \ref{avggam})}
                                                   .
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
+? s
+OK, entering \scrollmode...
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/
 tiwe_avgCombine_N2_dtdz_chi_eps.png, id=102, 505.89pt x 614.295pt>
@@ -493,14 +458,15 @@ iwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_patch_locs_merged_minsep_15.png
 (pdftex.def)             Requested size: 404.71254pt x 368.48114pt.
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/
-tiwe_avgCombine_gamma.png, id=104, 562.2606pt x 421.575pt>
+tiwe_avgCombine_gamma_yday_324_327.png, id=104, 562.2606pt x 421.575pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fig
-ures/tiwe_avgCombine_gamma.png Graphic file (type png)
+ures/tiwe_avgCombine_gamma_yday_324_327.png Graphic file (type png)
 
 <use /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figu
-res/tiwe_avgCombine_gamma.png>
+res/tiwe_avgCombine_gamma_yday_324_327.png>
 Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/t
-iwe_patch_gamma/figures/tiwe_avgCombine_gamma.png used on input line 162.
+iwe_patch_gamma/figures/tiwe_avgCombine_gamma_yday_324_327.png used on input li
+ne 162.
 (pdftex.def)             Requested size: 449.8091pt x 337.26045pt.
 
 Overfull \hbox (19.80447pt too wide) in paragraph at lines 162--163
@@ -509,19 +475,27 @@ Overfull \hbox (19.80447pt too wide) in paragraph at lines 162--163
 
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/
-tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327.png, id=105, 505.89pt x 368.57
-7pt>
+tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327_merged_minsep_15.png, id=105, 
+505.89pt x 368.577pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fig
-ures/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327.png Graphic file (type pn
-g)
+ures/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327_merged_minsep_15.png Grap
+hic file (type png)
 
 <use /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figu
-res/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327.png>
+res/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327_merged_minsep_15.png>
 Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/t
-iwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327.png us
-ed on input line 170.
+iwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327_merged
+_minsep_15.png used on input line 170.
 (pdftex.def)             Requested size: 404.71254pt x 294.86198pt.
 
+[4] [5 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/f
+igures/tiwe_avgCombine_N2_dtdz_chi_eps.png (PNG copy)>] [6 </Users/Andy/Cruises
+_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/tiwe_minOT_15_usetem
+p_1_patch_locs_merged_minsep_15.png (PNG copy)>] [7 </Users/Andy/Cruises_Resear
+ch/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/tiwe_avgCombine_gamma_yday_
+324_327.png (PNG copy)>] [8 </Users/Andy/Cruises_Research/Analysis/Andy_Pickeri
+ng/tiwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327_me
+rged_minsep_15.png (PNG copy)>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 178.
@@ -536,7 +510,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/
-tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_minsep_15.png, id=106, 5
+tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_minsep_15.png, id=139, 5
 05.89pt x 429.7656pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fig
 ures/tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_minsep_15.png Graph
@@ -549,6 +523,11 @@ iwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_
 minsep_15.png used on input line 182.
 (pdftex.def)             Requested size: 404.71254pt x 343.81294pt.
 
+[9
+
+ </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures
+/tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_minsep_15.png (PNG copy
+)>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 190.
@@ -575,7 +554,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/
-tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_minsep_15.png, id=107, 505
+tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_minsep_15.png, id=146, 505
 .89pt x 429.7656pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fig
 ures/tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_minsep_15.png Graphic
@@ -588,18 +567,11 @@ iwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_mi
 nsep_15.png used on input line 194.
 (pdftex.def)             Requested size: 404.71254pt x 343.81294pt.
 
-[4] [5 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/f
-igures/tiwe_avgCombine_N2_dtdz_chi_eps.png (PNG copy)>] [6 </Users/Andy/Cruises
-_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/tiwe_minOT_15_usetem
-p_1_patch_locs_merged_minsep_15.png (PNG copy)>] [7 </Users/Andy/Cruises_Resear
-ch/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/tiwe_avgCombine_gamma.png (
-PNG copy)>] [8 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch
-_gamma/figures/tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327.png (PNG copy)>
-] [9 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fig
-ures/tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_minsep_15.png (PNG 
-copy)>] [10 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_ga
-mma/figures/tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_minsep_15.png 
-(PNG copy)>]
+[10
+
+ </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures
+/tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_minsep_15.png (PNG copy)>
+]
 
 LaTeX Warning: File `tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_3
 07_329.png' not found on input line 212.
@@ -732,8 +704,8 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 287.
  ) 
 Here is how much of TeX's memory you used:
  6537 strings out of 493315
- 99953 string characters out of 6137904
- 188340 words of memory out of 5000000
+ 100103 string characters out of 6137904
+ 187340 words of memory out of 5000000
  9843 multiletter control sequences out of 15000+600000
  11520 words of font info for 44 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
@@ -752,7 +724,7 @@ live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texliv
 e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2
 013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on TIWE_patch_gamma_notes.pdf (15 pages, 2738844 bytes).
+Output written on TIWE_patch_gamma_notes.pdf (15 pages, 2740132 bytes).
 PDF statistics:
  248 PDF objects out of 1000 (max. 8388607)
  205 compressed objects within 3 object streams
