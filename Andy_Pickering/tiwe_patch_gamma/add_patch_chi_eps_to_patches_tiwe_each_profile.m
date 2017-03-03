@@ -42,7 +42,9 @@ addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/cod
 
 hb=waitbar(0);
 
-for cnum=1:4000
+% casts 2836:3711 are ydays 324-327
+
+for cnum=2836:3711 %1:4000
     
     waitbar(cnum/4000,hb)
     
@@ -80,6 +82,7 @@ for cnum=1:4000
             patches.gam4 = ComputeGamma(patches.n4, patches.dtdz_line, patches.chi , patches.eps );
             
         end
+        
         % re-save profile
         if merge_patches==1
             save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )

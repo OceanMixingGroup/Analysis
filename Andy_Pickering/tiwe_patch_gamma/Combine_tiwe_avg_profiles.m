@@ -28,6 +28,7 @@ cham.DTDZ=EmpMat;
 cham.N2=EmpMat;
 cham.EPSILON=EmpMat;
 cham.cnum=nan*ones(1,Nprof);
+cham.yday=nan*ones(1,Nprof);
 cham.P=pvec(:);
 
 hb=waitbar(0)
@@ -40,12 +41,13 @@ for ic=1:length(Flist)
     
     fname=Flist(ic).name;
     
-    cnum = str2num(fname(5:8));
+    cnum = str2num(fname(5:8));       
     
     load( fullfile( data_dir, fname) )
     
     try
         cham.cnum(ic)     = cnum ;
+        cham.yday(ic)     = str2num(head.starttime(end-5:end));
         cham.T(:,ic)      = interp1(avg.P,avg.T,pvec) ;
         cham.S(:,ic)      = interp1(avg.P,avg.S,pvec) ;
         cham.N2(:,ic)     = interp1(avg.P,avg.N2,pvec) ;

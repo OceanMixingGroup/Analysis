@@ -20,7 +20,7 @@ usetemp = 1
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
 % option to use merged patches
-merge_patches = 1 ;
+merge_patches = 0 ;
 min_sep = 0.15 ;
 
 % set paths

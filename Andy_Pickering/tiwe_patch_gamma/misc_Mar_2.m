@@ -22,10 +22,10 @@ ylabel('L_t')
 clear ; close all
 
 day_range=[307 329]% all profiles
-day_range=[324 327]% ydays in Smyth et al
+%day_range=[324 327]% ydays in Smyth et al
 
 
-load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_cham_minOT_15_usetemp_1_patches_diffn2dtdzgamma_merged_minsep_15mat.mat')
+load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_cham_minOT_15_usetemp_1_patches_diffn2dtdzgamma_merged_minsep_15.mat')
 p1=patches; clear patches
 id1=find(p1.yday>=day_range(1) & p1.yday<=day_range(2));
 
@@ -43,7 +43,7 @@ subplot(311)
 hmerg=histogram(real(log10(p1.gam_bin(id1))),'Normalization','pdf','EdgeColor','none')
 hold on
 h2=histogram(real(log10(p2.gam_bin(id2))),'Normalization','pdf','EdgeColor','none')
-xlim([-3.5 2])
+xlim([-3.5 1])
 freqline(log10(0.2))
 xlabel('log_{10}[\gamma]')
 legend([hmerg h2],'merged','not','location','best')
@@ -56,7 +56,7 @@ subplot(312)
 hmerg=histogram(real(log10(p1.gam_line(id1))),'Normalization','pdf','EdgeColor','none')
 hold on
 h2=histogram(real(log10(p2.gam_line(id2))),'Normalization','pdf','EdgeColor','none')
-xlim([-3.5 2])
+xlim([-3.5 1])
 freqline(log10(0.2))
 xlabel('log_{10}[\gamma]')
 legend([hmerg h2],'merged','not','location','best')
@@ -69,7 +69,7 @@ subplot(313)
 hmerg=histogram(real(log10(p1.gam_bulk(id1))),'Normalization','pdf','EdgeColor','none')
 hold on
 h2=histogram(real(log10(p2.gam_bulk(id2))),'Normalization','pdf','EdgeColor','none')
-xlim([-3.5 2])
+xlim([-3.5 1])
 freqline(log10(0.2))
 xlabel('log_{10}[\gamma]')
 legend([hmerg h2],'merged','not','location','best')
@@ -112,4 +112,5 @@ h2=histogram(real(log10(p2.gam_line)),'Normalization','pdf','EdgeColor','none')
 xlim([-3.5 2])
 freqline(log10(0.2))
 xlabel('log_{10}[\gamma]')
+
 %%

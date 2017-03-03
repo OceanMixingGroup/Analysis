@@ -13,30 +13,32 @@
 
 clear ; close all
 
+saveplots=1
+
 patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-
-ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
 % option to use merged patches
 merge_patches = 1 ;
 min_sep = 0.15 ;
 
-
 % load my patches
 if merge_patches==1
-load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100)  '.mat']) )    
+    load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100)  '.mat']) )
 else
-load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']) )
+    load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']) )
 end
 
 % load Bills patches
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/events_TIWE.mat')
 
-day_range=[307 329]% all profiles
-day_range=[324 327]% ydays used in Smyth etal
-id=find(patches.yday>=day_range(1) & patches.yday<=day_range(2));
+%day_range = [307 329]% all profiles
+day_range = [324 327]% ydays used in Smyth etal
+depth_range= [60 200]
+id = find(patches.yday>=day_range(1) & patches.yday<=day_range(2) & patches.p1>depth_range(1) & patches.p2<depth_range(2) );
+
+% Plot patch N2,T_z,chi,epsilon
 
 figure(1);clf
 agutwocolumn(1)
@@ -78,11 +80,65 @@ xlabel('log_{10}[\epsilon]','fontsize',16)
 ylabel('pdf','fontsize',16)
 grid on
 legend([h1 h2],'AP','Bill','location','best')
-%%
+%text(-6,0.6,['N=' num2str(length(id))],'color','b','fontweight','bold')
+%text(-6,0.5,['N=' num2str(length(A.chi))],'color','r','fontweight','bold')
+title(['N_{AP}=' num2str(length(id)) ', N_{Bill}=' num2str(length(A.chi))])
 
-fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
-fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_n2_tz_chi_eps_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2)) ]
-print(fullfile(fig_dir,fname),'-dpng')
+if saveplots==1
+    
+    fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+    if merge_patches==1
+        fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_n2_tz_chi_eps_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2)) '_merged_minsep_' num2str(min_sep*100)  ]
+    else
+        fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_n2_tz_chi_eps_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2)) ]
+    end
+    print(fullfile(fig_dir,fname),'-dpng')
+    
+end
+
+%% Plot binned data interpolated to patch locations
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+
+subplot(221)
+h1=histogram(real(log10(patches.n2_bin(id))),'Normalization','pdf','Edgecolor','none');
+hold on
+h2=histogram(log10(A.N2(:)),h1.BinEdges,'Normalization','pdf','Edgecolor','none')
+xlabel('log_{10}[N^2]','fontsize',16)
+ylabel('pdf','fontsize',16)
+xlim([-6 -2])
+grid on
+legend([h1 h2],'AP','Bill','location','best')
+
+subplot(222)
+hap=histogram(real(log10(patches.dtdz_bin(id))),'Normalization','pdf','Edgecolor','none');
+hold on
+hbill=histogram(real(log10(A.tgrad(:))),hap.BinEdges,'Normalization','pdf','Edgecolor','none');
+xlabel('log_{10}[T_z]','fontsize',16)
+ylabel('pdf','fontsize',16)
+xlim([-4 0])
+grid on
+
+subplot(223)
+h1=histogram(log10(patches.chi_bin(id)),'Normalization','pdf','Edgecolor','none');
+hold on
+histogram(real(log10(A.chi(:))),'Normalization','pdf','Edgecolor','none');
+xlabel('log_{10}[\chi]')
+ylabel('pdf')
+xlim([-13 -3])
+grid on
+
+subplot(224)
+h1=histogram(log10(patches.eps_bin(id)),'Normalization','pdf','Edgecolor','none');
+hold on
+h2=histogram(real(log10(A.eps(:))),'Normalization','pdf','Edgecolor','none');
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('pdf','fontsize',16)
+grid on
+legend([h1 h2],'AP','Bill','location','best')
+%%
 
 
 %% compute gamma from Bill's patches
@@ -102,13 +158,26 @@ grid on
 xlabel('log_{10}[\Gamma]')
 ylabel('pdf')
 legend([hbill hap],'Bill','AP','location','best')
-title(['tiwe patches, minOT=' num2str(patch_size_min) 'm, yday ' num2str(day_range(1)) '-' num2str(day_range(2))])
+if merge_patches==1
+    title(['tiwe patches, minOT=' num2str(patch_size_min) 'm, merged, yday ' num2str(day_range(1)) '-' num2str(day_range(2))])
+else
+    title(['tiwe patches, minOT=' num2str(patch_size_min) 'm, yday ' num2str(day_range(1)) '-' num2str(day_range(2))])
+end
 
-%%
-fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
-fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2))]
-print(fullfile(fig_dir,fname),'-dpng')
+%
 
+if saveplots==1
+    
+    fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+    
+    if merge_patches==1
+        fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2)) '_merged_minsep_' num2str(min_sep*100)]
+    else
+        fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2))]
+    end
+    print(fullfile(fig_dir,fname),'-dpng')
+    
+end
 %%
 
 figure(3);clf

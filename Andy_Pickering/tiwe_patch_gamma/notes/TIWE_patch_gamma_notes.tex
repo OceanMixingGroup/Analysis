@@ -79,7 +79,17 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 %~~~~~~~
 \subsection{Overturns}
 
-Overturns (patches) are detected for each profile, using potential temperature. \verb+compute_overturns_discrete_AP.m+ was used to identify patches. Values of $\epsilon <4\times 10^{-9}$ were NaN'ed out (following Smyth et al 2001). 
+Overturns (patches) are detected for each profile, using potential temperature. \newline
+\verb+compute_overturns_discrete_AP.m+ was used to identify patches. \newline
+Following Smyth et al 2001, the following criteria were also applied:
+\begin{itemize}
+\item Values of $\epsilon <0.4\times 10^{-9}$ were NaN'ed out. Note the paper says $4\times 10^{-9}$ but I think that was a type based on looking at the data Bill sent me.
+\item A minimum patch size of 15cm, and any patches separated by less than 15cm were joined together.
+\item Only patches in the depth range 60-200m were used.
+\end{itemize}
+
+Smyth et al 2001 also have an additional criteria that compares the Thorpe scale from temperature to the Thorpe scale from density and require the ratio to be in a certain range. I have not implemented this yet; i'm not sure how to compute that ratio since the patch boundaries computed from temperature and density wont' necessarily match?
+
 
 %~~~~~~~
 \subsection{dTdz}
@@ -128,9 +138,8 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \begin{itemize}
 \item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
 \item The median $\gamma_{\chi\epsilon}$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
-\item Gamma computed over patches w/ linear fits is slightly higher than the binned gamma, but still less than $0.2$ (Figure \ref{patchgam}).
+\item Gammas computed over patches is larger than the binned gamma, and vary with method. (Figure \ref{patchgam}).
 \end{itemize}
-%
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_avgCombine_N2_dtdz_chi_eps.png}
@@ -138,26 +147,30 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \label{}
 \end{figure}
 
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_patch_locs_merged_minsep_15.png}
+\caption{Pcolor of the combined 1m avg chameleon epsilon for TIWE, and patch locations for a period between yday 324-327. Patches above 60m have not been discarded yet.}
+\label{patchlocs}
+\end{figure}
+
+
+
+% binned gammas
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_avgCombine_gamma.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles (all data, no patch analysis applied). Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$.}
 \label{avggam}
 \end{figure}
-%
 
 
+% patch gammas
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_307_329.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. For all profiles.}
+\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327.png}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{patchgam}
 \end{figure}
-%
-%
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gammas_hist_yday_324_327.png}
-%\caption{Histogram of $\Gamma$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\Gamma=0.2$. For profiles on yday 324-327.}
-%\label{patchgam}
-%\end{figure}
 
 
 
@@ -189,17 +202,17 @@ Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.ma
 %~~~~~~~~~~~~~~~~
 \subsection{Yday 324-327}
 
-I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for theTIWE patches. So I remade the previous figures using only data from that time period (Figures \ref{comp_bill_ap_324_327},\ref{comp_bill_ap_gam_324_327}). Using this data, I get  gammas centered around 0.2 and close to Bill's estimates. 
+I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the TIWE patches. So I remade the previous figures using only data from that time period (Figures \ref{comp_bill_ap_324_327},\ref{comp_bill_ap_gam_324_327}). Using this data, I get  gammas centered around 0.2 and close to Bill's estimates. 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327.png}
+\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327_merged_minsep_15.png}
 \caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{comp_bill_ap_324_327}
 \end{figure}
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_apvsbill_hist_yday_324_327.png}
+\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.png}
 \caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{comp_bill_ap_gam_324_327}
 \end{figure}
@@ -208,14 +221,20 @@ I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the
 
 
 
+%\newpage
+%\clearpage
+%%~~~~~~~~~~~~~~~~
+%\subsection{To Merge or not to Merge?}
+%
+%In the Smyth et al 2001 methods section, it says that patches separated by less than 15cm are also merged together. So I tried repeating the analysis with merged patches to see how it affects the results. The raw patches for each profile are merged in \verb+merge_patches_tiwe.m+ .
+%
 
-\clearpage
-%~~~~~~~~~~~~~~~~
-\subsection{To Merge or not to Merge?}
 
-In the Smyth et al 2001 methods section, it says that patches separated by less than 15cm are also merged together. So I tried repeating the analysis with merged patches to see how it affects the results.
-
-\verb+merge_patches_tiwe.m+
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.png}
+%\caption{Histograms of $\gamma_{\chi\epsilon}$ for *merged* patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
+%\label{comp_bill_ap_gam_324_327}
+%\end{figure}
 
 
 
@@ -230,13 +249,16 @@ In the Smyth et al 2001 methods section, it says that patches separated by less 
 Since it appears that $\gamma_{\chi\epsilon}$ can vary for different time periods, I wanted to investigate this more. I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvsyday}). It looks like the median $\gamma_{\chi\epsilon}$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_vs_yday.png}
+\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_vs_yday.png}
 \caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs yday. Vertical line is $\gamma_{\chi\epsilon}=0.2$. Red circles are the median value for each day. * what happend on yday 322.326?}
 \label{gamvsyday}
 \end{figure}
 
 
 
+
+
+%~~~~~~~~~~~~~~
 \end{document}  
 
 

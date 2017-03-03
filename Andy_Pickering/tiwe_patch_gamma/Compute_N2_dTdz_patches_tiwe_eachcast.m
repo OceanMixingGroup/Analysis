@@ -46,16 +46,16 @@ alpha = -0.2607; % from fit of sgth vs theta
 hb=waitbar(0)
 warning off
 
-for cnum=1:4000
+for cnum=2836:3711 %1:4000
     waitbar(cnum/4000,hb)
     try
         
         % load patch data for this profile
         clear patch_data patches
         if merge_patches==1
-        load(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']))                    
+        load(fullfile(save_dir_patch,ot_dir,'raw_merge',[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']))  
         else
-        load(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
+        load(fullfile(save_dir_patch,ot_dir,'raw',[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
         end
         
         patches = struct() ;

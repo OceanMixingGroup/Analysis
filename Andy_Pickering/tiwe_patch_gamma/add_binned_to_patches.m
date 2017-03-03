@@ -35,7 +35,7 @@ load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data
 addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 
 hb=waitbar(0)
-for cnum=1:4000
+for cnum=2836:3711 %1:4000
     
     waitbar(cnum/4000,hb)
     

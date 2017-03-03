@@ -24,7 +24,6 @@ addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
 % patch options
-save_data = 1 ;         % save data at the end
 patch_size_min = 0.15 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
@@ -32,7 +31,7 @@ usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 tiwe_patches_paths
 
 datdir = save_dir_cal
-save_dir = fullfile( save_dir_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+save_dir = fullfile( save_dir_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'raw')
 ChkMkDir(save_dir)
 
 % loop through each cast
@@ -42,7 +41,7 @@ hb=waitbar(0,'working on profiles');
 Flist = dir(fullfile(datdir,'*raw.mat'))
 %%
 
-for ic= 1000:length(Flist)
+for ic= 1:length(Flist)
     
     waitbar(ic/length(Flist),hb)
     clear patch_data
@@ -113,10 +112,10 @@ end % cnum
 delete(hb)
 warning on
 
-if save_data==1
-    savedir = fullfile(analysis_dir, project, 'data' )
-    fname   = [project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
-    save( fullfile( savedir,fname), 'patch_data')
-end
+% if save_data==1
+%     savedir = fullfile(analysis_dir, project, 'data' )
+%     fname   = [project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
+%     save( fullfile( savedir,fname), 'patch_data')
+% end
 
 %%

@@ -23,6 +23,8 @@ min_sep = 0.15;
 % set paths
 tiwe_patches_paths
 
+ChkMkDir(fullfile(save_dir_patch,ot_dir,'raw_merge'))
+
 hb=waitbar(0)
 warning off
 
@@ -30,9 +32,9 @@ for cnum=1:4000
     waitbar(cnum/4000,hb)
     try
         
-        % load patch data for this profile
+        % load raw patch data for this profile
         clear patch_data 
-        load(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
+        load(fullfile(save_dir_patch,ot_dir,'raw',[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']))
         
         clear new_patches ip Np
         new_patches = patch_data;
@@ -58,7 +60,7 @@ for cnum=1:4000
         patch_data = new_patches ;
         
         % save profile
-        save(fullfile(save_dir_patch,ot_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patch_data' )
+        save(fullfile(save_dir_patch,ot_dir,'raw_merge',[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patch_data' )
     end % try
 end % cnum
 
