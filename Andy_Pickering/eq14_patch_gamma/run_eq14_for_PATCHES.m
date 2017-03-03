@@ -1,3 +1,5 @@
+function [] = run_eq14_for_PATCHES(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~
 %
 % run_eq14_for_PATCHES.m
@@ -48,15 +50,18 @@
 % Sally Warner, March 2015
 %%
 
-clear all
+%clear all
 
 % option to test w/ 1m patches to make sure we get same results as original
 % binned processing
 run_test=0;
 
 % patch parameters
-patch_size_min=0.25  % min patch size
-usetemp=1
+%patch_size_min=0.25  % min patch size
+%usetemp=1
+
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
 
 eq14_patches_paths
 ChkMkDir(save_dir_avg_patch)
@@ -74,6 +79,14 @@ cruise_id = 'eq14';
 depth_max=250;
 
 path_raw='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/raw/'
+
+if merge_patches==1
+    path_save = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_merged_minsep_' num2str(min_sep*100)])
+else
+    path_save = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+end
+ChkMkDir(path_save)
+
 
 % make directories for the single drop .mat files and for the summary file
 % turn warnings off so they don't say that a directory already exists
@@ -163,14 +176,18 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
             warning off
             
             % *load patches for this profile*
+            
+            % load the patches for this profile
             clear patches
-            load(fullfile(save_dir_patch,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']))
+            if merge_patches==1
+                load(fullfile(save_dir_patch, ot_dir, [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+            else
+                load(fullfile(save_dir_patch,ot_dir, [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cast) '.mat']) )
+            end
             
-            % *** replace with average_data_PATCH_AP.m, need to load patch data also
-            % and specify in inputs ***
             
-            clear igp pstarts pstops this_patch
             
+            clear igp pstarts pstops             
             if run_test==1
                 pstarts=1:200;
                 pstops=2:201;
@@ -187,51 +204,6 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
                 disp('uh oh')
             end
             
-            %~~~ also add N2 from the overturns code for each patch, to
-            %compare with the N2 I calc in average_data_PATCH_AP
-%             avg.n2_OT=nan*ones(length(avg.P),1);
-%             if run_test~=1
-%                 for ip=1:length(avg.P)
-%                     clear ig
-%                     ig=find(avg.P(ip)>pstarts & avg.P(ip)<pstops) ;
-%                     avg.n2_OT(ip) = this_patch(ig,5);
-%                 end
-%                 
-%             end
-            
-            %%%%%%%% calculate N2, dSAL/dz, dSAL/dz_rhoorder, dT/dz, dT/dz_rhoorder %%%%%%%%
-            % done by using polyfit over 1m sections of density (or reordered
-            % density) to get the slope (drho/dz, dsal/dz, dT/dz, etc)
-            % (note: the following all used positive pressure and no negative sign
-            % before g/rho*drhodz. So N2 had the right sign, but all of the rest
-            % had the wrong sign. Added appropriate negative signs, because z
-            % should be positive upward. [SJW, March 2015])
-            %         g=9.81;
-            %         rhoav=nanmean(avg.SIGMA)+1000;
-            %         for ii=1:length(avg.P)
-            %             % find data points (in cal) for each 1m section
-            %             in=find(cal.P>=avg.P(ii)-0.5 & cal.P<avg.P(ii)+0.5);
-            %
-            %             % linear fit to get slope: pp(1) = drho/dz, then calc Nsq (N2)
-            %             pp=polyfit(-cal.P(in),cal.SIGMA_ORDER(in),1);
-            %             avg.N2(ii)=-g/rhoav*pp(1);
-            %
-            %             % linear fit to get slope of salinity: pp(1) = dSAL/dz
-            %             pp=polyfit(-cal.P(in),cal.SAL(in),1);
-            %             avg.DSALDZ(ii)=pp(1);
-            %
-            %             % linear fit to salinity (that has been reordered by density)
-            %             pp=polyfit(-cal.P(in),cal.SAL_RHOORDER(in),1);
-            %             avg.DSALDZ_RHOORDER(ii)=pp(1);
-            %
-            %             % linear fit to get slope of theta: pp(1) = dT/dz
-            %             pp=polyfit(-cal.P(in),cal.THETA(in),1);
-            %             avg.DTDZ(ii)=pp(1);
-            %
-            %             % linear fit to theta (that has been reordered by density)
-            %             pp=polyfit(-cal.P(in),cal.THETA_RHOORDER(in),1);
-            %             avg.DTDZ_RHOORDER(ii)=pp(1);
-            %         end
             %
             %%%%%%%% NAN OUT GLITCHES %%%%%%%%
             % VARAZ is the variance of the vertical acceleration. When glitches
@@ -294,9 +266,9 @@ for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
                 'See header for more details on this file',...
                 ['saved on ' datestr(now) ' by run_' q.script.prefix '.m']);
             
-                        
-            save( fullfile(save_dir_avg_patch,fn),'avg','head')
             
+            %save( fullfile(save_dir_avg_patch,fn),'avg','head')
+            save( fullfile(path_save,fn),'avg','head')
             
             % if the data is not good, (i.e. if bad == 1), do not save anything
         else

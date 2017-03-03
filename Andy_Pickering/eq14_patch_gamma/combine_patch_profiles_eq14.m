@@ -1,3 +1,5 @@
+function [] = combine_patch_profiles_eq14(patch_size_min,...
+    usetemp,merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % combine_patch_profiles_eq14.m
@@ -11,27 +13,33 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
 % patch options
-patch_size_min = 0.25  % min patch size
-usetemp = 1
+%patch_size_min = 0.25  % min patch size
+%usetemp = 1
+
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
 
 % set paths
 eq14_patches_paths
 
 ip=0;
-hb=waitbar(0);
+hb=waitbar(0,'combine_patch_profiles_eq14');
 
 for cnum=1:3200
     waitbar(cnum/3200,hb)
     try
         
         % load the patches for this profile
-        % load patch data for this profile
         clear patch_data patches
-        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']))
-
+        if merge_patches==1
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+        else
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        end
+        
         ip=ip+1;
         
         if ip==1
@@ -57,9 +65,16 @@ delete(hb)
 
 clear patches
 patches=patch_all; clear patch_all
-%%
-% save combined structure
-save( fullfile( analysis_dir,project,'data/',...
-    [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+patches.MakeInfo = ['Made ' datestr(now) ' w/ combine_patch_profiles_eq14.m']
 
+%%
+
+% save combined structure
+if merge_patches==1
+    save( fullfile( analysis_dir, project, 'data',...
+        [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
+else
+    save( fullfile( analysis_dir, project, 'data',...
+        [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+end
 %%

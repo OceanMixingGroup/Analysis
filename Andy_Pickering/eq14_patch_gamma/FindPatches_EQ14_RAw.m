@@ -1,3 +1,4 @@
+function [] = FindPatches_EQ14_Raw(patch_size_min,usetemp)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % FindPatches_EQ14_Raw.m
@@ -21,27 +22,21 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
+
+% patch options
+%patch_size_min = 0.15 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+
+eq14_patches_paths
+
+save_dir = fullfile( save_dir_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'raw')
+ChkMkDir(save_dir)
 
 % Add all the paths we need from mixing software
 mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
-
-eq14_patches_paths
-
-datdir = save_dir_cal
-
-save_dir = save_dir_avg_patch
-ChkMkDir(save_dir)
-%%
-
-% patch options
-save_data = 1 ;         % save data at the end
-patch_size_min = 0.25 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
-
 
 % loop through each cast
 warning off
@@ -63,7 +58,7 @@ for cnum= cnums_to_do;
         patch_data=[];
         
         % Load the data for this cast
-        load(fullfile(datdir,['eq14_' sprintf('%04d',cnum) '.mat']))
+        load(fullfile(save_dir_cal,['eq14_' sprintf('%04d',cnum) '.mat']))
         
         cal=cal2; clear cal2
         

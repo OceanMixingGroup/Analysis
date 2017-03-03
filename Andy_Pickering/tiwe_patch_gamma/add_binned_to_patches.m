@@ -34,7 +34,9 @@ tiwe_patches_paths
 % load binned chameleon data (structure containing all profiles)
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')
 
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
+%addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
 
 hb=waitbar(0)
 for cnum=2836:3711 %1:4000

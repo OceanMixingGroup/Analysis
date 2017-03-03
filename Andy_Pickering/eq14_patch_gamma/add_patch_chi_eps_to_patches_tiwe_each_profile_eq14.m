@@ -1,3 +1,5 @@
+function [] = add_patch_chi_eps_to_patches_tiwe_each_profile_eq14(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % add_patch_chi_eps_to_patches_tiwe_each_profile_eq14.m
@@ -13,22 +15,28 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
 % patch options
-patch_size_min = 0.25  % min patch size
-usetemp = 1
+%patch_size_min = 0.25  % min patch size
+%usetemp = 1
 
 % set paths
 eq14_patches_paths
 
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+
+
 % folder for chameleon data processed over patches (run_eq14_for_Patches.m)
-%data_dir=fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg_patch',['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
-data_dir = save_dir_avg_patch
+if merge_patches==1
+    data_dir = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_merged_minsep_' num2str(min_sep*100)])
+else
+    data_dir = fullfile( save_dir_avg_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)])
+end
 
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-hb=waitbar(0,'compiling patch data from all profiles');
+hb=waitbar(0,'add_patch_chi_eps');
 
 for cnum=1:3200
     
@@ -38,8 +46,13 @@ for cnum=1:3200
         % load the patches for this profile
         % load patch data for this profile
         clear patch_data patches
-        load(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']))
-        
+        % load the patches for this profile
+        clear patches
+        if merge_patches==1
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
+        else
+            load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']) )
+        end
         
         % add empty arrays for chi and eps
         patches.eps=nan*ones(size(patches.p1));
@@ -67,9 +80,13 @@ for cnum=1:3200
             patches.gam4 = ComputeGamma(patches.n4, patches.dtdz_line, patches.chi , patches.eps );
             
         end
-        % re-save profile
-        save(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         
+        % re-save profile
+        if merge_patches==1
+            save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
+        else
+            save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        end
     end % try
     
 end % cnum
