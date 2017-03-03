@@ -24,13 +24,12 @@ addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
 % patch options
-patch_size_min = 0.15 ; % min patch size
+patch_size_min = 0.4 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % set paths
 tiwe_patches_paths
 
-datdir = save_dir_cal
 save_dir = fullfile( save_dir_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'raw')
 ChkMkDir(save_dir)
 
@@ -38,30 +37,25 @@ ChkMkDir(save_dir)
 warning off
 hb=waitbar(0,'working on profiles');
 
-Flist = dir(fullfile(datdir,'*raw.mat'))
-%%
-
-for ic= 1:length(Flist)
+for cnum=2836:3711%1:4000
+    %for ic= 1:length(Flist)
     
-    waitbar(ic/length(Flist),hb)
+    waitbar(cnum/4000,hb)
     clear patch_data
     patch_data=[];
     
     try
         
         close all
-        clear cal cal2 head fname cnum
+        clear cal cal2 head fname
         
-        fname=Flist(ic).name ;
-        cnum=str2num(fname(5:8));
         
         % Load the data for this cast
-        load(fullfile(datdir,Flist(ic).name))
+        load( fullfile( save_dir_cal, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
+        cal=cal2 ; clear cal2
         
         clear yday
         yday=str2num(head.starttime(end-5:end));
-        
-        cal=cal2; clear cal2
         
         clear s t p lat
         %s=smooth( cal.SAL(1:end-1), 10 ); % (end-1) b/c last 2 values are same;
@@ -111,11 +105,5 @@ end % cnum
 
 delete(hb)
 warning on
-
-% if save_data==1
-%     savedir = fullfile(analysis_dir, project, 'data' )
-%     fname   = [project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
-%     save( fullfile( savedir,fname), 'patch_data')
-% end
 
 %%
