@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2017 14:57
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  3 MAR 2017 15:00
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -656,7 +656,7 @@ y_324_327_merged_minsep_15.png used on input line 233.
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures/
 tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.png, id
-=165, 505.89pt x 460.6008pt>
+=165, 562.2606pt x 421.575pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fig
 ures/tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.pn
 g Graphic file (type png)
@@ -667,8 +667,13 @@ res/tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.png
 Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/t
 iwe_patch_gamma/figures/tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_
 merged_minsep_15.png used on input line 240.
-(pdftex.def)             Requested size: 404.71254pt x 368.48114pt.
- [12
+(pdftex.def)             Requested size: 449.8091pt x 337.26045pt.
+
+Overfull \hbox (19.80447pt too wide) in paragraph at lines 240--241
+[][] 
+ []
+
+[12
 
 ] [13 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/fi
 gures/tiwe_minOT_15_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327_merged_m
@@ -747,7 +752,7 @@ live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texliv
 e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2
 013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on TIWE_patch_gamma_notes.pdf (15 pages, 2734274 bytes).
+Output written on TIWE_patch_gamma_notes.pdf (15 pages, 2738844 bytes).
 PDF statistics:
  248 PDF objects out of 1000 (max. 8388607)
  205 compressed objects within 3 object streams

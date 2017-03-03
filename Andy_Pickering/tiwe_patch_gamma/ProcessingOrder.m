@@ -58,20 +58,29 @@ close all
 h=plot_patch_locations_tiwe(patch_size_min,usetemp,...
     merge_patches,min_sep)
 
-%%
+%
 
 h=plot_patch_gamma_tiwe(patch_size_min,usetemp,...
     merge_patches,min_sep)
 
-%%
+%
 
 h=plot_gamma_vs_yday(patch_size_min,usetemp,...
     merge_patches,min_sep)
 
-%%
+%
 
 h=compare_patches_tiwe_AP_Biill(patch_size_min,usetemp,...
     merge_patches,min_sep)
+
+%
+h=plot_gamma_vs_epsilon(patch_size_min,usetemp,...
+    merge_patches,min_sep)
+
+%
+h=plot_gamma_vs_depth(patch_size_min,usetemp,...
+    merge_patches,min_sep)
+
 
 %% Plot gamma vs epsilon
 
@@ -84,13 +93,6 @@ xlim([-3 1.5])
 xlabel('log_{10}\gamma','fontsize',16)
 ylabel('log_{10}\epsilon','fontsize',16)
 
-%%
-
-h=plot_gamma_vs_epsilon(patch_size_min,usetemp,...
-    merge_patches,min_sep)
-
-h=plot_gamma_vs_depth(patch_size_min,usetemp,...
-    merge_patches,min_sep)
 
 %% Plot # patches vs depth?
 
