@@ -31,7 +31,7 @@ function []=Compute_N2_dTdz_patches_tiwe_eachcast(patch_size_min,usetemp,...
 % patch_size_min = 0.4  % min patch size
 % usetemp = 1
 
-ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
+ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
 
 % option to use merged patches
 %merge_patches = 0 ;
@@ -91,7 +91,7 @@ for cnum=2836:3711 %1:4000
         % load raw chameleon cast
         clear cal cal2 head
         %cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
-        cham_dir = save_dir_cal
+        cham_dir = save_dir_cal;
         load( fullfile( cham_dir, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
         cal=cal2 ; clear cal2
         cnum_loaded = cnum;

@@ -1,3 +1,5 @@
+function []=merge_patches_tiwe(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % merge_patches_tiwe.m
@@ -9,16 +11,16 @@
 % 3/1/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
-clear ; close all
+%clear ; close all
 
 % patch options
-patch_size_min = 0.15  % min patch size
-usetemp = 1
+%patch_size_min = 0.15  % min patch size
+%usetemp = 1
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
 % min separation for merging
-min_sep = 0.15;
+%min_sep = 0.15;
 
 % set paths
 tiwe_patches_paths
@@ -28,7 +30,7 @@ ChkMkDir(fullfile(save_dir_patch,ot_dir,'raw_merge'))
 hb=waitbar(0)
 warning off
 
-for cnum=1:4000
+for cnum=2836:3711 %1:4000
     waitbar(cnum/4000,hb)
     try
         

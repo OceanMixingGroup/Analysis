@@ -1,4 +1,6 @@
-%~~~~~~~~~~~~~~~~~~~
+function h=compare_patches_tiwe_AP_Bill(patch_size_min,usetemp,...
+    merge_patches,min_sep)
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % compare_patches_tiwe_AP_Bill.m
 %
@@ -8,39 +10,43 @@
 %
 %------------
 % 2/21/17 - A.Pickering
-%~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
 saveplots=1
 
-patch_size_min = 0.15 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
+%patch_size_min = 0.15 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % option to use merged patches
-merge_patches = 1 ;
-min_sep = 0.15 ;
+%merge_patches = 1 ;
+%min_sep = 0.15 ;
+
+datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 
 % load my patches
+clear patches
 if merge_patches==1
     load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100)  '.mat']) )
 else
     load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']) )
 end
 
-% load Bills patches
+% load Bill's patches
+clear A
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/events_TIWE.mat')
 
 %day_range = [307 329]% all profiles
 day_range = [324 327]% ydays used in Smyth etal
 depth_range= [60 200]
 id = find(patches.yday>=day_range(1) & patches.yday<=day_range(2) & patches.p1>depth_range(1) & patches.p2<depth_range(2) );
+%id = find(patches.yday>=day_range(1) & patches.yday<=day_range(2) & patches.p1>depth_range(1) & patches.p2<depth_range(2) & log10(patches.chi)>(-8.5) );
 
 % Plot patch N2,T_z,chi,epsilon
 
-figure(1);clf
+h=figure;clf
 agutwocolumn(1)
 wysiwyg
 
@@ -98,7 +104,7 @@ end
 
 %% Plot binned data interpolated to patch locations
 
-figure(1);clf
+figure;clf
 agutwocolumn(1)
 wysiwyg
 
@@ -147,7 +153,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles
 
 gam_bill = ComputeGamma(A.N2,A.tgrad,A.chi,A.eps);
 
-figure(2);clf
+figure;clf
 hbill=histogram(log10(gam_bill(:)),'Normalization','pdf','EdgeColor','none')
 hold on
 hap=histogram(log10(patches.gam_line(id)),'Normalization','pdf','EdgeColor','none')
@@ -178,16 +184,19 @@ if saveplots==1
     print(fullfile(fig_dir,fname),'-dpng')
     
 end
+
+clear patches A gam_bill id
+
 %%
 
-figure(3);clf
-agutwocolumn(0.5)
-wysiwyg
-h1=histogram(A.Lt(:),'Normalization','pdf');
-hold on
-h2=histogram(patches.Lt(:),h1.BinEdges,'Normalization','pdf');
-legend([h1 h2],'Bill','AP')
-grid on
-xlabel('L_t')
+% figure(3);clf
+% agutwocolumn(0.5)
+% wysiwyg
+% h1=histogram(A.Lt(:),'Normalization','pdf');
+% hold on
+% h2=histogram(patches.Lt(:),h1.BinEdges,'Normalization','pdf');
+% legend([h1 h2],'Bill','AP')
+% grid on
+% xlabel('L_t')
 
 %%

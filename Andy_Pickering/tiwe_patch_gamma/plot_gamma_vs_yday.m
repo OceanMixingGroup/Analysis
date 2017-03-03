@@ -1,3 +1,5 @@
+function h=plot_gamma_vs_yday(patch_size_min,usetemp,...
+    merge_patches,min_sep)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % plot_gamma_vs_yday.m
@@ -9,18 +11,26 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
 
-patch_size_min = 0.15 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+%patch_size_min = 0.15 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 
-saveplot=0
+%ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
+
+saveplot=1
+
 
 % load my patches
-load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+clear patches
+if merge_patches==1
+    load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100)  '.mat']) )
+else
+    load(fullfile(datdir,['tiwe_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']) )
+end
 
-figure(1);clf
+h=figure;clf
 agutwocolumn(0.75)
 wysiwyg
 
@@ -43,9 +53,13 @@ hold on
 plot(log10(gam_md),ydays,'ro')
 
 if saveplot==1
-fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
-fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_vs_yday']
-print(fullfile(fig_dir,fname),'-dpng')
+    fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+    if merge_patches==1
+        fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_vs_yday_merged']
+    else
+        fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_vs_yday']
+    end
+    print(fullfile(fig_dir,fname),'-dpng')
 end
 
 %%
