@@ -59,8 +59,8 @@ for cnum=2836:3711%1:4000
         yday=str2num(head.starttime(end-5:end));
         
         clear s t p lat
-        %s=smooth( cal.SAL(1:end-1), 10 ); % (end-1) b/c last 2 values are same;
-        s=cal.SAL(1:end-1);
+        %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
+        s=cal.SAL_sm(1:end-1);
         t=cal.T1(1:end-1);
         p=cal.P(1:end-1) ;
         

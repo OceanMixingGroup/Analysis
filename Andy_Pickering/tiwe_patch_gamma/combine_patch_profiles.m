@@ -82,11 +82,12 @@ patches.MakeInfo = ['Made ' datestr(now) ' w/ combine_patch_profiles.m']
 
 %%
 % save combined structure
+tiwe_patches_paths
 if merge_patches==1
-    save( fullfile( analysis_dir, project, 'data',...
+    save( fullfile( analysis_dir, project_long, 'data',...
         [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
 else
-    save( fullfile( analysis_dir, project, 'data',...
+    save( fullfile( analysis_dir, project_long, 'data',...
         [project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 end
 %%

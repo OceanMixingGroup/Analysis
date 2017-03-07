@@ -30,7 +30,7 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
-for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
+for cast=2836:3711%1:4000%1394%[7:3918]%[858:1219,2123:2590]%
     % bad files: 144
     %disp(cast);
     q.script.num=cast;
@@ -80,6 +80,11 @@ for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
                     % cal.FALLSPD=interp1(1:length(cal.FALLSPD),cal.FALLSPD,1:length(cal.TP));cal.FALLSPD=cal.FALLSPD(:);
                     cal2.FALLSPD=interp1(cal.P,cal.FALLSPD,cal2.P);
                 end
+                
+                % salinity is spiky, so also save a smoothed profile for
+                % future use (ie in identifying patches)
+                cal2.SAL_sm=smooth(cal2.SAL,20);
+                
                 %~~ save data
                 temp=num2str(q.script.num+10000);
                 fn=[q.script.prefix temp(2:5) '_raw'];

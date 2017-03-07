@@ -31,11 +31,12 @@ function [] = Compute_N2_dTdz_patches_eq14_eachcast(patch_size_min,usetemp,...
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
 
-
 % set paths
 eq14_patches_paths
 
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 hb=waitbar(0,'Compute_N2_dTd_patches...')
 warning off

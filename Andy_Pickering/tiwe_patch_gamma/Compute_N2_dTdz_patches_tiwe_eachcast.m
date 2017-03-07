@@ -98,7 +98,8 @@ for cnum=2836:3711 %1:4000
         
         % compute pot. temp, pot. density etc.
         clear s t p lat ptmp sgth
-        s = cal.SAL(1:end-1); % (end-1) b/c last 2 values are same;
+        %s = cal.SAL(1:end-1); % (end-1) b/c last 2 values are same;
+        s=cal.SAL_sm(1:end-1);
         %s = smooth(s,20);
         t = cal.T1 (1:end-1);
         p = cal.P  (1:end-1);
