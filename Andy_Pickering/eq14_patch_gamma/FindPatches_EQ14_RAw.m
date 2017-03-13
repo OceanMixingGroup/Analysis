@@ -40,7 +40,7 @@ addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
 % loop through each cast
 warning off
-hb=waitbar(0,'working on profiles');
+hb=waitbar(0,'FindPatches EQ14 Raw');
 
 % only do profiles that are done in chameleon processing
 cnums_to_do=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...

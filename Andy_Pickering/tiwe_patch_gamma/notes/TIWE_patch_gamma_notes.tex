@@ -173,6 +173,57 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \end{figure}
 
 
+
+\clearpage
+%~~~~~~~~~~
+\subsection{Temp vs Density}
+
+Comparing overturns compute from temperature vs those computed vs density. Ideally we would use density, but salinity in this dataset looks very noisy/spiky, which could introduce false overturns. Using temperature would avoid this, but only works if there is a tight T-S relationship. This does not appear to be the cast here (Figure \ref{TSplot}). Manual inspection fo some profiles also showed overturns that were identified in temperature, but were stable in density due to the influence of salinity. So what to do? Use density, but smooth or lowpass filter salinity? Or use a larger minimum overturn size ?
+
+% figure showing T-S relationship
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_T_S_scatter.png}
+\caption{ Raw T vs S for a subset of TIWE Chameleon profiles between yday 324-327 (corresponding to data used in Smyth et al).}
+\label{TSplot}
+\end{figure}
+
+
+
+
+
+\clearpage
+%~~~~~~~~~~
+\subsection{Different min OT sizes}
+
+The analysis was run for different minimum overturn sizes; here I compare the results.
+
+\begin{itemize}
+\item Doesn't seem to make a difference for the binned estimates of $\gamma$ (1m binned values interpolated to patch locations).
+\item It does make a significant difference when $\gamma$ is computed over each patch. Patches computed from temperature tend to have larger estimated $\gamma$.
+\end{itemize}
+
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_40_gam_TvsD.png}
+\caption{ Comparison of $\gamma$ for patches with minimum size 40cm, computed from temperature vs density.}
+\label{}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{tiwe_minOT_100_gam_TvsD.png}
+\caption{ Comparison of $\gamma$ for patches with minimum size 1m, computed from temperature vs density.}
+\label{}
+\end{figure}
+
+
+
+
+
+
+
+
+
 \clearpage
 %~~~~~~~~~~
 \subsection{$\gamma$ vs depth}

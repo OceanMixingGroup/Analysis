@@ -50,35 +50,3 @@ freqline(log10(0.2))
 grid on
 legend([h1 h2 h3 h4],'40cm, temp','40cm, dens','1m temp','1mdens')
 
-%% compare temp.dens for one min OT size
-
-clear ; close all
-
-p1=load_tiwe_patches_comb(0.4, 1, 0, .15)
-id1 = find(p1.p1>60 & p1.p2<200);
-
-p2=load_tiwe_patches_comb(0.4, 0, 0, .15)
-id2 = find(p2.p1>60 & p2.p2<200);
-
-
-figure(1);clf
-histogram( real(log10(p1.gam_bin(id1))),'Normalization','pdf','Edgecolor','none')
-hold on
-histogram( real(log10(p2.gam_bin(id2))),'Normalization','pdf','Edgecolor','none')
-%histogram( real(log10(p3.gam_bin(id3))),'Normalization','pdf','Edgecolor','none')
-%histogram( real(log10(p4.gam_bin(id4))),'Normalization','pdf','Edgecolor','none')
-xlim([-4 2])
-freqline(log10(0.2))
-grid on
-
-figure(2);clf
-histogram( real(log10(p1.gam_line(id1))),'Normalization','pdf','Edgecolor','none')
-hold on
-histogram( real(log10(p2.gam_line(id2))),'Normalization','pdf','Edgecolor','none')
-%histogram( real(log10(p3.gam_bin(id3))),'Normalization','pdf','Edgecolor','none')
-%histogram( real(log10(p4.gam_bin(id4))),'Normalization','pdf','Edgecolor','none')
-xlim([-4 2])
-freqline(log10(0.2))
-grid on
-
-%%

@@ -34,9 +34,9 @@ xlabel('log_{10}\gamma','fontsize',16)
 ylabel('P','fontsize',16)
 
 if merge_patches==1
-title(['TIWE patches - minOT=' num2str(100*patch_size_min) 'cm, merged' ])    
+title(['TIWE patches - minOT=' num2str(100*patch_size_min) 'cm, usetemp ' num2str(usetemp)  'm merged' ])    
 else
-title(['TIWE patches - minOT=' num2str(100*patch_size_min) 'cm' ])
+title(['TIWE patches - minOT=' num2str(100*patch_size_min) 'cm, usetemp ' num2str(usetemp) ])
 end
 
 

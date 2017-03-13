@@ -18,5 +18,7 @@ save_dir_avg_patch = fullfile(analysis_dir,project_long,'data','avg_patch') ;
 
 save_dir_cal = fullfile(analysis_dir,project_long,'data','cal') ;
 
+fig_dir = fullfile(analysis_dir,project_long,'figures')
+
 %%
 

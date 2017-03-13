@@ -23,8 +23,13 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 gam1 = ComputeGamma(cham1.N2,cham1.DTDZ_RHOORDER,cham1.CHI,cham1.EPSILON);
 %gam2 = ComputeGamma(cham2.N2,cham2.DTDZ_RHOORDER,cham2.CHI,cham2.EPSILON);
 %%
+z_range=[0 200]
+z_range = [60 200]
+id=find(cham1.P>z_range(1) & cham1.P<z_range(2));
+%%
+
 figure(1);clf
-histogram(log10(gam1(:)),'edgecolor','none','normalization','pdf')
+histogram(log10(gam1(id)),'edgecolor','none','normalization','pdf')
 hold on
 %histogram(log10(gam2(:)),'edgecolor','none','normalization','pdf')
 xlim([-4 1])
@@ -36,8 +41,6 @@ grid on
 
 %%
 eq14_patches_paths
-figdir = fullfile( analysis_dir,project,'figures')
-ChkMkDir(figdir)
 print(fullfile(figdir,'eq14_binned_gamma'),'-dpng')
 
 %% Plot estimates for fmax=7hz ?

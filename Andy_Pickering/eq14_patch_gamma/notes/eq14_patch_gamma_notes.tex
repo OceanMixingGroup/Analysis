@@ -135,8 +135,14 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 % gamma for just patches
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gammas_hist_cast_1_3200.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles.}
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_hist_cast_1_3100_zrange_0_200.png}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles, all depths.}
+\label{patchgam}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_hist_cast_1_3100_zrange_60_200.png}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles, depths 60-200m only.}
 \label{patchgam}
 \end{figure}
 
@@ -161,11 +167,11 @@ I believe the Chameleon data processed by Sally used the standard fmax=32Hz corr
 %~~~~~~~~~~~~~~~~
 \subsection{Variation of $\gamma_{\chi\epsilon}$ over time}
 
-To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvscnum}).
+To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gamma_{\chi\epsilon}$ vs cast number (Figure \ref{gamvscnum}).
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_25_usetemp_1_gam_vs_cnum.png}
-\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs cast number. Vertical line is $\gamma=0.2$. Red circles are the median value for each cast.}
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gam_vs_cnum.png}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs cast number. Vertical line is $\gamma=0.2$. Black points are the median value for each cast.}
 \label{gamvscnum}
 \end{figure}
 
@@ -179,7 +185,7 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{.png}
+\includegraphics[scale=0.8]{eq14_patch_gamma_minOT_40_usetemp_1_gammas_vs_depth.png}
 \caption{Plot of $\gamma_{\chi\epsilon}$ for patches? vs depth. Vertical line is $\gamma=0.2$. }
 \label{gamvsdepth}
 \end{figure}
@@ -196,8 +202,8 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 \begin{itemize}
 \item $\gamma_{\chi\epsilon}$ computed from 1m binned data (the standard Chameleon processing) is about 10 times smaller than the typical assumed value of 0.2.
-\item $\gamma_{\chi\epsilon}$ computed for just patches is similar (slightly larger?).
-\item $\gamma_{\chi\epsilon}$ does not appear to vary over time/cast number, as was seen in tiwe data.
+\item $\gamma_{\chi\epsilon}$ computed for just patches is larger. If only depth range 60-200m used, gamma using `line' method is about 0.2.
+\item $\gamma_{\chi\epsilon}$ does not appear to vary much over time/cast number, as was seen in tiwe data.
 \end{itemize}
 
 
