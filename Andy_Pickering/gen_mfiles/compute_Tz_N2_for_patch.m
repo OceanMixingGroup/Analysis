@@ -45,12 +45,12 @@ if length(iz)>10
     [ptmp_sort , Iptmp]=sort(ptmp_ot,1,'descend');
     
     clear DT dz dTdz
-    dT = nanmax(ptmp_ot)-nanmin(ptmp_ot) ;
-    dz = nanmax(p_ot)-nanmin(p_ot) ;
-    dTdz = -dT/dz ;
+    %dT = nanmax(ptmp_ot)-nanmin(ptmp_ot) ;
+    %dz = nanmax(p_ot)-nanmin(p_ot) ;
+    %dTdz = -dT/dz ;
     
     % save results
-    dtdz_range = dTdz;
+    %dtdz_range = dTdz;
     
     % fit a line to pot. temp to get slope
     clear P dtdz_line
@@ -72,11 +72,11 @@ if length(iz)>10
     [sgth_sort , I]=sort(sgth_ot,1,'ascend');
     
     % try the range/dz method
-    drho = nanmax(sgth_ot)-nanmin(sgth_ot);
-    dz = nanmax(p_ot)-nanmin(p_ot);
-    n2_1 = 9.81/nanmean(sgth_ot)*drho/dz;
-    
-    n2_range = n2_1;
+%     drho = nanmax(sgth_ot)-nanmin(sgth_ot);
+%     dz = nanmax(p_ot)-nanmin(p_ot);
+%     n2_1 = 9.81/nanmean(sgth_ot)*drho/dz;
+%     
+%     n2_range = n2_1;
     
     % fit a line to sgth
     clear P1
@@ -98,11 +98,11 @@ if length(iz)>10
     n2 = sw_bfrq(s_ot(I),t_ot(I),p_ot,0.03);
     n4=nanmean(n2);
     
-    out.dtdz_range = dtdz_range;
+    %out.dtdz_range = dtdz_range;
     out.dtdz_line  = dtdz_line;
     out.dtdz_bulk  = dtdz_bulk;
     
-    out.n2_range = n2_range;
+    %out.n2_range = n2_range;
     out.n2_line  = n2_line;
     out.n2_bulk  = n2_bulk;
     out.n4 = n4;

@@ -25,17 +25,7 @@ function []=Compute_N2_dTdz_patches_tiwe_eachcast(patch_size_min,usetemp,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear ; close all
-
-% % patch options
-% patch_size_min = 0.4  % min patch size
-% usetemp = 1
-
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
-
-% option to use merged patches
-%merge_patches = 0 ;
-%min_sep = 0.15 ;
 
 % set paths
 tiwe_patches_paths
@@ -73,7 +63,7 @@ for cnum=2836:3711 %1:4000
         EmpVec=nan*ones(Npatches,1);
         
         % Different methods of computing N^2
-        patches.n2_range=EmpVec;
+        %patches.n2_range=EmpVec;
         patches.n2_line=EmpVec;
         patches.n2_bulk=EmpVec;
         patches.n4=EmpVec;
@@ -84,7 +74,7 @@ for cnum=2836:3711 %1:4000
         patches.drhodz_line=EmpVec;
         
         % Different methods of computing dT/dz
-        patches.dtdz_range=EmpVec;
+        %patches.dtdz_range=EmpVec;
         patches.dtdz_line=EmpVec;
         patches.dtdz_bulk=EmpVec;
         
@@ -112,18 +102,18 @@ for cnum=2836:3711 %1:4000
         lat1=str2num(head.lat.start(1:idot-3));
         lat2=str2num(head.lat.start(idot-2:end))/60;
         lat=nanmean([lat1 lat2]);
-        %
+        
         for ip=1:Npatches
         
             clear out
             out=compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
                 ,t ,s ,ptmp ,sgth ,alpha , patches.Lt(ip) ) ;
             
-            patches.dtdz_range(ip) = out.dtdz_range ;
+            %patches.dtdz_range(ip) = out.dtdz_range ;
             patches.dtdz_line(ip) = out.dtdz_line ;
             patches.dtdz_bulk(ip) = out.dtdz_bulk ;
             
-            patches.n2_range(ip) = out.n2_range ;
+            %patches.n2_range(ip) = out.n2_range ;
             patches.n2_line(ip) = out.n2_line ;
             patches.n2_bulk(ip) = out.n2_bulk ;
             patches.n4(ip) = out.n4 ;
@@ -136,7 +126,9 @@ for cnum=2836:3711 %1:4000
         else
         save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         end
+        
     end % try
+    
 end % cnum
 
 delete(hb)
