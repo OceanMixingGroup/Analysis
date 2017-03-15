@@ -1,4 +1,4 @@
-function [] = FindPatches_EQ14_Raw(patch_size_min,usetemp)
+function [] = FindPatches_EQ14_Raw(patch_size_min,usetemp, cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % FindPatches_EQ14_Raw.m
@@ -43,8 +43,8 @@ warning off
 hb=waitbar(0,'FindPatches EQ14 Raw');
 
 % only do profiles that are done in chameleon processing
-cnums_to_do=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
-    1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
+%cnums_to_do=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
+%    1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
 
 for cnum= cnums_to_do;
     
