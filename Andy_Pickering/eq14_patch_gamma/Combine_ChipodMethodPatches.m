@@ -23,31 +23,36 @@
 
 clear ; close all
 
-whN2dTdz='line'
-Params.gamma=0.2;
+whN2dTdz = 'line'
+Params.gamma = 0.2;
+Params.fmax=7
 
 % patch parameters
 patch_size_min = 0.4
 usetemp = 0
 
-savedata=1;
+savedata=0;
 
 % pre-allocate empty arrays
 P=[];
 
 eps_patchN2dTdz_constGam = [] ;
 eps_patchN2dTdzGam    = [] ;
-eps_bin  = [] ;
-eps_patch= [] ;
+eps_cham_bin  = [] ;
+eps_cham_patch= [] ;
 eps_chipod_binned    = [] ;
 
 chi_patchN2dTdz_constGam = [] ;
 chi_patchN2dTdzGam    = [] ;
-chi_bin  = [] ;
-chi_patch= [] ;
+chi_cham_bin  = [] ;
+chi_cham_patch= [] ;
 chi_chipod_binned    = [] ;
 
-dir1=fullfile('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChipodPatches/')
+eq14_patches_paths
+%dir1=fullfile('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChipodPatches/')
+dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches')
+%        ['N2dTdz_' num2str(whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gammaPATCH_nfft_' num2str(Params.nfft) '_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]);
+
 
 hb=waitbar(0)
 
@@ -56,15 +61,15 @@ waitbar(cnum/3100,hb)
     try
         
         % patch N^2,dTdz w/ constant gamma
-        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax7Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
         avg_patchN2dTdz_constGam=avg;clear avg
         
         % patch N^2,dTdz w/ patch gamma
-        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax7Hz_respcorr0_fc_99hz_gammaPATCH_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gammaPATCH_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
         avg_patchN2dTdzGam=avg;clear avg
         
         % regular chi-pod method on binned data
-        load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax7Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])       
+        load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])       
         avg_chipod_binned=avg;clear avg
         
         % get these (binned) values at patch locations
@@ -94,26 +99,26 @@ waitbar(cnum/3100,hb)
         chi_patchN2dTdzGam       = [chi_patchN2dTdzGam       ; avg_patchN2dTdzGam.chi1(:)       ];
         
         % chameleon epsilon binned data at patch locations
-        eps_bin=[eps_bin ; avg_patchN2dTdz_constGam.eps_bin(:)];
-        chi_bin=[chi_bin ; avg_patchN2dTdz_constGam.chi_bin(:)];
+        eps_cham_bin=[eps_cham_bin ; avg_patchN2dTdz_constGam.eps_bin(:)];
+        chi_cham_bin=[chi_cham_bin ; avg_patchN2dTdz_constGam.chi_bin(:)];
         
         % chameleon epsilon values computed over patches only
-        eps_patch=[eps_patch ; avg_patchN2dTdzGam.eps_patch(:) ] ;
-        chi_patch=[chi_patch ; avg_patchN2dTdzGam.chi_patch(:) ] ;
+        eps_cham_patch=[eps_cham_patch ; avg_patchN2dTdzGam.eps_patch(:) ] ;
+        chi_cham_patch=[chi_cham_patch ; avg_patchN2dTdzGam.chi_patch(:) ] ;
         
     end % try
     
 end % cnum
 delete(hb)
 %
-ib=find(log10(eps_bin)<-8.5);
-eps_bin(ib)=nan;
+ib=find(log10(eps_cham_bin)<-8.5);
+eps_cham_bin(ib)=nan;
 
 AllEps=struct('eps_chipod_binned',eps_chipod_binned,'eps_patchN2dTdz_constGam',...
     eps_patchN2dTdz_constGam,'eps_patchN2dTdzGam',eps_patchN2dTdzGam,...
-    'eps_bin',eps_bin,'eps_patch',eps_patch,'chi_chipod_binned',chi_chipod_binned,'chi_patchN2dTdz_constGam',...
+    'eps_cham_bin',eps_cham_bin,'eps_cham_patch',eps_cham_patch,'chi_chipod_binned',chi_chipod_binned,'chi_patchN2dTdz_constGam',...
     chi_patchN2dTdz_constGam,'chi_patchN2dTdzGam',chi_patchN2dTdzGam,...
-    'chi_bin',chi_bin,'chi_patch',chi_patch,'P',P)
+    'chi_cham_bin',chi_cham_bin,'chi_cham_patch',chi_cham_patch,'P',P)
 AllEps.MakeInfo=['Made ' datestr(now) ' w/ Combine_ChipodMethodPatches.m']
 
 if savedata==1
@@ -126,7 +131,7 @@ end
 %%
 
 figure(1);clf
-histogram2( log10(AllEps.chi_bin(:)), log10(AllEps.chi_patch(:)), 100, 'DisplayStyle','Tile')
+histogram2( log10(AllEps.chi_cham_bin(:)), log10(AllEps.chi_cham_patch(:)), 100, 'DisplayStyle','Tile')
 xlim([-12 -3])
 ylim([-12 -3])
 hold on
@@ -136,19 +141,73 @@ loglog(xvec,xvec,'k--')
 %%
 
 id = find(AllEps.P>0 & AllEps.P<200);
-%id = find(AllEps.P>60 & AllEps.P<200);
+id = find(AllEps.P>60 & AllEps.P<200);
 
 figure(1);clf
-%histogram2( log10(AllEps.eps_bin(:)), log10(AllEps.eps_patch(:)), 100, 'DisplayStyle','Tile')
-%histogram2( log10(AllEps.eps_bin(:)), log10(AllEps.eps_patchN2dTdz_constGam(:)), 50, 'DisplayStyle','Tile')
-%histogram2( log10(AllEps.eps_bin(:)), log10(AllEps.eps_patchN2dTdzGam(:)), 50, 'DisplayStyle','Tile')
-histogram2( log10(AllEps.eps_patch(id)), log10(AllEps.eps_patchN2dTdzGam(id)),50, 'DisplayStyle','Tile')
-%histogram2( log10(AllEps.eps_patch(id)), log10(AllEps.eps_patchN2dTdz_constGam(id)),50, 'DisplayStyle','Tile')
+agutwocolumn(1)
+wysiwyg
+
+subplot(221)
+histogram2( log10(AllEps.eps_cham_bin(:)), log10(AllEps.eps_cham_patch(:)), 100, 'DisplayStyle','Tile')
 xlim([-9 -4])
 ylim([-9 -4])
 hold on
 xvec=linspace(-12,-3,100);
 loglog(xvec,xvec,'k--')
-xlabel('\epsilon')
-ylabel('\epsilon')
+xlabel('\epsilon cham bin','fontsize',16)
+ylabel('\epsilon cham patch','fontsize',16)
+
+subplot(222)
+histogram2( log10(AllEps.eps_cham_patch(id)), log10(AllEps.eps_patchN2dTdzGam(id)),50, 'DisplayStyle','Tile')
+xlim([-9 -4])
+ylim([-9 -4])
+hold on
+xvec=linspace(-12,-3,100);
+loglog(xvec,xvec,'k--')
+xlabel('\epsilon cham patch','fontsize',16)
+ylabel('\epsilon chipod actual gam','fontsize',16)
+
+subplot(223)
+histogram2( log10(AllEps.eps_cham_patch(id)), log10(AllEps.eps_chipod_binned(id)),50, 'DisplayStyle','Tile')
+%histogram2( log10(AllEps.eps_patch(id)), log10(AllEps.eps_patchN2dTdz_constGam(id)),50, 'DisplayStyle','Tile')
+xlim([-10 -4])
+ylim([-10 -4])
+hold on
+xvec=linspace(-12,-3,100);
+loglog(xvec,xvec,'k--')
+xlabel('\epsilon cham patch','fontsize',16)
+ylabel('\epsilon chipod binned','fontsize',16)
+
+subplot(224)
+histogram2( log10(AllEps.eps_cham_patch(id)), log10(AllEps.eps_patchN2dTdz_constGam(id)),50, 'DisplayStyle','Tile')
+xlim([-10 -4])
+ylim([-10 -4])
+hold on
+xvec=linspace(-12,-3,100);
+loglog(xvec,xvec,'k--')
+xlabel('\epsilon cham patch','fontsize',16)
+ylabel('\epsilon chipod patch','fontsize',16)
+
+%% histogram of ratio of different epsilon estimates to actual epsilon
+
+figure(2);clf
+histogram(log10(AllEps.eps_chipod_binned(id)./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
+hold on
+histogram(log10(AllEps.eps_patchN2dTdz_constGam(id) ./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
+histogram(log10(AllEps.eps_patchN2dTdzGam(id) ./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
+xlim([-5 2])
+grid on
+freqline(log10(1))
+
+%%
+
+figure(2);clf
+histogram(log10(AllEps.eps_chipod_binned(id)./AllEps.eps_cham_bin(id)),'EdgeColor','none','Normalization','pdf')
+hold on
+histogram(log10(AllEps.eps_patchN2dTdz_constGam(id) ./AllEps.eps_cham_bin(id)),'EdgeColor','none','Normalization','pdf')
+histogram(log10(AllEps.eps_patchN2dTdzGam(id) ./AllEps.eps_cham_bin(id)),'EdgeColor','none','Normalization','pdf')
+xlim([-5 2])
+grid on
+freqline(log10(1))
+
 %%
