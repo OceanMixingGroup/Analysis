@@ -79,16 +79,17 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 %~~~~~~~
 \subsection{Overturns}
 
-Overturns (patches) are detected for each profile, using potential temperature. \newline
-\verb+compute_overturns_discrete_AP.m+ was used to identify patches. \newline
+Overturns (patches) are detected for each profile, using potential temperature (because salinity was noisy/spiky, see later section). The function \verb+compute_overturns_discrete_AP.m+ was used to identify patches. \newline
 Following Smyth et al 2001, the following criteria were also applied:
 \begin{itemize}
 \item Values of $\epsilon <0.4\times 10^{-9}$ were NaN'ed out. Note the paper says $4\times 10^{-9}$ but I think that was a type based on looking at the data Bill sent me.
-\item A minimum patch size of 15cm, and any patches separated by less than 15cm were joined together.
-\item Only patches in the depth range 60-200m were used.
+\item A minimum patch size of 15cm, and any patches separated by less than 15cm were joined together. **Actually use 40cm minimum to calculate chi and epsilon?**
+\item Only patches in the depth range 60-200m were used. This excludes mainnly buoyancy-driven turbulence associated with the diurnal cycle.
 \end{itemize}
 
-Smyth et al 2001 also have an additional criteria that compares the Thorpe scale from temperature to the Thorpe scale from density and require the ratio to be in a certain range. I have not implemented this yet; i'm not sure how to compute that ratio since the patch boundaries computed from temperature and density wont' necessarily match?
+%Smyth et al 2001 also have an additional criteria that compares the Thorpe scale from temperature to the Thorpe scale from density and require the ratio to be in a certain range. I have not implemented this yet; i'm not sure how to compute that ratio since the patch boundaries computed from temperature and density wont' necessarily match?
+
+For each patch, a linear fit is performed of salinity vs temperature. Only patches where R2 for this fit is greater than X are kept. Salinity is then computed from the fit to temperature.
 
 
 %~~~~~~~
@@ -96,7 +97,7 @@ Smyth et al 2001 also have an additional criteria that compares the Thorpe scale
 
 Temperature gradient is computed for each patch using the following methods:
 \begin{enumerate}
-\item $dtdz_{range}$ : Take the range of T over the patch and divided by patch height
+%\item $dtdz_{range}$ : Take the range of T over the patch and divided by patch height
 \item $dtdz_{line}$ : Fit a straight line to sorted T using \verb+polyfit+
 \item $dtdz_{bulk}$ : Use the 'bulk gradient' from Smyth et al 2001, which is the rms fluctuation from the background (sorted) temperature, divided by the thorpe scale (the rms re-ordering distances).
 \end{enumerate}
@@ -107,9 +108,10 @@ Temperature gradient is computed for each patch using the following methods:
 
 $N^2$ is computed for each patch using the following methods:
 \begin{enumerate}
-\item $N^2_{range}$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
+%\item $N^2_{range}$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
 \item $N^2_{line}$ : Fit a straight line to sorted potential density using polyfit to get $d\rho/dz$, then compute N2.
-\item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature.
+\item $N^2_line_fit$ : Salinity/density are computed from the T-S fit.  Then $N^2$ is computed from the sorted density by fitting a line.
+\item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature. **(The fit is done for each patch?)**
 \item $N^2_4$ : Compute $N^2$ from the sorted profile (sorted by potential density) using \verb+sw_bfreq+, then take average over the patch. I believe this method is used by some commonly-used overturn codes.
 \end{enumerate}
 
@@ -123,7 +125,7 @@ Mixing coefficient $\gamma_{\chi\epsilon}$ is computed from the following equati
 \end{equation}
 $\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. $\gamma_{\chi\epsilon}$ is computed for the following 4 combinations:
 \begin{enumerate}
-\item  $\gamma_{range}$ : $N^{2}_{range}$, $dtdz_{range}$
+%\item  $\gamma_{range}$ : $N^{2}_{range}$, $dtdz_{range}$
 \item  $\gamma_{line}$ : $N^{2}_{line}$, $dtdz_{line}$
 \item  $\gamma_{bulk}$ : $N^{2}_{bulk}$, $dtdz_{bulk}$
 \item  $\gamma_{range}$ : $N^{2}_{4}$, $dtdz_{line}$
@@ -134,6 +136,26 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
+
+
+\begin{table}[htdp]
+\caption{Statistics for patches using various parameters. $\gamma$ values are medians for each distribution. Only patches between 60-200m are considered for all.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+minOT & usetemp & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma bulk$ & Npatches & N $R^2>0.5$\\
+\hline
+0.4 & 1 & 0.13 & 0.44 & 0.12 & 0.14 & 16329 & 9299 \\
+\hline
+0.4 & 0 & 0.14 & 0.08 & 0.02 & 0.16 & 34256 & 24884 \\
+\hline
+1 & 1 & 0.16 & 0.63 & 0.17 & 0.17 & 6893 & 5385 \\
+\hline
+\end{tabular}
+\end{center}
+\label{default}
+\end{table}%
+
 
 \begin{itemize}
 \item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
@@ -167,7 +189,7 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 % patch gammas
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gammas_hist_yday_324_327_merged_minsep_15.png}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_gammas_hist_yday_324_327.png}
 \caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{patchgam}
 \end{figure}

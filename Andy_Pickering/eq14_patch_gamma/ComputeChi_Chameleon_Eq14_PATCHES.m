@@ -38,17 +38,7 @@ savespec =0  % save wavenumber spectra
 patch_size_min = 0.4 ; % min patch size
 usetemp   = 0 ;         % 1=use pot. temp, 0= use density
 
-% load patch data
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/
-eq14_patches_paths
-datdir = fullfile( analysis_dir, project_long, 'data')
-load(fullfile(datdir,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
-
-% directory for chameleon casts we have (made w/ ProcessEq14Cham_AP.m)
-%datdir='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/cal'
-
-
-
+%%
 % Params for chipod calculations
 Params.z_smooth = 0   ;   % distance to smooth N^2 and dTdz over
 Params.nfft     = 128 ;   %
@@ -61,12 +51,19 @@ Params.gamma    = 0.2 ;   % mixing efficiency
 % option to use gamma computed in patches, instead of a constant value
 use_patch_gam = 1;
 
+% which N2,dTdz to use
+whN2dTdz = 'line'
+
 if Params.resp_corr==0
     Params.fc=99;
 end
 
-%whN2dTdz='bulk'
-whN2dTdz = 'line'
+% load patch data
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/
+eq14_patches_paths
+datdir = fullfile( analysis_dir, project_long, 'data')
+load(fullfile(datdir,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
+
 
 % Make directory to save processed casts in (name based on Params)
 if use_patch_gam==1
@@ -84,11 +81,13 @@ ChkMkDir(datdirsave)
 
 %%
 tstart=tic;
+hb = waitbar(0) ;
 % loop through each cast
 for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         1075:1128 1130:1737 1739:2550 2552:2996 2998:3092]
-    
-    disp(['Working on cnum ' num2str(cnum) ])
+ 
+    waitbar(cnum/3100,hb)
+%    disp(['Working on cnum ' num2str(cnum) ])
     
     close all
     clear cal head
@@ -238,14 +237,14 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         avg.chi_bin   = patches.chi_bin(igc) ;
         avg.chi_patch = patches.chi(igc) ;
         
-        avg.eps_bin  =patches.eps_bin(igc);
-        avg.eps_patch=patches.eps(igc)    ;
+        avg.eps_bin   = patches.eps_bin(igc);
+        avg.eps_patch = patches.eps(igc)    ;
         
         % ** find unique ctd.p values
         clear p2 IA IC
         [p2,IA,IC] = unique(ctd.p(good_inds));
-        avg.T   =interp1(ctd.p(good_inds(IA)),ctd.t1(good_inds(IA)),avg.P);
-        avg.S   =interp1(ctd.p(good_inds(IA)),ctd.s1(good_inds(IA)),avg.P);
+        avg.T   = interp1(ctd.p(good_inds(IA)),ctd.t1(good_inds(IA)),avg.P) ;
+        avg.S   = interp1(ctd.p(good_inds(IA)),ctd.s1(good_inds(IA)),avg.P) ;
         
         
         %%
@@ -291,12 +290,12 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
                     avg.tdif(iwind),avg.dTdz(iwind),'nsqr',avg.N2(iwind),'fmax',Params.fmax,'gamma',gamma);%,'doplots',1);
                 %            pause
                 %            'doplots',1 for plots
-                avg.chi1(iwind)=chi1(1);
-                avg.eps1(iwind)=epsil1(1);
-                avg.KT1(iwind)=0.5*chi1(1)/avg.dTdz(iwind)^2;
-                avg.kstart(iwind)=stats.k_start;
-                avg.kstop(iwind)=stats.k_stop;
-                avg.n_iter(iwind)=length(chi1);
+                avg.chi1(iwind) = chi1(1);
+                avg.eps1(iwind) = epsil1(1);
+                avg.KT1(iwind)  = 0.5*chi1(1)/avg.dTdz(iwind)^2;
+                avg.kstart(iwind) = stats.k_start;
+                avg.kstop(iwind)  = stats.k_stop;
+                avg.n_iter(iwind) = length(chi1);
                 
                 if savespec==1
                     % 02/17/16 - AP - save spectra
@@ -353,5 +352,6 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
     
 end % icast
 
-%delete(hb)
+delete(hb)
+
 %%

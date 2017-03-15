@@ -27,7 +27,7 @@ eq14_patches_paths
 
 ChkMkDir(fullfile(save_dir_patch,ot_dir,'raw_merge'))
 
-hb=waitbar(0)
+hb=waitbar(0,'merge patches')
 warning off
 
 for cnum = 1:3200

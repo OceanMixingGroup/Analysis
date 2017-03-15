@@ -15,11 +15,11 @@
 
 clear ; close all
 
-patch_size_min = 0.4  % min patch size
+patch_size_min = .4  % min patch size
 usetemp = 0
 
 % option to use merged patches
-merge_patches = 1 ;
+merge_patches = 0 ;
 min_sep = 0.15 ;
 
 %%
@@ -49,7 +49,7 @@ Run_tiwe_AP_forPatches(patch_size_min,usetemp,...
 
 add_patch_chi_eps_to_patches_tiwe_each_profile(patch_size_min,...
     usetemp,merge_patches,min_sep)
-
+%%
 combine_patch_profiles(patch_size_min,usetemp,...
     merge_patches,min_sep)
 
