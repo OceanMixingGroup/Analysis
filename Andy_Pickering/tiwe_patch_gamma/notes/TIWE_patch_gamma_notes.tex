@@ -31,7 +31,7 @@
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
 
-The goal of this analysis is to compute mixing coefficent ($\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} $) for patches in TIWE chameleon profiles, and see if we obtain values close to $\Gamma=0.2$.
+The goal of this analysis is to estimate the mixing coefficent ($\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} $) for patches in TIWE chameleon profiles, and see if we obtain values close to the normally-assumed $\gamma=0.2$. Results are also compared to previous estimates used in Smyth et al 2001.
 
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Data}
@@ -80,16 +80,13 @@ All my analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Resea
 \subsection{Overturns}
 
 Overturns (patches) are detected for each profile, using potential temperature (because salinity was noisy/spiky, see later section). The function \verb+compute_overturns_discrete_AP.m+ was used to identify patches. \newline
-Following Smyth et al 2001, the following criteria were also applied:
+The following criteria were also applied:
 \begin{itemize}
-\item Values of $\epsilon <0.4\times 10^{-9}$ were NaN'ed out. Note the paper says $4\times 10^{-9}$ but I think that was a type based on looking at the data Bill sent me.
-\item A minimum patch size of 15cm, and any patches separated by less than 15cm were joined together. **Actually use 40cm minimum to calculate chi and epsilon?**
-\item Only patches in the depth range 60-200m were used. This excludes mainnly buoyancy-driven turbulence associated with the diurnal cycle.
+\item Values of $\epsilon <0.4\times 10^{-9}$ were NaN'ed out, following the methods of Smyth et al 2001. Note the paper says $4\times 10^{-9}$ but I think that was a type based on looking at the data Bill sent me.
+\item Smyth et al 2001 used a minimum patch size of 15cm, and any patches separated by less than 15cm were joined together.  We use a 40cm minimum in order to be able to calculate calculate accurate $\chi$ and $\epsilon$ from spectra.
+\item Only patches in the depth range 60-200m were used (as in Smyth et al 2001). This excludes mainnly buoyancy-driven turbulence associated with the diurnal cycle.
+\item For each patch, a linear fit is performed of salinity vs temperature and $R^2$ is computed to quantify how clear the T-S relationship is. We examine the results both with and without a minimum $R^2$ criterion
 \end{itemize}
-
-%Smyth et al 2001 also have an additional criteria that compares the Thorpe scale from temperature to the Thorpe scale from density and require the ratio to be in a certain range. I have not implemented this yet; i'm not sure how to compute that ratio since the patch boundaries computed from temperature and density wont' necessarily match?
-
-For each patch, a linear fit is performed of salinity vs temperature. Only patches where R2 for this fit is greater than X are kept. Salinity is then computed from the fit to temperature.
 
 
 %~~~~~~~
@@ -97,8 +94,7 @@ For each patch, a linear fit is performed of salinity vs temperature. Only patch
 
 Temperature gradient is computed for each patch using the following methods:
 \begin{enumerate}
-%\item $dtdz_{range}$ : Take the range of T over the patch and divided by patch height
-\item $dtdz_{line}$ : Fit a straight line to sorted T using \verb+polyfit+
+\item $dtdz_{line}$ : Fit a straight line to sorted potential temperature using \verb+polyfit+
 \item $dtdz_{bulk}$ : Use the 'bulk gradient' from Smyth et al 2001, which is the rms fluctuation from the background (sorted) temperature, divided by the thorpe scale (the rms re-ordering distances).
 \end{enumerate}
 
@@ -108,10 +104,9 @@ Temperature gradient is computed for each patch using the following methods:
 
 $N^2$ is computed for each patch using the following methods:
 \begin{enumerate}
-%\item $N^2_{range}$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
 \item $N^2_{line}$ : Fit a straight line to sorted potential density using polyfit to get $d\rho/dz$, then compute N2.
 \item $N^2_line_fit$ : Salinity/density are computed from the T-S fit.  Then $N^2$ is computed from the sorted density by fitting a line.
-\item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature. **(The fit is done for each patch?)**
+\item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature in each patch.
 \item $N^2_4$ : Compute $N^2$ from the sorted profile (sorted by potential density) using \verb+sw_bfreq+, then take average over the patch. I believe this method is used by some commonly-used overturn codes.
 \end{enumerate}
 
@@ -119,18 +114,17 @@ $N^2$ is computed for each patch using the following methods:
 %~~~~~~~
 \subsection{Mixing coefficient (Efficiency)}
 
-Mixing coefficient $\gamma_{\chi\epsilon}$ is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
+Mixing coefficient $\gamma_{\chi\epsilon}$ (often referred to as efficiency) is computed from the following equation using differerent $N^2$ and $dT/dz$ values.
 \begin{equation}
 \gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
 \end{equation}
 $\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. $\gamma_{\chi\epsilon}$ is computed for the following 4 combinations:
 \begin{enumerate}
-%\item  $\gamma_{range}$ : $N^{2}_{range}$, $dtdz_{range}$
+\item  $\gamma_{bin}$ : Binned (1m) $\gamma$ interpolated to patch depths.
 \item  $\gamma_{line}$ : $N^{2}_{line}$, $dtdz_{line}$
 \item  $\gamma_{bulk}$ : $N^{2}_{bulk}$, $dtdz_{bulk}$
 \item  $\gamma_{range}$ : $N^{2}_{4}$, $dtdz_{line}$
 \end{enumerate}
-Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded.
 
 
 
@@ -138,41 +132,50 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \section{Results}
 
 
+\begin{itemize}
+\item Figure \ref{1mavgsum} shows a summary of the 1m-binned data. Ydays 324-327 correspond to cast numbers 2836 : 3711. For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
+\item The median $\gamma_{\chi\epsilon}$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
+\item Median patch values of $\gamma$ are given in table \ref{tab} and histograms in Figure \ref{patchgam}.
+\end{itemize}
+
+
+
 \begin{table}[htdp]
-\caption{Statistics for patches using various parameters. $\gamma$ values are medians for each distribution. Only patches between 60-200m are considered for all.}
+\caption{Statistics for patches using various parameters. $\gamma$ values are medians for each distribution. Only patches between 60-200m and on yday 324-327 are considered for all.}
 \begin{center}
 \begin{tabular}{|c|c|c|c|c|c|c|c|}
 \hline
-minOT & usetemp & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma bulk$ & Npatches & N $R^2>0.5$\\
+minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma bulk$ & Npatches \\
 \hline
-0.4 & 1 & 0.13 & 0.44 & 0.12 & 0.14 & 16329 & 9299 \\
+0.4 & 1 & 0 & 0.13 & 0.57 & 0.11 & 0.53 & 16329 \\
 \hline
-0.4 & 0 & 0.14 & 0.08 & 0.02 & 0.16 & 34256 & 24884 \\
+0.4 & 1 & 0.5 & 0.14 & 0.22 & 0.12 & 0.21 & 3761 \\
 \hline
-1 & 1 & 0.16 & 0.63 & 0.17 & 0.17 & 6893 & 5385 \\
+0.75 & 1 & 0 & 0.15 & 0.62 & 0.14 & 0.59 & 9175 \\
+\hline
+0.75 & 1 & 0.5 & 0.15 & 0.25 & 0.16 & 0.26 & 2358 \\
+\hline
+1 & 1 & 0 & 0.16 & 0.71 & 0.15 & 0.68 & 6893 \\
+\hline
+1 & 1 & 0.5 & 0.16 & 0.29 & 0.17 & 0.29 & 1779 \\
+\hline
 \hline
 \end{tabular}
 \end{center}
-\label{default}
+\label{tab}
 \end{table}%
 
-
-\begin{itemize}
-\item For some reason many $\chi$ values below 150db are bad/missing? Not sure why.
-\item The median $\gamma_{\chi\epsilon}$ computed using the 1m avg data is $0.063$ (Figure \ref{avggam})}.
-\item Gammas computed over patches is larger than the binned gamma, and vary with method. (Figure \ref{patchgam}).
-\end{itemize}
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_avgCombine_N2_dtdz_chi_eps.png}
 \caption{Pcolor of the combined 1m avg chameleon data for TIWE. * Note for some reason many $\chi$ values below 150db are bad/missing.}
-\label{}
+\label{1mavgsum}
 \end{figure}
 
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_patch_locs_merged_minsep_15.png}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_patch_locs.png}
 \caption{Pcolor of the combined 1m avg chameleon epsilon for TIWE, and patch locations for a period between yday 324-327. Patches above 60m have not been discarded yet.}
 \label{patchlocs}
 \end{figure}
@@ -182,15 +185,15 @@ minOT & usetemp & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma bulk$ & 
 % binned gammas
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{tiwe_avgCombine_gamma_yday_324_327.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles (all data, no patch analysis applied). Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles on yday 324-327, between 60-200m(no patch analysis applied). Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$.}
 \label{avggam}
 \end{figure}
 
 
 % patch gammas
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_gammas_hist_yday_324_327.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_gammas_hist2X2_yday_324_327.png}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches using temperature and min OT size of 40cm, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{patchgam}
 \end{figure}
 
@@ -212,32 +215,32 @@ Comparing overturns compute from temperature vs those computed vs density. Ideal
 
 
 
-
-\clearpage
-%~~~~~~~~~~
-\subsection{Different min OT sizes}
-
-The analysis was run for different minimum overturn sizes; here I compare the results.
-
-\begin{itemize}
-\item Doesn't seem to make a difference for the binned estimates of $\gamma$ (1m binned values interpolated to patch locations).
-\item It does make a significant difference when $\gamma$ is computed over each patch. Patches computed from temperature tend to have larger estimated $\gamma$.
-\end{itemize}
-
-
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_40_gam_TvsD.png}
-\caption{ Comparison of $\gamma$ for patches with minimum size 40cm, computed from temperature vs density.}
-\label{}
-\end{figure}
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_100_gam_TvsD.png}
-\caption{ Comparison of $\gamma$ for patches with minimum size 1m, computed from temperature vs density.}
-\label{}
-\end{figure}
-
+%
+%\clearpage
+%%~~~~~~~~~~
+%\subsection{Different min OT sizes}
+%
+%The analysis was run for different minimum overturn sizes; here I compare the results.
+%
+%\begin{itemize}
+%\item Doesn't seem to make a difference for the binned estimates of $\gamma$ (1m binned values interpolated to patch locations).
+%\item It does make a significant difference when $\gamma$ is computed over each patch. Patches computed from temperature tend to have larger estimated $\gamma$.
+%\end{itemize}
+%
+%
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_40_gam_TvsD.png}
+%\caption{ Comparison of $\gamma$ for patches with minimum size 40cm, computed from temperature vs density.}
+%\label{}
+%\end{figure}
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_100_gam_TvsD.png}
+%\caption{ Comparison of $\gamma$ for patches with minimum size 1m, computed from temperature vs density.}
+%\label{}
+%\end{figure}
+%
 
 
 
@@ -252,8 +255,8 @@ The analysis was run for different minimum overturn sizes; here I compare the re
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gammas_vs_depth_324_327_merged_minsep_15.png}
-\caption{Plot of $\gamma_{\chi\epsilon}$ vs depth for patches. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_gammas_vs_depth2X2_324_327.png}
+\caption{Plot of $\gamma_{\chi\epsilon}$ vs depth for patches identified from temperature with min OT size 40cm. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
 \label{patch_gam_vs_depth}
 \end{figure}
 
@@ -264,8 +267,8 @@ The analysis was run for different minimum overturn sizes; here I compare the re
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gammas_vs_eps_324_327_merged_minsep_15.png}
-\caption{Plot of $\gamma_{\chi\epsilon}$ vs $\epsilon$ for patches. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_gammas_vs_eps2X2_324_327.png}
+\caption{Plot of $\gamma_{\chi\epsilon}$ vs $\epsilon$ for patches computed from temperature with min OT size 40cm. Vertical dashed line shows $\gamma_{\chi\epsilon}=0.2$. Data for profiles on yday 324-327 .}
 \label{patch_gam_vs_eps}
 \end{figure}
 
@@ -277,43 +280,41 @@ The analysis was run for different minimum overturn sizes; here I compare the re
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Comparison to previous analysis}
 
-Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $T_z$, and $\chi$ tend to be significantly smaller than Bill's (Figure \ref{comp_bill_ap_1}). Gamma computed from my patch values (using all profiles) is smaller than 0.2 (median 0.08), while gamma from Bill's values is larger than 0.2 (median 0.4),(Figure \ref{comp_bill_ap_gam}).
-
-* Note that in Smyth et al 2001, it says patches where $\epsilon < 4 \times 10^{-9}$ were discarded. But there are epsilon values smaller than this in the data Bill shared (bottom=-right of Figure \ref{comp_bill_ap_1})?
+Bill send me results of a previous patch analysis for tiwe: \verb+events_TIWE.mat+ . Here i'll compare my results to those. His dataset contains 1155 patches, with a mean $\gamma$ of 0.45 . See \verb+compare_patches_tiwe_AP_Bill.m+ . It looks like my values of $T_z$, and $\chi$ tend to be significantly smaller than Bill's (Figure \ref{comp_bill_ap_1}).% Gamma computed from my patch values (using all profiles) is smaller than 0.2 (median 0.08), while gamma from Bill's values is larger than 0.2 (median 0.4),(Figure \ref{comp_bill_ap_gam}).
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_307_329.png}
-\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for *all* profiles.}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327.png}
+\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327, between 60-200m depth.}
 \label{comp_bill_ap_1}
 \end{figure}
 %
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_25_usetemp_1_gam_apvsbill_hist_yday_307_329.png}
-\caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself and Bill. Data for *all* profiles.}
+\includegraphics[scale=0.8]{tiwe_minOT_40_usetemp_1_gam_apvsbill_hist_yday_324_327.png}
+\caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself (`line' method)  and Bill. Data for profiles on yday 324-327, between 60-200m depth.}
 \label{comp_bill_ap_gam}
 \end{figure}
 
 
-
-\clearpage
-%~~~~~~~~~~~~~~~~
-\subsection{Yday 324-327}
-
-I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the TIWE patches. So I remade the previous figures using only data from that time period (Figures \ref{comp_bill_ap_324_327},\ref{comp_bill_ap_gam_324_327}). Using this data, I get  gammas centered around 0.2 and close to Bill's estimates. 
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327_merged_minsep_15.png}
-\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
-\label{comp_bill_ap_324_327}
-\end{figure}
-
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.png}
-\caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
-\label{comp_bill_ap_gam_324_327}
-\end{figure}
+%
+%\clearpage
+%%~~~~~~~~~~~~~~~~
+%\subsection{Yday 324-327}
+%
+%I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the TIWE patches. So I remade the previous figures using only data from that time period (Figures \ref{comp_bill_ap_324_327},\ref{comp_bill_ap_gam_324_327}). Using this data, I get  gammas centered around 0.2 and close to Bill's estimates. 
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_n2_tz_chi_eps_apvsbill_hist_yday_324_327_merged_minsep_15.png}
+%\caption{Histograms of $N^2$ , $T_z$, $\chi$, and $\epsilon$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
+%\label{comp_bill_ap_324_327}
+%\end{figure}
+%
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_apvsbill_hist_yday_324_327_merged_minsep_15.png}
+%\caption{Histograms of $\gamma_{\chi\epsilon}$ for patches analyzed by myself and Bill. Data for profiles on yday 324-327 (corresponding to data used in Smyth et al).}
+%\label{comp_bill_ap_gam_324_327}
+%\end{figure}
 
 
 
@@ -339,18 +340,18 @@ I noticed that in Smyth et al 2001, only data from ydays 324-327 is used for the
 
 
 
-
-\clearpage
-%~~~~~~~~~~~~~~~~
-\subsection{Variation of $\gamma_{\chi\epsilon}$ over time}
-
-Since it appears that $\gamma_{\chi\epsilon}$ can vary for different time periods, I wanted to investigate this more. I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvsyday}). It looks like the median $\gamma_{\chi\epsilon}$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_vs_yday.png}
-\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs yday. Vertical line is $\gamma_{\chi\epsilon}=0.2$. Red circles are the median value for each day. * what happend on yday 322.326?}
-\label{gamvsyday}
-\end{figure}
+%
+%\clearpage
+%%~~~~~~~~~~~~~~~~
+%\subsection{Variation of $\gamma_{\chi\epsilon}$ over time}
+%
+%Since it appears that $\gamma_{\chi\epsilon}$ can vary for different time periods, I wanted to investigate this more. I plotted $\gamma_{\chi\epsilon}$ vs yday (Figure \ref{gamvsyday}). It looks like the median $\gamma_{\chi\epsilon}$ is smaller than 0.2 for ydays less than 315, and then about equal to 0.2 after that (a few days are abnormal and might not have many profiles).
+%
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{tiwe_minOT_15_usetemp_1_gam_vs_yday.png}
+%\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs yday. Vertical line is $\gamma_{\chi\epsilon}=0.2$. Red circles are the median value for each day. * what happend on yday 322.326?}
+%\label{gamvsyday}
+%\end{figure}
 
 
 

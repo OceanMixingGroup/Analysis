@@ -14,15 +14,7 @@ function h=plot_patch_locations_tiwe(patch_size_min,usetemp,...
 
 saveplots=1
 
-% patch options
-%patch_size_min = 0.15 ; % min patch size
-%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
-
-% option to use merged patches
-%merge_patches = 1 ;
-%min_sep = 0.15 ;
-
 
 % load binned Chameleon data (to plot epsilon etc.)
 clear cham
@@ -49,7 +41,7 @@ else
 end
 
 hold on
-plot(patches.cnum,patches.p1,'k.')
+plot(patches.cnum,patches.p1,'.','color',0.2*[1 1 1])
 %plot(patches.cnum,patches.p2,'.')
 xlim([2800 3700])
 xlim([3000 3400])

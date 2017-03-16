@@ -1,14 +1,16 @@
+function []=add_R2_to_patches_tiwe(patch_size_min,...
+    usetemp,merge_patches,min_sep)
 
 %%
 
-clear ; close all
+%clear ; close all ; clc
 
 % patch parameters
-patch_size_min=.4
-usetemp=0;
+%patch_size_min = .4
+%usetemp = 1 ;
 % option to use merged patches
-merge_patches = 0 ;
-min_sep = 0.15 ;
+%%merge_patches = 0 ;
+%min_sep = 0.15 ;
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
 
@@ -21,13 +23,14 @@ patches = load_tiwe_patches_comb(patch_size_min, usetemp, merge_patches, min_sep
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-minR2 = 0.5 ;
+%minR2 = 0.5 ;
 % add empty array for R^2, and N^2 for good patches
 patches.R2 = nan*ones(size(patches.cnum));
 patches.n2_line_fit = nan*ones(size(patches.cnum));
 
+hb=waitbar(0,'adding R^2')
 for cnum=2836:3711 %1:4000
-    
+    waitbar(cnum/4000,hb)
     try
         
         % find patches for this profile
@@ -80,7 +83,7 @@ for cnum=2836:3711 %1:4000
             
             % if R^2>minR2, use fit to compute N^2
             %~~~~
-            if R2>minR2
+            %if R2>minR2
                 sfit = polyval(P,t);
                 ptmp=sw_ptmp(sfit,t,p,0);
                 sgth=sw_pden(sfit,t,p,0);
@@ -99,15 +102,17 @@ for cnum=2836:3711 %1:4000
                 drhodz = -P1(1);
                 patches.n2_line_fit(igc(ip)) = -9.81/nanmean(sgth)*drhodz;
                                 
-            end
+            %end
             %~~~~
             
             
         end % each patch
-        
+    catch
+        disp(['error on cnum ' num2str(cnum)])
     end % try
     
 end % cnum
+delete(hb)
 
 %% compute gamma for these values also
 patches.gam_line_fit = nan*(ones(size(patches.gam_bin))) ;

@@ -1,5 +1,5 @@
 function []=add_binned_to_patches(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+    merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % add_binned_to_patches.m
@@ -16,15 +16,6 @@ function []=add_binned_to_patches(patch_size_min,usetemp,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %% Add 1m binned data (interpolated to patch locations)
 
-%clear ; close all
-
-% patch parameters
-%patch_size_min = 0.4 ; % min patch size
-%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
-% option to use merged patches
-%merge_patches = 0 ;
-%min_sep = 0.15 ;
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
@@ -39,9 +30,10 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 
 hb=waitbar(0)
-for cnum=2836:3711 %1:4000
-    
-    waitbar(cnum/4000,hb)
+ic=0;
+for cnum=cnums_to_do %2836:3711 %1:4000
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     
     clear patches Npatches
     

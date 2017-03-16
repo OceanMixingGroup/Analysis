@@ -1,5 +1,5 @@
 function []=Compute_N2_dTdz_patches_tiwe_eachcast(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+    merge_patches,min_sep, cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Compute_N2_dTdz_patches_tiwe_eachcast.m
@@ -33,16 +33,17 @@ tiwe_patches_paths
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-alpha = -0.2607; % from fit of sgth vs theta
+%alpha = -0.2607; % from fit of sgth vs theta
 
 hb=waitbar(0,'Compute_N2_dTdz_patches')
 warning off
-
-for cnum=2836:3711 %1:4000
-    waitbar(cnum/4000,hb)
+ic=0;
+for cnum = cnums_to_do %2836:3711 %1:4000
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     try
         
-        % load patch data for this profile
+        % load raw patch data for this profile
         clear patch_data patches
         if merge_patches==1
         load(fullfile(save_dir_patch,ot_dir,'raw_merge',[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']))  
@@ -67,7 +68,7 @@ for cnum=2836:3711 %1:4000
         patches.n2_line=EmpVec;
         patches.n2_bulk=EmpVec;
         patches.n4=EmpVec;
-        patches.n2_bulk_2=EmpVec;
+        %patches.n2_bulk_2=EmpVec;
         
         % density gradients
         patches.drhodz_bulk=EmpVec;
@@ -80,41 +81,29 @@ for cnum=2836:3711 %1:4000
         
         % load raw chameleon cast
         clear cal cal2 head
-        %cham_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal';
-        %cham_dir = save_dir_cal;
-        %load( fullfile( cham_dir, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
-        %cal=cal2 ; clear cal2
-        cal = load_cal_tiwe(cnum)
-        cnum_loaded = cnum;
+        cal = load_cal_tiwe(cnum) ;
+%        cnum_loaded = cnum;
         
         % compute pot. temp, pot. density etc.
         clear s t p lat ptmp sgth
-        %s = cal.SAL(1:end-1); % (end-1) b/c last 2 values are same;
-        s=cal.SAL_sm(1:end-1);
+        s = cal.SAL(1:end-1); % (end-1) b/c last 2 values are same;
+        %s=cal.SAL_sm(1:end-1);
         %s = smooth(s,20);
         t = cal.T1 (1:end-1);
         p = cal.P  (1:end-1);
         ptmp=sw_ptmp(s,t,p,0);
         sgth=sw_pden(s,t,p,0);
         
-        % get latitude for profile
-        clear idot lat1 lat2
-        idot=strfind(head.lat.start,'.');
-        lat1=str2num(head.lat.start(1:idot-3));
-        lat2=str2num(head.lat.start(idot-2:end))/60;
-        lat=nanmean([lat1 lat2]);
         
         for ip=1:Npatches
         
             clear out
-            out=compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
-                ,t ,s ,ptmp ,sgth ,alpha , patches.Lt(ip) ) ;
+            out = compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
+                ,t ,s ,ptmp ,sgth , patches.Lt(ip) ) ;
             
-            %patches.dtdz_range(ip) = out.dtdz_range ;
             patches.dtdz_line(ip) = out.dtdz_line ;
             patches.dtdz_bulk(ip) = out.dtdz_bulk ;
             
-            %patches.n2_range(ip) = out.n2_range ;
             patches.n2_line(ip) = out.n2_line ;
             patches.n2_bulk(ip) = out.n2_bulk ;
             patches.n4(ip) = out.n4 ;
@@ -128,6 +117,8 @@ for cnum=2836:3711 %1:4000
         save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         end
         
+    catch
+        disp(['error on cast ' num2str(cnum) ])
     end % try
     
 end % cnum

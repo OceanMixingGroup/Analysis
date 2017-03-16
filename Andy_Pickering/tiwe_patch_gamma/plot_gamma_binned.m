@@ -22,13 +22,13 @@ day_range = [324 327]% ydays used in Smyth etal
 depth_range= [60 200]
 %id = find(cham.yday>=day_range(1) & cham.yday<=day_range(2) & cham.P>depth_range(1) & cham.P<depth_range(2) );
 
-ib=find(cham.P<60);
+ib=find(cham.P<60 & cham.P<200);
 gam(ib)=nan;
 
 id = find(cham.yday>=day_range(1) & cham.yday<=day_range(2)  ) ;
 
 h = figure ; clf
-histogram(real(log10(gam(id))),'EdgeColor','none','Normalization','pdf')
+histogram(real(log10(gam(id))),35,'EdgeColor','none','Normalization','pdf')
 freqline(log10(0.2))
 %freqline(nanmean(log10(gam(id))),'b--')
 xlim([-4 2])

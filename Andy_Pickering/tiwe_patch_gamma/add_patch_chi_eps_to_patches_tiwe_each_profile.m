@@ -40,8 +40,6 @@ end
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
 hb=waitbar(0,'add_patch_chi_eps_to_patches');
 
 % casts 2836:3711 are ydays 324-327
@@ -78,10 +76,10 @@ for cnum=2836:3711 %1:4000
             patches.eps(ib)=nan;
             
             % compute gamma for each patch
-            patches.gam_range = ComputeGamma(patches.n2_range, patches.dtdz_range, patches.chi, patches.eps);
+            %patches.gam_range = ComputeGamma(patches.n2_range, patches.dtdz_range, patches.chi, patches.eps);
             patches.gam_line  = ComputeGamma(patches.n2_line , patches.dtdz_line , patches.chi, patches.eps);
             patches.gam_bulk  = ComputeGamma(patches.n2_bulk , patches.dtdz_bulk , patches.chi, patches.eps);
-            patches.gam_bulk_2= ComputeGamma(patches.n2_bulk_2, patches.dtdz_bulk, patches.chi, patches.eps);
+            %patches.gam_bulk_2= ComputeGamma(patches.n2_bulk_2, patches.dtdz_bulk, patches.chi, patches.eps);
             patches.gam4 = ComputeGamma(patches.n4, patches.dtdz_line, patches.chi , patches.eps );
             
         end
@@ -93,6 +91,8 @@ for cnum=2836:3711 %1:4000
             save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         end
         
+    catch
+        disp(['error on cnum ' num2str(cnum)])
     end % try
     
 end % cnum

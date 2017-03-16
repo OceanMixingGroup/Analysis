@@ -1,18 +1,16 @@
-function [out]=compute_Tz_N2_for_patch(p1,p2,p,t,s,ptmp,sgth,alpha,Lt)
+function [out]=compute_Tz_N2_for_patch(p1,p2,p,t,s,ptmp,sgth,Lt)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % function to compute dT/dz and N^2 etc for a single patch
 %
 % INPUTS
-% p1,p2,p,t,s,ptmp,sgth, alpha, Lt
+% p1,p2,p,t,s,ptmp,sgth, Lt
 %
 % OUTPUTS
 %
-% dtdz_range
 % dtdz_line
 % dtdz_bulk
 %
-% n2_range
 % n2_line
 % n2_bulk
 % n4
@@ -62,20 +60,24 @@ if length(iz)>10
     % sorth pot. dens.
     [sgth_sort , I]=sort(sgth_ot,1,'ascend');
         
-    % fit a line to sgth
+    %~~~ compute N^2 from fit to sgth
     clear P1
-    P1 = polyfit(p_ot,sgth_sort,1);
-    
+    P1 = polyfit(p_ot,sgth_sort,1);    
     % calculate N^2 from this fit
     clear drhodz n2_2 drho dz n2_3
     drhodz = -P1(1);
     drhodz_line = drhodz;
     n2_line = -9.81/nanmean(sgth)*drhodz;
     
-    % compute bulk N^2 (need to fit 
-    n2_bulk= -9.81 / nanmean(sgth) * alpha * t_rms / Lt    ;    
+    %~~ compute bulk N^2 
+    % fit T vs sgth to compute sgth
+    clear P alpha
+    P = polyfit(ptmp_sort, sgth_sort, 1);
+    %
+    alph = P(1) ;
+    n2_bulk= -9.81 / nanmean(sgth) * alph * t_rms / Lt    ;    
     
-    % compute N^2 w/ sw_bfrq
+    %~~~ compute N^2 w/ sw_bfrq
     clear n2
     n2 = sw_bfrq(s_ot(I),t_ot(I),p_ot,0.03);
     n4=nanmean(n2);    

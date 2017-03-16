@@ -1,5 +1,5 @@
 function h=compare_patches_tiwe_AP_Bill(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+    merge_patches,min_sep,minR2)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % compare_patches_tiwe_AP_Bill.m
@@ -17,12 +17,7 @@ function h=compare_patches_tiwe_AP_Bill(patch_size_min,usetemp,...
 
 saveplots=1
 
-%patch_size_min = 0.15 ; % min patch size
-%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
-% option to use merged patches
-%merge_patches = 1 ;
-%min_sep = 0.15 ;
+tiwe_patches_paths
 
 datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data'
 
@@ -41,7 +36,7 @@ load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data
 %day_range = [307 329]% all profiles
 day_range = [324 327]% ydays used in Smyth etal
 depth_range= [60 200]
-id = find(patches.yday>=day_range(1) & patches.yday<=day_range(2) & patches.p1>depth_range(1) & patches.p2<depth_range(2) );
+id = find(patches.yday>=day_range(1) & patches.yday<=day_range(2) & patches.p1>depth_range(1) & patches.p2<depth_range(2) & patches.R2>minR2);
 %id = find(patches.yday>=day_range(1) & patches.yday<=day_range(2) & patches.p1>depth_range(1) & patches.p2<depth_range(2) & log10(patches.chi)>(-8.5) );
 
 % Plot patch N2,T_z,chi,epsilon
@@ -92,7 +87,7 @@ title(['N_{AP}=' num2str(length(id)) ', N_{Bill}=' num2str(length(A.chi))])
 
 if saveplots==1
     
-    fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+%    fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
     if merge_patches==1
         fname=['tiwe_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_n2_tz_chi_eps_apvsbill_hist_yday_' num2str(day_range(1)) '_' num2str(day_range(2)) '_merged_minsep_' num2str(min_sep*100)  ]
     else
@@ -104,46 +99,46 @@ end
 
 %% Plot binned data interpolated to patch locations
 
-figure;clf
-agutwocolumn(1)
-wysiwyg
-
-subplot(221)
-h1=histogram(real(log10(patches.n2_bin(id))),'Normalization','pdf','Edgecolor','none');
-hold on
-h2=histogram(log10(A.N2(:)),h1.BinEdges,'Normalization','pdf','Edgecolor','none')
-xlabel('log_{10}[N^2]','fontsize',16)
-ylabel('pdf','fontsize',16)
-xlim([-6 -2])
-grid on
-legend([h1 h2],'AP','Bill','location','best')
-
-subplot(222)
-hap=histogram(real(log10(patches.dtdz_bin(id))),'Normalization','pdf','Edgecolor','none');
-hold on
-hbill=histogram(real(log10(A.tgrad(:))),hap.BinEdges,'Normalization','pdf','Edgecolor','none');
-xlabel('log_{10}[T_z]','fontsize',16)
-ylabel('pdf','fontsize',16)
-xlim([-4 0])
-grid on
-
-subplot(223)
-h1=histogram(log10(patches.chi_bin(id)),'Normalization','pdf','Edgecolor','none');
-hold on
-histogram(real(log10(A.chi(:))),'Normalization','pdf','Edgecolor','none');
-xlabel('log_{10}[\chi]')
-ylabel('pdf')
-xlim([-13 -3])
-grid on
-
-subplot(224)
-h1=histogram(log10(patches.eps_bin(id)),'Normalization','pdf','Edgecolor','none');
-hold on
-h2=histogram(real(log10(A.eps(:))),'Normalization','pdf','Edgecolor','none');
-xlabel('log_{10}[\epsilon]','fontsize',16)
-ylabel('pdf','fontsize',16)
-grid on
-legend([h1 h2],'AP','Bill','location','best')
+% figure;clf
+% agutwocolumn(1)
+% wysiwyg
+% 
+% subplot(221)
+% h1=histogram(real(log10(patches.n2_bin(id))),'Normalization','pdf','Edgecolor','none');
+% hold on
+% h2=histogram(log10(A.N2(:)),h1.BinEdges,'Normalization','pdf','Edgecolor','none')
+% xlabel('log_{10}[N^2]','fontsize',16)
+% ylabel('pdf','fontsize',16)
+% xlim([-6 -2])
+% grid on
+% legend([h1 h2],'AP','Bill','location','best')
+% 
+% subplot(222)
+% hap=histogram(real(log10(patches.dtdz_bin(id))),'Normalization','pdf','Edgecolor','none');
+% hold on
+% hbill=histogram(real(log10(A.tgrad(:))),hap.BinEdges,'Normalization','pdf','Edgecolor','none');
+% xlabel('log_{10}[T_z]','fontsize',16)
+% ylabel('pdf','fontsize',16)
+% xlim([-4 0])
+% grid on
+% 
+% subplot(223)
+% h1=histogram(log10(patches.chi_bin(id)),'Normalization','pdf','Edgecolor','none');
+% hold on
+% histogram(real(log10(A.chi(:))),'Normalization','pdf','Edgecolor','none');
+% xlabel('log_{10}[\chi]')
+% ylabel('pdf')
+% xlim([-13 -3])
+% grid on
+% 
+% subplot(224)
+% h1=histogram(log10(patches.eps_bin(id)),'Normalization','pdf','Edgecolor','none');
+% hold on
+% h2=histogram(real(log10(A.eps(:))),'Normalization','pdf','Edgecolor','none');
+% xlabel('log_{10}[\epsilon]','fontsize',16)
+% ylabel('pdf','fontsize',16)
+% grid on
+% legend([h1 h2],'AP','Bill','location','best')
 %%
 
 
