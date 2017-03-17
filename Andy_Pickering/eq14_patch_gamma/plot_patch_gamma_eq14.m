@@ -19,7 +19,7 @@ load( fullfile( '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch
 
 cast_range=[1 3100] % all casts
 z_range = [0 200]
-%z_range = [60 200]
+z_range = [60 200]
 %id=find(patches.cnum>=cast_range(1) & patches.cnum<=cast_range(2));
 id=find(patches.cnum>=cast_range(1) & patches.cnum<=cast_range(2) & patches.p1>z_range(1) & patches.p2<z_range(2));
 
@@ -29,6 +29,7 @@ wysiwyg
 h1=histogram(real(log10(patches.gam_bin(id))),'Normalization','pdf', 'EdgeColor','none');
 hold on
 h2=histogram(real(log10(patches.gam_line(id))),h1.BinEdges,'Normalization','pdf', 'EdgeColor','none');
+h2=histogram(real(log10(patches.gam_line_fit(id))),h1.BinEdges,'Normalization','pdf', 'EdgeColor','none');
 h3=histogram(real(log10(patches.gam_bulk(id))),h1.BinEdges,'Normalization','pdf', 'EdgeColor','none');
 xlim([-3.5 1.5])
 freqline(log10(0.2))

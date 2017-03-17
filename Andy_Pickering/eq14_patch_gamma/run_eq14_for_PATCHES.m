@@ -1,5 +1,5 @@
 function [] = run_eq14_for_PATCHES(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+    merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~
 %
 % run_eq14_for_PATCHES.m
@@ -135,8 +135,8 @@ warning off
 % (note: in the realtime code, the "bad" flag is used for casts that are no
 % good for whatever reason. Here, you're just supposed to have a matrix so
 % the bad files are skipped over. In other words, "bad" isn't implemented.)
-for cast = [4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
-        1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
+for cast = cnums_to_do%[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
+        %1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
     
     try
         

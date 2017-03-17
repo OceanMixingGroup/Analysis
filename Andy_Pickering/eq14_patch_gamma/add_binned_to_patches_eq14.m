@@ -14,12 +14,6 @@ function [] = add_binned_to_patches_eq14(patch_size_min,usetemp,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %% Add 1m binned data (interpolated to patch locations)
 
-%clear ; close all
-
-% patch parameters
-%patch_size_min = 0.15 ; % min patch size
-%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
 % set paths
 eq14_patches_paths
 
@@ -28,7 +22,6 @@ ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 % load binned chameleon data (structure containing all profiles)
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-
 
 %addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/code/
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
@@ -73,15 +66,13 @@ for cnum=1:4000
         patches.dtdz_bin  = interp1(pbin(ig) , cham.DTDZ(ig,Icham) , pmn);
         patches.chi_bin   = interp1(pbin(ig) , cham.CHI(ig,Icham) , pmn);
         patches.eps_bin   = interp1(pbin(ig) , cham.EPSILON(ig,Icham) , pmn);
-        %    patches.drhodz_bin(ip)= patches.n2_bin(ip) * (nanmean(cham.SIGMA(:,Icham))+1000) / -9.81 ;
+        %patches.drhodz_bin(ip)= patches.n2_bin(ip) * (nanmean(cham.SIGMA(:,Icham))+1000) / -9.81 ;
         
         clear ib
         ib = find( log10(patches.eps_bin)<(-8.5) );
         patches.eps_bin(ib) = nan ;
-        
-        %     if log10(patches.eps_bin(ip))>-8.5
+                
         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);
-        %     end
         
         % re-save profile
         if merge_patches==1

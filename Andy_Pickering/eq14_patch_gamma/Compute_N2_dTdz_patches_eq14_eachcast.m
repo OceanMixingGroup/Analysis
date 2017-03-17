@@ -1,5 +1,5 @@
 function [] = Compute_N2_dTdz_patches_eq14_eachcast(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+    merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Compute_N2_dTdz_patches_eq14_eachcast.m
@@ -23,12 +23,6 @@ function [] = Compute_N2_dTdz_patches_eq14_eachcast(patch_size_min,usetemp,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear ; close all
-
-% patch options
-%patch_size_min = 0.15  % min patch size
-%usetemp = 1
-
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
 
 % set paths
@@ -40,9 +34,10 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 hb=waitbar(0,'Compute_N2_dTd_patches...')
 warning off
-
-for cnum=1:4000
-    waitbar(cnum/4000,hb)
+ic=0;
+for cnum=cnums_to_do%1:4000
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     try
         
         % load raw patch data for this profile
@@ -100,31 +95,21 @@ for cnum=1:4000
         ptmp=sw_ptmp(s,t,p,0);
         sgth=sw_pden(s,t,p,0);
         
-        % get latitude for profile
-        clear idot lat1 lat2
-        idot=strfind(head.lat.start,'.');
-        lat1=str2num(head.lat.start(1:idot-3));
-        lat2=str2num(head.lat.start(idot-2:end))/60;
-        lat=nanmean([lat1 lat2]);
-        
-        alpha=-0.2641;
         for ip=1:Npatches
             clear out
             out=compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
-                ,t ,s ,ptmp ,sgth ,alpha , patches.Lt(ip) ) ;
+                ,t ,s ,ptmp ,sgth , patches.Lt(ip) ) ;
             
-            patches.dtdz_range(ip) = out.dtdz_range ;
+            %patches.dtdz_range(ip) = out.dtdz_range ;
             patches.dtdz_line(ip) = out.dtdz_line ;
             patches.dtdz_bulk(ip) = out.dtdz_bulk ;
             
-            patches.n2_range(ip) = out.n2_range ;
+            %patches.n2_range(ip) = out.n2_range ;
             patches.n2_line(ip) = out.n2_line ;
             patches.n2_bulk(ip) = out.n2_bulk ;
             patches.n4(ip) = out.n4 ;
         end % ip
         
-        % save profile
-        %        save(fullfile(save_dir_patch,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         % save profile
         if merge_patches==1
             save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
