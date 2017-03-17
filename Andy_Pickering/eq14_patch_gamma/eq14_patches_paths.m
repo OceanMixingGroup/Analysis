@@ -19,7 +19,7 @@ save_dir_avg_patch = fullfile(analysis_dir,project_long,'data','avg_patch') ;
 
 save_dir_cal='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/cal' ;
 
-figdir = fullfile( analysis_dir,project_long,'figures');
+fig_dir = fullfile( analysis_dir,project_long,'figures');
 
 %%
 

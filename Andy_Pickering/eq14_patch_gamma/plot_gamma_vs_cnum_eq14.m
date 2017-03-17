@@ -23,6 +23,8 @@ datdir = fullfile( analysis_dir, project_long, 'data')
 % load my patches
 load(fullfile(datdir,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
+%id = find(patches.p1>60 & patches.p2<200);
+
 figure(1);clf
 agutwocolumn(0.75)
 wysiwyg
@@ -49,9 +51,9 @@ plot(log10(gam_md),cnums,'k.')
 
 %%
 
-eq14_patches_paths
+%eq14_patches_paths
 fname=['eq14_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_vs_cnum']
-print(fullfile(figdir,fname),'-dpng')
+print(fullfile(fig_dir,fname),'-dpng')
 
 
 %%

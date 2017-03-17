@@ -46,9 +46,10 @@ hb=waitbar(0,'FindPatches EQ14 Raw');
 %cnums_to_do=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
 %    1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
 
+ic=0;
 for cnum= cnums_to_do;
-    
-    waitbar(cnum/length(cnums_to_do),hb)
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     
     try
         

@@ -24,7 +24,7 @@ gam1 = ComputeGamma(cham1.N2,cham1.DTDZ_RHOORDER,cham1.CHI,cham1.EPSILON);
 %gam2 = ComputeGamma(cham2.N2,cham2.DTDZ_RHOORDER,cham2.CHI,cham2.EPSILON);
 %%
 z_range=[0 200]
-z_range = [60 200]
+%z_range = [60 200]
 id=find(cham1.P>z_range(1) & cham1.P<z_range(2));
 %%
 
@@ -41,7 +41,7 @@ grid on
 
 %%
 eq14_patches_paths
-print(fullfile(figdir,'eq14_binned_gamma'),'-dpng')
+print(fullfile(fig_dir,'eq14_binned_gamma'),'-dpng')
 
 %% Plot estimates for fmax=7hz ?
 

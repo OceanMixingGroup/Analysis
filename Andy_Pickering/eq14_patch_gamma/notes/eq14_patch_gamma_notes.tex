@@ -30,12 +30,13 @@
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
 
-The goal of this analysis is to compute mixing `coefficident' $\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} $ for patches in EQ14 chameleon profiles, and see if we obtain values close to $\gamma_{\chi\epsilon}=0.2$.
+The goal of this analysis is to compute mixing `coefficident' $\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} $ for patches in EQ14 chameleon profiles, and see if we obtain values close to $\gamma_{\chi\epsilon}=0.2$. A similar analysis was done for TIWE data. The motivation for this analysis came from working on CTD-$\chi$pod data; the method assumes $\gamma=0.2$, but it was found for some (1m binned) data this was not true. Therefore the method might need to be applied to patches instead.
 
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Data}
 
 Data are made by the `Chameleon' microstructure profiler near the equator during the `EQ14' experiment. The data was shared with me by Sally/Jim. My copy is located at : 
+\medskip
 \newline
 \verb+/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/+
 \medskip
@@ -79,7 +80,6 @@ This analysis is in the main folder: \newline  \verb+/Users/Andy/Cruises_Researc
 
 Temperature gradient is computed for each patch using the following methods:
 \begin{enumerate}
-\item $dtdz_{range}$ : Take the range of T over the patch and divided by patch height
 \item $dtdz_{line}$ : Fit a straight line to sorted T using \verb+polyfit+
 \item $dtdz_{bulk}$ : Use the 'bulk gradient' from Smyth et al 2001, which is the rms fluctuation from the background (sorted) temperature, divided by the thorpe scale (the rms re-ordering distances).
 \end{enumerate}
@@ -90,7 +90,6 @@ Temperature gradient is computed for each patch using the following methods:
 
 $N^2$ is computed for each patch using the following methods:
 \begin{enumerate}
-\item $N^2_{range}$ : Take the range of potential density over the patch divided by the patch height ($d\rho/dz$), then compute $N^2=\frac{-g}{\rho_o}\frac{d\rho}{dz}$ where $\rho_o$ is the mean potential density over the patch.
 \item $N^2_{line}$ : Fit a straight line to sorted potential density using polyfit to get $d\rho/dz$, then compute N2.
 \item $N^2_{bulk}$ : Use 'bulk gradient' . This is calculated from the bulk $T_z$, using a linear fit between density and temperature.
 \item $N^2_4$ : Compute $N^2$ from the sorted profile (sorted by potential density) using \verb+sw_bfreq+, then take average over the patch. I believe this method is used by some commonly-used overturn codes.
@@ -106,10 +105,9 @@ Mixing Efficiency $\gamma_{\chi\epsilon}$ is computed from the following equatio
 \end{equation}
 $\chi$ and $\epsilon$ are computed over each patch from the Chameleon data. Gamma is computed for the following 4 combinations:
 \begin{enumerate}
-\item  $\gamma_{range}$ : N^{2}_{range}$, $dtdz_{range}$
+\item  $\gamma_{bin}$ : 1m binned data interpolated to patch depths.
 \item  $\gamma_{line}$ : N^{2}_{line}$, $dtdz_{line}$
 \item  $\gamma_{bulk}$ : N^{2}_{bulk}$, $dtdz_{bulk}$
-\item  $\gamma_{range}$ : N^{2}_{4}$, $dtdz_{line}$
 \end{enumerate}
 Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ are discarded.
 
@@ -120,31 +118,65 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
 
+\
 \begin{itemize}
-\item $\gamma_{\chi\epsilon}$ computed for 1m avg data is about an order of magnitude less than $0.2$ (Figure \ref{avggam}). The data was processed by Sally w/ 2 different c-star values, this doesn't seem to make any difference in the estimated $\gamma_{\chi\epsilon}$.
-\item $\gamma_{\chi\epsilon}$ computed for just patches is about an order of magnitude less than $0.2$ (Figure \ref{patchgam}).
+\item $\gamma_{\chi\epsilon}$ computed for 1m avg (`binned') data is about an order of magnitude less than $0.2$ (Figure \ref{avggam}). It has a median value of $\gamma=0.015$ for data between 60-200m.  The data was processed by Sally w/ 2 different c-star values, this doesn't seem to make any difference in the estimated $\gamma_{\chi\epsilon}$.
+\item $\gamma_{\chi\epsilon}$ computed for just patches  (Figure \ref{patchgam}) varies depending on which method is used. The `line' and `bulk' methods have median values around $\gamma=0.1$. The bin and line-fit estimates are much smaller than 0.2
 \end{itemize}
+
+\begin{table}[htdp]
+\caption{Statistics for patches using various parameters. $\gamma$ values are medians for each distribution. Only patches between 60-200m are considered.}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma bulk$ & Npatches \\
+\hline
+0.4 & 1 & 0 & 0.03 & 0.15 & 0.02 & 0.13 & 9326 \\
+\hline
+0.4 & 1 & 0.5 & 0.03 & 0.09 & 0.02 & 0.08 & 1301 \\
+\hline
+0.75 & 1 & 0 & 0.05 & 0.13 & 0.02 & 0.12 & 4075 \\
+\hline
+0.75 & 1 & 0.5 & 0.05 & 0.08 & 0.03 & 0.08 & 520 \\
+\hline
+1 & 1 & 0 & 0.06 & 0.12 & 0.02 & 0.12 & 2829 \\
+\hline
+1 & 1 & 0.5 & 0.05 & 0.08 & 0.04 & 0.08 & 387 \\
+\hline
+\hline
+\hline
+\end{tabular}
+\end{center}
+\label{tab}
+\end{table}%
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_patch_locs.png}
+\caption{Patch locations (mean depth) plotted on top of epsilon.}
+\label{}
+\end{figure}
 
 
 % gamma for all binned data
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_binned_gamma.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles. Vertical dashed line shows $\gamma=0.2$.}
+\caption{Histogram of $\gamma_{\chi\epsilon}$ for 1m avg chameleon profiles between 60-200m depth. Vertical dashed line shows $\gamma=0.2$.}
 \label{avggam}
 \end{figure}
 
 % gamma for just patches
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_hist_cast_1_3100_zrange_0_200.png}
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_hist2X2_depth_80_200m.png}
 \caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles, all depths.}
 \label{patchgam}
 \end{figure}
 
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_hist_cast_1_3100_zrange_60_200.png}
-\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles, depths 60-200m only.}
-\label{patchgam}
-\end{figure}
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_hist_cast_1_3100_zrange_60_200.png}
+%\caption{Histogram of $\gamma_{\chi\epsilon}$ for patches, using different estimates of $N^2$ and $T_z$. Vertical dashed line shows $\gamma=0.2$. For all profiles, depths 60-200m only.}
+%\label{patchgam}
+%\end{figure}
 
 
 %~~~~~~~~~~~
@@ -160,6 +192,15 @@ I believe the Chameleon data processed by Sally used the standard fmax=32Hz corr
 \label{avggam7hz}
 \end{figure}
 
+\clearpage
+%~~~~~~~~~~~~~~~~
+\subsection{Variation of $\gamma_{\chi\epsilon}$ with epsilon}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_vs_eps2X2.png}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs epsilon Vertical line is $\gamma=0.2$.}
+\label{gamvscnum}
+\end{figure}
 
 
 
@@ -179,19 +220,13 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 \clearpage
 %~~~~~~~~~~~~~~~~
-\subsection{Variation of $\gamma_{\chi\epsilon}$ over depth?}
-
-\verb+plot_gamma_vs_depth_eq14.m+
-
+\subsection{Variation of $\gamma_{\chi\epsilon}$ over depth}
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_patch_gamma_minOT_40_usetemp_1_gammas_vs_depth.png}
-\caption{Plot of $\gamma_{\chi\epsilon}$ for patches? vs depth. Vertical line is $\gamma=0.2$. }
+\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_vs_depth2X2.png}
+\caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs depth. Vertical line is $\gamma=0.2$. }
 \label{gamvsdepth}
 \end{figure}
-
-
-
 
 
 
@@ -202,8 +237,8 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 \begin{itemize}
 \item $\gamma_{\chi\epsilon}$ computed from 1m binned data (the standard Chameleon processing) is about 10 times smaller than the typical assumed value of 0.2.
-\item $\gamma_{\chi\epsilon}$ computed for just patches is larger. If only depth range 60-200m used, gamma using `line' method is about 0.2.
-\item $\gamma_{\chi\epsilon}$ does not appear to vary much over time/cast number, as was seen in tiwe data.
+\item $\gamma_{\chi\epsilon}$ computed for just patches varies depending on what method of choosing $T_z$ and $N^2$ is used. The `line' and `bulk' methods give $\gamma$ estimates close to 0.1. 
+%\item $\gamma_{\chi\epsilon}$ does not appear to vary much over time/cast number, as was seen in tiwe data.
 \end{itemize}
 
 
