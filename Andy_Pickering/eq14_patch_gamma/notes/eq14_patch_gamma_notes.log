@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  21 MAR 2017 10:21
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  21 MAR 2017 11:50
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -583,20 +583,22 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/
-eq14_minOT_40_usetemp_1_gam_vs_cnum.png, id=150, 505.89pt x 460.6008pt>
+eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_60_200.png, id=150, 505.89pt x 460.6
+008pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/fig
-ures/eq14_minOT_40_usetemp_1_gam_vs_cnum.png Graphic file (type png)
+ures/eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_60_200.png Graphic file (type p
+ng)
 
 <use /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figu
-res/eq14_minOT_40_usetemp_1_gam_vs_cnum.png>
+res/eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_60_200.png>
 Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/e
-q14_patch_gamma/figures/eq14_minOT_40_usetemp_1_gam_vs_cnum.png used on input l
-ine 223.
+q14_patch_gamma/figures/eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_60_200.png u
+sed on input line 223.
 (pdftex.def)             Requested size: 404.71254pt x 368.48114pt.
  [11
 
  </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures
-/eq14_minOT_40_usetemp_1_gam_vs_cnum.png (PNG copy)>]
+/eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_60_200.png (PNG copy)>]
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `math shift' on input line 233.
@@ -666,7 +668,25 @@ m/n/10.95 .
 
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/
-ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png, id=170, 505.89pt x 614.29
+ChiPatchChiCompare_N2dTdz_line_minOT40_usetemp_1.png, id=170, 505.89pt x 614.29
+5pt>
+File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/fig
+ures/ChiPatchChiCompare_N2dTdz_line_minOT40_usetemp_1.png Graphic file (type pn
+g)
+
+<use /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figu
+res/ChiPatchChiCompare_N2dTdz_line_minOT40_usetemp_1.png>
+Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/e
+q14_patch_gamma/figures/ChiPatchChiCompare_N2dTdz_line_minOT40_usetemp_1.png us
+ed on input line 258.
+(pdftex.def)             Requested size: 404.71254pt x 491.43666pt.
+
+
+LaTeX Warning: Float too large for page by 26.56013pt on input line 261.
+
+
+</Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/
+ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png, id=171, 505.89pt x 614.29
 5pt>
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/fig
 ures/ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png Graphic file (type pn
@@ -676,15 +696,15 @@ g)
 res/ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png>
 Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/e
 q14_patch_gamma/figures/ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png us
-ed on input line 259.
+ed on input line 265.
 (pdftex.def)             Requested size: 404.71254pt x 491.43666pt.
 
 
-LaTeX Warning: Float too large for page by 26.56013pt on input line 262.
+LaTeX Warning: Float too large for page by 26.56013pt on input line 268.
 
 
 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/
-ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png, id=171, 505.89pt x 368.577pt
+ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png, id=172, 505.89pt x 368.577pt
 >
 File: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/fig
 ures/ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png Graphic file (type png)
@@ -693,32 +713,34 @@ ures/ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png Graphic file (type png)
 res/ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png>
 Package pdftex.def Info: /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/e
 q14_patch_gamma/figures/ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png used 
-on input line 267.
+on input line 273.
 (pdftex.def)             Requested size: 404.71254pt x 294.86198pt.
  [14
 
 ] [15 </Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/fi
-gures/ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png (PNG copy)>] [16 </U
+gures/ChiPatchChiCompare_N2dTdz_line_minOT40_usetemp_1.png (PNG copy)>] [16 </U
 sers/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/Chi
-PatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png (PNG copy)>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 287.
- [17
+PatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png (PNG copy)>] [17 </Users/Andy
+/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/ChiPatchEpsH
+ist_N2dTdz_line_minOT40_usetemp_1.png (PNG copy)>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 293.
+ [18
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 287.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 293.
  (./eq14_patch_gamma_notes.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 287.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 287.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 293.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 293.
 Package rerunfilecheck Info: File `eq14_patch_gamma_notes.out' has not changed.
 
 (rerunfilecheck)             Checksum: 033A725B9203477FCF719E92F3519DC8;750.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 287.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 293.
  ) 
 Here is how much of TeX's memory you used:
- 6543 strings out of 493315
- 99234 string characters out of 6137904
- 188207 words of memory out of 5000000
- 9853 multiletter control sequences out of 15000+600000
+ 6551 strings out of 493315
+ 99922 string characters out of 6137904
+ 188695 words of memory out of 5000000
+ 9858 multiletter control sequences out of 15000+600000
  13821 words of font info for 54 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
  42i,8n,31p,702b,403s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -735,10 +757,10 @@ texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/tex
 live/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texliv
 e/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive
 /2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on eq14_patch_gamma_notes.pdf (17 pages, 1737234 bytes).
+Output written on eq14_patch_gamma_notes.pdf (18 pages, 1887760 bytes).
 PDF statistics:
- 247 PDF objects out of 1000 (max. 8388607)
- 203 compressed objects within 3 object streams
- 51 named destinations out of 1000 (max. 500000)
- 150 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 253 PDF objects out of 1000 (max. 8388607)
+ 207 compressed objects within 3 object streams
+ 53 named destinations out of 1000 (max. 500000)
+ 155 words of extra memory for PDF output out of 10000 (max. 10000000)
 

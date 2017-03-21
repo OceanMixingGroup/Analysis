@@ -49,6 +49,30 @@ combine_patch_profiles_eq14(patch_size_min,...
 add_R2_to_patches_eq14(patch_size_min,...
     usetemp,merge_patches,min_sep,cnums_to_do)
 
+%% Make plots
+
+clear ; close all
+
+patch_size_min = 0.4
+usetemp = 1
+merge_patches = 0
+min_sep = 0.15
+
+h=plot_patch_locations_eq14(patch_size_min,usetemp,...
+    merge_patches,min_sep)
+
+depth_range = [ 60 200]
+h=plot_patch_gamma_eq14_2X2(patch_size_min,usetemp,...
+    merge_patches,min_sep,depth_range)
+
+h=plot_gamma_vs_depth2X2_eq14(patch_size_min,usetemp,...
+    merge_patches,min_sep)
+
+h=plot_gamma_vs_epsilon2X2_eq14(patch_size_min,usetemp,...
+    merge_patches,min_sep)
+
 %%
 
+plot_gamma_vs_cnum_eq14
 
+%%

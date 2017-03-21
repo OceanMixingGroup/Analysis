@@ -29,7 +29,7 @@ Params.gamma = 0.2;
 Params.fmax=7
 
 % patch parameters
-patch_size_min = 1
+patch_size_min = 0.4
 usetemp = 1
 
 savedata = 1;
@@ -128,13 +128,59 @@ end
 
 %%
 
+
+%id = find(AllEps.P>0 & AllEps.P<200);
+id = find(AllEps.P>60 & AllEps.P<200);
+
 figure(1);clf
-histogram2( log10(AllEps.chi_cham_bin(:)), log10(AllEps.chi_cham_patch(:)), 100, 'DisplayStyle','Tile')
-xlim([-12 -3])
-ylim([-12 -3])
+agutwocolumn(1)
+wysiwyg
+
+subplot(221)
+histogram2( log10(AllEps.chi_cham_bin(:)), log10(AllEps.chi_cham_patch(:)), 50, 'DisplayStyle','Tile')
+xlim([-9 -4])
+ylim([-9 -4])
 hold on
 xvec=linspace(-12,-3,100);
 loglog(xvec,xvec,'k--')
+xlabel('\chi cham bin','fontsize',16)
+ylabel('\chi cham patch','fontsize',16)
+
+subplot(222)
+histogram2( log10(AllEps.chi_cham_patch(id)), log10(AllEps.chi_patchN2dTdzGam(id)),40, 'DisplayStyle','Tile')
+xlim([-9 -4])
+ylim([-9 -4])
+hold on
+xvec=linspace(-12,-3,100);
+loglog(xvec,xvec,'k--')
+xlabel('\chi cham patch','fontsize',16)
+ylabel('\chi chipod actual gam','fontsize',16)
+
+subplot(223)
+histogram2( log10(AllEps.chi_cham_patch(id)), log10(AllEps.chi_chipod_binned(id)),40, 'DisplayStyle','Tile')
+xlim([-10 -4])
+ylim([-10 -4])
+hold on
+xvec=linspace(-12,-3,100);
+loglog(xvec,xvec,'k--')
+xlabel('\chi cham patch','fontsize',16)
+ylabel('\chi chipod binned','fontsize',16)
+
+subplot(224)
+histogram2( log10(AllEps.chi_cham_patch(id)), log10(AllEps.chi_patchN2dTdz_constGam(id)),40, 'DisplayStyle','Tile')
+xlim([-10 -4])
+ylim([-10 -4])
+hold on
+xvec=linspace(-12,-3,100);
+loglog(xvec,xvec,'k--')
+xlabel('\chi cham patch','fontsize',16)
+ylabel('\chi chipod patch','fontsize',16)
+
+%
+eq14_patches_paths
+figname = ['ChiPatchChiCompare_N2dTdz_' num2str(whN2dTdz) '_minOT' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) ] ;
+print(fullfile(fig_dir,figname),'-dpng')
+
 
 %%
 

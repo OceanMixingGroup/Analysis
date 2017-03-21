@@ -23,19 +23,21 @@ datdir = fullfile( analysis_dir, project_long, 'data')
 % load my patches
 load(fullfile(datdir,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
-%id = find(patches.p1>60 & patches.p2<200);
+depth_range = [60 200]
+id = find(patches.p1>depth_range(1) & patches.p2<depth_range(2));
 
 figure(1);clf
 agutwocolumn(0.75)
 wysiwyg
 
-plot(log10(patches.gam_bulk),patches.cnum,'.','color',0.85*[1 1 1])
+plot(log10(patches.gam_line),patches.cnum,'.','color',0.65*[1 1 1])
 freqline(log10(0.2))
 grid on
 xlabel('log_{10}\gamma_{\chi\epsilon}','fontsize',16)
 ylabel('cnum','fontsize',16)
-xlim([-4 1])
-title(['EQ14 patches - minOT=' num2str(100*patch_size_min) 'cm' ])
+xlim([-2.5 1])
+title(['EQ14 patches - minOT=' num2str(100*patch_size_min) 'cm, ' ...
+    num2str(depth_range(1)) ' - ' num2str(depth_range(2)) 'm'])
 
 
 % compute median gamma for each cast#
@@ -47,12 +49,12 @@ for i=1:length(cnums)
     gam_md(i)=nanmedian(patches.gam_line(id));
 end
 hold on
-plot(log10(gam_md),cnums,'k.')
+plot(log10(gam_md),cnums,'k.','markersize',15)
 
 %%
 
-%eq14_patches_paths
-fname=['eq14_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_gam_vs_cnum']
+fname=['eq14_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)...
+    '_gam_vs_cnum_depths_' num2str(depth_range(1)) '_' num2str(depth_range(2))]
 print(fullfile(fig_dir,fname),'-dpng')
 
 
