@@ -178,7 +178,7 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 %\label{patchgam}
 %\end{figure}
 
-
+\clearpage
 %~~~~~~~~~~~
 \subsection{Using smaller fmax?}
 
@@ -192,6 +192,7 @@ I believe the Chameleon data processed by Sally used the standard fmax=32Hz corr
 \label{avggam7hz}
 \end{figure}
 
+
 \clearpage
 %~~~~~~~~~~~~~~~~
 \subsection{Variation of $\gamma_{\chi\epsilon}$ with epsilon}
@@ -201,6 +202,7 @@ I believe the Chameleon data processed by Sally used the standard fmax=32Hz corr
 \caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs epsilon Vertical line is $\gamma=0.2$.}
 \label{gamvscnum}
 \end{figure}
+
 
 
 
@@ -218,6 +220,7 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 
 
+
 \clearpage
 %~~~~~~~~~~~~~~~~
 \subsection{Variation of $\gamma_{\chi\epsilon}$ over depth}
@@ -231,6 +234,38 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 
 
+
+\clearpage
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Application of $\chi$pod method to patches}
+
+The $\chi$pod method was applied to patches to see if the agreement between $\chi$pod-estimated $\chi$ and $\epsilon$ improved. Applying the $\chi$pod method to the entire profiles gave decent agreement in $\chi$, but $\chi$pod-estimated $\gamma$ was biased low by about an order of magnitude (which is what motivated this whole patch analysis).  The $\chi$pod method is applied in \verb+ComputeChi_Chameleon_Eq14_PATCHES.m+, using $N^2$ and $T_z$ from patches. It was done using both the actual $\gamma$ from patches to test, and a constant $\gamma=0.2$. All the profiles are combined into one structure in \verb+Combine_ChipodMethodPatches.m+.
+
+\begin{itemize}
+\item The magnitudes of $\chi$pod estimated $\epsilon$ for patches are closer to the actual chameleon values when using patch vs binned data (Figure \ref{epscomp2d},lower panels). However, the slope appears to be less than one for the patch estimates (lower right panel).
+\item The ratio of $\chi$pod estimated $\epsilon$ to chameleon $\epsilon$ (Figure \ref{epscomphist}) is improved when using patches instead of binned data. 
+\item ** checking if bulk vs line makes a difference **
+\end{itemize}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png}
+\caption{Comparison of $\epsilon$ from chameleon and $\chi$pod method applied to patches. (Top-left) Comparison of $\epsilon$ from patches to binned $\epsilon$ interpolated to patch locations. (Top-right) $\epsilon$ from $\chi$pod method using actual patch $\gamma$ to patch $\epsilon$ from chameleon. (Lower-left) $\epsilon$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\epsilon$ from chameleon. (Lower-right) $\epsilon$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\epsilon$ from chameleon.}
+\label{epscomp2d}
+\end{figure}
+
+
+% histogram of chipod eps to cham eps
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png}
+\caption{Histogram of $log_{10}$ of the ratio of $\chi$pod estimated $\epsilon$ to chameleon $\epsilon$ for patches, for both binned data (interpolated to patch locations), and using only patch data.}
+\label{epscomphist}
+\end{figure}
+
+
+
+
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Summary}
@@ -238,7 +273,6 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 \begin{itemize}
 \item $\gamma_{\chi\epsilon}$ computed from 1m binned data (the standard Chameleon processing) is about 10 times smaller than the typical assumed value of 0.2.
 \item $\gamma_{\chi\epsilon}$ computed for just patches varies depending on what method of choosing $T_z$ and $N^2$ is used. The `line' and `bulk' methods give $\gamma$ estimates close to 0.1. 
-%\item $\gamma_{\chi\epsilon}$ does not appear to vary much over time/cast number, as was seen in tiwe data.
 \end{itemize}
 
 

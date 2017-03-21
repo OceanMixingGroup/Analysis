@@ -35,8 +35,8 @@ makeplots=0
 savespec =0  % save wavenumber spectra
 
 % patch parameters
-patch_size_min = 0.4 ; % min patch size
-usetemp   = 0 ;         % 1=use pot. temp, 0= use density
+patch_size_min = 1 ; % min patch size
+usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 %%
 % Params for chipod calculations
@@ -49,10 +49,11 @@ Params.fc       = 99  ;   % cutoff frequency for response correction
 Params.gamma    = 0.2 ;   % mixing efficiency
 
 % option to use gamma computed in patches, instead of a constant value
-use_patch_gam = 1;
+use_patch_gam = 0;
 
 % which N2,dTdz to use
 whN2dTdz = 'line'
+%whN2dTdz = 'bulk'
 
 if Params.resp_corr==0
     Params.fc=99;

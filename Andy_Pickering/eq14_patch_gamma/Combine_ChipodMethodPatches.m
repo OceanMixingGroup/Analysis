@@ -24,14 +24,15 @@
 clear ; close all
 
 whN2dTdz = 'line'
+%whN2dTdz = 'bulk'
 Params.gamma = 0.2;
 Params.fmax=7
 
 % patch parameters
-patch_size_min = 0.4
-usetemp = 0
+patch_size_min = 1
+usetemp = 1
 
-savedata=0;
+savedata = 1;
 
 % pre-allocate empty arrays
 P=[];
@@ -49,15 +50,13 @@ chi_cham_patch= [] ;
 chi_chipod_binned    = [] ;
 
 eq14_patches_paths
-%dir1=fullfile('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChipodPatches/')
-dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches')
-%        ['N2dTdz_' num2str(whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gammaPATCH_nfft_' num2str(Params.nfft) '_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]);
 
+dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches')
 
 hb=waitbar(0)
 
 for cnum=1:3100
-waitbar(cnum/3100,hb)    
+    waitbar(cnum/3100,hb)
     try
         
         % patch N^2,dTdz w/ constant gamma
@@ -69,26 +68,25 @@ waitbar(cnum/3100,hb)
         avg_patchN2dTdzGam=avg;clear avg
         
         % regular chi-pod method on binned data
-        load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])       
+        load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])
         avg_chipod_binned=avg;clear avg
         
         % get these (binned) values at patch locations
         clear eps3 chi3 pp
         eps3=nan*ones(size(avg_patchN2dTdz_constGam.eps1));
         chi3=nan*ones(size(avg_patchN2dTdz_constGam.eps1));
-        %pp=nan*ones(size(avg_patchN2dTdz_constGam.eps1));
+        
         for ip=1:length(avg_patchN2dTdz_constGam.P)
             [val,I]=nanmin(abs(avg_chipod_binned.P-avg_patchN2dTdz_constGam.P(ip)));
             eps3(ip)=avg_chipod_binned.eps1(I);
             chi3(ip)=avg_chipod_binned.chi1(I);
-%            pp(ip)=avg_patchN2dTdz_constGam.P(ip)
         end
         
         P = [P(:) ; avg_patchN2dTdz_constGam.P(:) ];
         
         % regular chi-pod method epsilons (1m smooth, gam=0.2 etc)
-        eps_chipod_binned  =[eps_chipod_binned   ; eps3(:)        ];
-        chi_chipod_binned  =[chi_chipod_binned   ; chi3(:)        ];
+        eps_chipod_binned  = [eps_chipod_binned   ; eps3(:)        ];
+        chi_chipod_binned  = [chi_chipod_binned   ; chi3(:)        ];
         
         % chi-pod estimates at patches, using constant gamma
         eps_patchN2dTdz_constGam = [eps_patchN2dTdz_constGam ; avg_patchN2dTdz_constGam.eps1(:) ];
@@ -99,27 +97,27 @@ waitbar(cnum/3100,hb)
         chi_patchN2dTdzGam       = [chi_patchN2dTdzGam       ; avg_patchN2dTdzGam.chi1(:)       ];
         
         % chameleon epsilon binned data at patch locations
-        eps_cham_bin=[eps_cham_bin ; avg_patchN2dTdz_constGam.eps_bin(:)];
-        chi_cham_bin=[chi_cham_bin ; avg_patchN2dTdz_constGam.chi_bin(:)];
+        eps_cham_bin = [eps_cham_bin ; avg_patchN2dTdz_constGam.eps_bin(:)];
+        chi_cham_bin = [chi_cham_bin ; avg_patchN2dTdz_constGam.chi_bin(:)];
         
         % chameleon epsilon values computed over patches only
-        eps_cham_patch=[eps_cham_patch ; avg_patchN2dTdzGam.eps_patch(:) ] ;
-        chi_cham_patch=[chi_cham_patch ; avg_patchN2dTdzGam.chi_patch(:) ] ;
+        eps_cham_patch = [eps_cham_patch ; avg_patchN2dTdzGam.eps_patch(:) ] ;
+        chi_cham_patch = [chi_cham_patch ; avg_patchN2dTdzGam.chi_patch(:) ] ;
         
     end % try
     
 end % cnum
 delete(hb)
 %
-ib=find(log10(eps_cham_bin)<-8.5);
-eps_cham_bin(ib)=nan;
+ib = find(log10(eps_cham_bin)<-8.5);
+eps_cham_bin(ib) = nan;
 
-AllEps=struct('eps_chipod_binned',eps_chipod_binned,'eps_patchN2dTdz_constGam',...
+AllEps = struct('eps_chipod_binned',eps_chipod_binned,'eps_patchN2dTdz_constGam',...
     eps_patchN2dTdz_constGam,'eps_patchN2dTdzGam',eps_patchN2dTdzGam,...
     'eps_cham_bin',eps_cham_bin,'eps_cham_patch',eps_cham_patch,'chi_chipod_binned',chi_chipod_binned,'chi_patchN2dTdz_constGam',...
     chi_patchN2dTdz_constGam,'chi_patchN2dTdzGam',chi_patchN2dTdzGam,...
     'chi_cham_bin',chi_cham_bin,'chi_cham_patch',chi_cham_patch,'P',P)
-AllEps.MakeInfo=['Made ' datestr(now) ' w/ Combine_ChipodMethodPatches.m']
+AllEps.MakeInfo = ['Made ' datestr(now) ' w/ Combine_ChipodMethodPatches.m']
 
 if savedata==1
     % save data
@@ -140,7 +138,7 @@ loglog(xvec,xvec,'k--')
 
 %%
 
-id = find(AllEps.P>0 & AllEps.P<200);
+%id = find(AllEps.P>0 & AllEps.P<200);
 id = find(AllEps.P>60 & AllEps.P<200);
 
 figure(1);clf
@@ -169,7 +167,6 @@ ylabel('\epsilon chipod actual gam','fontsize',16)
 
 subplot(223)
 histogram2( log10(AllEps.eps_cham_patch(id)), log10(AllEps.eps_chipod_binned(id)),50, 'DisplayStyle','Tile')
-%histogram2( log10(AllEps.eps_patch(id)), log10(AllEps.eps_patchN2dTdz_constGam(id)),50, 'DisplayStyle','Tile')
 xlim([-10 -4])
 ylim([-10 -4])
 hold on
@@ -188,26 +185,32 @@ loglog(xvec,xvec,'k--')
 xlabel('\epsilon cham patch','fontsize',16)
 ylabel('\epsilon chipod patch','fontsize',16)
 
+%%
+
+eq14_patches_paths
+figname = ['ChiPatchEpsCompare_N2dTdz_' num2str(whN2dTdz) '_minOT' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) ] ;
+print(fullfile(fig_dir,figname),'-dpng')
+
 %% histogram of ratio of different epsilon estimates to actual epsilon
 
 figure(2);clf
-histogram(log10(AllEps.eps_chipod_binned(id)./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
+agutwocolumn(0.6)
+wysiwyg
+
+hbin = histogram(log10(AllEps.eps_chipod_binned(id)./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf');
 hold on
-histogram(log10(AllEps.eps_patchN2dTdz_constGam(id) ./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
-histogram(log10(AllEps.eps_patchN2dTdzGam(id) ./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
+hpatch = histogram(log10(AllEps.eps_patchN2dTdz_constGam(id) ./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf');
+%histogram(log10(AllEps.eps_patchN2dTdzGam(id) ./AllEps.eps_cham_patch(id)),'EdgeColor','none','Normalization','pdf')
 xlim([-5 2])
 grid on
 freqline(log10(1))
+legend([hbin hpatch],'bin','patch')
+xlabel('log_{10}[\epsilon_{\chi}/\epsilon_{\epsilon}]','fontsize',16)
+ylabel('pdf','fontsize',16)
 
 %%
-
-figure(2);clf
-histogram(log10(AllEps.eps_chipod_binned(id)./AllEps.eps_cham_bin(id)),'EdgeColor','none','Normalization','pdf')
-hold on
-histogram(log10(AllEps.eps_patchN2dTdz_constGam(id) ./AllEps.eps_cham_bin(id)),'EdgeColor','none','Normalization','pdf')
-histogram(log10(AllEps.eps_patchN2dTdzGam(id) ./AllEps.eps_cham_bin(id)),'EdgeColor','none','Normalization','pdf')
-xlim([-5 2])
-grid on
-freqline(log10(1))
+eq14_patches_paths
+figname = ['ChiPatchEpsHist_N2dTdz_' num2str(whN2dTdz) '_minOT' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) ]
+print(fullfile(fig_dir,figname),'-dpng')
 
 %%

@@ -186,19 +186,16 @@ for cast = cnums_to_do%[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:107
             end
             
             
-            
             clear igp pstarts pstops             
             if run_test==1
                 pstarts=1:200;
                 pstops=2:201;
             else
-                %igp=find(patch_data(:,1)==cast);
-                %this_patch=patch_data(igp,:);
                 pstarts = patches.p1 ;
                 pstops  = patches.p2 ;
             end
             
-            avg = average_data_PATCH_AP(q.series,nfft,pstarts,pstops) ;
+            avg = average_data_PATCH_AP_7Hz(q.series,nfft,pstarts,pstops) ;
             
             if length(avg.P)~=length(pstarts)
                 disp('uh oh')
