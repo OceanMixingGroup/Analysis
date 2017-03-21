@@ -72,9 +72,7 @@ legend([h1 h2],'7hz','32hz')
 
 %%
 eq14_patches_paths
-figdir = fullfile( analysis_dir,project,'figures')
-ChkMkDir(figdir)
-print(fullfile(figdir,'eq14_binned_gamma_7hz'),'-dpng')
+print(fullfile(fig_dir,'eq14_binned_gamma_7hz'),'-dpng')
 
 %%
 

@@ -38,7 +38,8 @@ ylabel('pdf','fontsize',16)
 title(['tiwe 1m bin, yday ' num2str(day_range(1)) '-' num2str(day_range(2))])
 
 %%
-fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+tiwe_patches_paths
+%fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
 fig_name=['tiwe_avgCombine_gamma_yday_' num2str(day_range(1)) '_' num2str(day_range(2))]
 print(fullfile(fig_dir,fig_name),'-dpng')
 
