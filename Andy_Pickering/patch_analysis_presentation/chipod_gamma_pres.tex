@@ -50,6 +50,10 @@ In small windows:
   \item Assumes mixing efficency (coefficient) $\gamma=0.2$
   \end{itemize}
 
+\begin{equation}
+\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
+\end{equation}
+
 \end{frame}
 
 
@@ -67,7 +71,7 @@ In small windows:
 Results:
    \begin{itemize}
   \item $\chi$ compares well
-  \item $\epsilon$ biased low by about 10X
+  \item But $\epsilon$ biased low by about 10X
     \end{itemize}
 
 \end{frame}
@@ -79,12 +83,10 @@ Results:
 \begin{frame}
  \frametitle{Why is $\epsilon$ Biased so Low?}
 
-Turns out using the 1m avg Chameleon data, $\gamma \approx 0.02$, not 0.2  .
-\begin{equation}
-\gamma_{\chi\epsilon}=\frac{N^2 \chi}{2\epsilon T_{z}^{2}} 
-\end{equation}
-
-Apparently Sasha found something similar for EQ08 and other Chameleond datasets.
+\begin{itemize}
+\item Turns out using the 1m avg Chameleon data, $\gamma \approx 0.02$, not 0.2  .
+\item Apparently Sasha found something similar for EQ08 and other Chameleon datasets?
+\end{itemize}
 
 \end{frame}
 
@@ -96,6 +98,7 @@ Apparently Sasha found something similar for EQ08 and other Chameleond datasets.
 \begin{itemize}
 \item But everyone says $\gamma=0.2$...
 \item Maybe we have to compute it over patches. If there's no mixing, does $\gamma$ even make sense?
+\item So began the journey into patches...
 \end{itemize}
 
 \end{frame}
@@ -244,7 +247,7 @@ This gives us 4 estimates of $\gamma$:
 \column{0.5\textwidth}
 \begin{itemize}
 \item Patch estimates of $\gamma$ are all equal or greater than 0.2
-\item 
+\item `bin' and `'line-fit' are centered close to 0.1 . `line' and 'bulk' are centered greater than 0.2
 \end{itemize}
 
 \column{0.5\textwidth}
@@ -321,14 +324,14 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 \begin{columns}
 \column{0.5\textwidth}
 \begin{itemize}
-\item Patch estimates of $\gamma$ are ..
-\item 
+\item Patch estimates of $\gamma$ vary depending on method used.
+\item bin and line-fit are smaller than 0.2. line and bulk are centered near 0.2 .
 \end{itemize}
 
 \column{0.5\textwidth}
 \begin{figure}[htbp]
 \begin{center}
-\includegraphics[scale=0.25]{eq14_minOT_40_usetemp_1_gammas_hist2X2_depth_80_200m.png}
+\includegraphics[scale=0.27]{eq14_minOT_40_usetemp_1_gammas_hist2X2_depth_80_200m.png}
 \caption{default}
 \label{default}
 \end{center}
@@ -379,9 +382,15 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Applying $\chi$pod method to patches}
 
+%~~~~~~~~
 \begin{frame}
  \frametitle{ }
  
+ 
+\begin{columns}
+
+\column{0.5\textwidth}
+
  \begin{figure}[htbp]
 \begin{center}
 \includegraphics[scale=0.3]{ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png}
@@ -391,6 +400,17 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 \end{figure}
 
 
+\column{0.5\textwidth}
+ \begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.3]{ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png}
+\caption{Ratio of $\chi$pod estimated $\epsilon$ to Chameleon $\epsilon$ for patches.}
+\label{default}
+\end{center}
+\end{figure}
+
+\end{columns}
+
 \end{frame}
 
 
@@ -399,13 +419,16 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Summary}
 
+%~~~~~~~~
 \begin{frame}
  \frametitle{ Summary}
 
 \begin{itemize}
-\item 
+\item $\gamma$ sensitive to many choices of parameters/methods. Difficult to tell if $\gamma$ actually changes.
+\item In general, it seems that using 1m binned data tends to give $\gamma$ smaller than 0.2, while using patches gives something closer to 0.2 . 
+\item Suggests we should be using some kind of patch values in CTD $\chi$pod calculations (since a constant $\gamma=0.2$ is assumed).
+\item Applying $\chi$pod method to patches from EQ14 Chameleon profiles improves magnitude of $\epsilon$ estimates, but dependence on actual $\epsilon$ may be off.
 \end{itemize}
-
 
 \end{frame}
 
