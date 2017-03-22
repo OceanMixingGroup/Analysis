@@ -64,9 +64,10 @@ for cnum= cnums_to_do;
         cal=cal2; clear cal2
         
         clear s t p lat
-        s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
-        t=cal.T1(1:end-1);
-        p=cal.P(1:end-1) ;
+        %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
+        s = cal.SAL(1:end-1);
+        t = cal.T1(1:end-1);
+        p = cal.P(1:end-1) ;
         
         clear idot lat1 lat2
         idot=strfind(head.lat.start,'.');

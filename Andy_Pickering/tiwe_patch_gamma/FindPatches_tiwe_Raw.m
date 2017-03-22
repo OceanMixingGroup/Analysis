@@ -57,7 +57,8 @@ for cnum =  cnums_to_do %2836:3711%1:4000
         
         clear s t p lat
         %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
-        s=cal.SAL_sm(1:end-1);
+        %s=cal.SAL_sm(1:end-1);
+        s=cal.SAL(1:end-1);
         t=cal.T1(1:end-1);
         p=cal.P(1:end-1) ;
         

@@ -1,8 +1,9 @@
+function [] = FindPatches_EQ08_Raw(patch_size_min,usetemp, cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% FindPatches_EQ14_Raw.m
+% FindPatches_E08_Raw.m
 %
-% Find patches (overturns) in EQ14 chameleon profiles, using raw (not
+% Find patches (overturns) in EQ08 chameleon profiles, using raw (not
 % binned/averaged) data.
 %
 %
@@ -21,39 +22,34 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear ; close all
+%clear ; close all
+
+% patch options
+%patch_size_min = 0.15 ; % min patch size
+%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+
+eq08_patches_paths
+
+save_dir = fullfile( save_dir_patch,['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],'raw')
+ChkMkDir(save_dir)
 
 % Add all the paths we need from mixing software
 mixpath='/Users/Andy/Cruises_Research/mixingsoftware/'
 addpath(fullfile(mixpath,'seawater'))
 addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
-eq08_patches_paths
-
-datdir = save_dir_cal
-
-save_dir = save_dir_patch
-ChkMkDir(save_dir)
-%%
-
-% patch options
-save_data = 1 ;         % save data at the end
-patch_size_min = 0.25 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
-
-
 % loop through each cast
 warning off
-hb=waitbar(0,'working on profiles');
+hb=waitbar(0,'FindPatches EQ14 Raw');
 
 % only do profiles that are done in chameleon processing
-cnums_to_do=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
-    1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
+%cnums_to_do=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
+%    1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
 
+ic=0;
 for cnum= cnums_to_do;
-    
-    waitbar(cnum/length(cnums_to_do),hb)
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     
     try
         
@@ -63,14 +59,16 @@ for cnum= cnums_to_do;
         patch_data=[];
         
         % Load the data for this cast
-        load(fullfile(datdir,['eq08' sprintf('%04d',cnum) '.mat']))
+        load(fullfile(save_dir_cal,['eq08' sprintf('%04d',cnum) '.mat']))
         
         cal=cal2; clear cal2
         cal.SAL=cal.S;
+        cal.T1=cal.T;
         
         clear s t p lat
-        s=cal.SAL(1:end-1);%smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
-        t=cal.T(1:end-1);
+        %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
+        s=cal.SAL(1:end-1);
+        t=cal.T1(1:end-1);
         p=cal.P(1:end-1) ;
         
         clear idot lat1 lat2
@@ -113,10 +111,5 @@ end % cnum
 delete(hb)
 warning on
 
-% if save_data==1
-%     savedir = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChamRawProc/'
-%     fname   = ['EQ14_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '.mat']
-%     save( fullfile( savedir,fname), 'patch_data')
-% end
 
 %%
