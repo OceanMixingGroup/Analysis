@@ -3,7 +3,7 @@
 
 clear all ; close all
 
-patch_size_min = 1
+patch_size_min = 0.4
 usetemp = 1
 
 merge_patches = 0

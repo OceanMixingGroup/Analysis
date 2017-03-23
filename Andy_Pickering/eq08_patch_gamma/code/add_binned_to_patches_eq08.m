@@ -24,6 +24,8 @@ eq08_patches_paths
 % load binned chameleon data (structure containing all profiles)
 %***
 %load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/tiwe_1mavg_combined.mat')
+load('/Volumes/SP PHD U3/NonBackup/EQ08/processed/eq08_sum.mat')
+
 %***
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
@@ -31,7 +33,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 hb=waitbar(0)
 ic=0;
-for cnum=cnums_to_do %2836:3711 %1:4000
+for cnum=cnums_to_do 
     ic=ic+1;
     waitbar(ic/length(cnums_to_do),hb)
     
@@ -57,8 +59,8 @@ for cnum=cnums_to_do %2836:3711 %1:4000
         
         % get index for binned profile
         clear Icham pbin pmn
-        Icham= find(cham.cnum==cnum) ;
-        pbin = cham.P;
+        Icham= find(cham.castnumber==cnum) ;
+        pbin = cham.P(:,Icham);
         pmn  = nanmean([patches.p1 patches.p2],2) ;
         
         % interp binned data to the patch locations (mean p of each patch)
@@ -71,7 +73,7 @@ for cnum=cnums_to_do %2836:3711 %1:4000
         patches.eps_bin   = interp1(pbin(ig) , cham.EPSILON(ig,Icham) , pmn);
         
         clear ib
-        ib = find(patches.eps_bin<0.4e-9);
+        ib = find( log10(patches.eps_bin)<-8.5);
         patches.eps_bin(ib) = nan ;
 
         patches.gam_bin=ComputeGamma(patches.n2_bin,patches.dtdz_bin,patches.chi_bin,patches.eps_bin);

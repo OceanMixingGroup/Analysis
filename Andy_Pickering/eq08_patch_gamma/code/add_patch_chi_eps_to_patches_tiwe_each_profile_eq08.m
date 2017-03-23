@@ -1,8 +1,8 @@
-function [] = add_patch_chi_eps_to_patches_tiwe_each_profile_eq14(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+function [] = add_patch_chi_eps_to_patches_tiwe_each_profile_eq08(patch_size_min,usetemp,...
+    merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% add_patch_chi_eps_to_patches_tiwe_each_profile_eq14.m
+% add_patch_chi_eps_to_patches_tiwe_each_profile_eq08.m
 %
 % Add chi and epsilon values computed for patches (in
 % run_eq14_for_PATCHES.m) to our patches structure for each profile.
@@ -11,18 +11,12 @@ function [] = add_patch_chi_eps_to_patches_tiwe_each_profile_eq14(patch_size_min
 %
 %
 %-----------
-% 2/27/17 - A.Pickering
+% 3/22/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear ; close all
-
-% patch options
-%patch_size_min = 0.25  % min patch size
-%usetemp = 1
-
 % set paths
-eq14_patches_paths
+eq08_patches_paths
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
@@ -37,15 +31,12 @@ end
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 hb=waitbar(0,'add_patch_chi_eps');
-
-for cnum=1:3200
-    
-    waitbar(cnum/3200,hb)
+ic=0;
+for cnum=cnums_to_do%1:3200
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     
     try
-        % load the patches for this profile
-        % load patch data for this profile
-        clear patch_data patches
         % load the patches for this profile
         clear patches
         if merge_patches==1
@@ -58,9 +49,23 @@ for cnum=1:3200
         patches.eps=nan*ones(size(patches.p1));
         patches.chi=nan*ones(size(patches.p1));
         
+        patches.gam_line = nan*ones(size(patches.p1));
+        patches.gam_bulk = nan*ones(size(patches.p1));
+        patches.gam4 = nan*ones(size(patches.p1));
+        
+        % re-save profile
+        if merge_patches==1
+            save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']), 'patches' )
+        else
+            save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
+        end
+        
+    end
+    
+    try
         % load the processed profile w/ chi and eps for each patch ('avg')
         clear avg
-        fname=['eq14_' sprintf('%04d',cnum) '.mat'];
+        fname=['eq08' sprintf('%04d',cnum) '_avg.mat'];
         load(fullfile(data_dir,fname))
         
         if length(patches.p1)==length(avg.CHI)
@@ -89,8 +94,9 @@ for cnum=1:3200
         end
         
     catch
-        disp('error!!!!!!!!!')
+        disp('error~!!!')
     end % try
+    
     
 end % cnum
 delete(hb)

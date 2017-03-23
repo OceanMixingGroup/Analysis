@@ -1,39 +1,33 @@
-function [] = combine_patch_profiles_eq14(patch_size_min,...
-    usetemp,merge_patches,min_sep)
+function [] = combine_patch_profiles_eq08(patch_size_min,...
+    usetemp,merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% combine_patch_profiles_eq14.m
+% combine_patch_profiles_eq08.m
 %
 % Combine patch data from each profile into a single structure.
 %
 % *add field Npatches for each cnum
 %
 %-----------
-% 2/27/17 - A.Pickering
+% 3/22/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear ; close all
-
-% patch options
-%patch_size_min = 0.25  % min patch size
-%usetemp = 1
-
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
 
-
 % set paths
-eq14_patches_paths
+eq08_patches_paths
 
 ip=0;
-hb=waitbar(0,'combine_patch_profiles_eq14');
-
-for cnum=1:3200
-    waitbar(cnum/3200,hb)
+hb=waitbar(0,'combine_patch_profiles_eq08');
+ic=0;
+for cnum = cnums_to_do 
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     try
         
         % load the patches for this profile
-        clear patch_data patches
+        clear patches
         if merge_patches==1
             load(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '_merged_minsep_' num2str(min_sep*100) '.mat']) )
         else
@@ -55,6 +49,7 @@ for cnum=1:3200
         
         if length(patch_all.cnum)~=length(patch_all.gam_line)
             disp(['uhoh ' num2str(cnum)])
+            %break
         end
         
     catch
@@ -67,7 +62,7 @@ delete(hb)
 
 clear patches
 patches=patch_all; clear patch_all
-patches.MakeInfo = ['Made ' datestr(now) ' w/ combine_patch_profiles_eq14.m']
+patches.MakeInfo = ['Made ' datestr(now) ' w/ combine_patch_profiles_eq08.m']
 
 %%
 
