@@ -31,7 +31,7 @@
    \begin{itemize}
   \item Measures temperature gradient w/ FP07 thermistor
   \item Easily deployed on traditional CTD, Tz not as sensitive to package vibration
-  \item Goal is to be able to estimate $\chi$ and $\epsilon$ w/o full microstructure
+  \item Goal: estimate $\chi$ and $\epsilon$ w/o full microstructure
   \end{itemize}
 
 \end{frame}
@@ -43,7 +43,7 @@
 
 In small windows:
    \begin{itemize}
-  \item Convert dT/dt to dT/dz using fallspeed
+  \item Convert dT/dt to dT/dz using fallspeed, frozen-flow hypothesis
   \item  Compute spectra of dT/dz
   \item Iterative method to estimate $\chi$,$\epsilon$
   \item Assumes $K_T=K_{\rho}$
@@ -65,7 +65,7 @@ In small windows:
    \begin{itemize}
   \item To validate, compare w/ Chamelon microstructure profiles (1m avg).
   \item Apply $\chi$pod method to Chameleon thermistor data only (no shear probes)
-  \item Compare to Chameleon estimates using shear probes.
+  \item Compare to `true' Chameleon estimates using shear probes.
   \end{itemize}
 
 Results:
@@ -114,7 +114,6 @@ Results:
 \item Turns out computing $\gamma$ over patches not so simple...
 \item Lots of options for how to identify patches, calculate $T_z$ and $N^2$ etc.
 \item Lots of salinity spikes, need to use temperature.
-\item Use 60-200m only (don't include diurnal cycle turbulence etc.)
 \end{itemize}
 
 \end{frame}
@@ -151,12 +150,14 @@ Results:
  
 $T_z$:
 \begin{itemize}
+\item $T_z$ `'bin' : Interpolate binned $T_z$ to mean depth of each patch.
 \item $T_z$ `'line' : Fit a straight line to sorted temperature within patch.
 \item $T_z$ `bulk' : Method from Smyth et al 2001. More robust when there are multiple layers within patch?
 \end{itemize}
 
 $N^2$:
 \begin{itemize}
+\item $N^2$ `'bin' : Interpolate binned $N^2$ to mean depth of each patch.
 \item $N^2$ `'line' : Fit a straight line to sorted density within patch.
 \item $N^2$ `'fit' : Fit a straight line to density computed from T-S fit in patch.
 \item $N^2$ `bulk' : Use `bulk' $T_z$, and ratio between density and temperature.
@@ -172,7 +173,7 @@ $N^2$:
 \begin{frame}
  \frametitle{$\gamma$}
 
-This gives us 4 estimates of $\gamma$: 
+This gives us several estimates of $\gamma$: 
 \begin{itemize}
 \item $\gamma$ bin : Binned $T_z$,$N^2$ interopolated to patch locations.
 \item $\gamma$ `'line' : `line' $T_z$,$N^2$
@@ -190,12 +191,14 @@ This gives us 4 estimates of $\gamma$:
 
 %~~~~~~~~~
 \begin{frame}
- \frametitle{Overview}
+ \frametitle{TIWE - Overview}
 
 \begin{columns}
 \column{0.5\textwidth}
 \begin{itemize}
-\item 
+\item Looked at TIWE 1st because there were some previous patch analayis and gamma estimates (Bill,Jim).
+\item Not sure why $\chi$ isn't full-depth for 1st part of experiment
+\item Use profiles from yday 324-327
 \end{itemize}
 
 \column{0.5\textwidth}
@@ -215,13 +218,12 @@ This gives us 4 estimates of $\gamma$:
 
 %~~~~~~~~~
 \begin{frame}
- \frametitle{TIWE binned}
+ \frametitle{TIWE binned $\gamma$}
 
 \begin{columns}
 \column{0.5\textwidth}
 \begin{itemize}
-\item Looked at TIWE 1st because there were some previous patch analayis and gamma estimates (Bill,Jim).
-\item Binned gamma has median of ...
+\item Binned $\gamma$ smaller than 0.2, has median of xx...
 \end{itemize}
 
 \column{0.5\textwidth}
@@ -241,7 +243,7 @@ This gives us 4 estimates of $\gamma$:
 
 %~~~~~~~~~
 \begin{frame}
- \frametitle{TIWE patch}
+ \frametitle{TIWE patch $\gamma$}
 
 \begin{columns}
 \column{0.5\textwidth}
@@ -310,15 +312,32 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 
 %~~~~~~~~~
 \begin{frame}
- \frametitle{EQ14 1}
+ \frametitle{EQ14 binned}
 
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.3]{eq14_binned_gamma.png}
+\caption{$\gamma$ estimated from 1m binned EQ14 profiles.}
+\label{default}
+\end{center}
+\end{figure}
+
+\column{0.5\textwidth}
+\begin{itemize}
+\item Binned $\gamma$ smaller than 0.2, has median of xx...
+\end{itemize}
+
+\end{columns}
 
 \end{frame}
 
 
 %~~~~~~~~~
 \begin{frame}
- \frametitle{EQ14 2}
+ \frametitle{EQ14 patch $\gamma$}
 
 
 \begin{columns}
@@ -347,7 +366,7 @@ minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma 
 
 %~~~~~~~~~
 \begin{frame}
- \frametitle{ EQ14 3}
+ \frametitle{ EQ14 }
 
 \begin{table}[htdp]
 \caption{Statistics for patches using various parameters. $\gamma$ values are medians for each distribution. Only patches between 60-200m are considered.}
