@@ -28,11 +28,26 @@
 \begin{frame}
  \frametitle{The CTD-$\chi$pod}
 
+\begin{columns}
+\column{0.5\textwidth}
+
    \begin{itemize}
   \item Measures temperature gradient w/ FP07 thermistor
   \item Easily deployed on traditional CTD, Tz not as sensitive to package vibration
   \item Goal: estimate $\chi$ and $\epsilon$ w/o full microstructure
   \end{itemize}
+
+\column{0.5\textwidth}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[scale=0.35]{chipod_slide.png}
+%\caption{default}
+\label{default}
+\end{center}
+\end{figure}
+
+\end{columns}
 
 \end{frame}
 
@@ -148,14 +163,16 @@ Results:
 \begin{frame}
  \frametitle{dT/dz and N2}
  
-$T_z$:
+ 
+\begin{columns}
+\column{0.5\textwidth}
 \begin{itemize}
 \item $T_z$ `'bin' : Interpolate binned $T_z$ to mean depth of each patch.
 \item $T_z$ `'line' : Fit a straight line to sorted temperature within patch.
 \item $T_z$ `bulk' : Method from Smyth et al 2001. More robust when there are multiple layers within patch?
 \end{itemize}
 
-$N^2$:
+\column{0.5\textwidth}
 \begin{itemize}
 \item $N^2$ `'bin' : Interpolate binned $N^2$ to mean depth of each patch.
 \item $N^2$ `'line' : Fit a straight line to sorted density within patch.
@@ -163,6 +180,7 @@ $N^2$:
 \item $N^2$ `bulk' : Use `bulk' $T_z$, and ratio between density and temperature.
 \end{itemize}
 
+\end{columns}
 
 \end{frame}
 
@@ -175,10 +193,10 @@ $N^2$:
 
 This gives us several estimates of $\gamma$: 
 \begin{itemize}
-\item $\gamma$ bin : Binned $T_z$,$N^2$ interopolated to patch locations.
+\item $\gamma$ bin : Binned $T_z$,$N^2$ interpolated to patch locations.
 \item $\gamma$ `'line' : `line' $T_z$,$N^2$
 \item $\gamma$ `bulk' : `bulk' $T_z$,$N^2$
-\item $\gamma$ `linefit' : `line' $T_z$,, `'line-fit' $N^2$
+\item $\gamma$ `linefit' : `line' $T_z$, `'line-fit' $N^2$
 \end{itemize}
 
 \end{frame}
@@ -256,7 +274,7 @@ This gives us several estimates of $\gamma$:
 \begin{figure}[htbp]
 \begin{center}
 \includegraphics[scale=0.25]{tiwe_minOT_40_usetemp_1_gammas_hist2X2_yday_324_327.png}
-\caption{default}
+\caption{Patch $\gamma$}
 \label{default}
 \end{center}
 \end{figure}
