@@ -35,8 +35,18 @@ makeplots=0
 savespec =0  % save wavenumber spectra
 
 % patch parameters
-patch_size_min = 1 ; % min patch size
+patch_size_min = 0.4 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+
+% option to use gamma computed in patches, instead of a constant value
+use_patch_gam = 0;
+
+% which N2,dTdz to use
+whN2dTdz = 'line'
+%whN2dTdz = 'line_fit'
+%whN2dTdz = 'bulk'
+
+% 
 
 %%
 % Params for chipod calculations
@@ -47,13 +57,6 @@ Params.TPthresh = 1e-6;   %
 Params.resp_corr= 0   ;   % correct TP spectra for freq response of thermistor
 Params.fc       = 99  ;   % cutoff frequency for response correction
 Params.gamma    = 0.2 ;   % mixing efficiency
-
-% option to use gamma computed in patches, instead of a constant value
-use_patch_gam = 0;
-
-% which N2,dTdz to use
-whN2dTdz = 'line'
-%whN2dTdz = 'bulk'
 
 if Params.resp_corr==0
     Params.fc=99;
@@ -96,12 +99,7 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
     
     try
         %%
-        % Load the data for this cast
-        load( fullfile(save_dir_cal,['EQ14_' sprintf('%04d',cnum) '.mat']) )
-        
-        clear cal
-        cal=cal2;
-        clear cal2
+        cal = load_cal_eq14(cnum) ;
         
         %%
         clear ctd z_smooth
@@ -110,20 +108,9 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         ctd.s1=cal.SAL;
         ctd.p=cal.P;
         
-        % add in lat and lon (from sum_eq14.m)
-        clear idot lat1 lat2
-        idot=strfind(head.lon.start,'.');
-        lon1=str2num(head.lon.start(1:idot-3));
-        lon2=str2num(head.lon.start(idot-2:end))/60;
-        ctd.lon=nanmean([lon1 lon2]);
-        
-        clear idot lat1 lat2
-        idot=strfind(head.lat.start,'.');
-        lat1=str2num(head.lat.start(1:idot-3));
-        lat2=str2num(head.lat.start(idot-2:end))/60;
-        ctd.lat=nanmean([lat1 lat2]);
-        
-        ctd.lat=nanmean([str2num(head.lat.start) str2num(head.lat.end)]);
+        % add in lat and lon 
+        ctd.lon = cal.lon;                
+        ctd.lat = cal.lat;
         
         %% find patches for this cnum
         clear igc
@@ -232,6 +219,10 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
             avg.N2   = patches.n2_line(igc)   ;
             avg.dTdz = patches.dtdz_line(igc);
             avg.gamma= patches.gam_line(igc) ;
+        elseif strcmp(whN2dTdz,'line_fit')
+            avg.N2   = patches.n2_line_fit(igc)   ;
+            avg.dTdz = patches.dtdz_line(igc);
+            avg.gamma= patches.gam_line_fit(igc) ;
         end
         
         % add binned eps and chi so we can compare after
