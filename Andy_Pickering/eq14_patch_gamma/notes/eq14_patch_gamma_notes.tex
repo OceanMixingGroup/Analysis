@@ -279,7 +279,7 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{ChiPatchEpsCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
-\caption{Comparison of $\epsilon$ from chameleon and $\chi$pod method applied to patches. (Top-left) Comparison of $\epsilon$ from patches to binned $\epsilon$ interpolated to patch locations. (Top-right) $\epsilon$ from $\chi$pod method using actual patch $\gamma$ to patch $\epsilon$ from chameleon. (Lower-left) $\epsilon$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\epsilon$ from chameleon. (Lower-right) $\epsilon$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\epsilon$ from chameleon.}
+\caption{Comparison of $\epsilon$ from chameleon and $\chi$pod method applied to patches, using the `line-fit' method. (Top-left) Comparison of $\epsilon$ from patches to binned $\epsilon$ interpolated to patch locations. (Top-right) $\epsilon$ from $\chi$pod method using actual patch $\gamma$ to patch $\epsilon$ from chameleon. (Lower-left) $\epsilon$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\epsilon$ from chameleon. (Lower-right) $\epsilon$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\epsilon$ from chameleon.}
 \label{epscomp2d}
 \end{figure}
 
@@ -294,6 +294,22 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 
 
 
+%~~~~~~~~~
+\subsection{Comparing time-averaged profiles of $\epsilon$}
+
+\verb+Plot_eps_profiles.m+
+
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eps_prof_example.png}
+\caption{Profiles of $\epsilon$, averaged over a number of casts. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch').}
+\label{}
+\end{figure}
+
+
+
+
 
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -303,6 +319,7 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 \item $\gamma_{\chi\epsilon}$ computed from 1m binned data (the standard Chameleon processing) is about 10 times smaller than the typical assumed value of 0.2.
 \item $\gamma_{\chi\epsilon}$ computed for just patches varies depending on what method of choosing $T_z$ and $N^2$ is used. The `line' and `bulk' methods give $\gamma$ estimates close to 0.1. 
 \end{itemize}
+
 
 
 
