@@ -10,10 +10,14 @@ min_sep = 0.15
 cnums_to_do = [1:5:2700] ;
 %cnums_to_do = [1:5:615] ;
 
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
+eq08_patches_paths
+
 %%
 
 %
-FindPatches_cham_Raw('eq08',patch_size_min,usetemp,cnums_to_do )
+FindPatches_cham_Raw(project_short,patch_size_min,usetemp,cnums_to_do )
 
 %
 %
@@ -24,7 +28,7 @@ FindPatches_cham_Raw('eq08',patch_size_min,usetemp,cnums_to_do )
 % end
 
 %
-Compute_N2_dTdz_patches_eq08_eachcast(patch_size_min,usetemp,...
+Compute_N2_dTdz_patches_eachcast(project_short,patch_size_min,usetemp,...
     merge_patches,min_sep, cnums_to_do)
 %
 add_binned_to_patches_eq08(patch_size_min,usetemp,...
@@ -33,13 +37,13 @@ add_binned_to_patches_eq08(patch_size_min,usetemp,...
 run_eq08_for_PATCHES(patch_size_min,usetemp,...
     merge_patches,min_sep,cnums_to_do)
 %
-add_patch_chi_eps_to_patches_tiwe_each_profile_eq08(patch_size_min,usetemp,...
+add_patch_chi_eps_to_patches_each_profile(project_short,patch_size_min,usetemp,...
     merge_patches,min_sep,cnums_to_do)
 %
-combine_patch_profiles_eq08(patch_size_min,...
+combine_patch_profiles(project_short,patch_size_min,...
     usetemp,merge_patches,min_sep,cnums_to_do)
-%%
-add_R2_to_patches_eq08(patch_size_min,...
+%
+add_R2_to_patches(project_short,patch_size_min,...
     usetemp,merge_patches,min_sep,cnums_to_do)
 
 %% Make plots
