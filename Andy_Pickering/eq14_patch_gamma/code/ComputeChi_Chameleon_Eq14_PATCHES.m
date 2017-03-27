@@ -39,14 +39,15 @@ patch_size_min = 0.4 ; % min patch size
 usetemp   = 1 ;         % 1=use pot. temp, 0= use density
 
 % option to use gamma computed in patches, instead of a constant value
-use_patch_gam = 0;
+use_patch_gam = 1;
 
 % which N2,dTdz to use
 whN2dTdz = 'line'
 %whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
 
-% 
+%
+minR2 = 0.5 ;
 
 %%
 % Params for chipod calculations
@@ -72,10 +73,10 @@ load(fullfile(datdir,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_'
 % Make directory to save processed casts in (name based on Params)
 if use_patch_gam==1
     datdirsave=fullfile(analysis_dir,project_long,'data','ChipodPatches',...
-        ['N2dTdz_' num2str(whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gammaPATCH_nfft_' num2str(Params.nfft) '_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]);
+        ['N2dTdz_' num2str(whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gammaPATCH_nfft_' num2str(Params.nfft) '_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)]);
 else
     datdirsave=fullfile(analysis_dir,project_long,'data','ChipodPatches',...
-        ['N2dTdz_' num2str(whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gamma' num2str(Params.gamma*100) '_nfft_' num2str(Params.nfft) '_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) ]);
+        ['N2dTdz_' num2str(whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gamma' num2str(Params.gamma*100) '_nfft_' num2str(Params.nfft) '_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)]);
 end
 
 disp(['Data will be saved to ' datdirsave])
@@ -89,9 +90,9 @@ hb = waitbar(0) ;
 % loop through each cast
 for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         1075:1128 1130:1737 1739:2550 2552:2996 2998:3092]
- 
+    
     waitbar(cnum/3100,hb)
-%    disp(['Working on cnum ' num2str(cnum) ])
+    %    disp(['Working on cnum ' num2str(cnum) ])
     
     close all
     clear cal head
@@ -99,7 +100,8 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
     
     try
         %%
-        cal = load_cal_eq14(cnum) ;
+        clear cal
+        [cal, head] = load_cal_eq14(cnum) ;
         
         %%
         clear ctd z_smooth
@@ -108,237 +110,241 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         ctd.s1=cal.SAL;
         ctd.p=cal.P;
         
-        % add in lat and lon 
-        ctd.lon = cal.lon;                
+        % add in lat and lon
+        ctd.lon = cal.lon;
         ctd.lat = cal.lat;
         
         %% find patches for this cnum
         clear igc
-        igc=find(patches.cnum==cnum);
+        %       igc=find(patches.cnum==cnum);
+        igc=find(patches.cnum==cnum & patches.R2>=minR2);
         
-        %% get start/stop indices for the patch depths
-        
-        Np=length(igc);
-        todo_inds=nan*ones(Np,2);
-        for ip=1:Np
-            clear iz
-            iz=isin(cal.P,[patches.p1(igc(ip)) patches.p2(igc(ip)) ] );
-            todo_inds(ip,:)=[iz(1) iz(end)] ;
-        end
-        
-        Nwindows=Np;
-        
-        %% need to replace this, returns todo_inds, the indices of data for each window (start/stop)
-        % Make windows for chi calcs
-        clear TP
-        TP=cal.TP;
-        %[todo_inds,Nwindows]=MakeCtdChiWindows(TP,Params.nfft);
-        
-        %%
-        
-        %~ make 'avg' structure for the processed data
-        clear avg
-        avg=struct();
-        avg.Params=Params;
-        tfields={'datenum','P','N2','dTdz','fspd','T','S','P','theta','sigma',...
-            'chi1','eps1','KT1','TP1var','kstart','kstop'};
-        for n=1:length(tfields)
-            avg.(tfields{n})=NaN*ones(Nwindows,1);
-        end
-        
-        avg.FspdStd=avg.fspd;
-        
-        % Get TP samplerate (Hz)
-        avg.samplerate=head.slow_samp_rate * head.irep.TP;
-        
-        % Get average time, pressure, and fallspeed in each window
-        for iwind=1:Nwindows
-            clear inds
-            inds=todo_inds(iwind,1) : todo_inds(iwind,2);
-            avg.P(iwind)=nanmean(cal.P(inds));
-            avg.fspd(iwind)=nanmean(cal.FALLSPD(inds))/100;
-            avg.FspdStd(iwind)=nanstd(cal.FALLSPD(inds)/100);
-        end
-        
-        %%
-        %~ save spectra to plot after
-        % make empty arrays for spectra
-        if savespec==1
-            % observed wavenumber
-            ks = nan*ones(Nwindows,Params.nfft /2);
-            % observed wave# spectra
-            kspec = nan*ones(Nwindows,Params.nfft /2);
-            % fit wavenumber
-            kks = nan*ones(Nwindows,56);
-            % fit wave# spectra
-            kkspec = nan*ones(Nwindows,56);
-            % observed frequency spectra
-            tpspec = nan*ones(Nwindows,Params.nfft /2);
-            %~
-        end
-        
-        %%
-        
-        if makeplots==1
-            %~~ plot histogram of avg.P to see how many good windows we have in
-            %each 10m bin
-            if nanmax(avg.P>10)
-                figure
-                hi=histogram(avg.P,0:10:nanmax(avg.P));
-                hi.Orientation='Horizontal';axis ij;
-                ylabel('P [db]')
-                xlabel('# good data windows')
-                % title([whSN ' cast ' cast_suffix ' - ' C.castdir 'cast'],'interpreter','none')
-                % print('-dpng',fullfile(chi_fig_path_specific,[whSN '_' cast_suffix '_Fig' num2str(whfig) '_' C.castdir 'cast_chi_' whsens '_avgPhist']))
-                % whfig=whfig+1;
+        if length(igc)>1
+            %% get start/stop indices for the patch depths
+            
+            Np=length(igc);
+            todo_inds=nan*ones(Np,2);
+            for ip=1:Np
+                clear iz
+                iz=isin(cal.P,[patches.p1(igc(ip)) patches.p2(igc(ip)) ] );
+                todo_inds(ip,:)=[iz(1) iz(end)] ;
             end
-        end
-        
-        %%
-        
-        % get N2, dTdz for each window
-        good_inds=find(~isnan(ctd.p));
-        % interpolate ctd data to same pressures as chipod
-        % avg.N2  =interp1(ctd.p(good_inds),ctd.N2(good_inds),avg.P);
-        % avg.dTdz=interp1(ctd.p(good_inds),ctd.dTdz(good_inds),avg.P);
-        
-        % Get N2 and dTdz from patches structure instead
-        if whN2dTdz==2
-            avg.N2   = patches.nb(igc)   ;
-            avg.dTdz = patches.dtdz2(igc);
-            avg.gamma= patches.gam2(igc) ;
-        elseif strcmp(whN2dTdz,'bulk')
-            avg.N2   = patches.n2_bulk(igc)   ;
-            avg.dTdz = patches.dtdz_bulk(igc);
-            avg.gamma= patches.gam_bulk(igc) ;
-        elseif strcmp(whN2dTdz,'bulk2')
-            avg.N2   = patches.n2_bulk_2(igc)   ;
-            avg.dTdz = patches.dtdz_bulk(igc);
-            avg.gamma= patches.gam_bulk(igc) ;
-        elseif strcmp(whN2dTdz,'line')
-            avg.N2   = patches.n2_line(igc)   ;
-            avg.dTdz = patches.dtdz_line(igc);
-            avg.gamma= patches.gam_line(igc) ;
-        elseif strcmp(whN2dTdz,'line_fit')
-            avg.N2   = patches.n2_line_fit(igc)   ;
-            avg.dTdz = patches.dtdz_line(igc);
-            avg.gamma= patches.gam_line_fit(igc) ;
-        end
-        
-        % add binned eps and chi so we can compare after
-        avg.chi_bin   = patches.chi_bin(igc) ;
-        avg.chi_patch = patches.chi(igc) ;
-        
-        avg.eps_bin   = patches.eps_bin(igc);
-        avg.eps_patch = patches.eps(igc)    ;
-        
-        % ** find unique ctd.p values
-        clear p2 IA IC
-        [p2,IA,IC] = unique(ctd.p(good_inds));
-        avg.T   = interp1(ctd.p(good_inds(IA)),ctd.t1(good_inds(IA)),avg.P) ;
-        avg.S   = interp1(ctd.p(good_inds(IA)),ctd.s1(good_inds(IA)),avg.P) ;
-        
-        
-        %%
-        % note sw_visc not included in newer versions of sw?
-        avg.nu=sw_visc_ctdchi(avg.S,avg.T,avg.P);
-        avg.tdif=sw_tdif_ctdchi(avg.S,avg.T,avg.P);
-        avg.n_iter=nan*ones(size(avg.P));
-        %%
-        % loop through each window and do the chi computation
-        for iwind=1:Nwindows
             
-            clear inds
-            % get inds for this window
-            inds=todo_inds(iwind,1) : todo_inds(iwind,2);
+            Nwindows=Np;
             
-            % integrate dT/dt spectrum
-            clear tp_power freq
-            [tp_power,freq]=fast_psd(TP(inds),Params.nfft,avg.samplerate);
-            avg.TP1var(iwind)=sum(tp_power)*nanmean(diff(freq));
+            %% need to replace this, returns todo_inds, the indices of data for each window (start/stop)
+            % Make windows for chi calcs
+            clear TP
+            TP=cal.TP;
+            %[todo_inds,Nwindows]=MakeCtdChiWindows(TP,Params.nfft);
             
-            if avg.TP1var(iwind)>Params.TPthresh
-                
-                % apply filter correction for sensor response?
-                
-                if Params.resp_corr==1
-                    thermistor_filter_order=2; % 2=double pole?
-                    thermistor_cutoff_frequency=Params.fc;%32;
-                    analog_filter_order=4;
-                    analog_filter_freq=50;
-                    tp_power=invert_filt(freq,invert_filt(freq,tp_power,thermistor_filter_order, ...
-                        thermistor_cutoff_frequency),analog_filter_order,analog_filter_freq);
+            %%
+            
+            %~ make 'avg' structure for the processed data
+            clear avg
+            avg=struct();
+            avg.Params=Params;
+            tfields={'datenum','P','N2','dTdz','fspd','T','S','P','theta','sigma',...
+                'chi1','eps1','KT1','TP1var','kstart','kstop'};
+            for n=1:length(tfields)
+                avg.(tfields{n})=NaN*ones(Nwindows,1);
+            end
+            
+            avg.FspdStd=avg.fspd;
+            
+            % Get TP samplerate (Hz)
+            avg.samplerate=head.slow_samp_rate * head.irep.TP;
+            
+            % Get average time, pressure, and fallspeed in each window
+            for iwind=1:Nwindows
+                clear inds
+                inds=todo_inds(iwind,1) : todo_inds(iwind,2);
+                avg.P(iwind)=nanmean(cal.P(inds));
+                avg.fspd(iwind)=nanmean(cal.FALLSPD(inds))/100;
+                avg.FspdStd(iwind)=nanstd(cal.FALLSPD(inds)/100);
+            end
+            
+            %%
+            %~ save spectra to plot after
+            % make empty arrays for spectra
+            if savespec==1
+                % observed wavenumber
+                ks = nan*ones(Nwindows,Params.nfft /2);
+                % observed wave# spectra
+                kspec = nan*ones(Nwindows,Params.nfft /2);
+                % fit wavenumber
+                kks = nan*ones(Nwindows,56);
+                % fit wave# spectra
+                kkspec = nan*ones(Nwindows,56);
+                % observed frequency spectra
+                tpspec = nan*ones(Nwindows,Params.nfft /2);
+                %~
+            end
+            
+            %%
+            
+            if makeplots==1
+                %~~ plot histogram of avg.P to see how many good windows we have in
+                %each 10m bin
+                if nanmax(avg.P>10)
+                    figure
+                    hi=histogram(avg.P,0:10:nanmax(avg.P));
+                    hi.Orientation='Horizontal';axis ij;
+                    ylabel('P [db]')
+                    xlabel('# good data windows')
+                    % title([whSN ' cast ' cast_suffix ' - ' C.castdir 'cast'],'interpreter','none')
+                    % print('-dpng',fullfile(chi_fig_path_specific,[whSN '_' cast_suffix '_Fig' num2str(whfig) '_' C.castdir 'cast_chi_' whsens '_avgPhist']))
+                    % whfig=whfig+1;
                 end
+            end
+            
+            %%
+            
+            % get N2, dTdz for each window
+            good_inds=find(~isnan(ctd.p));
+            % interpolate ctd data to same pressures as chipod
+            % avg.N2  =interp1(ctd.p(good_inds),ctd.N2(good_inds),avg.P);
+            % avg.dTdz=interp1(ctd.p(good_inds),ctd.dTdz(good_inds),avg.P);
+            
+            % Get N2 and dTdz from patches structure instead
+            if whN2dTdz==2
+                avg.N2   = patches.nb(igc)   ;
+                avg.dTdz = patches.dtdz2(igc);
+                avg.gamma= patches.gam2(igc) ;
+            elseif strcmp(whN2dTdz,'bulk')
+                avg.N2   = patches.n2_bulk(igc)   ;
+                avg.dTdz = patches.dtdz_bulk(igc);
+                avg.gamma= patches.gam_bulk(igc) ;
+            elseif strcmp(whN2dTdz,'bulk2')
+                avg.N2   = patches.n2_bulk_2(igc)   ;
+                avg.dTdz = patches.dtdz_bulk(igc);
+                avg.gamma= patches.gam_bulk(igc) ;
+            elseif strcmp(whN2dTdz,'line')
+                avg.N2   = patches.n2_line(igc)   ;
+                avg.dTdz = patches.dtdz_line(igc);
+                avg.gamma= patches.gam_line(igc) ;
+            elseif strcmp(whN2dTdz,'line_fit')
+                avg.N2   = patches.n2_line_fit(igc)   ;
+                avg.dTdz = patches.dtdz_line(igc);
+                avg.gamma= patches.gam_line_fit(igc) ;
+            end
+            
+            % add binned eps and chi so we can compare after
+            avg.chi_bin   = patches.chi_bin(igc) ;
+            avg.chi_patch = patches.chi(igc) ;
+            
+            avg.eps_bin   = patches.eps_bin(igc);
+            avg.eps_patch = patches.eps(igc)    ;
+            
+            % ** find unique ctd.p values
+            clear p2 IA IC
+            [p2,IA,IC] = unique(ctd.p(good_inds));
+            avg.T   = interp1(ctd.p(good_inds(IA)),ctd.t1(good_inds(IA)),avg.P) ;
+            avg.S   = interp1(ctd.p(good_inds(IA)),ctd.s1(good_inds(IA)),avg.P) ;
+            
+            
+            %%
+            % note sw_visc not included in newer versions of sw?
+            avg.nu=sw_visc_ctdchi(avg.S,avg.T,avg.P);
+            avg.tdif=sw_tdif_ctdchi(avg.S,avg.T,avg.P);
+            avg.n_iter=nan*ones(size(avg.P));
+            %%
+            % loop through each window and do the chi computation
+            for iwind=1:Nwindows
                 
-                clear gamma
-                if use_patch_gam==1
-                    gamma=avg.gamma(iwind);
-                else
-                    gamma=Params.gamma;
-                end
+                clear inds
+                % get inds for this window
+                inds=todo_inds(iwind,1) : todo_inds(iwind,2);
                 
-                % Compute chi using iterative procedure
-                [chi1,epsil1,k,spec,kk,speck,stats]=get_chipod_chi(freq,tp_power,abs(avg.fspd(iwind)),avg.nu(iwind),...
-                    avg.tdif(iwind),avg.dTdz(iwind),'nsqr',avg.N2(iwind),'fmax',Params.fmax,'gamma',gamma);%,'doplots',1);
-                %            pause
-                %            'doplots',1 for plots
-                avg.chi1(iwind) = chi1(1);
-                avg.eps1(iwind) = epsil1(1);
-                avg.KT1(iwind)  = 0.5*chi1(1)/avg.dTdz(iwind)^2;
-                avg.kstart(iwind) = stats.k_start;
-                avg.kstop(iwind)  = stats.k_stop;
-                avg.n_iter(iwind) = length(chi1);
+                % integrate dT/dt spectrum
+                clear tp_power freq
+                [tp_power,freq]=fast_psd(TP(inds),Params.nfft,avg.samplerate);
+                avg.TP1var(iwind)=sum(tp_power)*nanmean(diff(freq));
                 
-                if savespec==1
-                    % 02/17/16 - AP - save spectra
+                if avg.TP1var(iwind)>Params.TPthresh
                     
-                    fspec=freq;
-                    tpspec(iwind,:)=tp_power;
+                    % apply filter correction for sensor response?
                     
-                    % observed wavenumber
-                    ks(iwind,:)=k;
-                    
-                    % observed spectra
-                    kspec(iwind,:)=spec;
-                    
-                    % best-fit theoreticl spectra
-                    kkspec(iwind,:)=speck;
-                    
-                    if ~isnan(kk)
-                        % theoretical fit wavenumber
-                        kks(iwind,:)=kk;
+                    if Params.resp_corr==1
+                        thermistor_filter_order=2; % 2=double pole?
+                        thermistor_cutoff_frequency=Params.fc;%32;
+                        analog_filter_order=4;
+                        analog_filter_freq=50;
+                        tp_power=invert_filt(freq,invert_filt(freq,tp_power,thermistor_filter_order, ...
+                            thermistor_cutoff_frequency),analog_filter_order,analog_filter_freq);
                     end
-                end
+                    
+                    clear gamma
+                    if use_patch_gam==1
+                        gamma=avg.gamma(iwind);
+                    else
+                        gamma=Params.gamma;
+                    end
+                    
+                    % Compute chi using iterative procedure
+                    [chi1,epsil1,k,spec,kk,speck,stats]=get_chipod_chi(freq,tp_power,abs(avg.fspd(iwind)),avg.nu(iwind),...
+                        avg.tdif(iwind),avg.dTdz(iwind),'nsqr',avg.N2(iwind),'fmax',Params.fmax,'gamma',gamma);%,'doplots',1);
+                    %            pause
+                    %            'doplots',1 for plots
+                    avg.chi1(iwind) = chi1(1);
+                    avg.eps1(iwind) = epsil1(1);
+                    avg.KT1(iwind)  = 0.5*chi1(1)/avg.dTdz(iwind)^2;
+                    avg.kstart(iwind) = stats.k_start;
+                    avg.kstop(iwind)  = stats.k_stop;
+                    avg.n_iter(iwind) = length(chi1);
+                    
+                    if savespec==1
+                        % 02/17/16 - AP - save spectra
+                        
+                        fspec=freq;
+                        tpspec(iwind,:)=tp_power;
+                        
+                        % observed wavenumber
+                        ks(iwind,:)=k;
+                        
+                        % observed spectra
+                        kspec(iwind,:)=spec;
+                        
+                        % best-fit theoreticl spectra
+                        kkspec(iwind,:)=speck;
+                        
+                        if ~isnan(kk)
+                            % theoretical fit wavenumber
+                            kks(iwind,:)=kk;
+                        end
+                    end
+                    
+                end % if T1Pvar>threshold
                 
-            end % if T1Pvar>threshold
+            end % windows
+            %%
             
-        end % windows
-        %%
-        
-        if makeplots==1
-            %~ plot summary figure
-            ax=CTD_chipod_profile_summary(avg,cal,TP);
-            axes(ax(1))
-            title(Flist(icast).name,'interpreter','none')
-            %~~~
+            if makeplots==1
+                %~ plot summary figure
+                ax=CTD_chipod_profile_summary(avg,cal,TP);
+                axes(ax(1))
+                title(Flist(icast).name,'interpreter','none')
+                %~~~
+            end
+            
+            if savespec==1
+                %~
+                avg.tpspec=tpspec;
+                avg.kspec=kspec;
+                avg.kkspec=kkspec;
+                avg.ks=ks;
+                avg.kks=kks;
+                avg.fspec=fspec;
+            end
+            
+            avg.lat=ctd.lat;
+            avg.z=sw_dpth(avg.P,avg.lat);
+            avg.MakeInfo=['Made ' datestr(now) ' w/ ComputeChi_Chameleon_Eq14_PATCHES.m'];
+            
+            % save results
+            save(fullfile(datdirsave,['EQ14_' sprintf('%04d',cnum) 'avg.mat']),'avg')
+            
         end
-        
-        if savespec==1
-            %~
-            avg.tpspec=tpspec;
-            avg.kspec=kspec;
-            avg.kkspec=kkspec;
-            avg.ks=ks;
-            avg.kks=kks;
-            avg.fspec=fspec;
-        end
-        
-        avg.lat=ctd.lat;
-        avg.z=sw_dpth(avg.P,avg.lat);
-        avg.MakeInfo=['Made ' datestr(now) ' w/ ComputeChi_Chameleon_Eq14_PATCHES.m'];
-        
-        % save results
-        save(fullfile(datdirsave,['EQ14_' sprintf('%04d',cnum) 'avg.mat']),'avg')
         
     end % try
     

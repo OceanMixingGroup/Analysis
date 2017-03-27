@@ -24,6 +24,7 @@
 clear ; close all
 
 whN2dTdz = 'line'
+%whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
 Params.gamma = 0.2;
 Params.fmax=7
@@ -31,6 +32,8 @@ Params.fmax=7
 % patch parameters
 patch_size_min = 0.4
 usetemp = 1
+
+minR2 = 0.5
 
 savedata = 1;
 
@@ -54,17 +57,17 @@ eq14_patches_paths
 dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches')
 
 hb=waitbar(0)
-
+%
 for cnum=1:3100
     waitbar(cnum/3100,hb)
     try
         
         % patch N^2,dTdz w/ constant gamma
-        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
         avg_patchN2dTdz_constGam=avg;clear avg
         
         % patch N^2,dTdz w/ patch gamma
-        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gammaPATCH_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+        load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gammaPATCH_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
         avg_patchN2dTdzGam=avg;clear avg
         
         % regular chi-pod method on binned data
@@ -254,7 +257,7 @@ legend([hbin hpatch],'bin','patch')
 xlabel('log_{10}[\epsilon_{\chi}/\epsilon_{\epsilon}]','fontsize',16)
 ylabel('pdf','fontsize',16)
 
-%%
+%
 eq14_patches_paths
 figname = ['ChiPatchEpsHist_N2dTdz_' num2str(whN2dTdz) '_minOT' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) ]
 print(fullfile(fig_dir,figname),'-dpng')
