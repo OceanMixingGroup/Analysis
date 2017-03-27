@@ -46,10 +46,7 @@ for cnum= cnums_to_do;
         patch_data=[];
         
         % Load the data for this cast
-        %load(fullfile(save_dir_cal,['eq14_' sprintf('%04d',cnum) '.mat']))
         eval( ['cal = load_cal_' project_name '(cnum);'])
-        
-        %        cal=cal2; clear cal2
         
         clear s t p lat
         %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
@@ -57,11 +54,6 @@ for cnum= cnums_to_do;
         t = cal.T1(1:end-1);
         p = cal.P(1:end-1) ;
         %
-        %         clear idot lat1 lat2
-        %         idot=strfind(head.lat.start,'.');
-        %         lat1=str2num(head.lat.start(1:idot-3));
-        %         lat2=str2num(head.lat.start(idot-2:end))/60;
-        %         lat=nanmean([lat1 lat2]);
         
         clear Params
         Params.lat=cal.lat;
