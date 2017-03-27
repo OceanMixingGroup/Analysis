@@ -1,17 +1,15 @@
-function [] = Compute_N2_dTdz_patches_eq14_eachcast(patch_size_min,usetemp,...
+function [] = Compute_N2_dTdz_patches_eachcast(project_name,patch_size_min,usetemp,...
     merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% Compute_N2_dTdz_patches_eq14_eachcast.m
+% * general version *
+% Compute_N2_dTdz_patches_eachcast.m
 %
-% Modified from Compute_N2_dTdz_patches_tiwe.m
-% Does/saves each cast separately instead of all casts/patches. Switching
-% to this because it kept crashing and I had to start over...
 %
-% Compute N2 and dT/dz for overturns in tiwe chameleon profiles using a few
+% Compute N2 and dT/dz for overturns in chameleon patches using a few
 % different methods.
 %
-% Uses patches found in Find_Patches_eq14_Raw.m
+% Uses patches found in Find_Patches_*project_name*_Raw.m
 %
 % OUTPUT:
 % 'patches' structure
@@ -19,23 +17,22 @@ function [] = Compute_N2_dTdz_patches_eq14_eachcast(patch_size_min,usetemp,...
 %
 %
 %--------------
-% 2/24/17 - A.Pickering
+% 3/27/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)];
 
 % set paths
-eq14_patches_paths
+eval([project_name '_patches_paths'])
 
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
-
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 hb=waitbar(0,'Compute_N2_dTd_patches...')
 warning off
 ic=0;
-for cnum=cnums_to_do%1:4000
+for cnum=cnums_to_do
     ic=ic+1;
     waitbar(ic/length(cnums_to_do),hb)
     try
@@ -54,7 +51,7 @@ for cnum=cnums_to_do%1:4000
         patches.p2   = patch_data(:,3) ;
         patches.n2_ot= patch_data(:,5) ;
         patches.Lt   = patch_data(:,6) ;
-        %       patches.yday = patch_data(:,7) ;
+        %patches.yday = patch_data(:,7) ;
         
         % Make empty arrays for results
         Npatches=length(patches.p1);
@@ -78,13 +75,9 @@ for cnum=cnums_to_do%1:4000
         
         % load raw chameleon cast
         clear cal cal2 head
-        %datdir=save_dir_cal;
         
         % Load the data for this cast
-        load(fullfile(save_dir_cal,['eq14_' sprintf('%04d',cnum) '.mat']))
-        
-        cal=cal2 ; clear cal2
-        %cnum_loaded = cnum;
+        cal = load_cal_eq14(cnum) ;
         
         % compute pot. temp, pot. density etc.
         clear s t p lat ptmp sgth
@@ -100,14 +93,13 @@ for cnum=cnums_to_do%1:4000
             out=compute_Tz_N2_for_patch(patches.p1(ip), patches.p2(ip) ,p...
                 ,t ,s ,ptmp ,sgth , patches.Lt(ip) ) ;
             
-            %patches.dtdz_range(ip) = out.dtdz_range ;
             patches.dtdz_line(ip) = out.dtdz_line ;
             patches.dtdz_bulk(ip) = out.dtdz_bulk ;
             
-            %patches.n2_range(ip) = out.n2_range ;
             patches.n2_line(ip) = out.n2_line ;
             patches.n2_bulk(ip) = out.n2_bulk ;
             patches.n4(ip) = out.n4 ;
+
         end % ip
         
         % save profile

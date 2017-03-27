@@ -1,5 +1,5 @@
 function [] = combine_patch_profiles_eq14(patch_size_min,...
-    usetemp,merge_patches,min_sep)
+    usetemp,merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % combine_patch_profiles_eq14.m
@@ -13,14 +13,8 @@ function [] = combine_patch_profiles_eq14(patch_size_min,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear ; close all
-
-% patch options
-%patch_size_min = 0.25  % min patch size
-%usetemp = 1
 
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
-
 
 % set paths
 eq14_patches_paths
@@ -28,8 +22,10 @@ eq14_patches_paths
 ip=0;
 hb=waitbar(0,'combine_patch_profiles_eq14');
 
-for cnum=1:3200
-    waitbar(cnum/3200,hb)
+ic=0;
+for cnum=cnums_to_do%1:3200
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     try
         
         % load the patches for this profile
@@ -58,7 +54,7 @@ for cnum=1:3200
         end
         
     catch
-        disp('error!!!!')
+        disp(['error on cnum ' num2str(cnum)])
     end % try
 end % cnum
 

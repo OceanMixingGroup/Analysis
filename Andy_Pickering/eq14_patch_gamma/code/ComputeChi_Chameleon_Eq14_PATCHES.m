@@ -36,18 +36,18 @@ savespec =0  % save wavenumber spectra
 
 % patch parameters
 patch_size_min = 0.4 ; % min patch size
-usetemp   = 1 ;         % 1=use pot. temp, 0= use density
+usetemp   = 1 ;        % 1=use pot. temp, 0= use density
 
 % option to use gamma computed in patches, instead of a constant value
 use_patch_gam = 1;
 
 % which N2,dTdz to use
-whN2dTdz = 'line'
+%whN2dTdz = 'line'
 %whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
 
 %
-minR2 = 0.5 ;
+minR2 = 0.0 ;
 
 %%
 % Params for chipod calculations
@@ -116,7 +116,7 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         
         %% find patches for this cnum
         clear igc
-        %       igc=find(patches.cnum==cnum);
+        %igc=find(patches.cnum==cnum);
         igc=find(patches.cnum==cnum & patches.R2>=minR2);
         
         if length(igc)>1

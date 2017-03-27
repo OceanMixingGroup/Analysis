@@ -23,8 +23,8 @@
 
 clear ; close all
 
-whN2dTdz = 'line'
-%whN2dTdz = 'line_fit'
+%whN2dTdz = 'line'
+whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
 Params.gamma = 0.2;
 Params.fmax=7
@@ -33,7 +33,7 @@ Params.fmax=7
 patch_size_min = 0.4
 usetemp = 1
 
-minR2 = 0.5
+minR2 = 0.0
 
 savedata = 1;
 
@@ -124,7 +124,7 @@ AllEps.MakeInfo = ['Made ' datestr(now) ' w/ Combine_ChipodMethodPatches.m']
 
 if savedata==1
     % save data
-    sav_name = ['epsilons_N2dTdz_' num2str(whN2dTdz) '_minOT' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_chipodmethods.mat'] ;
+    sav_name = ['epsilons_N2dTdz_' num2str(whN2dTdz) '_minOT' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)  '_minR2_' num2str(minR2) '_chipodmethods.mat'] ;
     sav_dir='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/Patches/data/ChipodPatches'
     save(fullfile(sav_dir,sav_name),'AllEps')
 end
@@ -256,6 +256,7 @@ freqline(log10(1))
 legend([hbin hpatch],'bin','patch')
 xlabel('log_{10}[\epsilon_{\chi}/\epsilon_{\epsilon}]','fontsize',16)
 ylabel('pdf','fontsize',16)
+title(['minOT=' num2str(patch_size_min) ' ,' whN2dTdz ' method' ],'interpreter','none')
 
 %
 eq14_patches_paths

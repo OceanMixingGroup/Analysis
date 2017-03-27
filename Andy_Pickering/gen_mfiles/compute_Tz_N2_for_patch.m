@@ -73,7 +73,6 @@ if length(iz)>10
     % fit T vs sgth to compute sgth
     clear P alpha
     P = polyfit(ptmp_sort, sgth_sort, 1);
-    %
     alph = P(1) ;
     n2_bulk= -9.81 / nanmean(sgth) * alph * t_rms / Lt    ;    
     

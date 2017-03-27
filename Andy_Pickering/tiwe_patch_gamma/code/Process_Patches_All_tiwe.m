@@ -26,7 +26,7 @@ min_sep = 0.15 ;
 cnums_to_do = [2836:3711] % ydays 324-327 for TIWE
 
 % * don't need to run FindPatches again for merged **
-FindPatches_tiwe_Raw(patch_size_min,usetemp,...
+FindPatches_cham_Raw('tiwe',patch_size_min,usetemp,...
     merge_patches,min_sep,cnums_to_do)
 %
 

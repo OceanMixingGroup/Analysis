@@ -13,7 +13,7 @@ cnums_to_do = [1:5:2700] ;
 %%
 
 %
-FindPatches_EQ08_Raw(patch_size_min,usetemp,cnums_to_do )
+FindPatches_cham_Raw('eq08',patch_size_min,usetemp,cnums_to_do )
 
 %
 %
@@ -64,4 +64,5 @@ h=plot_gamma_vs_depth2X2(project_name,patch_size_min,usetemp,...
 %
 h=plot_gamma_vs_epsilon2X2(project_name,patch_size_min,usetemp,...
     merge_patches,min_sep)
+
 %%

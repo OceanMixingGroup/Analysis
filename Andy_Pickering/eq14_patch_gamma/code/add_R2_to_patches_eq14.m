@@ -41,16 +41,16 @@ for cnum=cnums_to_do %2836:3711 %1:4000
         % load raw chameleon cast
         clear cal cal2 head
         cal = load_cal_eq14(cnum);
-        cnum_loaded = cnum;       
+        cnum_loaded = cnum;
         
         for ip=1:Npatches
             
             clear x y idz P S
-            idz = isin(cal.P,[patches.p1(igc(ip)) patches.p2(igc(ip))]);
-            t = cal.T1(idz);
+            idz  = isin(cal.P,[patches.p1(igc(ip)) patches.p2(igc(ip))]);
+            t    = cal.T1(idz) ;
             sraw = cal.SAL(idz);
-            p = cal.P(idz) ;
-            [P,S] = polyfit(t, sraw, 1);
+            p    = cal.P(idz) ;
+            [P,S]= polyfit(t, sraw, 1);
             
             makeplots = 0 ;
             if makeplots==1
@@ -78,30 +78,25 @@ for cnum=cnums_to_do %2836:3711 %1:4000
             
             patches.R2(igc(ip))=R2;
             
-            % if R^2>minR2, use fit to compute N^2
-            %~~~~
-            %if R2>minR2
-                sfit = polyval(P,t);
-                ptmp=sw_ptmp(sfit,t,p,0);
-                sgth=sw_pden(sfit,t,p,0);
-                
-                % sorth pot. dens.
-                clear sgth_sort I
-                [sgth_sort , I]=sort(sgth,1,'ascend');
-                
-                %~~ compute drho/dz and N^2
-                % fit a line to sgth
-                clear P1
-                P1 = polyfit(p,sgth,1);
-                
-                % calculate N^2 from this fit
-                clear drhodz
-                drhodz = -P1(1);
-                patches.n2_line_fit(igc(ip)) = -9.81/nanmean(sgth)*drhodz;
-                                
-            %end
-            %~~~~
+           % use fit to compute N^2
             
+            sfit = polyval(P,t);
+            ptmp=sw_ptmp(sfit,t,p,0);
+            sgth=sw_pden(sfit,t,p,0);
+            
+            % sorth pot. dens.
+            clear sgth_sort I
+            [sgth_sort , I]=sort(sgth,1,'ascend');
+            
+            %~~ compute drho/dz and N^2
+            % fit a line to sgth
+            clear P1
+            P1 = polyfit(p,sgth_sort,1);
+            
+            % calculate N^2 from this fit
+            clear drhodz
+            drhodz = -P1(1);
+            patches.n2_line_fit(igc(ip)) = -9.81/nanmean(sgth)*drhodz;
             
         end % each patch
     catch

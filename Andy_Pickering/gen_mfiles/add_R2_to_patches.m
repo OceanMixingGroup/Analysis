@@ -2,9 +2,10 @@ function []=add_R2_to_patches(project_name,patch_size_min,...
     usetemp,merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% * general version
+% Add R^2 for T-S fit in each patch.
 %
-%
+%---------
+% 3/27/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
@@ -19,12 +20,11 @@ eval(['patches = load_' project_name '_patches_comb(patch_size_min, usetemp, mer
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-%minR2 = 0.5 ;
 % add empty array for R^2, and N^2 for good patches
 patches.R2 = nan*ones(size(patches.cnum));
 patches.n2_line_fit = nan*ones(size(patches.cnum));
 
-hb=waitbar(0,'adding R^2')
+hb=waitbar(0,['adding R^2 to patches for ' project_name])
 ic=0;
 for cnum=cnums_to_do 
     ic=ic+1;

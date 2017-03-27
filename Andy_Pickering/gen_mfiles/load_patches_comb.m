@@ -7,6 +7,7 @@ function patches=load_patches_comb(project_name,patch_size_min, usetemp, merge_p
 % 3/22/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
+addpath(fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering',[project_name '_patch_gamma'],'code'))
 eval([project_name '_patches_paths'])
 %datdir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/data';
 datdir = fullfile(analysis_dir,project_long,'data');
