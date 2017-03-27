@@ -113,12 +113,29 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 
 
 
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Overview of Data}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{EQ14_PreProc_Summary.png}
+\caption{Summary of $N^2$, $T_z$, $\chi$, and $\epsilon$ from standard 1m avg Chameleon data.}
+\label{}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_epsVschi_1mbinned.png}
+\caption{$\epsilon$ vs $\chi$ from standard 1m avg Chameleon data.}
+\label{}
+\end{figure}
+
+
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
 
-\
+
 \begin{itemize}
 \item $\gamma_{\chi\epsilon}$ computed for 1m avg (`binned') data is about an order of magnitude less than $0.2$ (Figure \ref{avggam}). It has a median value of $\gamma=0.015$ for data between 60-200m.  The data was processed by Sally w/ 2 different c-star values, this doesn't seem to make any difference in the estimated $\gamma_{\chi\epsilon}$.
 \item $\gamma_{\chi\epsilon}$ computed for just patches  (Figure \ref{patchgam}) varies depending on which method is used. The `line' and `bulk' methods have median values around $\gamma=0.1$. The bin and line-fit estimates are much smaller than 0.2
@@ -131,18 +148,17 @@ Values where $\epsilon$ is below the noise floor of $log_{10}[\epsilon]=-8.5$ ar
 \hline
 minOT & usetemp & minR2 & $\gamma bin$ & $\gamma line$ & $\gamma fit$ & $\gamma bulk$ & Npatches \\
 \hline
-0.4 & 1 & 0 & 0.03 & 0.15 & 0.02 & 0.13 & 9326 \\
+0.4 & 1 & 0 & 0.03 & 0.21 & 0.09 & 0.18 & 9329 \\
 \hline
-0.4 & 1 & 0.5 & 0.03 & 0.09 & 0.02 & 0.08 & 1301 \\
+0.4 & 1 & 0.5 & 0.03 & 0.14 & 0.11 & 0.12 & 1302 \\
 \hline
-0.75 & 1 & 0 & 0.05 & 0.13 & 0.02 & 0.12 & 4075 \\
+0.75 & 1 & 0 & 0.05 & 0.2 & 0.08 & 0.18 & 4076 \\
 \hline
-0.75 & 1 & 0.5 & 0.05 & 0.08 & 0.03 & 0.08 & 520 \\
+0.75 & 1 & 0.5 & 0.05 & 0.13 & 0.1 & 0.12 & 520 \\
 \hline
-1 & 1 & 0 & 0.06 & 0.12 & 0.02 & 0.12 & 2829 \\
+1 & 1 & 0 & 0.06 & 0.2 & 0.08 & 0.19 & 2829 \\
 \hline
-1 & 1 & 0.5 & 0.05 & 0.08 & 0.04 & 0.08 & 387 \\
-\hline
+1 & 1 & 0.5 & 0.05 & 0.15 & 0.11 & 0.14 & 387 \\
 \hline
 \hline
 \end{tabular}
@@ -262,7 +278,7 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{ChiPatchEpsCompare_N2dTdz_line_minOT40_usetemp_1.png}
+\includegraphics[scale=0.8]{ChiPatchEpsCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
 \caption{Comparison of $\epsilon$ from chameleon and $\chi$pod method applied to patches. (Top-left) Comparison of $\epsilon$ from patches to binned $\epsilon$ interpolated to patch locations. (Top-right) $\epsilon$ from $\chi$pod method using actual patch $\gamma$ to patch $\epsilon$ from chameleon. (Lower-left) $\epsilon$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\epsilon$ from chameleon. (Lower-right) $\epsilon$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\epsilon$ from chameleon.}
 \label{epscomp2d}
 \end{figure}
@@ -270,7 +286,7 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 
 % histogram of chipod eps to cham eps
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{ChiPatchEpsHist_N2dTdz_line_minOT40_usetemp_1.png}
+\includegraphics[scale=0.8]{ChiPatchEpsHist_N2dTdz_line_fit_minOT40_usetemp_1.png}
 \caption{Histogram of $log_{10}$ of the ratio of $\chi$pod estimated $\epsilon$ to chameleon $\epsilon$ for patches, for both binned data (interpolated to patch locations), and using only patch data.}
 \label{epscomphist}
 \end{figure}
