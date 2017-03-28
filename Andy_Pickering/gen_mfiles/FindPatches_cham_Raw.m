@@ -48,6 +48,11 @@ for cnum= cnums_to_do;
         % Load the data for this cast
         eval( ['cal = load_cal_' project_name '(cnum);'])
         
+        if isnan(cal.lat)
+            disp('no lat, using lat=0.3')
+            cal.lat=0.3;
+        end
+        
         clear s t p lat
         %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
         s = cal.SAL(1:end-1);
