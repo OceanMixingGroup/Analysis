@@ -39,12 +39,12 @@ patch_size_min = 0.4 ; % min patch size
 usetemp   = 1 ;        % 1=use pot. temp, 0= use density
 
 % option to use gamma computed in patches, instead of a constant value
-use_patch_gam = 1;
+use_patch_gam = 0;
 
 % which N2,dTdz to use
 %whN2dTdz = 'line'
 %whN2dTdz = 'line_fit'
-%whN2dTdz = 'bulk'
+whN2dTdz = 'bulk'
 
 %
 minR2 = 0.0 ;

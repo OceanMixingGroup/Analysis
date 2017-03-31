@@ -50,12 +50,12 @@ for cnum=cnums_to_do
         
         % make empty arrays for the binned data
         Npatches = length(patches.cnum) ;
-        patches.gam_bin = nan*ones(size(patches.p1)) ;
-        patches.n2_bin  = nan*ones(size(patches.p1)) ;
-        patches.dtdz_bin= nan*ones(size(patches.p1)) ;
-        patches.chi_bin = nan*ones(size(patches.p1)) ;
-        patches.eps_bin = nan*ones(size(patches.p1)) ;
-        patches.drhodz_bin=nan*ones(size(patches.p1)) ;
+        patches.gam_bin = nan*ones(Npatches,1) ;
+        patches.n2_bin  = nan*ones(Npatches,1) ;
+        patches.dtdz_bin= nan*ones(Npatches,1) ;
+        patches.chi_bin = nan*ones(Npatches,1) ;
+        patches.eps_bin = nan*ones(Npatches,1) ;
+        patches.drhodz_bin=nan*ones(Npatches,1) ;
         
         % get index for binned profile
         clear Icham pbin pmn
@@ -63,8 +63,7 @@ for cnum=cnums_to_do
         pbin = cham.P(:,Icham);
         pmn  = nanmean([patches.p1 patches.p2],2) ;
         
-        % interp binned data to the patch locations (mean p of each patch)
-        
+        % interp binned data to the patch locations (mean p of each patch)        
         clear ig
         ig=find(~isnan(pbin)) ;
         patches.n2_bin    = interp1(pbin(ig) , cham.N2(ig,Icham) , pmn);

@@ -31,7 +31,7 @@ addpath /Users/Andy/Standard-Mixing-Routines/ThorpeScales/
 
 % loop through each cast
 warning off
-hb=waitbar(0,['Finding Patches For ' project_name]);
+hb=waitbar(0,['Finding Patches For ' project_name ', minOT size=' num2str(patch_size_min) ]);
 
 ic=0;
 for cnum= cnums_to_do;
@@ -53,6 +53,10 @@ for cnum= cnums_to_do;
             cal.lat=0.3;
         end
         
+        if ~isfield(cal,'yday')
+        cal.yday=nan;
+        end
+            
         clear s t p lat
         %s=smooth( cal.SAL(1:end-1), 20 ); % (end-1) b/c last 2 values are same;
         s = cal.SAL(1:end-1);
@@ -69,20 +73,20 @@ for cnum= cnums_to_do;
         Params.usetemp=usetemp;
         
         clear OT
-        OT=compute_overturns_discrete_AP(p,t,s,Params);
+        OT = compute_overturns_discrete_AP(p,t,s,Params);
         
         clear pstarts pstops
-        pstarts=OT.pstarts_each;
-        pstops=OT.pstops_each;
+        pstarts = OT.pstarts_each;
+        pstops  = OT.pstops_each ;
         
         for i=1:length(pstarts)
             % don't keep patches shallower than 10m depth
             if pstarts(i)>10
-                patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) ];
+                patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) cal.yday ];
             end
         end
         
-        col_names={'cnum','pstart','pstop','dp','otnsq','otLt'};
+        col_names={'cnum','pstart','pstop','dp','otnsq','otLt','yday'};
         
         % save patch data for this profile
         save(fullfile(save_dir,[project_short '_raw_patches_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_cnum_' num2str(cnum) '.mat']),'patch_data','col_names')

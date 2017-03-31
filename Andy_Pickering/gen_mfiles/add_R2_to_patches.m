@@ -23,6 +23,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 % add empty array for R^2, and N^2 for good patches
 patches.R2 = nan*ones(size(patches.cnum));
 patches.n2_line_fit = nan*ones(size(patches.cnum));
+patches.gam_line_fit = nan*ones(size(patches.cnum));
 
 hb=waitbar(0,['adding R^2 to patches for ' project_name])
 ic=0;
@@ -107,7 +108,7 @@ end % cnum
 delete(hb)
 
 %% compute gamma for these values also
-patches.gam_line_fit = nan*(ones(size(patches.gam_bin))) ;
+%patches.gam_line_fit = nan*(ones(size(patches.gam_bin))) ;
 patches.gam_line_fit = ComputeGamma(patches.n2_line_fit, patches.dtdz_line, patches.chi, patches.eps);
 
 

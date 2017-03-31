@@ -89,7 +89,7 @@ for cnum =  cnums_to_do %2836:3711%1:4000
         for i=1:length(pstarts)
             % don't keep patches shallower than 10m depth
             if pstarts(i)>10
-                patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) yday ];
+                patch_data=[patch_data ; cnum pstarts(i) pstops(i)  ( pstops(i) - pstarts(i) ) OT.Otnsq_each(i) OT.Lt_each(i) cal.yday ];
             end
         end
         

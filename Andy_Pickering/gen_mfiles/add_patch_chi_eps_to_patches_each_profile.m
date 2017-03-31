@@ -49,8 +49,8 @@ for cnum = cnums_to_do
         end
         
         % add empty arrays for chi and eps
-        patches.eps=nan*ones(size(patches.p1));
-        patches.chi=nan*ones(size(patches.p1));
+        patches.eps = nan*ones(size(patches.p1));
+        patches.chi = nan*ones(size(patches.p1));
         
         % load the processed profile w/ chi and eps for each patch ('avg')
         clear avg

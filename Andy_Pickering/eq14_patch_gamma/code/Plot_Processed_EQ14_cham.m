@@ -2,7 +2,7 @@
 %
 % Plot_Processed_EQ14_cham.m
 %
-% Plot pre-processed (Sally/Jim) chameleon data from EQ14 
+% Plot pre-processed (Sally/Jim) chameleon data from EQ14
 %
 %----------------------
 % 01/19/16 - A.Pickering
@@ -59,9 +59,9 @@ SubplotLetterMW('\epsilon');
 linkaxes([ax1 ax2 ax3 ax4 ])
 
 if saveplot==1
-%   figdir='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Figures'
-eq14_patches_paths
-   print( fullfile( fig_dir,['EQ14_PreProc_Summary'] ) , '-dpng' )
+    %   figdir='/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Figures'
+    eq14_patches_paths
+    print( fullfile( fig_dir,['EQ14_PreProc_Summary'] ) , '-dpng' )
 end
 
 %%

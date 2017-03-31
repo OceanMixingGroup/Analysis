@@ -1,4 +1,13 @@
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% process_all_eq08_patches.m
+%
+% Run all patch-analysis processing for eq08
+%
+%
+%-------------
+% 3/29/17 - A.Pickering
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 clear all ; close all ; clc
 
@@ -13,14 +22,8 @@ cnums_to_do = [1:5:2700] ;
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 eq08_patches_paths
-
 %%
-
-%
 FindPatches_cham_Raw(project_short,patch_size_min,usetemp,cnums_to_do )
-
-%
-%
 
 % if merge_patches==1
 % merge_patches_eq14(patch_size_min,usetemp,...
@@ -30,7 +33,7 @@ FindPatches_cham_Raw(project_short,patch_size_min,usetemp,cnums_to_do )
 %
 Compute_N2_dTdz_patches_eachcast(project_short,patch_size_min,usetemp,...
     merge_patches,min_sep, cnums_to_do)
-%
+%%
 add_binned_to_patches_eq08(patch_size_min,usetemp,...
     merge_patches,min_sep,cnums_to_do)
 %
@@ -45,28 +48,5 @@ combine_patch_profiles(project_short,patch_size_min,...
 %
 add_R2_to_patches(project_short,patch_size_min,...
     usetemp,merge_patches,min_sep,cnums_to_do)
-
-%% Make plots
-
-project_name = 'eq08'
-depth_range = [60 200]
-
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
-%
-h=plot_patch_locations_eq08(patch_size_min,usetemp,...
-    merge_patches,min_sep)
-
-%
-h=plot_patch_gamma_2X2(project_name,patch_size_min,usetemp,...
-    merge_patches,min_sep,depth_range)
-
-%
-h=plot_gamma_vs_depth2X2(project_name,patch_size_min,usetemp,...
-    merge_patches,min_sep)
-
-%
-h=plot_gamma_vs_epsilon2X2(project_name,patch_size_min,usetemp,...
-    merge_patches,min_sep)
 
 %%

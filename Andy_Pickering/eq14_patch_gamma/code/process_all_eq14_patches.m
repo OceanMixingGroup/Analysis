@@ -9,7 +9,7 @@
 
 clear ; close all
 
-patch_size_min = 0.75
+patch_size_min = 0.4
 usetemp = 1
 
 merge_patches = 0
@@ -20,7 +20,7 @@ eq14_patches_paths
 %cnums_to_do = 500%[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
 %        1075:1128 1130:1737 1739:2550 2552:2996 2998:3092];
     
-cnums_to_do = [1:5:3100];
+cnums_to_do = 1:3100;% [1:5:3100];
 %
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
@@ -55,38 +55,5 @@ combine_patch_profiles(project_short,patch_size_min,...
 %
 add_R2_to_patches(project_short,patch_size_min,...
     usetemp,merge_patches,min_sep,cnums_to_do)
-
-
-%% Make plots
-
-clear ; close all
-
-patch_size_min = 1
-usetemp = 1
-merge_patches = 0
-min_sep = 0.15
-
-eq14_patches_paths
-
-%
-h=plot_patch_locations_eq14(patch_size_min,usetemp,...
-    merge_patches,min_sep)
-
-%
-depth_range = [ 80 200]
-h=plot_patch_gamma_2X2(project_short,patch_size_min,usetemp,...
-    merge_patches,min_sep,depth_range)
-
-%
-h=plot_gamma_vs_depth2X2(project_short,patch_size_min,usetemp,...
-    merge_patches,min_sep)
-
-%
-h=plot_gamma_vs_epsilon2X2(project_short,patch_size_min,usetemp,...
-    merge_patches,min_sep)
-
-%%
-
-plot_gamma_vs_cnum_eq14
 
 %%

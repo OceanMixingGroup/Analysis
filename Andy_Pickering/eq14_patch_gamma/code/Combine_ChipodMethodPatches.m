@@ -52,6 +52,7 @@ chi_cham_bin  = [] ;
 chi_cham_patch= [] ;
 chi_chipod_binned    = [] ;
 
+
 eq14_patches_paths
 
 dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches')

@@ -2,7 +2,6 @@ function [] = Compute_N2_dTdz_patches_eachcast(project_name,patch_size_min,usete
     merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% * general version *
 % Compute_N2_dTdz_patches_eachcast.m
 %
 %
@@ -29,7 +28,7 @@ eval([project_name '_patches_paths'])
 addpath /Users/Andy/Cruises_Research/seawater_ver3_2/
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-hb=waitbar(0,'Compute_N2_dTd_patches...')
+hb=waitbar(0,['Computing N2, dTdz for ' project_name ' patches'])
 warning off
 ic=0;
 for cnum=cnums_to_do
@@ -51,33 +50,38 @@ for cnum=cnums_to_do
         patches.p2   = patch_data(:,3) ;
         patches.n2_ot= patch_data(:,5) ;
         patches.Lt   = patch_data(:,6) ;
-        %patches.yday = patch_data(:,7) ;
+        patches.yday = patch_data(:,7) ;
         
         % Make empty arrays for results
         Npatches=length(patches.p1);
         EmpVec=nan*ones(Npatches,1);
         
         % Different methods of computing N^2
-        patches.n2_range=EmpVec;
         patches.n2_line=EmpVec;
         patches.n2_bulk=EmpVec;
         patches.n4=EmpVec;
-        patches.n2_bulk_2=EmpVec;
         
         % density gradients
         patches.drhodz_bulk=EmpVec;
         patches.drhodz_line=EmpVec;
         
         % Different methods of computing dT/dz
-        patches.dtdz_range=EmpVec;
+        %patches.dtdz_range=EmpVec;
         patches.dtdz_line=EmpVec;
         patches.dtdz_bulk=EmpVec;
+        
+        patches.chi = EmpVec;
+        patches.eps = EmpVec;
+        
+        patches.gam_line=EmpVec;
+        patches.gam_bulk=EmpVec;
+        patches.gam4 = EmpVec;
         
         % load raw chameleon cast
         clear cal cal2 head
         
         % Load the data for this cast
-        cal = load_cal_eq14(cnum) ;
+        eval(['cal = load_cal_' project_name '(cnum) ;'])
         
         % compute pot. temp, pot. density etc.
         clear s t p lat ptmp sgth
@@ -109,6 +113,8 @@ for cnum=cnums_to_do
             save(fullfile(save_dir_patch,ot_dir,[project_short '_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma_cnum_' num2str(cnum) '.mat']), 'patches' )
         end
         
+    catch
+        disp(['error on ' num2str(cnum)])
     end % try
 end % cnum
 

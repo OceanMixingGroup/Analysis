@@ -43,6 +43,7 @@ for cnum=cnums_to_do%
         else
             % add each field on to patch_all
             fnames=fieldnames(patches);
+            fnames_all=fieldnames(patch_all);
             for ivar=1:length(fnames)
                 patch_all.(fnames{ivar}) = [patch_all.(fnames{ivar})(:) ; patches.(fnames{ivar})(:)] ;
             end

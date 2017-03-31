@@ -1,5 +1,5 @@
 function []=Run_tiwe_AP_forPatches(patch_size_min,usetemp,...
-    merge_patches,min_sep)
+    merge_patches,min_sep,cnums_to_do)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Run_tiwe_AP_forPatches.m
@@ -21,17 +21,7 @@ function []=Run_tiwe_AP_forPatches(patch_size_min,usetemp,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear all ; close all
-
-%patch_size_min = 0.4 ; % min patch size
-%usetemp   = 1 ;         % 1=use pot. temp, 0= use density
-
-% option to use merged patches
-%merge_patches = 0 ;
-%min_sep = 0.15 ;
-
 ot_dir=['minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp)]
-
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
@@ -61,10 +51,10 @@ q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2',
 warning off
 
 hb=waitbar(0,'Run_tiwe_AP_forPatches')
-
-for cast=2836:3711 % 1:4000
-    
-    waitbar(cast/4000,hb)
+ic=0;
+for cast=cnums_to_do%2836:3711 % 1:4000
+    ic=ic+1;
+    waitbar(ic/length(cnums_to_do),hb)
     
     % bad files: 144
     %disp(cast);
@@ -133,7 +123,8 @@ for cast=2836:3711 % 1:4000
                 
                 % create a seperate .mat data file containing 1m binned data and header
                 temp=num2str(q.script.num+10000);
-                fn=[q.script.prefix temp(2:5) '_avg'];
+                %fn=[q.script.prefix '_' temp(2:5) '.mat'];
+                fn=['tiwe_' temp(2:5) '.mat'];
                 head.p_max=max(cal.P);
                 %eval(['save ' path_save fn ' avg head']);
                 save( fullfile(path_save,fn),'avg','head')

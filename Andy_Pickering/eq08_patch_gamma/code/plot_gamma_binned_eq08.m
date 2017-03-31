@@ -35,7 +35,7 @@ xlim([-4 1])
 freqline(log10(0.2))
 xlabel('log_{10}[\gamma_{\chi\epsilon}]','fontsize',16)
 ylabel('pdf','fontsize',16)
-title('EQ14 1m avg \gamma_{\chi\epsilon}' )
+title('EQ08 1m avg \gamma_{\chi\epsilon}' )
 grid on
 
 %%

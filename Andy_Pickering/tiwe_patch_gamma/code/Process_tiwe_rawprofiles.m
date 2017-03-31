@@ -30,7 +30,7 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
-for cast=2836:3711%1:4000%1394%[7:3918]%[858:1219,2123:2590]%
+for cast=1:4000%2836:3711%
     % bad files: 144
     %disp(cast);
     q.script.num=cast;

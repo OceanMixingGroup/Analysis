@@ -19,9 +19,13 @@ clear all ; close all
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general/
+addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
+addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham
+addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/calibrate
 
 path_raw  = '/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/' ;
-path_save = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/' ;
+path_save = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg/' ;
+ChkMkDir(path_save)
 
 % Make list of raw files we have
 Flist=dir( fullfile(path_raw, '*tw91*'))
@@ -32,7 +36,7 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
-for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
+for cast=1520:4000%1394%[7:3918]%[858:1219,2123:2590]%
     % bad files: 144
     %disp(cast);
     q.script.num=cast;
@@ -88,6 +92,8 @@ for cast=1:4000%1394%[7:3918]%[858:1219,2123:2590]%
                 head.p_max=max(cal.P);
                 eval(['save ' path_save fn ' avg head']);
             end % if not bad
+        catch
+            disp('error')
         end % try
     end % if file exists
 end % cast

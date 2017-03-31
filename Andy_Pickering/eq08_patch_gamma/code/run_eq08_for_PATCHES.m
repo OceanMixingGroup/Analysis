@@ -57,12 +57,8 @@ series={'fallspd','t','tp','c','mht','s','theta','sigma','sigma_order','n2','eps
     'chi','az2','dtdz','drhodz','varaz','varlt','varlt_theta','scat','ax_tilt','ay_tilt'};
 warning off
 ic=0;
-hb=waitbar(0)
-% restart at 992
-% for cast=[16:78,80:543,545:547,549,551:685,687:719,721:789,791,...
-%         793:798,800,802:988,990:1083,1085:1189,1191:1199,1201:1414,...
-%         1416:1420,1422:1500,1502,1504:1624,1631:1861,1863:1978,...
-%         1980:2124,2126:2140,2142:2298,2300:2668]
+hb=waitbar(0,'processing eq08 chameleon for patches')
+
 for cast = cnums_to_do
     try
         %     [193:543,545:547,549,551:685,687:719,721:789,791,...
@@ -84,7 +80,7 @@ for cast = cnums_to_do
         
         waitbar(ic/2624,hb)
         
-        disp(['working on cast ' num2str(cast)]);
+        %disp(['working on cast ' num2str(cast)]);
         q.script.num=cast;
         q.series=series;
         temp1=q;
@@ -174,7 +170,7 @@ for cast = cnums_to_do
         
         % save 'avg' data file containing 1m binned data and header
         temp=num2str(q.script.num+10000);
-        fn=[q.script.prefix temp(2:5) '_avg'];
+        fn=[q.script.prefix '_' temp(2:5) '.mat'];
         head.p_max=max(cal.P);
         %eval(['save ' path_save fn ' avg head']);
         %    save( fullfile(save_dir_avg_patch,fn),'avg','head')

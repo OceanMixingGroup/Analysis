@@ -57,7 +57,7 @@ for cnum = cnums_to_do %2836:3711 %1:4000
         patches.p2   = patch_data(:,3) ;
         patches.n2_ot= patch_data(:,5) ;
         patches.Lt   = patch_data(:,6) ;
-        patches.yday = patch_data(:,7) ;
+        %patches.yday = patch_data(:,7) ;
         
         % Make empty arrays for results
         Npatches=length(patches.p1);

@@ -16,6 +16,9 @@ tiwe_patches_paths
 load( fullfile( save_dir_cal, ['tw91' sprintf('%04d',cnum) '_raw.mat'] ) )
 cal=cal2 ; clear cal2
 
+clear yday
+cal.yday=str2num(head.starttime(end-5:end));
+
 % get latitude for profile
 clear idot lat1 lat2
 idot=strfind(head.lat.start,'.');

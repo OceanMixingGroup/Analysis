@@ -221,8 +221,8 @@ See Figure \ref{epsvsgam}:
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_vs_eps2X2.png}
-\caption{Plot of $\epsilon$  versus $\gamma_{\chi\epsilon}$ for patches.  Vertical line is $\gamma=0.2$.}
+\includegraphics[scale=0.6]{eq14_minOT_40_usetemp_1_gammas_vs_eps2X2_80_200m.png}
+\caption{Plot of $\epsilon$  versus $\gamma_{\chi\epsilon}$ for patches.  *For depths 80-200m*. Vertical line is $\gamma=0.2$.}
 \label{epsvsgam}
 \end{figure}
 
@@ -236,7 +236,7 @@ See Figure \ref{epsvsgam}:
 To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gamma_{\chi\epsilon}$ vs cast number (Figure \ref{gamvscnum}).
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_60_200.png}
+\includegraphics[scale=0.6]{eq14_minOT_40_usetemp_1_gam_vs_cnum_depths_80_200.png}
 \caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs cast number. Vertical line is $\gamma=0.2$. Black points are the median value for each cast.}
 \label{gamvscnum}
 \end{figure}
@@ -249,7 +249,7 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 \subsection{Variation of $\gamma_{\chi\epsilon}$ over depth}
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_minOT_40_usetemp_1_gammas_vs_depth2X2.png}
+\includegraphics[scale=0.6]{eq14_minOT_40_usetemp_1_gammas_vs_depth2X2.png}
 \caption{Plot of $\gamma_{\chi\epsilon}$ for patches vs depth. Vertical line is $\gamma=0.2$. }
 \label{gamvsdepth}
 \end{figure}
@@ -271,14 +271,14 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 \end{itemize}
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{ChiPatchChiCompare_N2dTdz_line_minOT40_usetemp_1.png}
+\includegraphics[scale=0.6]{ChiPatchChiCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
 \caption{Comparison of $\chi$ from chameleon and $\chi$pod method applied to patches. (Top-left) Comparison of $\chi$ from patches to binned $\chi$ interpolated to patch locations. (Top-right) $\chi$ from $\chi$pod method using actual patch $\gamma$ to patch $\chi$ from chameleon. (Lower-left) $\chi$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\chi$ from chameleon. (Lower-right) $\chi$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\chi$ from chameleon.}
 \label{chicomp2d}
 \end{figure}
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{ChiPatchEpsCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
+\includegraphics[scale=0.6]{ChiPatchEpsCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
 \caption{Comparison of $\epsilon$ from chameleon and $\chi$pod method applied to patches, using the `line-fit' method. (Top-left) Comparison of $\epsilon$ from patches to binned $\epsilon$ interpolated to patch locations. (Top-right) $\epsilon$ from $\chi$pod method using actual patch $\gamma$ to patch $\epsilon$ from chameleon. (Lower-left) $\epsilon$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\epsilon$ from chameleon. (Lower-right) $\epsilon$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\epsilon$ from chameleon.}
 \label{epscomp2d}
 \end{figure}
@@ -286,25 +286,26 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 
 % histogram of chipod eps to cham eps
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{ChiPatchEpsHist_N2dTdz_line_fit_minOT40_usetemp_1.png}
+\includegraphics[scale=0.6]{ChiPatchEpsHist_N2dTdz_line_fit_minOT40_usetemp_1.png}
 \caption{Histogram of $log_{10}$ of the ratio of $\chi$pod estimated $\epsilon$ to chameleon $\epsilon$ for patches, for both binned data (interpolated to patch locations), and using only patch data.}
 \label{epscomphist}
 \end{figure}
 
 
 
-
+\clearpage
 %~~~~~~~~~
 \subsection{Comparing time-averaged profiles of $\epsilon$}
 
 \verb+Plot_eps_profiles.m+
 
+Looking at median values and scatterplots might be a little misleading. Maybe what we care about most is the mean profile of $\epsilon$ (or $K_{\rho}$ and $\chi$ (or $K_T$), which are probably dominated by just a small number of large values. Figure \ref{eps_prof_comp} shows averaged profiles of $\epsilon$ for several 500-profile chunks of the EQ14 data. The $\chi$pod estimates using 1m bins (`bin') tend to overestimate $\epsilon$ (most of the values are actually less than the chameleon values, but apparently the averages are dominated by a few points that are way too high). The $\chi$pod estimates using patches tend to agree well witht he Chameleon profiles.
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eps_prof_example.png}
+\includegraphics[scale=0.8]{eps_prof_comparisons.png}
 \caption{Profiles of $\epsilon$, averaged over a number of casts. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch').}
-\label{}
+\label{eps_prof_comp}
 \end{figure}
 
 
