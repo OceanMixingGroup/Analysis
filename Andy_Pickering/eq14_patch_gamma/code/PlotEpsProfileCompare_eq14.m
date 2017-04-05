@@ -1,5 +1,5 @@
 function h = PlotEpsProfileCompare_eq14(cnum,whN2dTdz,Params,patch_size_min,...
-    usetemp,minR2)
+    usetemp,minR2,dz)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 eq14_patches_paths
@@ -34,9 +34,9 @@ xlabel('log_{10}[\epsilon]')
 ylabel('P [db]')
 
 
-[bin1 z1 Nobs] = binprofile(avg.EPSILON,avg.P, 0, 10, 200,1);
-[bin2 z2 Nobs] = binprofile(chb.eps1,chb.P, 0, 10, 200,1);
-[bin3 z3 Nobs] = binprofile(ch.eps1,ch.P, 0, 10, 200,0);
+[bin1 z1 Nobs] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,1);
+[bin2 z2 Nobs] = binprofile(chb.eps1   , chb.P, 0, dz, 200,1);
+[bin3 z3 Nobs] = binprofile(ch.eps1    , ch.P , 0, dz, 200,0);
 
 % plot 10m binned profiles also
 ax2 = subplot(122);
