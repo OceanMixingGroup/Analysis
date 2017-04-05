@@ -299,13 +299,51 @@ The $\chi$pod method was applied to patches to see if the agreement between $\ch
 
 \verb+Plot_eps_profiles.m+
 
-Looking at median values and scatterplots might be a little misleading. Maybe what we care about most is the mean profile of $\epsilon$ (or $K_{\rho}$ and $\chi$ (or $K_T$), which are probably dominated by just a small number of large values. Figure \ref{eps_prof_comp} shows averaged profiles of $\epsilon$ for several 500-profile chunks of the EQ14 data. The $\chi$pod estimates using 1m bins (`bin') tend to overestimate $\epsilon$ (most of the values are actually less than the chameleon values, but apparently the averages are dominated by a few points that are way too high). The $\chi$pod estimates using patches tend to agree well witht he Chameleon profiles.
+Looking at median values and scatterplots might be a little misleading. Maybe what we care about most is the mean profile of $\epsilon$ (or $K_{\rho}$ and $\chi$ (or $K_T$), which are probably dominated by just a small number of large values. 
+
+Figure \ref{epsrathist} shows the ratio of $\epsilon$ estimates (averaged in 10m bins from each profiles) from the $\chi$pod method to chameleon $\epsilon$ values, for both chi-pod method applied to 1m binned profiles, and applied to just patches. In such a point-by-point comparsion, the patch estimates have a smaller bias.
+
+
+Figure \ref{eps_prof_comp} shows averaged profiles of $\epsilon$ for several 500-profile chunks of the EQ14 data. The average profile of $\chi$pod estimates using 1m bins (`bin') tend to agree well with the chameleon average profile, if $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded (these are likely bad data due to extremely small dTdz). In fact, the average profile constructed from the binned $\chi$pod estimates tends to agree better than the patch profile.
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_ratios.png}
+\caption{Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values, for chi-pod method applied to 1m binned profiles, and applied to just patches. Estimates for each profile were averaged in 10m depth bins.}
+\label{epsrathist}
+\end{figure}
 
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eps_prof_comparisons.png}
-\caption{Profiles of $\epsilon$, averaged over a number of casts. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch').}
+\caption{Profiles of $\epsilon$, averaged over 500-cast chunks. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch'). *Note $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded.}
 \label{eps_prof_comp}
+\end{figure}
+
+
+\clearpage
+%~~~~~~~~
+\subsection{$\gamma$ computed from averaged quantities}
+
+If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma=0.2$? Estimates from the averaged data are larger (Figure \ref{gambox}) but still slightly less than 0.2 .
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{gamma_point_avg_box.png}
+\caption{Boxplots of $log_{10}[\gamma]$ for a set of profiles from EQ14. Left is for all 1m avg data. Right is for data from all profiles averaged in 10m bins. Horizontal dashed line indicates $\gamma=0.2$.}
+\label{gambox}
+\end{figure}
+
+
+
+%~~~~~~~~
+\subsection{How many profiles need to be averaged to converge?}
+
+Next I wanted to see how many profiles we need to average for the chi-pod profile to converge to the chameleon profile. Obviously this will depend on the specific profiles used and the characteristics of the turbulence, but here they seem to converge after about 100-150 profiles. 
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eps_prof_diffN.png}
+\caption{Average profiles of $\epsilon$ from binned chi-pod method and chameleon, for different number of profiles (given by title).}
+\label{}
 \end{figure}
 
 
