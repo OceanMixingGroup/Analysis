@@ -36,15 +36,15 @@ savespec =0  % save wavenumber spectra
 
 % patch parameters
 patch_size_min = 0.4 ; % min patch size
-usetemp   = 1 ;        % 1=use pot. temp, 0= use density
+usetemp        = 1   ; % 1=use pot. temp, 0= use density
 
 % option to use gamma computed in patches, instead of a constant value
 use_patch_gam = 0;
 
 % which N2,dTdz to use
 %whN2dTdz = 'line'
-%whN2dTdz = 'line_fit'
-whN2dTdz = 'bulk'
+whN2dTdz  = 'line_fit'
+%whN2dTdz = 'bulk'
 
 %
 minR2 = 0.0 ;
@@ -65,8 +65,11 @@ end
 
 % load patch data
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/
+
 eq14_patches_paths
+
 datdir = fullfile( analysis_dir, project_long, 'data')
+
 load(fullfile(datdir,['eq14_cham_minOT_' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_patches_diffn2dtdzgamma.mat']), 'patches' )
 
 
@@ -86,7 +89,7 @@ ChkMkDir(datdirsave)
 
 %%
 tstart=tic;
-hb = waitbar(0) ;
+hb = waitbar(0,'Applying chi-pod method to patches for eq14') ;
 % loop through each cast
 for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         1075:1128 1130:1737 1739:2550 2552:2996 2998:3092]
@@ -105,10 +108,10 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
         
         %%
         clear ctd z_smooth
-        ctd=struct();
+        ctd   =struct();
         ctd.t1=cal.T1;
         ctd.s1=cal.SAL;
-        ctd.p=cal.P;
+        ctd.p =cal.P;
         
         % add in lat and lon
         ctd.lon = cal.lon;
@@ -342,10 +345,12 @@ for cnum=[4:12 14:46 48:87 374:519 550:597 599:904 906:909 911:1070 ...
             avg.MakeInfo=['Made ' datestr(now) ' w/ ComputeChi_Chameleon_Eq14_PATCHES.m'];
             
             % save results
-            save(fullfile(datdirsave,['EQ14_' sprintf('%04d',cnum) 'avg.mat']),'avg')
+            save(fullfile(datdirsave,['EQ14_' sprintf('%04d',cnum) '_avg.mat']),'avg')
             
         end
         
+    catch
+        disp('error!')
     end % try
     
 end % icast

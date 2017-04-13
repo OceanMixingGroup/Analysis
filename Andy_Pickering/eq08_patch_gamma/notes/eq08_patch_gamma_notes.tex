@@ -279,6 +279,103 @@ To investigate whether $\gamma_{\chi\epsilon}$ varies over time, I plotted $\gam
 
 
 
+
+
+\clearpage
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Application of $\chi$pod method to binned data}
+
+* section in progress *
+
+The $\chi$pod method was applied to patches to see if the agreement between $\chi$pod-estimated $\chi$ and $\epsilon$ improved. Applying the $\chi$pod method to the entire profiles gave decent agreement in $\chi$, but $\chi$pod-estimated $\gamma$ was biased low by about an order of magnitude (which is what motivated this whole patch analysis).  
+
+mfiles:
+\begin{itemize}
+\item \verb+ComputeChi_Chameleon_Eq08.m+ : The $\chi$pod method is applied.
+\item \verb+Plot_eps_profiles_eq08.m+
+\item all the profiles are combined into one structure in \verb+XXX?.m+.
+\end{itemize}
+
+
+\begin{figure}[htbp]
+%\includegraphics[scale=0.6]{ChiPatchChiCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
+\caption{Comparison of $\chi$ from chameleon and $\chi$pod method applied to patches. (Top-left) Comparison of $\chi$ from patches to binned $\chi$ interpolated to patch locations. (Top-right) $\chi$ from $\chi$pod method using actual patch $\gamma$ to patch $\chi$ from chameleon. (Lower-left) $\chi$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\chi$ from chameleon. (Lower-right) $\chi$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\chi$ from chameleon.}
+\label{chicomp2d}
+\end{figure}
+
+
+\begin{figure}[htbp]
+%\includegraphics[scale=0.6]{ChiPatchEpsCompare_N2dTdz_line_fit_minOT40_usetemp_1.png}
+\caption{Comparison of $\epsilon$ from chameleon and $\chi$pod method applied to patches, using the `line-fit' method. (Top-left) Comparison of $\epsilon$ from patches to binned $\epsilon$ interpolated to patch locations. (Top-right) $\epsilon$ from $\chi$pod method using actual patch $\gamma$ to patch $\epsilon$ from chameleon. (Lower-left) $\epsilon$ from $\chi$pod method using binned data, interopolated to patch locations, compared to patch $\epsilon$ from chameleon. (Lower-right) $\epsilon$ from $\chi$pod method using a constant $\gamma=0.2$ to patch $\epsilon$ from chameleon.}
+\label{epscomp2d}
+\end{figure}
+
+
+% histogram of chipod eps to cham eps
+\begin{figure}[htbp]
+%\includegraphics[scale=0.6]{ChiPatchEpsHist_N2dTdz_line_fit_minOT40_usetemp_1.png}
+\caption{Histogram of $log_{10}$ of the ratio of $\chi$pod estimated $\epsilon$ to chameleon $\epsilon$ for patches, for both binned data (interpolated to patch locations), and using only patch data.}
+\label{epscomphist}
+\end{figure}
+
+
+
+\clearpage
+%~~~~~~~~~
+\subsection{Comparing time-averaged profiles of $\epsilon$}
+
+Looking at median values and scatterplots might be a little misleading. Maybe what we care about most is the mean profile of $\epsilon$ (or $K_{\rho}$ and $\chi$ (or $K_T$), which are probably dominated by just a small number of large values. 
+
+Figure \ref{epsrathist} shows the ratio of $\epsilon$ estimates (averaged in 10m bins from each profiles) from the $\chi$pod method to chameleon $\epsilon$ values, for both chi-pod method applied to 1m binned profiles, and applied to just patches. In such a point-by-point comparsion, the patch estimates have a smaller bias.
+
+
+Figure \ref{eps_prof_comp} shows averaged profiles of $\epsilon$ for several 500-profile chunks of the EQ0-8 data. The average profile of $\chi$pod estimates using 1m bins (`bin') tend to agree well with the chameleon average profile, if $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded (these are likely bad data due to extremely small dTdz). In fact, the average profile constructed from the binned $\chi$pod estimates tends to agree better than the patch profile.
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq08_10mbinned_eps_ratios.png}
+\caption{Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values, for chi-pod method applied to 1m binned profiles. Estimates for each profile were averaged in 10m depth bins.}
+\label{epsrathist}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq08eps_prof_comparisons.png}
+\caption{Profiles of $\epsilon$, averaged over 500-cast chunks. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch'). *Note $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded.}
+\label{eps_prof_comp}
+\end{figure}
+
+
+\clearpage
+%~~~~~~~~
+\subsection{$\gamma$ computed from averaged quantities}
+
+If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma=0.2$? Estimates from the averaged data are larger (Figure \ref{gambox}) but still slightly less than 0.2 .
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq08_gamma_point_avg_box.png}
+\caption{Boxplots of $log_{10}[\gamma]$ for a set of profiles from EQ14. Left is for all 1m avg data. Right is for data from all profiles averaged in 10m bins. Horizontal dashed line indicates $\gamma=0.2$.}
+\label{gambox}
+\end{figure}
+
+
+
+%~~~~~~~~
+\subsection{How many profiles need to be averaged to converge?}
+
+Next I wanted to see how many profiles we need to average for the chi-pod profile to converge to the chameleon profile. Obviously this will depend on the specific profiles used and the characteristics of the turbulence, but here they seem to converge after about 100-150 profiles. 
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq08eps_prof_diffN.png}
+\caption{Average profiles of $\epsilon$ from binned chi-pod method and chameleon, for different number of profiles (given by title).}
+\label{}
+\end{figure}
+
+
+
+
+
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Summary}

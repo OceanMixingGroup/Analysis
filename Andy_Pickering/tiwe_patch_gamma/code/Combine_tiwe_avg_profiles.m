@@ -12,38 +12,38 @@
 
 clear ; close all
 
-data_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg/' ;
+tiwe_patches_paths
 
-Flist = dir( fullfile(data_dir,'*mat') )
+Flist = dir( fullfile(path_cham_avg,'*mat') )
 Nprof=length(Flist)
 
 % Make empty structure for combined data
-cham=struct();
-pvec=1:1:210;
-EmpMat=nan*ones(length(pvec),Nprof);
-cham.T=EmpMat;
-cham.S=EmpMat;
-cham.CHI=EmpMat;
-cham.DTDZ=EmpMat;
-cham.N2=EmpMat;
-cham.EPSILON=EmpMat;
-cham.cnum=nan*ones(1,Nprof);
-cham.yday=nan*ones(1,Nprof);
-cham.P=pvec(:);
+cham = struct();
+pvec      = 1:1:210;
+EmpMat    = nan*ones(length(pvec),Nprof);
+cham.T    = EmpMat;
+cham.S    = EmpMat;
+cham.CHI  = EmpMat;
+cham.DTDZ = EmpMat;
+cham.N2   = EmpMat;
+cham.EPSILON = EmpMat;
+cham.cnum = nan*ones(1,Nprof);
+cham.yday = nan*ones(1,Nprof);
+cham.P    = pvec(:);
 
-hb=waitbar(0)
+hb=waitbar(0,'combining TIWE avg profiles')
 
 for ic=1:length(Flist)
     
-    waitbar(ic/Nprof,hb,'working')
+    waitbar(ic/Nprof,hb)
     
     clear fname cnum
     
     fname=Flist(ic).name;
     
-    cnum = str2num(fname(5:8));       
+    cnum = str2num(fname(6:9));       
     
-    load( fullfile( data_dir, fname) )
+    load( fullfile( path_cham_avg, fname) )
     
     try
         cham.cnum(ic)     = cnum ;
@@ -54,6 +54,8 @@ for ic=1:length(Flist)
         cham.DTDZ(:,ic)   = interp1(avg.P,avg.DTDZ,pvec) ;
         cham.CHI(:,ic)    = interp1(avg.P,avg.CHI,pvec) ;
         cham.EPSILON(:,ic)= interp1(avg.P,avg.EPSILON,pvec) ;
+    catch
+        disp(['Error on profile ' num2str(cnum)])
     end
     
 end

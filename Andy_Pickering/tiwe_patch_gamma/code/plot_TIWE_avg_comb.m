@@ -9,7 +9,11 @@
 
 clear ; close all
 
+tiwe_patches_paths
+
 load( fullfile('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/','tiwe_1mavg_combined.mat') )
+
+addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
 
 figure(1);clf
 agutwocolumn(1)
@@ -44,7 +48,7 @@ title('sgth')
 
 linkaxes([ax1 ax2 ax3])
 
-fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+%fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
 print(fullfile(fig_dir,'tiwe_avgCombine_T_S_sgth'),'-dpng')
 
 
@@ -102,9 +106,7 @@ title('log_{10}[\epsilon]')
 
 linkaxes([ax1 ax2 ax3 ax4])
 
-%
-
-fig_dir='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/figures'
+tiwe_patches_paths
 print(fullfile(fig_dir,'tiwe_avgCombine_N2_dtdz_chi_eps'),'-dpng')
 
 SetNotesFigDir
