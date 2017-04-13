@@ -15,7 +15,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-clear all ; close all
+clear ; close all ; clc
 
 addpath /Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/mfiles
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general/
@@ -24,11 +24,10 @@ addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/calibrate
 
 path_raw  = '/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/' ;
-path_save = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/avg/' ;
-ChkMkDir(path_save)
 
-% Make list of raw files we have
-Flist=dir( fullfile(path_raw, '*tw91*'))
+tiwe_patches_paths
+%%
+ChkMkDir(path_cham_avg)
 
 global data head cal q
 q.script.pathname =  path_raw;
@@ -36,7 +35,11 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
-for cast=1520:4000%1394%[7:3918]%[858:1219,2123:2590]%
+
+hb = waitbar(0,'processing tiwe chameleon files')
+
+for cast = 1992:4000
+    waitbar(cast/4000,hb)
     % bad files: 144
     %disp(cast);
     q.script.num=cast;
@@ -52,9 +55,6 @@ for cast=1520:4000%1394%[7:3918]%[858:1219,2123:2590]%
             nfft=256;
             warning off
             if bad~=1
-                % average calibrated data into 1m bins
-                %
-                % avg=average_data_gen_ct01a(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
                 avg=average_data_gen1(q.series,'binsize',1,'nfft',nfft,'whole_bins',1);
                 
                 % remove glitches
@@ -88,15 +88,20 @@ for cast=1520:4000%1394%[7:3918]%[858:1219,2123:2590]%
                 
                 % create a seperate .mat data file containing 1m binned data and header
                 temp=num2str(q.script.num+10000);
-                fn=[q.script.prefix temp(2:5) '_avg'];
+                fn=[q.script.prefix '_' temp(2:5) '_avg'];
                 head.p_max=max(cal.P);
-                eval(['save ' path_save fn ' avg head']);
+                %
+                %eval(['save ' path_save fn ' avg head']);
+                save(fullfile(path_cham_avg,fn),'avg','head')
             end % if not bad
         catch
             disp('error')
         end % try
     end % if file exists
 end % cast
+
+delete(hb)
+
 %sum_tw91
 
 %%
