@@ -2,6 +2,13 @@
 %
 % Process_tiwe_rawprofiles_AP.m
 %
+% Process tiwe chameleon raw profiles into mat files ('cal') with
+% calibrated t,s,TP etc.. These are *NOT* 1m averaged yet (I need these to
+% apply the chi-pod method to the raw TP profiles.
+%
+% Processed files are saved in /save_dir_cal/, which is specified in
+% tiwe_patches_paths.m
+%
 % Modified from Run_tiwe_AP.m
 %
 %------------------
@@ -17,12 +24,12 @@ addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/calibrate/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
 
-path_raw='/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
-path_save='/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/tiwe_patch_gamma/data/cal/';
-ChkMkDir(path_save)
+path_raw  = '/Users/Andy/Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/';
 
-Flist=dir( fullfile(path_raw, '*tw91*'))
-%
+tiwe_patches_paths
+%%
+ChkMkDir(save_dir_cal)
+%%
 
 global data head cal q
 q.script.pathname =  path_raw;
@@ -30,7 +37,11 @@ q.script.prefix = 'tw91';
 q.series={'fallspd','t1','t2','t','c','s','theta','sigma','epsilon1','epsilon2','chi'...
     'az2','ax_tilt','ay_tilt'};
 warning off
-for cast=1:4000%2836:3711%
+
+hb = waitbar(0,'processing raw tiwe files')
+
+for cast=3883:4000%
+    waitbar(cast/4000,hb)
     % bad files: 144
     %disp(cast);
     q.script.num=cast;
@@ -45,7 +56,6 @@ for cast=1:4000%2836:3711%
             [data head]=raw_load(q);
             cali_tw91;
             
-            
             if bad~=1
                 
                 % make a new modified structure that I will use for chipod method
@@ -56,7 +66,6 @@ for cast=1:4000%2836:3711%
                 irTP=head.irep.T1P;
                 if head.irep.P~=irTP
                     clear P2
-                    %cal.P=interp1(1:length(cal.P),cal.P,1:length(cal.TP));cal.P=cal.P(:);
                     P2=nan*ones(length(cal.T1P),1);
                     P2(1:head.irep.T1P:end)=cal.P;
                     P2=NANinterp(P2);
@@ -64,8 +73,7 @@ for cast=1:4000%2836:3711%
                     cal2.TP=cal.T1P;
                 end
                 
-                if head.irep.T1~=irTP
-                    %cal.T1=interp1(1:length(cal.T1),cal.T1,1:length(cal.TP));cal.T1=cal.T1(:);
+                if head.irep.T1~=irTP                    
                     cal2.T1=interp1(cal.P,cal.T1,cal2.P);
                 else
                     cal2.T1=cal.T1;
@@ -83,18 +91,19 @@ for cast=1:4000%2836:3711%
                 
                 % salinity is spiky, so also save a smoothed profile for
                 % future use (ie in identifying patches)
-                cal2.SAL_sm=smooth(cal2.SAL,20);
+                %cal2.SAL_sm=smooth(cal2.SAL,20);
                 
                 %~~ save data
                 temp=num2str(q.script.num+10000);
-                fn=[q.script.prefix temp(2:5) '_raw'];
+                fn=[q.script.prefix '_' temp(2:5) '_cal.mat'];
                 head.p_max=max(cal.P);
-                %disp('test')
-                eval(['save ' path_save fn ' cal2 head']);
+                save(fullfile(save_dir_cal,fn),'cal2','head')
             end % if not bad
+        catch
         end % try
     end % if file exists
 end % cast
+delete(hb)
 %sum_tw91
 
 %%
