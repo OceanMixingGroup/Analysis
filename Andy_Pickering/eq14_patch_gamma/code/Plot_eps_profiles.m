@@ -2,8 +2,8 @@
 %
 % Plot_eps_profiles.m
 %
-% Plot profiles of epsilon from chameleon and chi-pod method. Compare
-% time-average profiles for groups of casts?
+% Plot profiles of epsilon from chameleon and chi-pod method for EQ14.
+% Compare time-average profiles for groups of casts?
 %
 %
 %----------------
@@ -14,10 +14,10 @@
 clear ; close all
 
 %whN2dTdz = 'line'
-whN2dTdz = 'line_fit'
+whN2dTdz  = 'line_fit'
 %whN2dTdz = 'bulk'
 Params.gamma = 0.2;
-Params.fmax=7
+Params.fmax  = 7  ;
 
 % patch parameters
 patch_size_min = 0.4
@@ -34,8 +34,7 @@ for cnum=1:25:3000
     try
         h = PlotEpsProfileCompare_eq14(cnum,whN2dTdz,Params,patch_size_min,...
             usetemp,minR2,dz)
-        %        print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_' whN2dTdz '_eps_profiiles_compare'] ),'-dpng')
-        
+        %        print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_' whN2dTdz '_eps_profiiles_compare'] ),'-dpng')        
         pause(1)
     end
 end
@@ -48,62 +47,64 @@ clear ; close all
 whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
 Params.gamma = 0.2;
-Params.fmax=7
+Params.fmax  = 7
 
 % patch parameters
 patch_size_min = 0.4
 usetemp = 1
-minR2 = 0.0
+minR2   = 0.0
 
 dz = 10 % bin size
 
 eq14_patches_paths
 
-path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
-%path_chipod_bin     = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/';
-%path_cham_avg       = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/';
+cnums_to_get = 3:3000
 
-binned = [] ;
-cham   = [] ;
-patch  = [] ;
-
-for cnum = 1:3000
-    
-    clear avg ch chb
-    
-    try
-        % patch N^2,dTdz w/ constant gamma
-        clear avg
-        load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
-        ch = avg;clear avg
-        
-        % regular chi-pod method on binned data
-        clear avg
-        %load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])
-        
-        load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
-        chb = avg;clear avg
-        
-        % chamelon data
-        load(fullfile( path_cham_avg, ['eq14_' sprintf('%04d',cnum) '.mat']) )
-        
-        clear bin1 bin2 bin3
-        [bin1 z1 Nobs] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,1);
-        [bin2 z2 Nobs] = binprofile(chb.eps1   , chb.P, 0, dz, 200,1);
-        [bin3 z3 Nobs] = binprofile(ch.eps1    , ch.P , 0, dz, 200,0);
-        
-        cham   = [cham(:)   ; bin1(:) ];
-        binned = [binned(:) ; bin2(:) ];
-        patch  = [ patch(:) ; bin3(:) ];
-        
-    catch
-        disp(['error on profile ' num2str(cnum) ])
-    end % try
-    
-end % cnum
+[eps_cham, chi_cham, N2_cham, Tz_cham, eps_chi, chi_chi, N2_chi, Tz_chi] =...
+    Get_binned_data(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short)
+%path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
 
 
-%% Histograms of chi-pod epsilon to chameleon epsilon (10bins)
+
+% binned = [] ;
+% cham   = [] ;
+% patch  = [] ;
+% 
+% for cnum = 1:3000
+%     
+%     clear avg ch chb
+%     
+%     try
+%         % patch N^2,dTdz w/ constant gamma
+%         clear avg
+%         load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
+%         ch = avg;clear avg
+%         
+%         % regular chi-pod method on binned data
+%         clear avg        
+%         load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
+%         chb = avg;clear avg
+%         
+%         % chamelon data
+%         load(fullfile( path_cham_avg, ['eq14_' sprintf('%04d',cnum) '.mat']) )
+%         
+%         clear bin1 bin2 bin3
+%         [bin1 z1 Nobs] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,1);
+%         [bin2 z2 Nobs] = binprofile(chb.eps1   , chb.P, 0, dz, 200,1);
+%         [bin3 z3 Nobs] = binprofile(ch.eps1    , ch.P , 0, dz, 200,0);
+%         
+%         cham   = [cham(:)   ; bin1(:) ];
+%         binned = [binned(:) ; bin2(:) ];
+%         patch  = [patch(:)  ; bin3(:) ];
+%         
+%     catch
+%        disp(['error on profile ' num2str(cnum) ])
+%     end % try
+%     
+% end % cnum
+
+%%
+% Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
 
 figure(1);clf
 h1 = histogram(log10(binned./cham),'EdgeColor','none','Normalization','pdf');
@@ -116,13 +117,12 @@ xlabel('log_{10}[\epsilon ratio]')
 ylabel('pdf')
 title(['eq14 ' num2str(dz) ' m binned'])
 
-%%
-figname=['eq14_' num2str(dz) 'mbinned_eps_ratios']
+%
+
+figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios']
 print( fullfile(fig_dir,figname),'-dpng')
 SetNotesFigDir
 print( fullfile(NotesFigDir,figname),'-dpng')
-
-
 
 
 %% plot locations of chameleon casts
@@ -159,11 +159,9 @@ dz=10; % bin size
 eq14_patches_paths
 
 path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
-%path_chipod_bin     = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/';
-%path_cham_avg       = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/';
 
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-%load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/eq14_' sprintf('%04d',cnum) '.mat'])
+load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 
 figure(1);clf
 agutwocolumn(1)
@@ -196,32 +194,43 @@ for whcase=1:6
     
     e1=[]; P1=[];
     e2=[]; P2=[];
+    Tz=[] ;
+    
+    clear Ngood
+    Ngood=0;
+    
     for i=1:length(cnums)
         try
             cnum=cnums(i);
             
             % patch chipod profile
             clear avg
-            %load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
-            load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+            load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
             
             e1 = [e1(:) ; avg.eps1(:)];
             P1 = [P1(:) ; avg.P(:)   ];
             
             % binned chipod profile
             clear avg
-            %path_chipod_bin = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/'
-            load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+            load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
             e2 = [e2(:) ; avg.eps1(:)];
             P2 = [P2(:) ; avg.P(:)   ];
+            Tz = [Tz(:) ; avg.dTdz(:) ];
+            Ngood = Ngood+1;
             
+        catch  
         end
     end
     
     
     iCham=find(cham.castnumber>cnums(1) & cham.castnumber<nanmax(cnums));
     
-    e2(find(log10(e2)>-4))=nan;
+    clear ib
+    ib=find( medfilt1(Tz,5) ./ Tz  >2 ) ;
+    e2(ib)=nan;
+
+    %e1(find(log10(e1)>-4))=nan;
+    %e2(find(log10(e2)>-4))=nan;
     
     clear dataout1 dataout2 cham_bin
     [dataout1 zout1 Nobs] = binprofile(e1,P1, 0, dz, 200,1);
@@ -231,21 +240,22 @@ for whcase=1:6
     %
     figure(1)
     subplot(2,3,whcase)
-    h1 = plot(log10(dataout1),zout1,'bo-','linewidth',2)
+    h1 = plot(log10(dataout1),zout1,'bo-','linewidth',2) ;
     hold on
-    h2 = plot(log10(dataout2),zout2,'ms-','linewidth',2)
-    h3 = plot(log10(cham_bin),zout_cham,'rp-','linewidth',2)
+    h2 = plot(log10(dataout2),zout2,'ms-','linewidth',2) ;
+    h3 = plot(log10(cham_bin),zout_cham,'rp-','linewidth',2) ;
     axis ij
     grid on
-    xlim([-9.5 -2])
+    xlim([-9.5 -4])
     ylim([0 200])
     xlabel('log_{10}[\epsilon]')
     ylabel('P [db]')
+    if whcase==5
     legend([h1 h2 h3],'patch','bin','cham','location','best')
-    title(['cnums ' num2str(cnum_range(1)) '-' num2str(cnum_range(2))])
-    %eq14_patches_paths
-    %print( fullfile(fig_dir,['eps_prof_cnums_' num2str(cnum_range(1)) '_' num2str(cnum_range(2))]),'-dpng')
-    
+    end
+    %title(['cnums ' num2str(cnum_range(1)) '-' num2str(cnum_range(2))])
+    title([num2str(cnum_range(1)) '-' num2str(cnum_range(2)) ' ,Ngood=' num2str(Ngood)])
+   
     figure(2)
     subplot(3,2,whcase)
     loglog(cham_bin,dataout1,'o')
@@ -260,10 +270,10 @@ for whcase=1:6
     
 end
 
-%
+%%
 figure(1)
 eq14_patches_paths
-print( fullfile(fig_dir,['eps_prof_comparisons']),'-dpng')
+print( fullfile(fig_dir,[project_short '_eps_prof_comparisons']),'-dpng')
 
 
 
@@ -276,6 +286,7 @@ whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
 Params.gamma = 0.2;
 Params.fmax=7
+Params.zsmooth=1
 
 % patch parameters
 patch_size_min = 0.4
@@ -286,8 +297,6 @@ eq14_patches_paths
 
 %dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches');
 path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
-%path_chipod_bin     = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/';
-%path_cham_avg       = '/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/';
 
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
 load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
@@ -296,11 +305,13 @@ figure(1);clf
 agutwocolumn(1)
 wysiwyg
 
-for whcase=6%1:6
+for whcase=1%1:6
+    
+    clear cnums
     
     switch whcase
         case 1
-            cnum_range = [0 500];
+            cnums = [0:500];
         case 2
             cnum_range = [500 1000];
         case 3
@@ -310,11 +321,11 @@ for whcase=6%1:6
         case 5
             cnum_range = [2000 2500];
         case 6
-            cnum_range = [2500 2600];
+            cnums= [2500:2761 2763:2900];
     end
     
-    clear cnums
-    cnums = [cnum_range(1) : cnum_range(2) ];
+    %clear cnums
+    %cnums = [cnum_range(1) : cnum_range(2) ];
     
     e1=[]; P1=[];
     e2=[]; P2=[]; N2=[] ; Tz=[] ; tpvar=[]; fspd=[]; cnall=[];
@@ -327,15 +338,14 @@ for whcase=6%1:6
             % patch chi-pod
             clear avg
             %load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
-            load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+            load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
             
             e1 = [e1(:) ; avg.eps1(:)];
             P1 = [P1(:) ; avg.P(:)   ];
             
             % binned chi-pod
             clear avg
-            %            load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])
-            load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+            load( fullfile( path_chipod_bin, ['zsm' num2str(Params.zsmooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
             
             e2 = [e2(:) ; avg.eps1(:)];
             P2 = [P2(:) ; avg.P(:)   ];
@@ -345,13 +355,18 @@ for whcase=6%1:6
             fspd = [fspd(:) ; avg.fspd(:) ];
             cnall = [ cnall(:) ; repmat(cnum,length(avg.P),1)];
             
+        catch   
         end
-    end
+    end %cnums
     
     
     iCham=find(cham.castnumber>cnums(1) & cham.castnumber<nanmax(cnums));
     
-    e2(find(log10(e2)>-4))=nan;
+    % remove points where low Tz spikes cause very large epsilon
+    %ib = find(log10(Tz)<-2.5);
+    ib=find( medfilt1(Tz,6) ./ Tz  >2 ) ;
+    e2(ib)=nan;
+    %e2(find(log10(e2)>-4))=nan;
     
     [dataout1 zout1 Nobs] = binprofile(e1,P1, 0, 10, 200,1);
     [dataout2 zout2 Nobs] = binprofile(e2,P2, 0, 10, 200,1);
@@ -426,25 +441,12 @@ print(fullfile(fig_dir,'profexample'),'-dpng')
 
 clear ; close all
 
-%whN2dTdz = 'line'
-whN2dTdz = 'line_fit'
-%whN2dTdz = 'bulk'
-Params.gamma = 0.2;
-Params.fmax=7
-
-% patch parameters
-patch_size_min = 0.4
-usetemp = 1
-minR2 = 0.0
-
 dz=10; % bin size
 
 eq14_patches_paths
 
-dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches');
-
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/eq14_' sprintf('%04d',cnum) '.mat'])
+load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 
 cnum_range = [2400 3000];
 
@@ -478,8 +480,6 @@ gam = ComputeGamma(N2,Tz,chi,eps);
 
 iCham=find(cham.castnumber>cnums(1) & cham.castnumber<nanmax(cnums));
 
-dz=10
-
 [N2_bin  zout Nobs] = binprofile(cham.N2(:,iCham)           ,cham.P(:,iCham), 0, dz, 200,1);
 [Tz_bin  zout Nobs] = binprofile(cham.DTDZ_RHOORDER(:,iCham),cham.P(:,iCham), 0, dz, 200,1);
 [chi_bin zout Nobs] = binprofile(cham.CHI(:,iCham)          ,cham.P(:,iCham), 0, dz, 200,1);
@@ -506,6 +506,7 @@ title('profile-averaged, 10mbin')
 
 linkaxes([ax1 ax2])
 
+print(fullfile(fig_dir,[project_short '_gamma_point_avg_box']),'-dpng')
 
 %%
 
@@ -657,7 +658,9 @@ eq14_patches_paths
 dir1 = fullfile(analysis_dir,project_long,'data','ChipodPatches');
 
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/eq14_' sprintf('%04d',cnum) '.mat'])
+load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
+
+%load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/mat/eq14_' sprintf('%04d',cnum) '.mat'])
 
 figure(1);clf
 agutwocolumn(1)
@@ -667,7 +670,7 @@ e1_all = [] ;
 e2_all = [] ;
 cham_all = [] ;
 
-prof_start=700
+prof_start=2200
 prof_extra = [5 25 50 100 150 300 ];
 for whcase=1:6
     
@@ -698,13 +701,13 @@ for whcase=1:6
             
             % patch chi-pod
             clear avg
-            load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) 'avg.mat']))
+            load( fullfile( dir1, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
             e1 = [e1(:) ; avg.eps1(:)];
             P1 = [P1(:) ; avg.P(:)   ];
             
             % binned chi-pod
             clear avg
-            load(['/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128/EQ14_' sprintf('%04d',cnum) 'avg.mat'])
+            load(fullfile(path_chipod_bin,['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
             e2 = [e2(:) ; avg.eps1(:)];
             P2 = [P2(:) ; avg.P(:)   ];
             N2 = [N2(:) ; avg.N2(:) ] ;
@@ -745,8 +748,10 @@ for iax=1:6
     axis ij
     grid on
     xlim([-11 -4])
-    
+    title([num2str(prof_start) ' - ' num2str(prof_start+prof_extra(iax))])
 end
+
+print(fullfile(fig_dir,[project_short '_eps_prof_diffN']),'-dpng')
 
 %%
 
