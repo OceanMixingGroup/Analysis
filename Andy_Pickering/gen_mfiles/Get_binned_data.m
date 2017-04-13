@@ -1,4 +1,4 @@
-function [eps_cham, chi_cham, N2_cham, Tz_cham, eps_chi, chi_chi, N2_chi, Tz_chi] =...
+function [eps_cham, chi_cham, N2_cham, Tz_cham, P_cham_avg, eps_chi, chi_chi, N2_chi, Tz_chi, P_chi_avg] =...
     Get_binned_data(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -46,6 +46,9 @@ N2_cham = [];
 Tz_chi = [];
 Tz_cham = [];
 
+P_cham_avg = [];
+P_chi_avg =[];
+
 for cnum = cnums_to_get %1:3000
     
     clear avg ch chb
@@ -62,7 +65,7 @@ for cnum = cnums_to_get %1:3000
         chb = avg;clear avg
         
         % chamelon data (1m bins)
-        load(fullfile( path_cham_avg, ['eq08_' sprintf('%04d',cnum) '_avg.mat']) )
+        load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
         
         clear bin1 bin2
         [bin1 z1 Nobs] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,1);
@@ -92,6 +95,9 @@ for cnum = cnums_to_get %1:3000
         Tz_cham = [Tz_cham(:)   ; bin1(:) ];
         Tz_chi  = [Tz_chi(:)    ; bin2(:) ];
         
+        P_cham_avg =[P_cham_avg(:) ; z1(:)];
+        P_chi_avg =[P_chi_avg(:) ; z2(:)];
+                
     catch
         disp(['error on profile ' num2str(cnum) ])
     end % try
