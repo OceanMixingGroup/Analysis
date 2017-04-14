@@ -21,17 +21,6 @@ function [eps_cham, chi_cham, N2_cham, Tz_cham, P_cham_avg, eps_chi, chi_chi, N2
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-%clear ; close all
-
-% Params.gamma = 0.2;
-% Params.fmax  = 32 ;
-% 
-% dz = 10 % bin size
-
-%eq08_patches_paths
-
-%path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
-
 % Make empty arrays
 
 eps_chi  = [] ;
@@ -49,7 +38,7 @@ Tz_cham = [];
 P_cham_avg = [];
 P_chi_avg =[];
 
-for cnum = cnums_to_get %1:3000
+for cnum = cnums_to_get 
     
     clear avg ch chb
     
@@ -95,8 +84,8 @@ for cnum = cnums_to_get %1:3000
         Tz_cham = [Tz_cham(:)   ; bin1(:) ];
         Tz_chi  = [Tz_chi(:)    ; bin2(:) ];
         
-        P_cham_avg =[P_cham_avg(:) ; z1(:)];
-        P_chi_avg =[P_chi_avg(:) ; z2(:)];
+        P_cham_avg = [P_cham_avg(:) ; z1(:)];
+        P_chi_avg  = [P_chi_avg(:)  ; z2(:)];
                 
     catch
         disp(['error on profile ' num2str(cnum) ])
