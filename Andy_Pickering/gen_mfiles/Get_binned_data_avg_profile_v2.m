@@ -52,9 +52,9 @@ for cnum = cnums_to_get
         % regular chi-pod method on binned data
         clear avg
         if strcmp(project_short,'eq14')
-        load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))            
+        load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))            
         else
-        load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
+        load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
         end
         chb = avg;clear avg
         
@@ -102,16 +102,16 @@ eps_cham(ib) = nan ;
 
 %% Nan out spikes in chi-pod Tz,epsilon
 
-clear ib
-ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
-eps_chi(ib)=nan;
-chi_chi(ib)=nan;
-Tz_chi(ib) =nan;
-N2_chi(ib) =nan;
-
-clear ib
-ib = find(log10(eps_chi)>-4);
-eps_chi(ib)=nan;
+% clear ib
+% ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
+% eps_chi(ib)=nan;
+% chi_chi(ib)=nan;
+% Tz_chi(ib) =nan;
+% N2_chi(ib) =nan;
+% 
+% clear ib
+% ib = find(log10(eps_chi)>-4);
+% eps_chi(ib)=nan;
 
 %% now bin-average profiles together
 
