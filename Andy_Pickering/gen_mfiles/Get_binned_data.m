@@ -5,6 +5,8 @@ function [eps_cham, chi_cham, N2_cham, Tz_cham, P_cham_avg, eps_chi, chi_chi, N2
 % Compile data from binned chipod method and chameleon for specified
 % profiles, averaged in bins of size dz. For eq08 and eq14. 
 %
+% - log10(chamleon epsilon) < -8.5 are discarded
+%
 %
 % INPUT
 % path_chipod_bin
@@ -55,6 +57,12 @@ for cnum = cnums_to_get
         
         % chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
+        
+        %% discard chameleon epsilons below noise floor
+
+        clear ib
+        ib = find(log10(avg.EPSILON)<-8.5);
+        avg.EPSILON(ib) = nan ;
         
         clear bin1 bin2
         [bin1 z1 Nobs] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,1);
