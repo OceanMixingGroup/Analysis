@@ -26,23 +26,23 @@ function [chipod, cham] =Get_all_chipod_cham_data(path_chipod_bin,...
 
 % Make empty arrays
 
-empty_array = nan * ones(length([zmin:dz:zmax]),length(cnums_to_get) );
+eps_chi  = [] ;
+eps_cham = [] ;
 
-eps_chi  = empty_array ;
-eps_cham = empty_array ;
+chi_chi  = [];
+chi_cham = [];
 
-chi_chi  = empty_array;
-chi_cham = empty_array;
+N2_chi  = [];
+N2_cham = [];
 
-N2_chi  = empty_array;
-N2_cham = empty_array;
+Tz_chi  = [];
+Tz_cham = [];
 
-Tz_chi  = empty_array;
-Tz_cham = empty_array;
+P_cham_avg = [];
+P_chi_avg  = [];
 
-P_cham_avg = empty_array;
-P_chi_avg  = empty_array;
-
+cnum_chi  = [] ;
+cnum_cham = [];
 
 for ic = 1:length(cnums_to_get)
     
@@ -71,8 +71,8 @@ for ic = 1:length(cnums_to_get)
         ib = find( log10(avg.EPSILON)<-8.5 );
         avg.EPSILON(ib) = nan ;
         
-        P_chi  = [ P_chi(:) ; chb.P(:) ] ;
-        P_cham = [ P_cham(:) ; avg.P(:)] ;
+        P_chi  = [ P_chi(:)  ; chb.P(:) ] ;
+        P_cham = [ P_cham(:) ; avg.P(:) ] ;
                 
         eps_cham = [eps_cham(:) ; avg.EPSILON(:) ];
         eps_chi  = [eps_chi(:)  ; chb.eps1(:) ];
@@ -86,15 +86,17 @@ for ic = 1:length(cnums_to_get)
         Tz_cham = [Tz_cham(:) ; avg.DTDZ(:) ];
         Tz_chi  = [Tz_chi(:)  ; chb.dTdz(:) ];
 
-                        
+        cnum_cham = [ cnum_cham(:) ; cnum*ones(length(avg.P),1) ];
+        cnum_chi  = [ cnum_chi(:)  ; cnum*ones(length(chb.P),1) ];
+                                
     catch
         disp(['error on profile ' num2str(cnum) ])
     end % try
     
 end % cnum
 
-chipod = struct('eps',eps_chi ,'chi',chi_chi ,'N2',N2_chi ,'Tz',Tz_chi , 'P',P_chi );
-cham   = struct('eps',eps_cham,'chi',chi_cham,'N2',N2_cham,'Tz',Tz_cham, 'P', P_cham );
+chipod = struct('eps',eps_chi ,'chi',chi_chi ,'N2',N2_chi ,'Tz',Tz_chi , 'P',P_chi, 'cnum', cnum_chi );
+cham   = struct('eps',eps_cham,'chi',chi_cham,'N2',N2_cham,'Tz',Tz_cham, 'P', P_cham, 'cnum', cnum_cham );
 
 
 %%
