@@ -44,86 +44,192 @@ end
 clear ; close all
 
 %whN2dTdz = 'line'
-whN2dTdz = 'line_fit'
+%whN2dTdz = 'line_fit'
 %whN2dTdz = 'bulk'
+
 Params.gamma = 0.2;
 Params.fmax  = 7
+Params.z_smooth =10 ;
 
-% patch parameters
-patch_size_min = 0.4
-usetemp = 1
-minR2   = 0.0
+dz = 5 % bin size
+zmin=0;
+zmax=200;
 
-dz = 10 % bin size
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 eq14_patches_paths
 
-cnums_to_get = 3:3000
+cnums_to_get = get_cham_cnums_eq14 ;
 
-[eps_cham, chi_cham, N2_cham, Tz_cham, eps_chi, chi_chi, N2_chi, Tz_chi] =...
-    Get_binned_data(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short)
+%[eps_cham, chi_cham, N2_cham, Tz_cham, P_cham_avg, eps_chi, chi_chi, N2_chi, Tz_chi, P_chi_avg] =...
+%    Get_binned_data(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short);
+[chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax)
+
 %path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
+%
 
+%% Nan values in mixed layer
 
+Pmin = 80;
 
-% binned = [] ;
-% cham   = [] ;
-% patch  = [] ;
-% 
-% for cnum = 1:3000
-%     
-%     clear avg ch chb
-%     
-%     try
-%         % patch N^2,dTdz w/ constant gamma
-%         clear avg
-%         load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
-%         ch = avg;clear avg
-%         
-%         % regular chi-pod method on binned data
-%         clear avg        
-%         load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
-%         chb = avg;clear avg
-%         
-%         % chamelon data
-%         load(fullfile( path_cham_avg, ['eq14_' sprintf('%04d',cnum) '.mat']) )
-%         
-%         clear bin1 bin2 bin3
-%         [bin1 z1 Nobs] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,1);
-%         [bin2 z2 Nobs] = binprofile(chb.eps1   , chb.P, 0, dz, 200,1);
-%         [bin3 z3 Nobs] = binprofile(ch.eps1    , ch.P , 0, dz, 200,0);
-%         
-%         cham   = [cham(:)   ; bin1(:) ];
-%         binned = [binned(:) ; bin2(:) ];
-%         patch  = [patch(:)  ; bin3(:) ];
-%         
-%     catch
-%        disp(['error on profile ' num2str(cnum) ])
-%     end % try
-%     
-% end % cnum
+clear ib
+ib = find(cham.P<Pmin);
+cham.eps(ib) = nan;
 
-%%
+clear ib
+ib = find(chipod.P<Pmin);
+chipod.eps(ib) = nan;
+
+%
 % Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
 
 figure(1);clf
-h1 = histogram(log10(binned./cham),'EdgeColor','none','Normalization','pdf');
+h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');
 hold on
-h2 = histogram(log10(patch./cham),'EdgeColor','none','Normalization','pdf');
+%h2 = histogram(log10(patch./cham),'EdgeColor','none','Normalization','pdf');
 xlim([-4 4])
 grid on
-legend([h1 h2],'bin/cham','patch/cham')
-xlabel('log_{10}[\epsilon ratio]')
+%legend([h1 h2],'bin/cham','patch/cham')
+xlabel('log_{10}[\epsilon_{\chi} /\epsilon ]')
 ylabel('pdf')
-title(['eq14 ' num2str(dz) ' m binned'])
+title([project_short ' ' num2str(dz) ' m binned, Pmin=' num2str(Pmin)])
 
 %
 
-figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios']
+figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]
 print( fullfile(fig_dir,figname),'-dpng')
 SetNotesFigDir
 print( fullfile(NotesFigDir,figname),'-dpng')
 
+
+% Plot eps vs chi, normalized so slope is equal to 1/2*gamma
+
+figure(2);clf
+agutwocolumn(0.8)
+wysiwyg
+
+hh=histogram2(  real(log10(cham.eps./cham.N2)),log10(cham.chi./(cham.Tz.^2)),80,'DisplayStyle','tile')
+grid on
+hold on
+xvec=linspace(1e-7,1e-1,100);
+h1=plot( log10(xvec), log10(xvec*2*0.2),'k-');
+h2=plot( log10(xvec), log10(xvec*2*0.1),'r-');
+h3=plot( log10(xvec), log10(xvec*2*0.05),'c-');
+ylim([-7.5 -1])
+xlim([-5.5 -1])
+ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
+xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
+legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best')
+title([project_short ' Chameleon ' num2str(dz) 'm binned, >' num2str(Pmin) 'db'])
+
+fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_Pmin_' num2str(Pmin)]
+print( fullfile(fig_dir,fname),'-dpng')
+
+
+%% Now want to do same, but average some profiles together to see if 
+% converges to gamma=0.2
+
+clear ; close all
+
+Params.gamma = 0.2;
+Params.fmax  = 7  ;
+
+dz = 10 % bin size
+Pmin = 80
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
+eq14_patches_paths
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+
+% figure(2);clf
+% agutwocolumn(1)
+% wysiwyg
+
+iax=1;
+for dp=[10 50 100 500]
+    
+    normx_all = [];
+    normy_all = [];
+
+    normx_all_chi = [];
+    normy_all_chi = [];
+
+    for ix = 1:round(3000/dp)%30
+                
+        clear cnums_to_get
+        cnums_to_get = [ (ix-1)*dp : (ix*dp) ] ;
+        
+        %clear eps_cham chi_cham N2_cham Tz_cham
+        %clear eps_chi chi_chi N2_chi Tz_chi
+        %    [eps_cham, chi_cham, N2_cham, Tz_cham, eps_chi, chi_chi, N2_chi, Tz_chi] =...
+        %        Get_binned_data(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short);
+        
+        clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
+        clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
+        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin);
+                
+        normy_all = [ normy_all(:) ; chi_cham_avg./(Tz_cham_avg.^2)] ;
+        normx_all = [ normx_all(:) ; eps_cham_avg./N2_cham_avg ];
+
+        normy_all_chi = [ normy_all_chi(:) ; chi_chi_avg./(Tz_chi_avg.^2)] ;
+        normx_all_chi = [ normx_all_chi(:) ; eps_chi_avg./N2_chi_avg ];
+
+    end % idx
+    
+    figure(1)
+    subplot(2,2, iax)    
+    %hh=histogram2( log10(normx_all) , real(log10(normy_all)),80,'DisplayStyle','tile')
+    %hh=histogram2( log10(chi_chi./(Tz_chi.^2)) , real(log10(eps_chi./N2_chi)),80,'DisplayStyle','tile')
+    hh=scatter( log10(normx_all) , log10(normy_all),'filled','MarkerFaceAlpha',0.1)
+    %loglog(chi_cham./(Tz_cham.^2),eps_cham./N2_cham,'.','color',0.75*[1 1 1])
+    grid on
+    hold on
+    xvec=linspace(1e-7,1e0,100);
+    h1=plot( log10(xvec), log10(xvec*2*0.2),'k-');
+    h2=plot( log10(xvec), log10(xvec*2*0.1),'r-');
+    h3=plot( log10(xvec), log10(xvec*2*0.05),'c-');
+    ylim([-7.5 -1])
+    xlim([-5.5 -1])
+    ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
+    xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
+    legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best')
+    title([project_short ' 10m binned ,' num2str(dp) ' profile averages'])
+    
+    %     fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_' num2str(dp) 'profileAvg']
+    %     print( fullfile(fig_dir,fname),'-dpng')
+
+%         figure(2)
+%     subplot(2,2, iax)    
+%     %hh=histogram2( log10(normx_all) , real(log10(normy_all)),80,'DisplayStyle','tile')
+%     %hh=histogram2( log10(chi_chi./(Tz_chi.^2)) , real(log10(eps_chi./N2_chi)),80,'DisplayStyle','tile')
+%     hh=scatter( log10(normx_all_chi) , log10(normy_all_chi),'filled','MarkerFaceAlpha',0.1)
+%     %loglog(chi_cham./(Tz_cham.^2),eps_cham./N2_cham,'.','color',0.75*[1 1 1])
+%     grid on
+%     hold on
+%     xvec=linspace(1e-7,1e0,100);
+%     h1=plot( log10(xvec), log10(xvec*2*0.2),'k-');
+%     h2=plot( log10(xvec), log10(xvec*2*0.1),'r-');
+%     h3=plot( log10(xvec), log10(xvec*2*0.05),'c-');
+%     ylim([-7.5 -1])
+%     xlim([-5.5 -1])
+%     ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
+%     xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
+%     legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best')
+%     title([project_short ' 10m binned ,' num2str(dp) ' profile averages'])
+% 
+    
+    iax=iax+1;
+    
+end % dp (# profiles averaged together)
+%
+figure(1);shg
+fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_diffNprofileAvg_Pmin' num2str(Pmin)]
+print( fullfile(fig_dir,fname),'-dpng')
 
 %% plot locations of chameleon casts
 
@@ -143,22 +249,13 @@ plot(cham.castnumber,cham.lat)
 
 clear ; close all
 
-%whN2dTdz = 'line'
-whN2dTdz = 'line_fit'
-%whN2dTdz = 'bulk'
 Params.gamma = 0.2;
 Params.fmax=7
-
-% patch parameters
-patch_size_min = 0.4
-usetemp = 1
-minR2 = 0.0
+Params.z_smooth = 10
 
 dz=10; % bin size
 
 eq14_patches_paths
-
-path_chipod_patches = fullfile(analysis_dir,project_long,'data','ChipodPatches');
 
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
 load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
@@ -166,11 +263,6 @@ load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/proce
 figure(1);clf
 agutwocolumn(1)
 wysiwyg
-
-figure(2);clf
-agutwocolumn(1)
-wysiwyg
-
 
 for whcase=1:6
     
@@ -192,9 +284,10 @@ for whcase=1:6
     clear cnums
     cnums = [cnum_range(1) : cnum_range(2) ];
     
-    e1=[]; P1=[];
-    e2=[]; P2=[];
-    Tz=[] ;
+    eps_chi= [];
+    P_chi  = [];
+    Tz_chi = [] ;
+    N2_chi = [];
     
     clear Ngood
     Ngood=0;
@@ -202,47 +295,47 @@ for whcase=1:6
     for i=1:length(cnums)
         try
             cnum=cnums(i);
-            
-            % patch chipod profile
-            clear avg
-            load( fullfile( path_chipod_patches, ['N2dTdz_' (whN2dTdz) '_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_otmin' num2str(100*patch_size_min) '_usetemp_' num2str(usetemp) '_minR2_' num2str(minR2)],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
-            
-            e1 = [e1(:) ; avg.eps1(:)];
-            P1 = [P1(:) ; avg.P(:)   ];
-            
+                        
             % binned chipod profile
             clear avg
-            load( fullfile( path_chipod_bin, ['zsm1m_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
-            e2 = [e2(:) ; avg.eps1(:)];
-            P2 = [P2(:) ; avg.P(:)   ];
-            Tz = [Tz(:) ; avg.dTdz(:) ];
+            load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
+            eps_chi = [eps_chi(:) ; avg.eps1(:)];
+            P_chi   = [P_chi(:) ; avg.P(:)   ];
+            Tz_chi  = [Tz_chi(:) ; avg.dTdz(:) ];
+            N2_chi  = [N2_chi(:) ; avg.N2(:) ];
             Ngood = Ngood+1;
             
         catch  
         end
     end
-    
-    
+        
+    % ** need to find exact cham profiles as chi-pod proifles...**
     iCham=find(cham.castnumber>cnums(1) & cham.castnumber<nanmax(cnums));
     
+    % try screening out some spikes in chipod data that give huge epsilons
     clear ib
-    ib=find( medfilt1(Tz,5) ./ Tz  >2 ) ;
-    e2(ib)=nan;
+    ib=find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
+    eps_chi(ib)=nan;
 
-    %e1(find(log10(e1)>-4))=nan;
-    %e2(find(log10(e2)>-4))=nan;
+    clear ib
+    ib = find(log10(N2_chi)>-2.5);
+    eps_chi(ib)=nan;
+    
+    clear ib
+    ib = find(log10(cham.EPSILON)<-8.5);
+    cham.EPSILON(ib) = nan;
+
+    eps_chi(find(log10(eps_chi)>-4))=nan;
     
     clear dataout1 dataout2 cham_bin
-    [dataout1 zout1 Nobs] = binprofile(e1,P1, 0, dz, 200,1);
-    [dataout2 zout2 Nobs] = binprofile(e2,P2, 0, dz, 200,1);
+    [dataout2 zout2 Nobs] = binprofile(eps_chi, P_chi, 0, dz, 200,1);
     [cham_bin zout_cham Nobs] = binprofile(cham.EPSILON(:,iCham),cham.P(:,iCham), 0, dz, 200,1);
     
     %
     figure(1)
     subplot(2,3,whcase)
-    h1 = plot(log10(dataout1),zout1,'bo-','linewidth',2) ;
-    hold on
     h2 = plot(log10(dataout2),zout2,'ms-','linewidth',2) ;
+    hold on
     h3 = plot(log10(cham_bin),zout_cham,'rp-','linewidth',2) ;
     axis ij
     grid on
@@ -251,22 +344,12 @@ for whcase=1:6
     xlabel('log_{10}[\epsilon]')
     ylabel('P [db]')
     if whcase==5
-    legend([h1 h2 h3],'patch','bin','cham','location','best')
+%    legend([h1 h2 h3],'patch','bin','cham','location','best')
+        legend([ h2 h3],'bin','cham','location','best')
     end
     %title(['cnums ' num2str(cnum_range(1)) '-' num2str(cnum_range(2))])
     title([num2str(cnum_range(1)) '-' num2str(cnum_range(2)) ' ,Ngood=' num2str(Ngood)])
    
-    figure(2)
-    subplot(3,2,whcase)
-    loglog(cham_bin,dataout1,'o')
-    hold on
-    loglog(cham_bin,dataout2,'d')
-    grid on
-    xlim([1e-9 1e-5])
-    ylim([1e-9 1e-5])
-    xvec=linspace(1e-11,1e-4,100);
-    plot(xvec,xvec,'k--')
-    
     
 end
 

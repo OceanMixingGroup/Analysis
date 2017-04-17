@@ -34,6 +34,20 @@
 Comparing average profiles of $\chi$pod estimates (assuming $\gamma=0.2$) to Chameleon data for the EQ08 and EQ14 experiments. Individual $\chi$pod estimates tend to be biased low, but if we average many profiles together do the average profiles agree?
 
 
+% misc_Appr14.m
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_Pcolor_BothChi_N2_Tz_zsmooth_10_2mbin.png}
+\caption{Comparison of $\chi$ from chameleon method and chi-pod method, for EQ14 chameleon profiles. Each profile was averaged in 2m bins.  Values of $\epsion$ below chameleon noise floor (-8.5) have been naned out.}
+\label{}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_Pcolor_BothEps_N2_Tz_zsmooth_10_2mbin.png}
+\caption{Comparison of $\epsilon$ from chameleon method and chi-pod method, for EQ14 chameleon profiles.}
+\label{}
+\end{figure}
+
+
 
 \clearpage
 %~~~~~~~~~
@@ -69,13 +83,14 @@ Comparing average profiles of $\chi$pod estimates (assuming $\gamma=0.2$) to Cha
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq08_eps_prof_comparisons.png}
-\caption{Profiles of $\epsilon$, averaged over 500-cast chunks. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch'). *Note $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded.* Title of each panel gives profile range used, as well as the number of good profiles actually in that range.}
+\caption{EQ08 : Profiles of $\epsilon$, averaged over 500-cast chunks. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch'). *Note $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded.* Title of each panel gives profile range used, as well as the number of good profiles actually in that range.}
 \label{eps_prof_comp_eq08}
 \end{figure}
 
+
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_eps_prof_comparisons.png}
-\caption{Profiles of $\epsilon$, averaged over 500-cast chunks. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch'). *Note $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded. Title of each panel gives profile range used, as well as the number of good profiles actually in that range.}
+\caption{EQ14 : Profiles of $\epsilon$, averaged over 500-cast chunks. Different lines are 1m binned Chameleon (`cham'), $\chi$pod method applied over 1m bins (`bin'), and $\chi$pod method appplied to patches (`patch'). *Note $\chi$pod estimates where $log_{10}\epsilon>-4$ are discarded. Title of each panel gives profile range used, as well as the number of good profiles actually in that range.}
 \label{eps_prof_comp_eq14}
 \end{figure}
 
@@ -131,11 +146,38 @@ Assuming that
 \end{equation}
 , plotting [$\epsilon/N\^2$] vs [$\chi/t_{z}^{2}$] should follow a straight line with slope equal to $1/2\gamma$.
 
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized.png}
+%\caption{EQ08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$.}
+%\label{}
+%\end{figure}
+
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized.png}
-\caption{EQ08: 10m binned  chameleon $\epsilon/N\^2$ vs$\chi/t_{z}^{2}$. Lines show different values of $\gamma$.}
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_Pmin_0.png}
+\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$ for *ALL depths*. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
 \label{}
 \end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_Pmin_80.png}
+\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$ for *below 80db*. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
+\label{}
+\end{figure}
+
+
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized_diffNprofileAvg.png}
+%\caption{EQ08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$, averaged over varying number of profiles. Lines show different values of $\gamma$. Data shallower than 80db have been discarded to avoid mixed layer where night-time convection occurs.}
+%\label{}
+%\end{figure}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_diffNprofileAvg_Pmin80.png}
+\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$, averaged over varying number of profiles. Lines show different values of $\gamma$. Data shallower than 80db have been discarded to avoid mixed layer where night-time convection occurs.}
+\label{}
+\end{figure}
+
 
 
 

@@ -140,28 +140,113 @@ print( fullfile(fig_dir,[project_short '_' num2str(dz) 'mbinned_eps_ratios']),'-
 ib = find(log10(eps_cham)<-8.5);
 eps_cham(ib)=nan;
 
+% Nan values in mixed layer
+Pmin = 80;
+ib=find(P_cham_avg<Pmin);
+eps_cham(ib)=nan;
+
 figure(2);clf
 agutwocolumn(0.8)
 wysiwyg
 
-hh=histogram2( log10(chi_cham./(Tz_cham.^2)) , real(log10(eps_cham./N2_cham)),80,'DisplayStyle','tile')
+hh=histogram2( real(log10(eps_cham./N2_cham)), log10(chi_cham./(Tz_cham.^2)), 80, 'DisplayStyle','tile')
 %hh=histogram2( log10(chi_chi./(Tz_chi.^2)) , real(log10(eps_chi./N2_chi)),80,'DisplayStyle','tile')
 %hh=scatter( log10(chi_cham./(Tz_cham.^2)) , log10(eps_cham./N2_cham),'filled','MarkerFaceAlpha',0.05)
 %loglog(chi_cham./(Tz_cham.^2),eps_cham./N2_cham,'.','color',0.75*[1 1 1])
 grid on
 hold on
 xvec=linspace(1e-7,1e0,100);
-h1=plot( log10(xvec), log10(xvec/2/0.2),'k-')
-h2=plot( log10(xvec), log10(xvec/2/0.1),'r-')
-xlim([-7.5 0.5])
-ylim([-5.5 0.5])
-xlabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
-ylabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
-legend([h1 h2],['\gamma=0.2'],['\gamma=0.1'],'location','best')
+h1=plot( log10(xvec), log10(xvec*2*0.2),'k-')
+h2=plot( log10(xvec), log10(xvec*2*0.1),'r-')
+h3=plot( log10(xvec), log10(xvec*2*0.05),'c-')
+ylim([-7.5 0.5])
+xlim([-5.5 0.5])
+ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
+xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
+legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best')
 title([project_short ' 10m binned '])
 
 print( fullfile(fig_dir,[project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized']),'-dpng')
+%%
+%%
 
+%% Now want to do same, but average some profiles together to see if 
+% converges to gamma=0.2
+
+clear ; close all
+
+Params.gamma = 0.2 ;
+Params.fmax  = 32  ;
+
+dz = 10 % bin size
+
+Pmin=80
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
+eq08_patches_paths
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+iax=1;
+for dp=[10 50 100 500]
+    
+    normx_all = [];
+    normy_all = [];
+    
+    for ix = 1:round(3000/dp)%30
+        
+        
+        clear cnums_to_get
+        cnums_to_get = [ (ix-1)*dp : (ix*dp) ] ;
+        
+        %clear eps_cham chi_cham N2_cham Tz_cham
+        %clear eps_chi chi_chi N2_chi Tz_chi
+        %    [eps_cham, chi_cham, N2_cham, Tz_cham, eps_chi, chi_chi, N2_chi, Tz_chi] =...
+        %        Get_binned_data(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short);
+        
+        clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
+        clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
+        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin);
+                
+        normy_all = [ normy_all(:) ; chi_cham_avg./(Tz_cham_avg.^2)] ;
+        normx_all = [ normx_all(:) ; eps_cham_avg./N2_cham_avg ];
+        
+    end % idx
+    
+    subplot(2,2, iax)    
+    %hh=histogram2( log10(normx_all) , real(log10(normy_all)),80,'DisplayStyle','tile')
+    %hh=histogram2( log10(chi_chi./(Tz_chi.^2)) , real(log10(eps_chi./N2_chi)),80,'DisplayStyle','tile')
+    hh=scatter( log10(normx_all) , log10(normy_all),'filled','MarkerFaceAlpha',0.1)
+    %loglog(chi_cham./(Tz_cham.^2),eps_cham./N2_cham,'.','color',0.75*[1 1 1])
+    grid on
+    hold on
+    xvec=linspace(1e-7,1e0,100);
+    h1=plot( log10(xvec), log10(xvec*2*0.2) ,'k-');
+    h2=plot( log10(xvec), log10(xvec*2*0.1) ,'r-');
+    h3=plot( log10(xvec), log10(xvec*2*0.05),'c-');
+    ylim([-7.5 -1])
+    xlim([-5.5 -1])
+    ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
+    xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
+    legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best')
+    title([project_short ' 10m binned ,' num2str(dp) ' profile averages'])
+    
+    %     fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_' num2str(dp) 'profileAvg']
+    %     print( fullfile(fig_dir,fname),'-dpng')
+    
+    iax=iax+1;
+    
+end % dp (# profiles averaged together)
+%
+fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_diffNprofileAvg']
+print( fullfile(fig_dir,fname),'-dpng')
+
+
+
+%%
 %% plot average of groups of profiles, binned
 
 % 1st we get all data and pressures for a set of profiles
