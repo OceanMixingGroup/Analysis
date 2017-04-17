@@ -1,4 +1,4 @@
-function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
+function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
     Get_binned_data_avg_profile(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
@@ -83,6 +83,9 @@ for cnum = cnums_to_get
         
         Tz_cham = [Tz_cham    bin1(:) ];
         Tz_chi  = [Tz_chi     bin2(:) ];
+       
+        P_cham = z1;
+        P_chi = z2;
         
     catch
         disp(['error on profile ' num2str(cnum) ])
