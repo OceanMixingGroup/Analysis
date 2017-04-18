@@ -2,10 +2,10 @@ function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,P
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Compile data from binned chipod method and chameleon for specified
-% profiles, averaged in bins of size dz. For eq08 and eq14.
+% profiles, averaged in bins of size dz. For eq08 or eq14.
 %
 % Similar to Get_binned_profiles, but returns matrix of profiles instead of
-% one vector.
+% one vector. (each profile is binned, but profiles are not averaged)
 %
 % - log10(chamleon epsilon) < -8.5 are discarded
 %
@@ -17,8 +17,8 @@ function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,P
 % Params
 %
 % OUTPUT
-%
-%
+% - chipod : structure w/ binned profiles
+% - cham   : ""
 %
 %-----------------
 % 4/14/17 - A.Pickering
@@ -77,14 +77,14 @@ for ic = 1:length(cnums_to_get)
         [eps_cham(:,ic), ~ , ~] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,0);
         [eps_chi(:,ic) , ~ , ~] = binprofile(chb.eps1   , chb.P, 0, dz, 200,0);
         
-        [chi_cham(:,ic), ~ , ~] = binprofile(avg.CHI, avg.P, 0, dz, 200,0);
-        [chi_chi(:,ic),  ~ , ~] = binprofile(chb.chi1   , chb.P, 0, dz, 200,0);
+        [chi_cham(:,ic), ~ , ~] = binprofile(avg.CHI    , avg.P, 0, dz, 200,0);
+        [chi_chi(:,ic) , ~ , ~] = binprofile(chb.chi1   , chb.P, 0, dz, 200,0);
         
-        [N2_cham(:,ic), ~ , ~] = binprofile(avg.N2, avg.P, 0, dz, 200,0);
+        [N2_cham(:,ic), ~ , ~] = binprofile(avg.N2   , avg.P, 0, dz, 200,0);
         [N2_chi(:,ic) , ~ , ~] = binprofile(chb.N2   , chb.P, 0, dz, 200,0);
         
-        [Tz_cham(:,ic) ,~ , ~] = binprofile(avg.DTDZ, avg.P, 0, dz, 200,0);
-        [Tz_chi(:,ic),~ , ~] = binprofile(chb.dTdz   , chb.P, 0, dz, 200,0);
+        [Tz_cham(:,ic) ,~ , ~] = binprofile(avg.DTDZ , avg.P, 0, dz, 200,0);
+        [Tz_chi(:,ic)  ,~ , ~] = binprofile(chb.dTdz   , chb.P, 0, dz, 200,0);
         
     catch
         disp(['error on profile ' num2str(cnum) ])

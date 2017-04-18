@@ -4,7 +4,11 @@ function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi
 %
 % Compile data from binned chipod method and chameleon for specified
 % profiles, averaged in bins of size dz. Then average profiles together.
-% For eq08 and eq14. 
+% 
+% Each profile is depth-binned, and then all binned profiles are averaged
+% together.
+%
+% For eq08 or eq14. 
 %
 %
 % INPUT

@@ -3,17 +3,17 @@ function [chipod, cham] =Get_all_chipod_cham_data(path_chipod_bin,...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Function to get all data from chipod and chameleon profiles (no binning)
-%
-% For eq08 and eq14.
+% i.e. concats all profiles into one list for each variable
+% 
+% Works for eq08 or eq14.
 %
 % - NOTE log10(chamleon epsilon) < -8.5 are discarded
 %
-%
 % INPUT
-% path_chipod_bin
-% path_cham_avg
-% dz
-% Params
+% -path_chipod_bin
+% -path_cham_avg
+% -dz
+% -Params
 %
 % OUTPUT
 %

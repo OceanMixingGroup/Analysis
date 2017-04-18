@@ -2,8 +2,14 @@ function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi
     Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% * in this version, get points from all profiles, then average in 10m
-% bins, instead of binning each profile and then averaging profiles.
+% Get data from all chipod & cham profiles, then average in 10m
+% bins., instead of binning each profile and then averaging profiles.
+%
+% * chameleon epsilons below noise floor (log10<-8.5) are discarded
+%
+% * some screeining done to chiod epsilons
+%
+% * also attempts to do some screening of spikes in chipod data
 %
 % Compile data from binned chipod method and chameleon for specified
 % profiles, averaged in bins of size dz. Then average profiles together.
@@ -18,7 +24,8 @@ function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi
 %
 % OUTPUT
 %
-%
+% Returns single profiles of data that are averaged in depth bins across
+% all the profiles.
 %
 %-----------------
 % 4/12/17 - A.Pickering
@@ -102,16 +109,16 @@ eps_cham(ib) = nan ;
 
 %% Nan out spikes in chi-pod Tz,epsilon
 
-% clear ib
-% ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
-% eps_chi(ib)=nan;
-% chi_chi(ib)=nan;
-% Tz_chi(ib) =nan;
-% N2_chi(ib) =nan;
-% 
-% clear ib
-% ib = find(log10(eps_chi)>-4);
-% eps_chi(ib)=nan;
+clear ib
+ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
+eps_chi(ib)=nan;
+chi_chi(ib)=nan;
+Tz_chi(ib) =nan;
+N2_chi(ib) =nan;
+
+clear ib
+ib = find(log10(eps_chi)>-4);
+eps_chi(ib) = nan;
 
 %% now bin-average profiles together
 
@@ -120,7 +127,7 @@ eps_cham(ib) = nan ;
 [N2_cham_avg  z1 Nobs] = binprofile(N2_cham,  P_cham, 0, dz, 200,1);
 [Tz_cham_avg  z1 Nobs] = binprofile(Tz_cham,  P_cham, 0, dz, 200,1);
 
-P_cham = z1;
+P_cham = z1 ;
 clear z1
 
 [eps_chi_avg z1 Nobs] = binprofile(eps_chi, P_chi, 0, dz, 200,1);
