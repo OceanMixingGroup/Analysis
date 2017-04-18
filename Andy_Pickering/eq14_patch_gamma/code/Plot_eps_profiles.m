@@ -13,28 +13,20 @@
 
 clear ; close all
 
-%whN2dTdz = 'line'
-whN2dTdz  = 'line_fit'
-%whN2dTdz = 'bulk'
 Params.gamma = 0.2;
 Params.fmax  = 7  ;
-
-% patch parameters
-patch_size_min = 0.4
-usetemp = 1
-minR2 = 0.0
+Params.z_smooth=10;
 
 dz=10
 
 eq14_patches_paths
-figdir2 = fullfile( fig_dir, 'eps_profiles', whN2dTdz);
+figdir2 = fullfile( fig_dir, 'eps_profiles', ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
 ChkMkDir(figdir2)
 
 for cnum=1:25:3000
     try
-        h = PlotEpsProfileCompare_eq14(cnum,whN2dTdz,Params,patch_size_min,...
-            usetemp,minR2,dz)
-        %        print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_' whN2dTdz '_eps_profiiles_compare'] ),'-dpng')
+        h = PlotEpsProfileCompare_eq14(cnum,Params,dz)
+        print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_eps_profiiles_compare'] ),'-dpng')
         pause(1)
     end
 end
