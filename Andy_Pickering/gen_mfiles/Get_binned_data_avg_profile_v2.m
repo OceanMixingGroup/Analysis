@@ -108,17 +108,17 @@ ib = find(log10(eps_cham)<-8.5);
 eps_cham(ib) = nan ;
 
 %% Nan out spikes in chi-pod Tz,epsilon
-
-clear ib
-ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
-eps_chi(ib)=nan;
-chi_chi(ib)=nan;
-Tz_chi(ib) =nan;
-N2_chi(ib) =nan;
-
-clear ib
-ib = find(log10(eps_chi)>-4);
-eps_chi(ib) = nan;
+% 
+% clear ib
+% ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
+% eps_chi(ib)=nan;
+% chi_chi(ib)=nan;
+% Tz_chi(ib) =nan;
+% N2_chi(ib) =nan;
+% 
+% clear ib
+% ib = find(log10(eps_chi)>-4);
+% eps_chi(ib) = nan;
 
 %% now bin-average profiles together
 

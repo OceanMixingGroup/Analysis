@@ -38,8 +38,8 @@ N2_cham = [];
 Tz_chi  = [];
 Tz_cham = [];
 
-P_cham_avg = [];
-P_chi_avg  = [];
+P_cham = [];
+P_chi  = [];
 
 cnum_chi  = [] ;
 cnum_cham = [];

@@ -54,18 +54,50 @@ Comparing average profiles of $\chi$pod estimates (assuming $\gamma=0.2$) to Cha
 \section{Comparing individual estimates of $\epsilon$}
 
 
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_10mbinned_eps_ratios.png}
-\caption{EQ08: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values, for $\chi$pod method applied to 1m binned profiles. Estimates for each profile were averaged in 10m depth bins.}
-\label{epsrathist_eq08}
-\end{figure}
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eq08_10mbinned_eps_ratios.png}
+%\caption{EQ08: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values, for $\chi$pod method applied to 1m binned profiles. Estimates for each profile were averaged in 10m depth bins.}
+%\label{epsrathist_eq08}
+%\end{figure}
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_10mbinned_eps_ratios.png}
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_ratios_Pmin80.png}
 \caption{EQ14: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values, for $\chi$pod method applied to 1m binned profiles, and applied to just patches. Estimates for each profile were averaged in 10m depth bins.}
 \label{epsrathist_eq14}
 \end{figure}
+
+
+
+
+\clearpage
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Normalized eps vs chi plots}
+
+Assuming that
+\begin{equation}
+\gamma=\frac{N^2 \chi}{2\epsilon<T_z>^2}
+\end{equation}
+, plotting [$\epsilon/N\^2$] vs [$\chi/t_{z}^{2}$] should follow a straight line with slope equal to $1/2\gamma$.
+
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized.png}
+%\caption{EQ08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$.}
+%\label{}
+%\end{figure}
+
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_Pmin_0.png}
+%\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$ for *ALL depths*. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
+%\label{}
+%\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_Pmin_80.png}
+\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$ for *below 80db*. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
+\label{}
+\end{figure}
+
 
 
 
@@ -96,6 +128,21 @@ Comparing average profiles of $\chi$pod estimates (assuming $\gamma=0.2$) to Cha
 \end{figure}
 
 
+\begin{itemize}
+\item Averaging profiles seems to improve the comparisons.
+\item $\chi$pod average profiles can be dominated by a few points, which may be spikes/bad data. 
+\item What are appropriate thresholds to use? Should I discard chi-pod epsilon lower than -8.5 (same as chameleon?).
+\end{itemize}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_profiles_600_620_eps_profiles_avg.png}
+\caption{}
+\label{}
+\end{figure}
+
+
+
 
 \clearpage
 %~~~~~~~~
@@ -104,13 +151,7 @@ Comparing average profiles of $\chi$pod estimates (assuming $\gamma=0.2$) to Cha
 If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma=0.2$? Estimates from the averaged data are larger (Figures \ref{gambox_eq08},\ref{gambox_eq14}) but still slightly less than 0.2 .
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_gamma_point_avg_box.png}
-\caption{Boxplots of $log_{10}[\gamma]$ for a set of profiles from EQ14. Left is for all 1m avg data. Right is for data from all profiles averaged in 10m bins. Horizontal dashed line indicates $\gamma=0.2$.}
-\label{gambox_eq08}
-\end{figure}
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_gamma_point_avg_box.png}
+\includegraphics[scale=0.8]{eq14_gamma_point_avg_box_20mbinned.png}
 \caption{Boxplots of $log_{10}[\gamma]$ for a set of profiles from EQ14. Left is for all 1m avg data. Right is for data from all profiles averaged in 10m bins. Horizontal dashed line indicates $\gamma=0.2$.}
 \label{gambox_eq14}
 \end{figure}
@@ -122,63 +163,19 @@ If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma
 
 Next I wanted to see how many profiles we need to average for the $\chi$pod profile to converge to the chameleon profile. Obviously this will depend on the specific profiles used and the characteristics of the turbulence, but here they seem to converge after about 100-150 profiles. 
 
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq08_eps_prof_diffN.png}
-%\caption{EQ08: Average profiles of $\epsilon$ from binned $\chi$pod method and chameleon, for different number of profiles (given by title).}
-%\label{}
-%\end{figure}
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_eps_prof_diffN.png}
-\caption{EQ14: Average profiles of $\epsilon$ from binned $\chi$pod method and chameleon, for different number of profiles (given by title).}
-\label{}
-\end{figure}
-
-
-
-
-
-\clearpage
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Normalized eps vs chi plots}
-
-Assuming that
-\begin{equation}
-\gamma=\frac{N^2 \chi}{2\epsilon<T_z>^2}
-\end{equation}
-, plotting [$\epsilon/N\^2$] vs [$\chi/t_{z}^{2}$] should follow a straight line with slope equal to $1/2\gamma$.
 
 %\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized.png}
-%\caption{EQ08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$.}
+%\includegraphics[scale=0.8]{eq14_eps_prof_diffN.png}
+%\caption{EQ14: Average profiles of $\epsilon$ from binned $\chi$pod method and chameleon, for different number of profiles (given by title).}
 %\label{}
 %\end{figure}
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_Pmin_0.png}
-\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$ for *ALL depths*. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
-\label{}
-\end{figure}
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_Pmin_80.png}
-\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$ for *below 80db*. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
-\label{}
-\end{figure}
-
-
+%
+%
 %\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized_diffNprofileAvg.png}
-%\caption{EQ08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$, averaged over varying number of profiles. Lines show different values of $\gamma$. Data shallower than 80db have been discarded to avoid mixed layer where night-time convection occurs.}
+%\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_diffNprofileAvg_Pmin80.png}
+%\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$, averaged over varying number of profiles. Lines show different values of $\gamma$. Data shallower than 80db have been discarded to avoid mixed layer where night-time convection occurs.}
 %\label{}
 %\end{figure}
-
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_10mbinned_eps_vs_chi_normalized_diffNprofileAvg_Pmin80.png}
-\caption{EQ14: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$, averaged over varying number of profiles. Lines show different values of $\gamma$. Data shallower than 80db have been discarded to avoid mixed layer where night-time convection occurs.}
-\label{}
-\end{figure}
 
 
 
@@ -189,12 +186,12 @@ Assuming that
 %~~~~~~~~
 \section{Summary}
 
-\begin{itemize}
-\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon$ are biased low compared to Chameleon values.
-\item When many profiles are averaged in 10m bins, the average profiles of $\epsilon$ agree better.
-\item $\gamma$ computed from averaged (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is larger, but not quite 0.2 (mean is around 0.1?)
-\item Average profiles seem to converge after about 100 profiles?
-\end{itemize}
+%\begin{itemize}
+%\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon$ are biased low compared to Chameleon values.
+%\item When many profiles are averaged in 10m bins, the average profiles of $\epsilon$ agree better?.
+%\item $\gamma$ computed from averaged (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is larger, but not quite 0.2 (mean is around 0.1?)
+%\item Average profiles seem to converge after about 100 profiles?
+%\end{itemize}
 
 
 

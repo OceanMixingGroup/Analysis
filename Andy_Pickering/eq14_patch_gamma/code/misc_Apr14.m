@@ -62,6 +62,34 @@ linkaxes([ax1 ax2 ax3 ax4])
 figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
 print(fullfile(fig_dir, figname), '-dpng')
 
+%%
+%% Pcolor of *ratio* of chipod & cham eps, plus N2,Tz
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+
+rr=2 ;
+cc=1 ;
+
+ax1 = subplot(rr,cc,1) ;
+ezpc(cham.cnum,cham.P,log10(chipod.eps ./ cham.eps))
+caxis([-3 1])
+colorbar
+%title('\epsilon chameleon')
+ylabel('P [db]')
+
+ax2 = subplot(rr,cc,2);
+ezpc(chipod.cnum,chipod.P,log10(chipod.chi ./ cham.chi))
+caxis([-1 1])
+colorbar
+%title('\epsilon chi-pod')
+ylabel('P [db]')
+linkaxes([ax1 ax2 ])
+
+%figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
+%print(fullfile(fig_dir, figname), '-dpng')
+
 %% Pcolor of chipod & cham chi, and N2,Tz
 
 figure(1);clf
