@@ -5,8 +5,8 @@
 clear ; close all
 
 Params.gamma = 0.2;
-Params.fmax=7
-Params.z_smooth=10
+Params.fmax = 7
+Params.z_smooth = 10
 
 dz=10; % bin size
 
@@ -59,6 +59,10 @@ end
 clear ib
 ib = find(log10(cham.EPSILON)<-8.5);
 cham.EPSILON(ib) = nan;
+
+clear ib
+ib = find(log10(eps_chi)>-5);
+eps_chi(ib) = nan;
 
 [chi_bin zout_chi Nobs] = binprofile(eps_chi,P_chi, 0, dz, 200,1);
 [cham_bin zout_cham Nobs] = binprofile(cham.EPSILON(:,icham),cham.P(:,icham), 0, dz, 200,1);
