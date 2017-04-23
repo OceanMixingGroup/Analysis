@@ -38,7 +38,6 @@ end
 
 %% do same, but plot average of multiple profiles
 
-
 clear ; close all
 
 Params.gamma = 0.2;
@@ -55,7 +54,7 @@ ChkMkDir(figdir1)
 figdir2 = fullfile( fig_dir, 'eps_profiles', ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
 ChkMkDir(figdir2)
 
-dp=20
+dp=40
 Pmin=0;
 
 figdir2 = fullfile( fig_dir, ['eps_profiles_' num2str(dp*2) 'profavgs'], ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
