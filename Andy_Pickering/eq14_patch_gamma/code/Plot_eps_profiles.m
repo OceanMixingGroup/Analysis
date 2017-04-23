@@ -47,13 +47,15 @@ Params.z_smooth=10;
 
 dz=10
 
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
 eq14_patches_paths
 figdir1 = fullfile( fig_dir, 'chi_profiles', ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
 ChkMkDir(figdir1)
 figdir2 = fullfile( fig_dir, 'eps_profiles', ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
 ChkMkDir(figdir2)
 
-dp=100
+dp=20
 Pmin=0;
 
 figdir2 = fullfile( fig_dir, ['eps_profiles_' num2str(dp*2) 'profavgs'], ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
@@ -354,22 +356,22 @@ for whcase=1:6
     [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
         Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin)
         
-    screen=0
+    screen=1
     if screen==1
         % try screening out some spikes in chipod data that give huge epsilons
         clear ib
-        ib=find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
-        eps_chi(ib)=nan;
+        ib=find( medfilt1(Tz_chi_avg,5) ./ Tz_chi_avg  >2 ) ;
+        eps_chi_avg(ib)=nan;
         
         clear ib
-        ib = find(log10(N2_chi)>-2.5);
-        eps_chi(ib)=nan;
+        ib = find(log10(N2_chi_avg)>-2.5);
+        eps_chi_avg(ib)=nan;
         
-        clear ib
-        ib = find(log10(cham.EPSILON)<-8.5);
-        cham.EPSILON(ib) = nan;
+%        clear ib
+ %       ib = find(log10(cham.EPSILON)<-8.5);
+  %      cham.EPSILON(ib) = nan;
         
-        eps_chi(find(log10(eps_chi)>-4))=nan;
+        eps_chi_avg(find(log10(eps_chi_avg)>-4))=nan;
         
     end    
     
@@ -392,7 +394,7 @@ for whcase=1:6
     
 end
 
-%
+%%
 
 figure(1)
 eq14_patches_paths
