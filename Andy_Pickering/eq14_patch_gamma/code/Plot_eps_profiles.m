@@ -40,7 +40,7 @@ end
 
 clear ; close all
 
-Params.gamma = 0.2;
+Params.gamma = 0.1;
 Params.fmax  = 7  ;
 Params.z_smooth=10;
 
@@ -49,32 +49,28 @@ dz=10
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 eq14_patches_paths
-figdir1 = fullfile( fig_dir, 'chi_profiles', ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
-ChkMkDir(figdir1)
-figdir2 = fullfile( fig_dir, 'eps_profiles', ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
-ChkMkDir(figdir2)
 
-dp=40
+dp=100
 Pmin=0;
 
-figdir2 = fullfile( fig_dir, ['eps_profiles_' num2str(dp*2) 'profavgs'], ['fmax_' num2str(Params.fmax) '_zsmooth_' num2str(Params.z_smooth)]);
+figdir2 = fullfile( fig_dir, ['chi_eps_profiles_' num2str(dp) 'profavgs'],['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128']);
 ChkMkDir(figdir2)
 
 
-for cnum=1:100:3000
+for cnum=1:50:3000
     try
 
         % avg +/- dp profiles
-        cnums_to_get = (cnum-dp) : (cnum+dp);   
+        cnums_to_get = (cnum-dp/2) : (cnum+dp/2);   
         
         [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
             Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin);
 
         figure(1);clf
-        agutwocolumn(0.8)
+        agutwocolumn(1)
         wysiwyg
         
-        subplot(121)
+        
         
         clear chb avg
         % regular chi-pod method on binned data
@@ -83,6 +79,32 @@ for cnum=1:100:3000
         
         % chamelon data
         load(fullfile(path_cham_avg,['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
+
+        subplot(221)
+        plot(log10(chb.chi1),chb.P,'color',0.6*[1 1 1])
+        hold on
+        plot(log10(avg.CHI),avg.P,'k')
+        axis ij
+        grid on
+        xlim([-12 -3])
+        ylim([0 200])
+        xlabel('log_{10}[\chi]')
+        title(['profile ' num2str(cnum)])
+        
+        
+        subplot(222)
+        hcham=plot(log10(chi_cham_avg),P_cham,'ko-','linewidth',2);
+        hold on
+        hchi = plot(log10(chi_chi_avg),P_chi,'d-','color',0.6*[1 1 1],'linewidth',2);
+        axis ij
+        grid on
+        xlim([-12 -3])
+        ylim([0 200])
+        legend([hcham hchi],'cham','\chi pod','location','best')
+        xlabel('log_{10}[\chi]')
+        title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
+
+        subplot(223)
         plot(log10(chb.eps1),chb.P,'color',0.6*[1 1 1])
         hold on
         plot(log10(avg.EPSILON),avg.P,'k')
@@ -90,10 +112,11 @@ for cnum=1:100:3000
         grid on
         xlim([-12 -3])
         ylim([0 200])
+        xlabel('log_{10}[\epsilon]')
         title(['profile ' num2str(cnum)])
         
         
-        subplot(122)
+        subplot(224)
         hcham=plot(log10(eps_cham_avg),P_cham,'ko-','linewidth',2);
         hold on
         hchi = plot(log10(eps_chi_avg),P_chi,'d-','color',0.6*[1 1 1],'linewidth',2);
@@ -107,7 +130,7 @@ for cnum=1:100:3000
         
         print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_eps_profiiles_compare'] ),'-dpng')
         
-        pause(1)
+        pause(0.1)
     %catch
     end
 end
@@ -365,13 +388,9 @@ for whcase=1:6
         clear ib
         ib = find(log10(N2_chi_avg)>-2.5);
         eps_chi_avg(ib)=nan;
-        
-%        clear ib
- %       ib = find(log10(cham.EPSILON)<-8.5);
-  %      cham.EPSILON(ib) = nan;
-        
+                
         eps_chi_avg(find(log10(eps_chi_avg)>-4))=nan;
-        
+        eps_chi_avg(find(log10(eps_chi_avg)<-8.5))=nan;
     end    
     
     %

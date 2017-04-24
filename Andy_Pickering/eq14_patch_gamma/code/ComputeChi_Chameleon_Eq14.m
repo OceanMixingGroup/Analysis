@@ -2,14 +2,11 @@
 %
 % ComputeChi_Chameleon_Eq14.m
 %
-% Apply chi-pod processing methods to chameleon FP07 data from Eq14 profiles.
+% This script applies the chi-pod processing methods to chameleon FP07 data
+% from EQ14 profiles.
 %
 % Chameleon mat files are made w/ ProcessEq14Cham_AP.m, which must be run
 % first.
-%
-% After this, combine all profiles w/ Combine_EQ14_chi.m
-%
-% Modified from ComputeChi_Chameleon_Flx91.m
 %
 %------------------------
 % 01/19/15 - A.Pickering - apickering@coas.oregostate.edu
@@ -40,12 +37,12 @@ eq14_patches_paths
 
 % Params for chipod calculations
 Params.z_smooth = 10;    % distance to smooth N^2 and dTdz over
-Params.fmax     = 7;     %
-Params.nfft     = 128;   %
-Params.TPthresh = 1e-6;  %
-Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor
-Params.fc       = 99     % cutoff frequency for response correction
-Params.gamma    = 0.2    % mixing efficiency
+Params.fmax     = 7;    % freq. to integrate dT/dz spectrum up to (ie noise level)
+Params.nfft     = 128;   % # points to use in computing spectra
+Params.TPthresh = 1e-6;  % minimum dT/dz variance
+Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
+Params.fc       = 99 ;    % cutoff frequency for response correction
+Params.gamma    = 0.1 ;   % mixing efficiency
 
 if Params.resp_corr==0
     Params.fc=99;
@@ -82,7 +79,7 @@ cnums_to_do = get_cham_cnums_eq14
 %id = find(cnums_to_do>1554);
 %%
 
-for icast=1%:length(cnums_to_do)
+for icast=1:length(cnums_to_do)
     
     cnum = cnums_to_do(icast);
     
@@ -96,7 +93,6 @@ for icast=1%:length(cnums_to_do)
     try
         
         % Load the data for this cast
-        %load(fullfile(save_dir_cal,Flist(icast).name))
         load(fullfile(save_dir_cal,['EQ14_' sprintf('%04d',cnum) '.mat']))
         clear cal
         cal=cal2;
