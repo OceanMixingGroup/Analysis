@@ -40,7 +40,7 @@ end
 
 clear ; close all
 
-Params.gamma = 0.1;
+Params.gamma = 0.05;
 Params.fmax  = 7  ;
 Params.z_smooth=10;
 
@@ -50,7 +50,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 eq14_patches_paths
 
-dp=100
+dp=40
 Pmin=0;
 
 figdir2 = fullfile( fig_dir, ['chi_eps_profiles_' num2str(dp) 'profavgs'],['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128']);
@@ -69,9 +69,7 @@ for cnum=1:50:3000
         figure(1);clf
         agutwocolumn(1)
         wysiwyg
-        
-        
-        
+                       
         clear chb avg
         % regular chi-pod method on binned data
         load( fullfile(path_chipod_bin,['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))

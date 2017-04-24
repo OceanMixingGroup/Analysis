@@ -1,0 +1,20 @@
+
+Notes on EQ14 directory/data structure
+
+The raw chameleon data is in /ChiPod/Cham_Eq14_Compare/Data/chameleon/
+
+Data processed by Sally is at:
+/processed/Cstar=0_032/mat
+and
+/processed/Cstar=0_01366/mat
+
+Data processed by me using fmax=7Hz is at: 
+/processed_AP_7Hz/mat
+
+Chameleon casts with raw T,s,etc are made w/ *ProcessEq14Cham_AP* and are saved in:
+/ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/cal/
+
+Chi-pod method is applied to binned data in *ComputeChi_Chameleon_Eq14.m*. Files are saved to folders in :
+
+ChiPod/Cham_Eq14_Compare/Data/Cham_proc_AP/chipod_method_bin/
+

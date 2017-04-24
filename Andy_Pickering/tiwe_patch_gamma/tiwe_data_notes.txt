@@ -1,0 +1,21 @@
+
+
+**Notes on TIWE directory/data structure**
+
+paths are set by tiwe_patches_paths.m
+
+The raw chameleon data is in:
+
+ /Dropbox/AP_Share_With_JN/date_from_jim/Tiwe91/cham/tw/
+
+Chameleon casts with raw T,s,etc are made w/ *Process_tiwe_rawprofiles_AP* and are saved in:
+
+/tiwe_patch_gamma/data/cham_proc/cal/
+
+Processed chameleon casts made w/ Run_tiwe_AP.m  and are saved in:
+
+/tiwe_patch_gamma/data/cham_proc/avg/
+
+Chi-pod method is applied to binned data in *??*. Files are saved to folders in :
+
+??

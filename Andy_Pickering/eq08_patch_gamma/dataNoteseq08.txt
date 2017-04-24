@@ -1,0 +1,19 @@
+
+
+**Notes on EQ08 directory/data structure**
+
+paths are set by eq08_patches_paths.m
+
+The raw chameleon data is in /ChiPod/C
+
+Chameleon casts with raw T,s,etc are made w/ *P* and are saved in:
+/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc/cal/
+
+Processed chameleon casts are saved in:
+/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc/avg/
+
+
+Chi-pod method is applied to binned data in *ComputeChi_Chameleon_Eq08.m*. Files are saved to folders in :
+
+/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc/chipod_method_bin/
+

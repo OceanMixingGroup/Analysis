@@ -42,7 +42,7 @@ Params.nfft     = 128;   % # points to use in computing spectra
 Params.TPthresh = 1e-6;  % minimum dT/dz variance
 Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
-Params.gamma    = 0.1 ;   % mixing efficiency
+Params.gamma    = 0.05 ;   % mixing efficiency
 
 if Params.resp_corr==0
     Params.fc=99;
