@@ -37,17 +37,17 @@
 
 \item This document is an attempt to provide an overview/summary of what i've found in my $\chi$pod analysis. 
 
-\item The motivation/goal for all this work is to show if and how well the CTD-$\chi$pod method works for estimating $\chi$,$\epsilon$, $K_T$, etc from fast temperature profiles. 
+\item The motivation/goal for all this work is to show if and how well the CTD-$\chi$pod method works for estimating $\chi$,$\epsilon$, $K_T$, etc from fast temperature profiles. The idea is to deploy $\chi$pods on regular CTD casts on WOCE/CLIVAR cruises etc. to making mixing measurements.
 
-\item Before dealing with all the issues with the CTD deployments (depth loops, entraining water, rosette-induced turbulence), I wanted to verify that the method itself worked w/out these complications. 
+\item Before dealing with all the issues with the CTD deployments (depth loops, entraining water, rosette-induced turbulence etc.), I wanted to verify that the method itself worked w/out these complications. 
 
-\item The Chameleon microstructure profiler has both thermistor and shear probes, so this seemed like an ideal way to test the method. I would apply the $\chi$pod method to the chameleon thermistor data only ($\epsilon_{\chi}$), and compare to the 'true' results computed using the shear probes ($\epsilon$).
+\item The Chameleon microstructure profiler has both thermistor and shear probes, so this seemed like an ideal way to test the method. I would apply the $\chi$pod method to the chameleon thermistor data only ($\chi_{\chi},\epsilon_{\chi}$), and compare to the 'true' results computed using the shear probes ($\chi$,$\epsilon$).
 
 \item I found that basically the estimates of $\chi$ agreed, but $\epsilon_{\chi}$ was about an order of magnitude smaller than $\epsilon$ (Figure \ref{chi_overview},\ref{eps_overview},\ref{chamVschi}).
 
-\item The $\chi$pod method requires an assume mixing efficiency, and uses the normal assumption that $\gamma=0.2$. I computed gamma from the chameleon data (formula) and found that it was about an order of magnitude smaller than 0.2; hence the low epsilon estimates. 
+\item The $\chi$pod method requires assuming a mixing efficiency, and uses the normal assumption that $\gamma=0.2$. I computed gamma from the chameleon data (formula) and found that it was about an order of magnitude smaller than 0.2; hence the low epsilon estimates. 
 
-\item Is gamma really different here? Am I calculating it wrong? What does gamma mean? Sasha found something similar previously, gives me a little more confidence that i'm not doing something wrong..
+\item Is gamma really different here? Am I calculating it wrong? What does gamma mean? Sasha found something similar previously in EQ08 and other Chameleon datasets, gives me a little more confidence that i'm not doing something obviously wrong..
 
 \item One idea was that we should be computing gamma over patches, and it's meaningless outside of patches. Previous work has found gamma is close to 0.2 . So I tried computing patches and gamma. This can be a whole other can of worms (lots of choices to make in how to identify patches, compute N2, Tz etc), but I found I could get gammas close to 0.2 .  And on a point-by-point basis, $\epsilon_{\chi}$ agreed better with $\epsilon_{\chi}$. But then we have much fewer data points... 
 
@@ -154,6 +154,14 @@ Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is locat
 
 
 
+I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. This doesn't seem to change either.
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_prof_avg.png}
+\caption{}
+\label{}
+\end{figure}
+
+
 
 
 \clearpage
@@ -171,19 +179,11 @@ I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs ch
 
 
 
-
-\clearpage
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Effects of averaging different numbers of profiles}
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. This doesn't seem to change either, which is strange because it looked like when I plotted average profiles they were matching better for more averaging....
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_prof_avg.png}
-\caption{}
-\label{}
-\end{figure}
+%
+%\clearpage
+%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%\section{Effects of averaging different numbers of profiles}
+%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
@@ -212,12 +212,24 @@ If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \begin{itemize}
-\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon$ are biased low compared to Chameleon values.
-%\item When many profiles are averaged in 10m bins, the average profiles of $\epsilon$ agree better?.
-\item $\gamma$ computed from averaged (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is larger, but not quite 0.2 (mean is around 0.1?)
-%\item Average profiles seem to converge after about 100 profiles?
+
+\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon_{\chi}$ are biased low compared to Chameleon $\epsilon$.
+
+\item This appears to be because $\gamma$ computed from the Chameleon data is lower than the assumed 0.2
+
+\item $\gamma$ computed from averaged (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is closer to 0.2
+
+\item But averaging many epsilon profiles doesn't appear to improve comparison.
+
 \end{itemize}
 
+Questions:
+
+\begin{itemize}
+\item Is gamma really different here? Or is it an issue with the instrument or processing?
+\item Would be good to see what gamma you get from other instruments/locations (I think Amy did this for some of the database and found gamma was about 0.2?)
+\item Would be good to have 'standard' code to compute $\chi$ from thermistor data etc.? Thermistor response/noise level varies a lot though, would need a standard way to determine correction.
+\end{itemize}
 
 
 
