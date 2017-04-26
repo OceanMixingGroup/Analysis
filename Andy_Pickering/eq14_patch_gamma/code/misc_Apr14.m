@@ -19,6 +19,52 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200);
     
+%% Pcolor of chipod & cham chi, and N2,Tz
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+
+rr=4 ;
+cc=1 ;
+
+ax1 = subplot(rr,cc,1);
+ezpc(cham.cnum,cham.P,log10(cham.chi))
+hline(80,'k--')
+caxis([-11 -4])
+colorbar
+title('log_{10} \chi chameleon')
+
+ax2 = subplot(rr,cc,2);
+ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
+hline(80,'k--')
+caxis([-11 -4])
+colorbar
+title('log_{10} \chi \chi-pod')
+
+ax3 = subplot(rr,cc,3);
+ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
+hline(80,'k--')
+caxis([-6 -2])
+colorbar
+ylabel('P [db]')
+title('log_{10} N^2')
+
+ax4 = subplot(rr,cc,4);
+ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
+hline(80,'k--')
+caxis([-4 -0])
+colorbar
+ylabel('P [db]')
+xlabel('cast #')
+title('log_{10} dT/dz')
+
+linkaxes([ax1 ax2 ax3 ax4])
+
+figname = [project_short '_Pcolor_BothChi_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
+print(fullfile(fig_dir, figname), '-dpng')
+
+
 %% Pcolor of chipod & cham eps, and N2,Tz
 
 figure(1);clf
@@ -30,32 +76,36 @@ cc=1 ;
 
 ax1 = subplot(rr,cc,1) ;
 ezpc(cham.cnum,cham.P,log10(cham.eps))
+hline(80,'k--')
 caxis([-11 -4])
 colorbar
-title('\epsilon chameleon')
+title('log_{10} \epsilon chameleon')
 ylabel('P [db]')
 
 ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.eps))
+hline(80,'k--')
 caxis([-11 -4])
 colorbar
-title('\epsilon chi-pod')
+title('log_{10} \epsilon chi-pod')
 ylabel('P [db]')
 
 ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
+hline(80,'k--')
 caxis([-6 -2])
 colorbar
 ylabel('P [db]')
-title('N^2')
+title('log_{10} N^2')
 
 ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
+hline(80,'k--')
 caxis([-4 -0])
 colorbar
 ylabel('P [db]')
 xlabel('cast #')
-title('dT/dz')
+title('log_{10} dT/dz')
 
 linkaxes([ax1 ax2 ax3 ax4])
 
@@ -64,12 +114,15 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 %% Plot chipod method vs chameleon
 
+icham = find(cham.P>80);
+ichi = find(chipod.P>80);
+
 figure(1);clf
 agutwocolumn(1)
 wysiwyg
 
 subplot(211)
-histogram2( log10(cham.chi), log10(chipod.chi), 'DisplayStyle','tile')
+histogram2( log10(cham.chi(icham,:)), log10(chipod.chi(ichi,:)), 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
 plot(xvec,xvec,'k--')
@@ -81,7 +134,7 @@ xlabel('\chi chameleon')
 ylabel('\chi chipod')
 
 subplot(212)
-histogram2( log10(cham.eps), log10(chipod.eps),50, 'DisplayStyle','tile')
+histogram2( log10(cham.eps(icham,:)), log10(chipod.eps(ichi,:)),50, 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
 plot(xvec,xvec,'k--')
@@ -110,7 +163,6 @@ ax1 = subplot(rr,cc,1) ;
 ezpc(cham.cnum,cham.P,log10(chipod.eps ./ cham.eps))
 caxis([-3 1])
 colorbar
-%title('\epsilon chameleon')
 ylabel('P [db]')
 
 ax2 = subplot(rr,cc,2);
@@ -123,47 +175,6 @@ linkaxes([ax1 ax2 ])
 
 %figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
 %print(fullfile(fig_dir, figname), '-dpng')
-
-%% Pcolor of chipod & cham chi, and N2,Tz
-
-figure(1);clf
-agutwocolumn(1)
-wysiwyg
-
-rr=4 ;
-cc=1 ;
-
-ax1 = subplot(rr,cc,1);
-ezpc(cham.cnum,cham.P,log10(cham.chi))
-caxis([-11 -4])
-colorbar
-title('\chi chameleon')
-
-ax2 = subplot(rr,cc,2);
-ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
-caxis([-11 -4])
-colorbar
-title('\chi \chi-pod')
-
-ax3 = subplot(rr,cc,3);
-ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
-caxis([-6 -2])
-colorbar
-ylabel('P [db]')
-title('N^2')
-
-ax4 = subplot(rr,cc,4);
-ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
-caxis([-4 -0])
-colorbar
-ylabel('P [db]')
-xlabel('cast #')
-title('dT/dz')
-
-linkaxes([ax1 ax2 ax3 ax4])
-
-figname = [project_short '_Pcolor_BothChi_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
-print(fullfile(fig_dir, figname), '-dpng')
 
 
 %% 2D histogrmas of chipod vs chameleon
@@ -249,4 +260,4 @@ axis ij
 xlim([-10 -4])
 legend([hcham hchi],'cham','chi')
 grid on
-%%
+
