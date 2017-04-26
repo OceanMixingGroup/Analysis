@@ -10,30 +10,10 @@
 %
 %------------------------
 % 01/19/15 - A.Pickering - apickering@coas.oregostate.edu
-% 01/20/15 - AP - Noticed lat was hardwired to 39N, changed to use info in
-% head structure
-% 02/03/16 - AP - Move params to beginning, add fmax to params
-% 02/03/16 - AP - Also save kstart and kstop
-% 02/12/16 - AP - Add option to apply freq response to TP
-% 04/15/16 - AP - Add fspd std
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
 clear ; close all
-
-% Add all the paths we need from mixing software
-mixpath = '/Users/Andy/Cruises_Research/mixingsoftware/' ;
-addpath(fullfile(mixpath,'seawater'))
-addpath(fullfile(mixpath,'general'))
-addpath(fullfile(mixpath,'marlcham'))
-addpath(fullfile(mixpath,'CTD_Chipod','mfiles')) ;
-addpath(fullfile(mixpath,'chipod','compute_chi')); % get_chipod_chi.md
-
-makeplots = 0
-savespec  = 1  % option to save wavenumber spectra
-
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/code
-eq14_patches_paths
 
 % Params for chipod calculations
 Params.z_smooth = 10;    % distance to smooth N^2 and dTdz over
@@ -44,15 +24,29 @@ Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
 Params.gamma    = 0.05 ;   % mixing efficiency
 
-if Params.resp_corr==0
-    Params.fc=99;
-end
+makeplots = 0
+savespec  = 1  % option to save wavenumber spectra
 
 % specify method of computing N^2 and dT/dz
 whN2dTdz = 'regular'
 %whN2dTdz = 'regular2'
 %whN2dTdz = 'line'
 %whN2dTdz = 'raw_line'
+
+% Add all the paths we need from mixing software
+mixpath = '/Users/Andy/Cruises_Research/mixingsoftware/' ;
+addpath(fullfile(mixpath,'seawater'))
+addpath(fullfile(mixpath,'general'))
+addpath(fullfile(mixpath,'marlcham'))
+addpath(fullfile(mixpath,'CTD_Chipod','mfiles')) ;
+addpath(fullfile(mixpath,'chipod','compute_chi')); % get_chipod_chi.md
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/code
+eq14_patches_paths
+
+if Params.resp_corr==0
+    Params.fc=99;
+end
 
 % Make directory to save processed casts in (name based on Params)
 
