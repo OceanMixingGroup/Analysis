@@ -18,7 +18,7 @@ eq14_patches_paths
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200);
-
+    
 %% Pcolor of chipod & cham eps, and N2,Tz
 
 figure(1);clf
@@ -62,7 +62,36 @@ linkaxes([ax1 ax2 ax3 ax4])
 figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
 print(fullfile(fig_dir, figname), '-dpng')
 
-%%
+%% Plot chipod method vs chameleon
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+
+subplot(211)
+histogram2( log10(cham.chi), log10(chipod.chi), 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+xlim([-12 -4])
+ylim([-12 -4])
+xlabel('\chi chameleon')
+ylabel('\chi chipod')
+
+subplot(212)
+histogram2( log10(cham.eps), log10(chipod.eps),50, 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+xlim([-12 -4])
+ylim([-12 -4])
+xlabel('\epsilon chameleon')
+ylabel('\epsilon chipod')
+
+figname = [project_short '_chamVschipod_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
+print(fullfile(fig_dir, figname), '-dpng')
+
+
 %% Pcolor of *ratio* of chipod & cham eps, plus N2,Tz
 
 figure(1);clf
@@ -109,7 +138,7 @@ ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
 caxis([-11 -4])
 colorbar
-title('\chi chameleon')
+title('\chi \chi-pod')
 
 ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
