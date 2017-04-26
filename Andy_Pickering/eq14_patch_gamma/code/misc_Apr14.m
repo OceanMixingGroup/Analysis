@@ -73,6 +73,8 @@ histogram2( log10(cham.chi), log10(chipod.chi), 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
 plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
 xlim([-12 -4])
 ylim([-12 -4])
 xlabel('\chi chameleon')
@@ -83,6 +85,9 @@ histogram2( log10(cham.eps), log10(chipod.eps),50, 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
 plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+
 xlim([-12 -4])
 ylim([-12 -4])
 xlabel('\epsilon chameleon')
