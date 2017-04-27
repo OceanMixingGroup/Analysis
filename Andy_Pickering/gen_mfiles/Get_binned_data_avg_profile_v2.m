@@ -1,5 +1,5 @@
 function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
-    Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin)
+    Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Get data from all chipod & cham profiles, then average in 10m
@@ -116,10 +116,17 @@ eps_cham(ib) = nan ;
 % Tz_chi(ib) =nan;
 % N2_chi(ib) =nan;
 % 
-% clear ib
-% ib = find(log10(eps_chi)>-4);
-% eps_chi(ib) = nan;
 
+% discard chipod epsilons below 8.5 (same as chanmeleon)
+if screen_chi==1
+ clear ib
+ ib = find(log10(eps_chi)<-8.5);
+ eps_chi(ib) = nan;
+ 
+  clear ib
+ ib = find(log10(eps_chi)>-5);
+ eps_chi(ib) = nan;
+end
 %% now bin-average profiles together
 
 [eps_cham_avg z1 Nobs] = binprofile(eps_cham, P_cham, 0, dz, 200,1);
