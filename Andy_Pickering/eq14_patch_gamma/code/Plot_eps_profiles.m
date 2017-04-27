@@ -40,9 +40,10 @@ end
 
 clear ; close all
 
-Params.gamma = 0.05;
+Params.gamma = 0.2;
 Params.fmax  = 7  ;
 Params.z_smooth=10;
+screen_chi=0
 
 dz=10
 
@@ -50,21 +51,23 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 eq14_patches_paths
 
-dp=40
-Pmin=0;
+dp = 100
+Pmin = 0 ;
 
-figdir2 = fullfile( fig_dir, ['chi_eps_profiles_' num2str(dp) 'profavgs'],['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128']);
+figdir2 = fullfile( fig_dir, ['chi_eps_profiles_' num2str(dp) 'profavgs'],['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_screen_chi_' num2str(screen_chi)]);
 ChkMkDir(figdir2)
 
-
-for cnum=1:50:3000
+for cnum=551:50:3000
     try
 
         % avg +/- dp profiles
-        cnums_to_get = (cnum-dp/2) : (cnum+dp/2);   
+        cnums_to_get = (cnum-dp/2) : (cnum+dp/2);  
+        
+        bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+        cnums_to_get = setdiff(cnums_to_get,bad_prof);
         
         [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin);
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
 
         figure(1);clf
         agutwocolumn(1)
@@ -88,7 +91,7 @@ for cnum=1:50:3000
         ylim([0 200])
         xlabel('log_{10}[\chi]')
         title(['profile ' num2str(cnum)])
-        
+        hline(80,'k--')
         
         subplot(222)
         hcham=plot(log10(chi_cham_avg),P_cham,'ko-','linewidth',2);
@@ -101,7 +104,8 @@ for cnum=1:50:3000
         legend([hcham hchi],'cham','\chi pod','location','best')
         xlabel('log_{10}[\chi]')
         title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
-
+        hline(80,'k--')
+        
         subplot(223)
         plot(log10(chb.eps1),chb.P,'color',0.6*[1 1 1])
         hold on
@@ -112,7 +116,7 @@ for cnum=1:50:3000
         ylim([0 200])
         xlabel('log_{10}[\epsilon]')
         title(['profile ' num2str(cnum)])
-        
+                hline(80,'k--')
         
         subplot(224)
         hcham=plot(log10(eps_cham_avg),P_cham,'ko-','linewidth',2);
@@ -125,7 +129,8 @@ for cnum=1:50:3000
         legend([hcham hchi],'cham','\chi pod','location','best')
         xlabel('log_{10}[\epsilon]')
         title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
-        
+                hline(80,'k--')
+                
         print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_eps_profiiles_compare'] ),'-dpng')
         
         pause(0.1)
@@ -135,84 +140,6 @@ end
 
 
 
-%% compute 10m avg profiles and plot ratio of chameleon to binned profiles
-
-clear ; close all
-
-Params.gamma = 0.2 ;
-Params.fmax  = 7 ;
-Params.z_smooth = 10 ;
-
-dz = 10 % bin size
-zmin=0;
-zmax=200;
-
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-
-eq14_patches_paths
-
-cnums_to_get = get_cham_cnums_eq14 ;
-
-[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax)
-
-
-% Nan values in mixed layer
-
-Pmin = 80;
-
-clear ib
-ib = find(cham.P<Pmin);
-cham.eps(ib) = nan;
-
-clear ib
-ib = find(chipod.P<Pmin);
-chipod.eps(ib) = nan;
-
-%
-%% Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
-
-figure(1);clf
-h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');
-hold on
-%h2 = histogram(log10(patch./cham),'EdgeColor','none','Normalization','pdf');
-xlim([-4 4])
-grid on
-%legend([h1 h2],'bin/cham','patch/cham')
-xlabel('log_{10}[\epsilon_{\chi} /\epsilon ]')
-ylabel('pdf')
-title([project_short ' ' num2str(dz) ' m binned, Pmin=' num2str(Pmin)])
-
-%
-
-figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]
-print( fullfile(fig_dir,figname),'-dpng')
-SetNotesFigDir
-print( fullfile(NotesFigDir,figname),'-dpng')
-
-
-% Plot eps vs chi, normalized so slope is equal to 1/2*gamma
-
-figure(2);clf
-agutwocolumn(0.8)
-wysiwyg
-
-hh=histogram2(  real(log10(cham.eps./cham.N2)),log10(cham.chi./(cham.Tz.^2)),80,'DisplayStyle','tile')
-grid on
-hold on
-xvec=linspace(1e-7,1e-1,100);
-h1=plot( log10(xvec), log10(xvec*2*0.2),'k-');
-h2=plot( log10(xvec), log10(xvec*2*0.1),'r-');
-h3=plot( log10(xvec), log10(xvec*2*0.05),'c-');
-ylim([-7.5 -1])
-xlim([-5.5 -1])
-ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
-xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
-legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best')
-title([project_short ' Chameleon ' num2str(dz) 'm binned, >' num2str(Pmin) 'db'])
-
-fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_Pmin_' num2str(Pmin)]
-print( fullfile(fig_dir,fname),'-dpng')
 
 
 %% Now want to do same, but average some profiles together to see if
@@ -223,6 +150,8 @@ clear ; close all
 Params.gamma = 0.2;
 Params.fmax  = 7  ;
 Params.z_smooth =10 ;
+
+screen_chi = 1
 
 dz = 10 % bin size
 Pmin = 80
@@ -253,6 +182,9 @@ for dp=[10 50 100 500]
         clear cnums_to_get
         cnums_to_get = [ (ix-1)*dp : (ix*dp) ] ;
         
+         bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+        cnums_to_get = setdiff(cnums_to_get,bad_prof);
+        
         %clear eps_cham chi_cham N2_cham Tz_cham
         %clear eps_chi chi_chi N2_chi Tz_chi
         %    [eps_cham, chi_cham, N2_cham, Tz_cham, eps_chi, chi_chi, N2_chi, Tz_chi] =...
@@ -261,7 +193,7 @@ for dp=[10 50 100 500]
         clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
         clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
         [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_cham,P_chi] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin);
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
         
         normy_all = [ normy_all(:) ; chi_cham_avg./(Tz_cham_avg.^2)] ;
         normx_all = [ normx_all(:) ; eps_cham_avg./N2_cham_avg ];
@@ -316,9 +248,10 @@ for dp=[10 50 100 500]
     iax=iax+1;
     
 end % dp (# profiles averaged together)
-%
+
+%%
 figure(1);shg
-fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_diffNprofileAvg_Pmin' num2str(Pmin)]
+fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_diffNprofileAvg_Pmin' num2str(Pmin) '_screen_chi_' num2str(screen_chi)]
 print( fullfile(fig_dir,fname),'-dpng')
 
 %% plot locations of chameleon casts
@@ -342,6 +275,8 @@ clear ; close all
 Params.gamma = 0.2;
 Params.fmax  = 7 ;
 Params.z_smooth = 10 ;
+
+screen_chi = 1
 
 dz=10; % bin size
 
@@ -369,14 +304,17 @@ for whcase=1:6
     end
     
     clear cnums
-    cnums_to_get = [cnum_range(1) : cnum_range(2) ];
-    
+    cnums_to_get = [cnum_range(1) : cnum_range(2) ] ;
+
+    bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+    cnums_to_get = setdiff(cnums_to_get,bad_prof);
+
     Pmin=0;
     
     [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
-        Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin)
+        Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi)
         
-    screen=1
+    screen=0
     if screen==1
         % try screening out some spikes in chipod data that give huge epsilons
         clear ib
@@ -410,11 +348,12 @@ for whcase=1:6
     
 end
 
-%%
+%
 
 figure(1)
 eq14_patches_paths
-figname=[project_short '_eps_prof_comparisons_' num2str(dz) 'mbins']
+%figname=[project_short '_eps_prof_comparisons_' num2str(dz) 'mbins']
+figname=[project_short '_eps_prof_comparisons_' num2str(dz) 'mbins_screen_chi_' num2str(screen_chi)]
 print( fullfile(fig_dir,figname),'-dpng')
 
 
@@ -512,73 +451,9 @@ title('after screening')
 xlabel('log_{10}[\epsilon]','fontsize',16)
 ylabel('P','fontsize',16)
 
-figname = [project_short '_profiles_' num2str(cnum_range(1)) '_' num2str(cnum_range(2)) '_eps_profiles_avg']
-print(fullfile(fig_dir,figname), '-dpng')
+%figname = [project_short '_profiles_' num2str(cnum_range(1)) '_' num2str(cnum_range(2)) '_eps_profiles_avg']
+%print(fullfile(fig_dir,figname), '-dpng')
 
-%% See if gamma computed from multi-profile averageds of N2,Tz,chi,eps is 0.2?
-% compare to gamma computed from individual 1m data points in every profile
-
-clear ; close all
-
-dz=20; % bin size to average over
-
-eq14_patches_paths
-
-%load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
-
-cnum_range = [2400 3000];
-
-clear cnums
-cnums = [cnum_range(1) : cnum_range(2) ];
-
-iCham=find(cham.castnumber>cnums(1) & cham.castnumber<nanmax(cnums));
-%
-eps = cham.EPSILON(:,iCham); eps = eps(:) ;
-chi = cham.CHI(:,iCham)  ; chi = chi(:) ;
-N2  = cham.N2(:,iCham)   ; N2 = N2(:) ;
-Tz  = cham.DTDZ(:,iCham) ; Tz = Tz(:) ;
-P   = cham.P(:,iCham)    ; P = P(:) ;
-
-% compute gamma from these values
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-gam = ComputeGamma(N2,Tz,chi,eps);
-
-% Now average profiles together in 10m bins and compute gamma from that
-
-% [N2_bin  zout Nobs] = binprofile(cham.N2(:,iCham)           ,cham.P(:,iCham), 0, dz, 200,1);
-% [Tz_bin  zout Nobs] = binprofile(cham.DTDZ_RHOORDER(:,iCham),cham.P(:,iCham), 0, dz, 200,1);
-% [chi_bin zout Nobs] = binprofile(cham.CHI(:,iCham)          ,cham.P(:,iCham), 0, dz, 200,1);
-% [eps_bin zout Nobs] = binprofile(cham.EPSILON(:,iCham)      ,cham.P(:,iCham), 0, dz, 200,1);
-
-[eps_bin zout Nobs] = binprofile(eps ,P, 0, dz, 200,1);
-[chi_bin zout Nobs] = binprofile(chi ,P, 0, dz, 200,1);
-[N2_bin  zout Nobs] = binprofile(N2  ,P, 0, dz, 200,1);
-[Tz_bin  zout Nobs] = binprofile(Tz  ,P, 0, dz, 200,1);
-
-gam_avg = ComputeGamma(N2_bin,Tz_bin,chi_bin,eps_bin);
-
-figure(1);clf
-agutwocolumn(0.6)
-wysiwyg
-
-ax1 = subplot(121) ;
-boxplot(log10(gam))
-hline(log10(0.2),'k--')
-grid on
-ylabel('log_{10}[\gamma]','fontsize',16)
-title(['1mavg, profiles ' num2str(cnum_range(1)) '-' num2str(cnum_range(2))])
-
-ax2 = subplot(122) ;
-boxplot(log10(gam_avg))
-grid on
-hline(log10(0.2),'k--')
-title(['profile-averaged, ' num2str(dz) ' m binned'])
-
-linkaxes([ax1 ax2])
-
-figname=[project_short '_gamma_point_avg_box_' num2str(dz) 'mbinned']
-print(fullfile(fig_dir,figname),'-dpng')
 
 
 %% Try varying # of profiles averaged to see how many it takes to converge

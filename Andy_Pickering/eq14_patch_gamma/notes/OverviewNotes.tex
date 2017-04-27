@@ -13,7 +13,7 @@
 
 \graphicspath{
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/}
-{/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/chi_eps_profiles_40profavgs/zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20_nfft_128/}
+{/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/chi_eps_profiles_10profavgs/zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20_nfft_128_screen_chi_1/}
 }
 
 \title{Summary of $\chi$pod Chameleon EQ14 Analysis}
@@ -66,8 +66,13 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \begin{itemize}
+
 \item \verb+ComputeChi_Chameleon_Eq14.m+ : Applies $\chi$pod method to Chameleon profiles from EQ14.
+
 \item Sally shared w/ me Chameleon data that she and Jim processed. I ended up re-processing it using a smaller fmax (7Hz) because it looked like the thermistor spectra rolled off much lower than the assumed 32Hz.
+
+\item \verb+Make_Overview_Plots.m+ Makes almost all the figures in this document.
+
 \end{itemize}
 
 
@@ -80,13 +85,13 @@
 
 % misc_Appr14.m
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_Pcolor_BothChi_N2_Tz_zsmooth_10_2mbin.png}
+\includegraphics[scale=0.8]{eq14_Pcolor_BothChi_N2_Tz_zsmooth_10_2mbin_screen_chi_1.png}
 \caption{Comparison of $\chi$ from chameleon method and chi-pod method, for EQ14 chameleon profiles. Each profile was averaged in 2m bins.  Horizontal line at 80m shows region excluded in further analysis because it contains near-surface convection.}
 \label{chi_overview}
 \end{figure}
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_Pcolor_BothEps_N2_Tz_zsmooth_10_2mbin.png}
+\includegraphics[scale=0.8]{eq14_Pcolor_BothEps_N2_Tz_zsmooth_10_2mbin_screen_chi_1.png}
 \caption{Comparison of $\epsilon$ from chameleon method and chi-pod method, for EQ14 chameleon profiles. Each profile was averaged in 2m bins.  Values of $\epsion$ below chameleon noise floor (-8.5) have been nan'd out. Horizontal line at 80m shows region excluded in further analysis because it contains near-surface convection.}
 \label{eps_overview}
 \end{figure}
@@ -95,7 +100,7 @@
 
 %  plot of $\chi$pod vs cham for chi and eps
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_chamVschipod_10_2mbin.png}
+\includegraphics[scale=0.8]{eq14_chamVschipod_10_2mbin_screen_chi_1.png}
 \caption{Comparison of $\chi$ $\epsilon$ from chameleon method and chi-pod method, for EQ14 chameleon profiles. Each profile was averaged in 2m bins.  Values of $\epsion$ below chameleon noise floor (-8.5) have been naned out. Black line is 1:1, red lines are $+/-$ order of magnitude. Only data below 80m is used.}
 \label{chamVschi}
 \end{figure}
@@ -109,7 +114,7 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_10mbinned_eps_ratios_Pmin80.png}
+\includegraphics[scale=0.8]{eq14_10mbinned_eps_ratios_Pmin80_screen_chi_1.png}
 \caption{EQ14: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values, for $\chi$pod method applied to 1m binned profiles, and applied to just patches. Estimates for each profile were averaged in 10m depth bins.}
 \label{epsrathist_eq14}
 \end{figure}
@@ -156,7 +161,7 @@ Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is locat
 
 I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. This doesn't seem to change either.
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_prof_avg.png}
+\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_prof_avg_screen_chi_1.png}
 \caption{}
 \label{}
 \end{figure}
@@ -172,8 +177,8 @@ I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs ch
 I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged in different-sized depth bins (for each profile, not across profiles). They don't seem to change.
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_dz.png}
-\caption{}
+\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_dz_screen_chi_1.png}
+\caption{Normalized plots of $\chi$ vs $\epsilon$ for different amounts of vertical averaging.}
 \label{}
 \end{figure}
 
@@ -219,7 +224,7 @@ If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma
 
 \item $\gamma$ computed from averaged (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is closer to 0.2
 
-\item But averaging many epsilon profiles doesn't appear to improve comparison.
+\item averaging many epsilon profiles improves comparison (if use same noise floor for epsilon as Chameleon)?
 
 \end{itemize}
 
