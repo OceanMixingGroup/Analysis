@@ -1,4 +1,4 @@
-function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax)
+function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Compile data from binned chipod method and chameleon for specified
@@ -8,6 +8,7 @@ function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,P
 % one vector. (each profile is binned, but profiles are not averaged)
 %
 % - log10(chamleon epsilon) < -8.5 are discarded
+% - ** chipod epsilon below this level also discarded??**
 %
 %
 % INPUT
@@ -73,6 +74,12 @@ for ic = 1:length(cnums_to_get)
         clear ib
         ib = find( log10(avg.EPSILON)<-8.5 );
         avg.EPSILON(ib) = nan ;
+        
+        if screen_chi==1
+        clear ib
+        ib = find( log10(chb.eps1)<-8.5);
+        chb.eps1(ib) = nan ;
+        end
         
         [eps_cham(:,ic), ~ , ~] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,0);
         [eps_chi(:,ic) , ~ , ~] = binprofile(chb.eps1   , chb.P, 0, dz, 200,0);
