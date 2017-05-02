@@ -365,6 +365,70 @@ end
 figname=['eq14_NormScat_chiVscham_diff_dz_screen_chi_' num2str(screen_chi)]
 print(fullfile(fig_dir,figname),'-dpng')
 
+%% histogram of epsilon ratio for different size depth averaging
+
+clear ; close all
+
+Params.gamma = 0.2 ;
+Params.fmax  = 7   ;
+Params.z_smooth = 10 ;
+
+screen_chi=1
+
+%dz = 10 % bin size
+zmin=0  ;
+zmax=200;
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
+
+eq14_patches_paths
+Pmin = 80;
+cnums_to_get = get_cham_cnums_eq14 ;
+%cnums_to_get = 2000:3000;
+bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+cnums_to_get = setdiff(cnums_to_get,bad_prof);
+
+figure(7);clf
+agutwocolumn(1)
+wysiwyg
+
+iax=1
+cols=['b','r','y','m']
+h=[]
+
+for dz = [2 10 30 50]
+    
+    clear chipod cham
+    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
+    
+    % Nan values in mixed layer
+    clear ib
+    ib = find(cham.P<Pmin);
+    cham.eps(ib) = nan;
+    
+    clear ib
+    ib = find(chipod.P<Pmin);
+    chipod.eps(ib) = nan;
+    
+    hh=histogram( log10( chipod.eps(:) ./ cham.eps(:)),[-3:0.1:3], 'Normalization','pdf','Edgecolor','none','FaceAlpha',0.5)
+    grid on
+    xlim([-3 2])
+    ylim([0 0.9])
+    hold on
+    freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:))),cols(iax))
+    hold on   
+    h=[h hh];
+    iax=iax+1;
+    
+end
+
+legend(h,'2m','10m','30m','50m')
+xlabel(['\epsilon_{\chi}/\epsilon'])
+
+%
+figname=['eq14_chiVscham_hist_diff_dz_screen_chi_' num2str(screen_chi)]
+print(fullfile(fig_dir,figname),'-dpng')
 
 
 %% make similar plot, but for averaging diffferent numbers of profiles
@@ -434,7 +498,7 @@ for dp = [2 10 50]
     iax = iax+1;
     
     subplot(3,2,iax)
-    hh=histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),10,'DisplayStyle','tile')
+    hh=histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),20,'DisplayStyle','tile')
     grid on
     hold on
     xvec=linspace(-11,-4,100);
@@ -462,6 +526,87 @@ end % dp
 figname=['eq14_NormScat_chiVscham_diff_prof_avg_screen_chi_' num2str(screen_chi)]
 print(fullfile(fig_dir,figname),'-dpng')
 
+
+%% May 1 2017 - plot histograms of eps_chi/eps for differnt # prof avg.
+
+
+
+clear ; close all
+
+Params.gamma = 0.2;
+Params.fmax  = 7  ;
+Params.z_smooth =10 ;
+
+screen_chi=1
+
+dz = 10 % bin size
+Pmin = 80
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
+eq14_patches_paths
+
+figure(8);clf
+agutwocolumn(0.75)
+wysiwyg
+
+h=[]
+iax=1
+cols=['b','r','y']
+for dp = [1 10 50 ]
+    
+    eps_cham_all = [];
+    chi_cham_all = [];
+    N2_cham_all  = [];
+    Tz_cham_all  = [];
+    
+    eps_chi_all = [];
+    chi_chi_all = [];
+    N2_chi_all  = [];
+    Tz_chi_all  = [];
+        
+    for ix = 1:round(3000/dp)%
+        
+        clear cnums_to_get
+        cnums_to_get = [ (ix-1)*dp : (ix*dp) ] ;
+        bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+        cnums_to_get = setdiff(cnums_to_get,bad_prof);
+        
+        clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
+        clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
+        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+        
+        eps_cham_all = [eps_cham_all(:) ; eps_cham_avg(:) ] ;
+        chi_cham_all = [chi_cham_all(:) ; chi_cham_avg(:) ] ;
+        N2_cham_all  = [N2_cham_all(:)  ; N2_cham_avg(:) ] ;
+        Tz_cham_all  = [Tz_cham_all(:)  ; Tz_cham_avg(:) ] ;
+        
+        eps_chi_all = [eps_chi_all(:) ; eps_chi_avg(:) ] ;
+        chi_chi_all = [chi_chi_all(:) ; chi_chi_avg(:) ] ;
+        N2_chi_all  = [N2_chi_all(:)  ; N2_chi_avg(:) ] ;
+        Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:) ] ;
+                
+    end % idx
+
+    hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf')
+    xlim([-2 2])
+    ylim([0 1.2])
+    grid on
+    hold on
+    freqline(nanmean(log10(eps_chi_all./eps_cham_all)),cols(iax))
+    hold on
+    
+    h=[h hh];
+    iax=iax+1   
+end % dp
+
+legend(h,'1','10','50')
+xlabel(['\epsilon_{\chi}/\epsilon'])
+
+%
+
+print( fullfile(fig_dir,'eq14_eps_ratio_hist_diff_prof_avg'), '-dpng')
 
 %% compute 10m avg profiles and plot ratio of chameleon to binned profiles
 

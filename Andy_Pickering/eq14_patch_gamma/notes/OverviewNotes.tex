@@ -122,6 +122,7 @@
 
 
 
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Normalized eps vs chi plots}
@@ -143,13 +144,14 @@ Assuming that
 
 
 
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Averaging many profiles of $\epsilon$}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is located at:
-\url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/eq14_patch_gamma/figures/chi_eps_profiles_40profavgs}. In general, it seems that averaging profiles does not change the comparsion much; $\epsilon_{\chi}$ is still biased low.
+\url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/eq14_patch_gamma/figures/chi_eps_profiles_40profavgs}. %In general, it seems that averaging profiles does not change the comparsion much; $\epsilon_{\chi}$ is still biased low.
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_profile_1751_eps_profiiles_compare.png}
@@ -159,10 +161,17 @@ Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is locat
 
 
 
-I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. This doesn't seem to change either.
+I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. 
+
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_prof_avg_screen_chi_1.png}
 \caption{}
+\label{}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_eps_ratio_hist_diff_prof_avg.png}
+\caption{(log10) Ratio of $\epsilon_{\chi}/\epsilon$ for different numbers of profiles averaged. Consecutive chunks of N profiles were averaged, and then (normalized) histogram of the ratios was plotted.}
 \label{}
 \end{figure}
 
@@ -179,6 +188,13 @@ I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs ch
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_dz_screen_chi_1.png}
 \caption{Normalized plots of $\chi$ vs $\epsilon$ for different amounts of vertical averaging.}
+\label{}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eq14_chiVscham_hist_diff_dz_screen_chi_1.png}
+\caption{Histogram of log10 of ratio $\epsilon_{\chi}/\epsilon$ for different amounts of vertical averaging.}
 \label{}
 \end{figure}
 
