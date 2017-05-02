@@ -5,11 +5,11 @@
 % Making plots for chi-pod overview notes
 %
 % Depends:
-% - Get_and_bin_profiles
-% - chi_vs_eps_normalized_plot
-% - ComputeGamma
-% - get_cham_cnums_eq14
-% - 
+% - Get_and_bin_profiles.m
+% - chi_vs_eps_normalized_plot.m
+% - ComputeGamma.m
+% - get_cham_cnums_eq14.m
+%
 %
 %---------------
 % 4/27/17 - A.Pickering
@@ -314,8 +314,9 @@ agutwocolumn(1)
 wysiwyg
 
 iax=1
-
-for dz=[2 10 30]
+rr=3
+cc=2
+for dz=[1 10 50]
     
     clear chipod cham
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
@@ -329,21 +330,21 @@ for dz=[2 10 30]
     ib = find(chipod.P<Pmin);
     chipod.eps(ib) = nan;
     
-    subplot(3,2,iax)
+    subplot(rr,cc,iax)
     h = chi_vs_eps_normalized_plot(cham.eps, cham.chi, cham.N2, cham.Tz)
     title([project_short ' Chameleon ' num2str(dz) 'm binned, >' num2str(Pmin) 'db'])
     
     iax=iax+1;
     
-    subplot(3,2,iax)
+    subplot(rr,cc,iax)
     hh=histogram2(  real(log10(cham.eps)),log10(chipod.eps),80,'DisplayStyle','tile')
     grid on
     hold on
     xvec=linspace(-11,-4,100);
     plot(xvec,xvec,'k--')
     plot(xvec,xvec-1,'r--')
-       plot(xvec,xvec+1,'r--')
-
+    plot(xvec,xvec+1,'r--')
+    
     if screen_chi==1
         ylim([-8.5 -4])
         xlim([-8.5 -4])
@@ -352,7 +353,7 @@ for dz=[2 10 30]
         xlim([-11 -4])
     end
     ylabel('log_{10} [\epsilon_{\chi}]','fontsize',16)
-    if iax>4
+    if iax>6
         xlabel('log_{10} [\epsilon ]','fontsize',16)
     end
     
@@ -361,9 +362,103 @@ for dz=[2 10 30]
 end
 
 %
-%figname=['eq14_NormScat_chiVscham_diff_dz']
 figname=['eq14_NormScat_chiVscham_diff_dz_screen_chi_' num2str(screen_chi)]
 print(fullfile(fig_dir,figname),'-dpng')
+
+%% plot chi vs chi and eps vs eps for different depth bin averaging
+
+clear ; close all
+
+Params.gamma = 0.2 ;
+Params.fmax  = 7   ;
+Params.z_smooth = 10 ;
+
+screen_chi=1
+
+%dz = 10 % bin size
+zmin=0  ;
+zmax=200;
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
+
+eq14_patches_paths
+Pmin = 80;
+cnums_to_get = get_cham_cnums_eq14 ;
+%cnums_to_get = 2000:3000;
+bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+cnums_to_get = setdiff(cnums_to_get,bad_prof);
+
+figure(7);clf
+agutwocolumn(1)
+wysiwyg
+
+iax=1
+rr=3
+cc=2
+for dz=[1 10 50]
+    
+    clear chipod cham
+    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
+    
+    % Nan values in mixed layer
+    clear ib
+    ib = find(cham.P<Pmin);
+    cham.eps(ib) = nan;
+    
+    clear ib
+    ib = find(chipod.P<Pmin);
+    chipod.eps(ib) = nan;
+    
+    subplot(rr,cc,iax)
+    %    h = chi_vs_eps_normalized_plot(cham.eps, cham.chi, cham.N2, cham.Tz)
+    hh=histogram2(  real(log10(cham.chi)),log10(chipod.chi),80,'DisplayStyle','tile')
+    grid on
+    hold on
+    xvec=linspace(-11,-4,100);
+    plot(xvec,xvec,'k--')
+    plot(xvec,xvec-1,'r--')
+    plot(xvec,xvec+1,'r--')
+    ylim([-10 -4])
+    xlim([-10 -4])
+    ylabel('log_{10} [\chi_{\chi}]','fontsize',16)
+    
+    title([project_short ' Chameleon ' num2str(dz) 'm binned, >' num2str(Pmin) 'db'])
+    if iax==rr*2 -1
+        xlabel('log_{10} [\chi ]','fontsize',16)
+    end
+    
+    iax=iax+1;
+    
+    subplot(rr,cc,iax)
+    hh=histogram2(  real(log10(cham.eps)),log10(chipod.eps),80,'DisplayStyle','tile')
+    grid on
+    hold on
+    xvec=linspace(-11,-4,100);
+    plot(xvec,xvec,'k--')
+    plot(xvec,xvec-1,'r--')
+    plot(xvec,xvec+1,'r--')
+    
+    if screen_chi==1
+        ylim([-8.5 -4])
+        xlim([-8.5 -4])
+    else
+        ylim([-11 -4])
+        xlim([-11 -4])
+    end
+    ylabel('log_{10} [\epsilon_{\chi}]','fontsize',16)
+    if iax==rr*2
+        xlabel('log_{10} [\epsilon ]','fontsize',16)
+    end
+    
+    iax=iax+1;
+    
+end
+
+%
+figname=['eq14_chiVscham_chiANDeps_diff_dz_screen_chi_' num2str(screen_chi)]
+print(fullfile(fig_dir,figname),'-dpng')
+
 
 %% histogram of epsilon ratio for different size depth averaging
 
@@ -397,7 +492,7 @@ iax=1
 cols=['b','r','y','m']
 h=[]
 
-for dz = [2 10 30 50]
+for dz = [1 10 50]
     
     clear chipod cham
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
@@ -417,13 +512,13 @@ for dz = [2 10 30 50]
     ylim([0 0.9])
     hold on
     freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:))),cols(iax))
-    hold on   
+    hold on
     h=[h hh];
     iax=iax+1;
     
 end
 
-legend(h,'2m','10m','30m','50m')
+legend(h,'1m','10m','50m')
 xlabel(['\epsilon_{\chi}/\epsilon'])
 
 %
@@ -526,10 +621,117 @@ end % dp
 figname=['eq14_NormScat_chiVscham_diff_prof_avg_screen_chi_' num2str(screen_chi)]
 print(fullfile(fig_dir,figname),'-dpng')
 
+%% Plot chi vs chi, eps vs eps, for different # profiles averaged
+
+clear ; close all
+
+Params.gamma = 0.2;
+Params.fmax  = 7  ;
+Params.z_smooth =10 ;
+
+screen_chi=1
+
+dz = 10 % bin size
+Pmin = 80
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
+eq14_patches_paths
+
+figure(8);clf
+agutwocolumn(1)
+wysiwyg
+
+iax=1;
+for dp = [2 10 50]
+    
+    eps_cham_all = [];
+    chi_cham_all = [];
+    N2_cham_all = [];
+    Tz_cham_all = [];
+    
+    eps_chi_all = [];
+    chi_chi_all = [];
+    N2_chi_all = [];
+    Tz_chi_all = [];
+    
+    
+    for ix = 1:round(3000/dp)%
+        
+        clear cnums_to_get
+        cnums_to_get = [ (ix-1)*dp : (ix*dp) ] ;
+        bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+        cnums_to_get = setdiff(cnums_to_get,bad_prof);
+        
+        clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
+        clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
+        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+        
+        eps_cham_all = [eps_cham_all(:) ; eps_cham_avg(:) ] ;
+        chi_cham_all = [chi_cham_all(:) ; chi_cham_avg(:) ] ;
+        N2_cham_all  = [N2_cham_all(:)  ; N2_cham_avg(:)  ] ;
+        Tz_cham_all  = [Tz_cham_all(:)  ; Tz_cham_avg(:)  ] ;
+        
+        eps_chi_all = [eps_chi_all(:) ; eps_chi_avg(:) ] ;
+        chi_chi_all = [chi_chi_all(:) ; chi_chi_avg(:) ] ;
+        N2_chi_all  = [N2_chi_all(:)  ; N2_chi_avg(:)  ] ;
+        Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:)  ] ;
+        
+        
+    end % idx
+    
+    subplot(3,2,iax)
+    %    h = chi_vs_eps_normalized_plot(eps_cham_all, chi_cham_all, N2_cham_all, Tz_cham_all)
+    hh=histogram2(  real(log10(chi_cham_all)),log10(chi_chi_all),40,'DisplayStyle','tile')
+    grid on
+    hold on
+    xvec=linspace(-11,-4,100);
+    plot(xvec,xvec,'k--')
+    ylim([-10 -4]); xlim([-10 -4])
+    
+    title([num2str(dp) ' profile averages'])
+    ylabel('log_{10} [\chi_{\chi}]','fontsize',16)
+    
+    if iax==5
+        xlabel('log_{10} [\chi ]','fontsize',16)
+    end
+    
+    
+    iax = iax+1;
+    
+    subplot(3,2,iax)
+    hh=histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),25,'DisplayStyle','tile')
+    grid on
+    hold on
+    xvec=linspace(-11,-4,100);
+    plot(xvec,xvec,'k--')
+    
+    if screen_chi==1
+        ylim([-8.5 -5]); xlim([-8.5 -5])
+    else
+        ylim([-11 -4]); xlim([-11 -4])
+    end
+    
+    ylabel('log_{10} [\epsilon_{\chi}]','fontsize',16)
+    
+    
+    if iax==6
+        xlabel('log_{10} [\epsilon ]','fontsize',16)
+    end
+    
+    title([num2str(dp) ' profile averages'])
+    
+    iax = iax+1;
+    
+end % dp
+
+%
+figname=['eq14_chiVscham_chiANDeps_diff_prof_avg_screen_chi_' num2str(screen_chi)]
+print(fullfile(fig_dir,figname),'-dpng')
+
 
 %% May 1 2017 - plot histograms of eps_chi/eps for differnt # prof avg.
-
-
 
 clear ; close all
 
@@ -564,7 +766,7 @@ for dp = [1 10 50 ]
     chi_chi_all = [];
     N2_chi_all  = [];
     Tz_chi_all  = [];
-        
+    
     for ix = 1:round(3000/dp)%
         
         clear cnums_to_get
@@ -586,10 +788,10 @@ for dp = [1 10 50 ]
         chi_chi_all = [chi_chi_all(:) ; chi_chi_avg(:) ] ;
         N2_chi_all  = [N2_chi_all(:)  ; N2_chi_avg(:) ] ;
         Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:) ] ;
-                
+        
     end % idx
-
-    hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf')
+    
+    hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf','Edgecolor','none','FaceAlpha',0.5)
     xlim([-2 2])
     ylim([0 1.2])
     grid on
@@ -598,7 +800,7 @@ for dp = [1 10 50 ]
     hold on
     
     h=[h hh];
-    iax=iax+1   
+    iax=iax+1
 end % dp
 
 legend(h,'1','10','50')
@@ -651,11 +853,12 @@ chipod.eps(ib) = nan;
 figure(9);clf
 h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');
 hold on
-xlim([-4 4])
+xlim([-3 3])
 grid on
 xlabel('log_{10}[\epsilon_{\chi} /\epsilon ]')
 ylabel('pdf')
 title([project_short ' ' num2str(dz) ' m binned, Pmin=' num2str(Pmin)])
+freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:) )))
 
 %figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]
 figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin) '_screen_chi_' num2str(screen_chi)]
