@@ -141,7 +141,6 @@ end
 
 %% Make similar profile plots, but plot average of different # profiles on same figure?
 
-
 clear ; close all
 
 Params.gamma = 0.2;
@@ -158,12 +157,12 @@ eq14_patches_paths
 dp = 100
 Pmin = 0 ;
 
-figdir2 = fullfile( fig_dir, ['chi_eps_profiles_' num2str(dp) 'profavgs'],['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_screen_chi_' num2str(screen_chi)]);
+figdir2 = fullfile( fig_dir, ['chi_eps_profiles_diffNprof_profavgs'],['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128_screen_chi_' num2str(screen_chi)]);
 ChkMkDir(figdir2)
 
-rr=2
-cc=3
-for cnum=551:50:3000
+rr=2; cc=3;
+
+for cnum=551:25:3000
     try
 
         figure(1);clf
@@ -174,80 +173,82 @@ for cnum=551:50:3000
         % regular chi-pod method on binned data
         load( fullfile(path_chipod_bin,['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
         chb=avg;clear avg
+        chb.eps1(find(log10(chb.eps1)<-8.5))=nan;
         
         % chamelon data
         load(fullfile(path_cham_avg,['EQ14_' sprintf('%04d',cnum) '_avg.mat']))
-
+        avg.EPSILON(find(log10(avg.EPSILON)<-8.5))=nan;
+        
         subplot(rr,cc,1)
-        plot(log10(chb.chi1),chb.P,'color',0.6*[1 1 1])
+        plot(log10(chb.chi1),chb.P,'b.-')%'color',0.6*[1 1 1])
         hold on
-        plot(log10(avg.CHI),avg.P,'k')
+        plot(log10(avg.CHI),avg.P,'k.-')
         axis ij
         grid on
-        xlim([-12 -3])
+        xlim([-12 -4])
         ylim([0 200])
         xlabel('log_{10}[\chi]')
         title(['profile ' num2str(cnum)])
         hline(80,'k--')
         
         subplot(rr,cc,cc+1)
-        plot(log10(chb.eps1),chb.P,'color',0.6*[1 1 1])
+        plot(log10(chb.eps1),chb.P,'b.-')%'color',0.6*[1 1 1])
         hold on
-        plot(log10(avg.EPSILON),avg.P,'k')
+        plot(log10(avg.EPSILON),avg.P,'k.-')
         axis ij
         grid on
-        xlim([-12 -3])
+        xlim([-9 -4])
         ylim([0 200])
         xlabel('log_{10}[\epsilon]')
         title(['profile ' num2str(cnum)])
-                hline(80,'k--')
+        hline(80,'k--')
                 
                 
-        dp = 10
+        dp = 10;
         % avg +/- dp profiles
-        cnums_to_get = (cnum-dp/2) : (cnum+dp/2);  
+        cnums_to_get_1 = (cnum-dp/2) : (cnum+dp/2);  
         
         bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-        cnums_to_get = setdiff(cnums_to_get,bad_prof);
+        cnums_to_get_1 = setdiff(cnums_to_get_1,bad_prof);
         
         [eps_cham_avg_1, chi_cham_avg_1, ~, ~, eps_chi_avg_1, chi_chi_avg_1, ~, ~, P_chi, P_cham] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get_1,project_short,Pmin,screen_chi);
 
-        dp = 50
+        dp = 50;
         % avg +/- dp profiles
-        cnums_to_get = (cnum-dp/2) : (cnum+dp/2);  
+        cnums_to_get_2 = (cnum-dp/2) : (cnum+dp/2);  
         
         bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-        cnums_to_get = setdiff(cnums_to_get,bad_prof);
+        cnums_to_get_2 = setdiff(cnums_to_get_2,bad_prof);
         
         [eps_cham_avg_2, chi_cham_avg_2, ~, ~, eps_chi_avg_2, chi_chi_avg_2, ~, ~, P_chi, P_cham] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get_2,project_short,Pmin,screen_chi);
 
         
         subplot(rr,cc,2)
         hcham=plot(log10(chi_cham_avg_1),P_cham,'ko-','linewidth',2);
         hold on
-        hchi = plot(log10(chi_chi_avg_1),P_chi,'d-','color',0.6*[1 1 1],'linewidth',2);
+        hchi = plot(log10(chi_chi_avg_1),P_chi,'b-','linewidth',1);
         axis ij
         grid on
-        xlim([-12 -3])
+        xlim([-9 -4.5])
         ylim([0 200])
-        legend([hcham hchi],'cham','\chi pod','location','best')
+        %legend([hcham hchi],'cham','\chi pod','location','best')
         xlabel('log_{10}[\chi]')
-        title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
+        title(['profiles ' num2str(cnums_to_get_1(1)) ' - ' num2str(cnums_to_get_1(end))])
         hline(80,'k--')
 
         subplot(rr,cc,3)
         hcham=plot(log10(chi_cham_avg_2),P_cham,'ko-','linewidth',2);
         hold on
-        hchi = plot(log10(chi_chi_avg_2),P_chi,'d-','color',0.6*[1 1 1],'linewidth',2);
+        hchi = plot(log10(chi_chi_avg_2),P_chi,'b-','linewidth',1);
         axis ij
         grid on
-        xlim([-12 -3])
+        xlim([-9 -4.5])
         ylim([0 200])
-        legend([hcham hchi],'cham','\chi pod','location','best')
+        legend([hcham hchi],'cham','\chi pod','location','northwest')
         xlabel('log_{10}[\chi]')
-        title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
+        title(['profiles ' num2str(cnums_to_get_2(1)) ' - ' num2str(cnums_to_get_2(end))])
         hline(80,'k--')
 
         subplot(rr,cc,5)
@@ -256,12 +257,12 @@ for cnum=551:50:3000
         hchi = plot(log10(eps_chi_avg_1),P_chi,'-','linewidth',2);
         axis ij
         grid on
-        xlim([-9 -5])
+        xlim([-8.5 -5])
         ylim([0 200])
-        legend([hcham hchi],'cham','\chi pod','location','best')
+        %legend([hcham hchi],'cham','\chi pod','location','best')
         xlabel('log_{10}[\epsilon]')
-        title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
-                hline(80,'k--')
+        %title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
+        hline(80,'k--')
                 
         subplot(rr,cc,6)
         hcham=plot(log10(eps_cham_avg_2),P_cham,'ko-','linewidth',2);
@@ -269,20 +270,19 @@ for cnum=551:50:3000
         hchi = plot(log10(eps_chi_avg_2),P_chi,'-','linewidth',2);
         axis ij
         grid on
-        xlim([-9 -5])
+        xlim([-8.5 -5])
         ylim([0 200])
-        legend([hcham hchi],'cham','\chi pod1','location','best')
+        legend([hcham hchi],'cham','\chi pod1','location','northwest')
         xlabel('log_{10}[\epsilon]')
-        title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
+        %title(['profiles ' num2str(cnum-dp) ' - ' num2str(cnum+dp)])
         hline(80,'k--')
-                     % print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_eps_profiiles_compare'] ),'-dpng')
         
-        pause()
-    %catch
+        print( fullfile( figdir2, ['eq14_profile_' num2str(cnum) '_eps_profiles_compare'] ),'-dpng')
+        
+        pause(0.1)
+    catch
     end
-end
-
-
+end % cnum
 
 
 
