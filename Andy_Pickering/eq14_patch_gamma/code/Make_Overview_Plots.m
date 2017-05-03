@@ -505,7 +505,19 @@ for dz = [1 10 50]
     clear ib
     ib = find(chipod.P<Pmin);
     chipod.eps(ib) = nan;
-    
+
+    subplot(2,1,1)
+    hh=histogram( log10( chipod.chi(:) ./ cham.chi(:)),[-3:0.1:3], 'Normalization','pdf','Edgecolor','none','FaceAlpha',0.5)
+    grid on
+    xlim([-2 2])
+    ylim([0 1.3])
+    hold on
+    freqline(nanmean(log10( chipod.chi(:) ./ cham.chi(:))),cols(iax))
+    hold on
+    h=[h hh];
+%    iax=iax+1;
+
+    subplot(2,1,2)
     hh=histogram( log10( chipod.eps(:) ./ cham.eps(:)),[-3:0.1:3], 'Normalization','pdf','Edgecolor','none','FaceAlpha',0.5)
     grid on
     xlim([-3 2])
@@ -518,8 +530,12 @@ for dz = [1 10 50]
     
 end
 
+
 legend(h,'1m','10m','50m')
-xlabel(['\epsilon_{\chi}/\epsilon'])
+xlabel(['\epsilon_{\chi}/\epsilon'],'fontsize',16)
+%
+subplot(211)
+xlabel(['\chi_{\chi}/\chi'],'fontsize',16)
 
 %
 figname=['eq14_chiVscham_hist_diff_dz_screen_chi_' num2str(screen_chi)]
@@ -749,12 +765,12 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 eq14_patches_paths
 
 figure(8);clf
-agutwocolumn(0.75)
+agutwocolumn(1)
 wysiwyg
 
 h=[]
 iax=1
-cols=['b','r','y']
+cols=['b','r','m']
 for dp = [1 10 50 ]
     
     eps_cham_all = [];
@@ -790,22 +806,40 @@ for dp = [1 10 50 ]
         Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:) ] ;
         
     end % idx
-    
-    hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf','Edgecolor','none','FaceAlpha',0.5)
+
+    subplot(211)
+    histogram(  log10(chi_chi_all./chi_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax));
+    xlim([-2 2])
+    ylim([0 1.5])
+    grid on
+    hold on
+    freqline(nanmean(log10(chi_chi_all./chi_cham_all)),cols(iax))
+    text(1.5,0.8-(iax*0.1),num2str(roundx(nanmean(log10(chi_chi_all./chi_cham_all)),2)),'color',cols(iax),'fontsize',14)
+    hold on
+
+    subplot(212)
+    hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax))
     xlim([-2 2])
     ylim([0 1.2])
     grid on
     hold on
     freqline(nanmean(log10(eps_chi_all./eps_cham_all)),cols(iax))
+    text(1.5,0.8-(iax*0.1),num2str(roundx(nanmean(log10(eps_chi_all./eps_cham_all)),2)),'color',cols(iax),'fontsize',14)
     hold on
     
     h=[h hh];
     iax=iax+1
+    
 end % dp
+%%
+subplot(212)
+legend(h,'1 profile','10 profiles','50 profiles')
+xlabel('\epsilon_{\chi}/\epsilon','fontsize',16)
+ylabel('pdf','fontsize',16)
 
-legend(h,'1','10','50')
-xlabel(['\epsilon_{\chi}/\epsilon'])
-
+subplot(211)
+xlabel('\chi_{\chi}/\chi','fontsize',16)
+ylabel('pdf','fontsize',16)
 %
 
 print( fullfile(fig_dir,'eq14_eps_ratio_hist_diff_prof_avg'), '-dpng')
