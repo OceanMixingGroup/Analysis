@@ -33,6 +33,8 @@ screen_chi=1
 
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,screen_chi);
 
+%%
+load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/data/EQ14_mldepths.mat')
 
 %% Pcolor of chipod & cham chi, and N2,Tz
 
@@ -45,6 +47,8 @@ cc=1 ;
 
 ax1 = subplot(rr,cc,1);
 ezpc(cham.cnum,cham.P,log10(cham.chi))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-11 -4])
 colorbar
@@ -52,6 +56,8 @@ title('log_{10} \chi chameleon')
 
 ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-11 -4])
 colorbar
@@ -59,6 +65,8 @@ title('log_{10} \chi \chi-pod')
 
 ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-6 -2])
 colorbar
@@ -67,6 +75,8 @@ title('log_{10} N^2')
 
 ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-4 -0])
 colorbar
@@ -75,7 +85,7 @@ xlabel('cast #')
 title('log_{10} dT/dz')
 
 linkaxes([ax1 ax2 ax3 ax4])
-
+%
 figname = [project_short '_Pcolor_BothChi_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin_screen_chi_' num2str(screen_chi)]
 print(fullfile(fig_dir, figname), '-dpng')
 
@@ -91,6 +101,8 @@ cc=1 ;
 
 ax1 = subplot(rr,cc,1) ;
 ezpc(cham.cnum,cham.P,log10(cham.eps))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-11 -4])
 colorbar
@@ -99,6 +111,8 @@ ylabel('P [db]')
 
 ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.eps))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-11 -4])
 colorbar
@@ -107,6 +121,8 @@ ylabel('P [db]')
 
 ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-6 -2])
 colorbar
@@ -115,6 +131,8 @@ title('log_{10} N^2')
 
 ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
+hold on
+plot(zml_cnum,zml,'k')
 hline(80,'k--')
 caxis([-4 -0])
 colorbar
@@ -123,22 +141,25 @@ xlabel('cast #')
 title('log_{10} dT/dz')
 
 linkaxes([ax1 ax2 ax3 ax4])
-
+%
 %figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
 figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin_screen_chi_' num2str(screen_chi)]
 print(fullfile(fig_dir, figname), '-dpng')
 
 %% Plot chipod method vs chameleon
 
-icham = find(cham.P>80);
-ichi = find(chipod.P>80);
+%icham = find(cham.P>80);
+%ichi = find(chipod.P>80);
+
+[chipod, cham]=discard_convection_eq14(chipod,cham)
 
 figure(3);clf
 agutwocolumn(1)
 wysiwyg
 
 subplot(211)
-histogram2( log10(cham.chi(icham,:)), log10(chipod.chi(ichi,:)), 'DisplayStyle','tile')
+%histogram2( log10(cham.chi(icham,:)), log10(chipod.chi(ichi,:)), 'DisplayStyle','tile')
+histogram2( log10(cham.chi(:)), log10(chipod.chi(:)), 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
 plot(xvec,xvec,'k--')
@@ -150,7 +171,8 @@ xlabel('\chi chameleon')
 ylabel('\chi chipod')
 
 subplot(212)
-histogram2( log10(cham.eps(icham,:)), log10(chipod.eps(ichi,:)),50, 'DisplayStyle','tile')
+%histogram2( log10(cham.eps(icham,:)), log10(chipod.eps(ichi,:)),50, 'DisplayStyle','tile')
+histogram2( log10(cham.eps(:)), log10(chipod.eps(:)),50, 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
 plot(xvec,xvec,'k--')
@@ -203,10 +225,11 @@ figure(5);clf
 agutwocolumn(0.8)
 wysiwyg
 
-Pmin=80;
-iz = find(cham.P>Pmin);
+%Pmin=80;
+%iz = find(cham.P>Pmin);
 
-hh=histogram2(  real(log10(cham.eps(iz,:)./cham.N2(iz,:))),log10(cham.chi(iz,:)./(cham.Tz(iz,:).^2)),80,'DisplayStyle','tile')
+%hh=histogram2(  real(log10(cham.eps(iz,:)./cham.N2(iz,:))),log10(cham.chi(iz,:)./(cham.Tz(iz,:).^2)),80,'DisplayStyle','tile')
+hh=histogram2(  real(log10(cham.eps(:)./cham.N2(:))),log10(cham.chi(:)./(cham.Tz(:).^2)),80,'DisplayStyle','tile')
 grid on
 hold on
 xvec=linspace(1e-7,1e-1,100);
@@ -321,14 +344,17 @@ for dz=[1 10 50]
     clear chipod cham
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
     
-    % Nan values in mixed layer
-    clear ib
-    ib = find(cham.P<Pmin);
-    cham.eps(ib) = nan;
     
-    clear ib
-    ib = find(chipod.P<Pmin);
-    chipod.eps(ib) = nan;
+    [chipod, cham]=discard_convection_eq14(chipod,cham)
+    
+    % Nan values in mixed layer
+%     clear ib
+%     ib = find(cham.P<Pmin);
+%     cham.eps(ib) = nan;
+%     
+%     clear ib
+%     ib = find(chipod.P<Pmin);
+%     chipod.eps(ib) = nan;
     
     subplot(rr,cc,iax)
     h = chi_vs_eps_normalized_plot(cham.eps, cham.chi, cham.N2, cham.Tz)
@@ -401,15 +427,18 @@ for dz=[1 10 50]
     clear chipod cham
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
     
+    
+    [chipod, cham]=discard_convection_eq14(chipod,cham)
+    
     % Nan values in mixed layer
-    clear ib
-    ib = find(cham.P<Pmin);
-    cham.eps(ib) = nan;
-    
-    clear ib
-    ib = find(chipod.P<Pmin);
-    chipod.eps(ib) = nan;
-    
+%     clear ib
+%     ib = find(cham.P<Pmin);
+%     cham.eps(ib) = nan;
+%     
+%     clear ib
+%     ib = find(chipod.P<Pmin);
+%     chipod.eps(ib) = nan;
+%     
     subplot(rr,cc,iax)
     %    h = chi_vs_eps_normalized_plot(cham.eps, cham.chi, cham.N2, cham.Tz)
     hh=histogram2(  real(log10(cham.chi)),log10(chipod.chi),80,'DisplayStyle','tile')
@@ -498,13 +527,15 @@ for dz = [1 10 50]
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
     
     % Nan values in mixed layer
-    clear ib
-    ib = find(cham.P<Pmin);
-    cham.eps(ib) = nan;
     
-    clear ib
-    ib = find(chipod.P<Pmin);
-    chipod.eps(ib) = nan;
+[chipod, cham]=discard_convection_eq14(chipod,cham)
+%     clear ib
+%     ib = find(cham.P<Pmin);
+%     cham.eps(ib) = nan;
+%     
+%     clear ib
+%     ib = find(chipod.P<Pmin);
+%     chipod.eps(ib) = nan;
 
     subplot(2,1,1)
     hh=histogram( log10( chipod.chi(:) ./ cham.chi(:)),[-3:0.1:3], 'Normalization','pdf','Edgecolor','none','FaceAlpha',0.5)
@@ -543,6 +574,8 @@ print(fullfile(fig_dir,figname),'-dpng')
 
 
 %% make similar plot, but for averaging diffferent numbers of profiles
+
+% *** need to add ml screening to Get_binned_data_avg_profile_v2
 
 clear ; close all
 
