@@ -1,5 +1,4 @@
-function [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg, P_chi, P_cham] =...
-    Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi)
+function [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Get data from all chipod & cham profiles, then average in 10m
@@ -107,16 +106,6 @@ clear ib
 ib = find(log10(eps_cham)<-8.5);
 eps_cham(ib) = nan ;
 
-%% Nan out spikes in chi-pod Tz,epsilon
-% 
-% clear ib
-% ib = find( medfilt1(Tz_chi,5) ./ Tz_chi  >2 ) ;
-% eps_chi(ib)=nan;
-% chi_chi(ib)=nan;
-% Tz_chi(ib) =nan;
-% N2_chi(ib) =nan;
-% 
-
 % discard chipod epsilons below 8.5 (same as chanmeleon)
 if screen_chi==1
  clear ib
@@ -127,20 +116,21 @@ if screen_chi==1
  ib = find(log10(eps_chi)>-5);
  eps_chi(ib) = nan;
 end
+
 %% now bin-average profiles together
 
-[eps_cham_avg z1 Nobs] = binprofile(eps_cham, P_cham, 0, dz, 200,1);
-[chi_cham_avg z1 Nobs] = binprofile(chi_cham, P_cham, 0, dz, 200,1);
-[N2_cham_avg  z1 Nobs] = binprofile(N2_cham,  P_cham, 0, dz, 200,1);
-[Tz_cham_avg  z1 Nobs] = binprofile(Tz_cham,  P_cham, 0, dz, 200,1);
+[cham.eps z1 Nobs] = binprofile(eps_cham, P_cham, 0, dz, 200,1);
+[cham.chi z1 Nobs] = binprofile(chi_cham, P_cham, 0, dz, 200,1);
+[cham.N2  z1 Nobs] = binprofile(N2_cham,  P_cham, 0, dz, 200,1);
+[cham.Tz  z1 Nobs] = binprofile(Tz_cham,  P_cham, 0, dz, 200,1);
 
-P_cham = z1 ;
+cham.P = z1 ;
 clear z1
 
-[eps_chi_avg z1 Nobs] = binprofile(eps_chi, P_chi, 0, dz, 200,1);
-[chi_chi_avg z1 Nobs] = binprofile(chi_chi, P_chi, 0, dz, 200,1);
-[N2_chi_avg  z1 Nobs] = binprofile(N2_chi,  P_chi, 0, dz, 200,1);
-[Tz_chi_avg  z1 Nobs] = binprofile(Tz_chi,  P_chi, 0, dz, 200,1);
+[chipod.eps z1 Nobs] = binprofile(eps_chi, P_chi, 0, dz, 200,1);
+[chipod.chi z1 Nobs] = binprofile(chi_chi, P_chi, 0, dz, 200,1);
+[chipod.N2  z1 Nobs] = binprofile(N2_chi,  P_chi, 0, dz, 200,1);
+[chipod.Tz  z1 Nobs] = binprofile(Tz_chi,  P_chi, 0, dz, 200,1);
 
-P_chi = z1;
+chipod.P = z1;
 %%
