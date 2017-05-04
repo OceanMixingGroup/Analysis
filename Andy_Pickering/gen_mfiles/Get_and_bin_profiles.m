@@ -66,8 +66,12 @@ for ic = 1:length(cnums_to_get)
         end
         chb = avg ; clear avg
         
+        chb = discard_convection_eq14_chi(chb,cnum);
+        
         % chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
+        
+        avg = discard_convection_eq14_cham(avg,cnum);
         
         %% discard chameleon epsilons below noise floor
         
