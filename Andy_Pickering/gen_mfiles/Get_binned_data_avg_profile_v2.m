@@ -48,6 +48,7 @@ Tz_cham = [];
 P_chi = [];
 P_cham = [];
 
+cnums = [];
 %hb = waitbar(0,['averaging profiles'])
 for cnum = cnums_to_get 
     
@@ -64,8 +65,11 @@ for cnum = cnums_to_get
         end
         chb = avg;clear avg
         
+        chb = discard_convection_eq14_chi(chb,cnum);
+        
         % chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
+        avg = discard_convection_eq14_cham(avg,cnum);
         
         P_chi  = [ P_chi(:) ; chb.P(:) ] ;
         P_cham = [ P_cham(:) ; avg.P(:)] ;
@@ -81,6 +85,8 @@ for cnum = cnums_to_get
         
         Tz_cham = [Tz_cham(:) ; avg.DTDZ(:) ];
         Tz_chi  = [Tz_chi(:)  ; chb.dTdz(:) ];
+        
+        cnums = [ cnums cnum];
         
     catch
         disp(['error on profile ' num2str(cnum) ])
@@ -133,4 +139,8 @@ clear z1
 [chipod.Tz  z1 Nobs] = binprofile(Tz_chi,  P_chi, 0, dz, 200,1);
 
 chipod.P = z1;
+
+cham.cnum = cnums ;
+chipod.cnum = cnums;
+
 %%
