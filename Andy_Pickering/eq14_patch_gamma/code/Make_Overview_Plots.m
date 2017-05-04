@@ -619,18 +619,17 @@ for dp = [2 10 50]
         
         clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
         clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
-        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+        [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
         
-        eps_cham_all = [eps_cham_all(:) ; eps_cham_avg(:) ] ;
-        chi_cham_all = [chi_cham_all(:) ; chi_cham_avg(:) ] ;
-        N2_cham_all  = [N2_cham_all(:)  ; N2_cham_avg(:) ] ;
-        Tz_cham_all  = [Tz_cham_all(:)  ; Tz_cham_avg(:) ] ;
+        eps_cham_all = [eps_cham_all(:) ; cham.eps(:) ] ;
+        chi_cham_all = [chi_cham_all(:) ; cham.chi(:) ] ;
+        N2_cham_all  = [N2_cham_all(:)  ; cham.N2(:) ] ;
+        Tz_cham_all  = [Tz_cham_all(:)  ; cham.Tz(:) ] ;
         
-        eps_chi_all = [eps_chi_all(:) ; eps_chi_avg(:) ] ;
-        chi_chi_all = [chi_chi_all(:) ; chi_chi_avg(:) ] ;
-        N2_chi_all  = [N2_chi_all(:)  ; N2_chi_avg(:) ] ;
-        Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:) ] ;
+        eps_chi_all = [eps_chi_all(:) ; chipod.eps(:) ] ;
+        chi_chi_all = [chi_chi_all(:) ; chipod.chi(:) ] ;
+        N2_chi_all  = [N2_chi_all(:)  ; chipod.N2(:) ] ;
+        Tz_chi_all  = [Tz_chi_all(:)  ; chipod.Tz(:) ] ;
         
         
     end % idx
@@ -642,7 +641,7 @@ for dp = [2 10 50]
     iax = iax+1;
     
     subplot(3,2,iax)
-    hh=histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),20,'DisplayStyle','tile')
+    hh = histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),20,'DisplayStyle','tile')
     grid on
     hold on
     xvec=linspace(-11,-4,100);
@@ -714,18 +713,17 @@ for dp = [2 10 50]
         
         clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
         clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
-        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+        [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
         
-        eps_cham_all = [eps_cham_all(:) ; eps_cham_avg(:) ] ;
-        chi_cham_all = [chi_cham_all(:) ; chi_cham_avg(:) ] ;
-        N2_cham_all  = [N2_cham_all(:)  ; N2_cham_avg(:)  ] ;
-        Tz_cham_all  = [Tz_cham_all(:)  ; Tz_cham_avg(:)  ] ;
+        eps_cham_all = [eps_cham_all(:) ; cham.eps(:) ] ;
+        chi_cham_all = [chi_cham_all(:) ; cham.chi(:) ] ;
+        N2_cham_all  = [N2_cham_all(:)  ; cham.N2(:) ] ;
+        Tz_cham_all  = [Tz_cham_all(:)  ; cham.Tz(:) ] ;
         
-        eps_chi_all = [eps_chi_all(:) ; eps_chi_avg(:) ] ;
-        chi_chi_all = [chi_chi_all(:) ; chi_chi_avg(:) ] ;
-        N2_chi_all  = [N2_chi_all(:)  ; N2_chi_avg(:)  ] ;
-        Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:)  ] ;
+        eps_chi_all = [eps_chi_all(:) ; chipod.eps(:) ] ;
+        chi_chi_all = [chi_chi_all(:) ; chipod.chi(:) ] ;
+        N2_chi_all  = [N2_chi_all(:)  ; chipod.N2(:) ] ;
+        Tz_chi_all  = [Tz_chi_all(:)  ; chipod.Tz(:) ] ;
         
         
     end % idx
@@ -825,18 +823,17 @@ for dp = [1 10 50 ]
         
         clear eps_cham_avg chi_cham_avg N2_cham_avg Tz_cham_avg
         clear eps_chi_avg chi_chi_avg N2_chi_avg Tz_chi_avg
-        [eps_cham_avg, chi_cham_avg, N2_cham_avg, Tz_cham_avg, eps_chi_avg, chi_chi_avg, N2_chi_avg, Tz_chi_avg] =...
-            Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
+        [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi);
         
-        eps_cham_all = [eps_cham_all(:) ; eps_cham_avg(:) ] ;
-        chi_cham_all = [chi_cham_all(:) ; chi_cham_avg(:) ] ;
-        N2_cham_all  = [N2_cham_all(:)  ; N2_cham_avg(:) ] ;
-        Tz_cham_all  = [Tz_cham_all(:)  ; Tz_cham_avg(:) ] ;
+        eps_cham_all = [eps_cham_all(:) ; cham.eps(:) ] ;
+        chi_cham_all = [chi_cham_all(:) ; cham.chi(:) ] ;
+        N2_cham_all  = [N2_cham_all(:)  ; cham.N2(:) ] ;
+        Tz_cham_all  = [Tz_cham_all(:)  ; cham.Tz(:) ] ;
         
-        eps_chi_all = [eps_chi_all(:) ; eps_chi_avg(:) ] ;
-        chi_chi_all = [chi_chi_all(:) ; chi_chi_avg(:) ] ;
-        N2_chi_all  = [N2_chi_all(:)  ; N2_chi_avg(:) ] ;
-        Tz_chi_all  = [Tz_chi_all(:)  ; Tz_chi_avg(:) ] ;
+        eps_chi_all = [eps_chi_all(:) ; chipod.eps(:) ] ;
+        chi_chi_all = [chi_chi_all(:) ; chipod.chi(:) ] ;
+        N2_chi_all  = [N2_chi_all(:)  ; chipod.N2(:) ] ;
+        Tz_chi_all  = [Tz_chi_all(:)  ; chipod.Tz(:) ] ;
         
     end % idx
 
@@ -864,7 +861,7 @@ for dp = [1 10 50 ]
     iax=iax+1
     
 end % dp
-%%
+%
 subplot(212)
 legend(h,'1 profile','10 profiles','50 profiles')
 xlabel('\epsilon_{\chi}/\epsilon','fontsize',16)
