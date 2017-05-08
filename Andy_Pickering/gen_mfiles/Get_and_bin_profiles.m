@@ -1,4 +1,4 @@
-function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,screen_chi)
+function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Compile data from binned chipod method and chameleon for specified
@@ -16,6 +16,13 @@ function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,P
 % path_cham_avg
 % dz
 % Params
+% cnums_to_get
+% project_short
+% zmin
+% zmax
+% Pmin - data < Pmin nan'd out
+% screen_chi - Nan chi (log) epsilons below -8.5
+% screen_ml - Nan out mixed layer depths that are convectively unstable
 %
 % OUTPUT
 % - chipod : structure w/ binned profiles
@@ -66,12 +73,24 @@ for ic = 1:length(cnums_to_get)
         end
         chb = avg ; clear avg
         
+        if screen_ml==1
         chb = discard_convection_eq14_chi(chb,cnum);
+        end
+        
+        izb = find(chb.P<Pmin);
+        chb.eps1(izb) = nan;
+        chb.chi1(izb) = nan;
         
         % chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
         
+        izb = find(avg.P<Pmin);
+        avg.EPSILON(izb) = nan;
+        avg.CHI(izb)     = nan;
+        
+        if screen_ml==1
         avg = discard_convection_eq14_cham(avg,cnum);
+        end
         
         %% discard chameleon epsilons below noise floor
         

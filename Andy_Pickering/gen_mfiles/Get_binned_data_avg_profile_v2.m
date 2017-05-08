@@ -1,4 +1,4 @@
-function [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi)
+function [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,Pmin,screen_chi,screen_ml)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
 % Get data from all chipod & cham profiles, then average in 10m
@@ -20,6 +20,11 @@ function [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_ch
 % path_cham_avg
 % dz
 % Params
+% cnums_to_get
+% project_short
+% Pmin
+% screen_chi
+% screen_ml
 %
 % OUTPUT
 %
@@ -65,11 +70,16 @@ for cnum = cnums_to_get
         end
         chb = avg;clear avg
         
+        if screen_ml==1
         chb = discard_convection_eq14_chi(chb,cnum);
+        end
         
         % chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
+        
+        if screen_ml==1
         avg = discard_convection_eq14_cham(avg,cnum);
+        end
         
         P_chi  = [ P_chi(:) ; chb.P(:) ] ;
         P_cham = [ P_cham(:) ; avg.P(:)] ;
@@ -118,7 +128,7 @@ if screen_chi==1
  ib = find(log10(eps_chi)<-8.5);
  eps_chi(ib) = nan;
  
-  clear ib
+ clear ib
  ib = find(log10(eps_chi)>-5);
  eps_chi(ib) = nan;
 end
