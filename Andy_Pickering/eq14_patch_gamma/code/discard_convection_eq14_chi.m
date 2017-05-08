@@ -12,6 +12,7 @@ load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/data
 try
     id = find( cnum==zml_cnum ) ;
     izbad = find(avg.P<zml(id));
+    avg.chi1(izbad)=nan;
     avg.eps1(izbad)=nan;
 end
 
