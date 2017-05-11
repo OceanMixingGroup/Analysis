@@ -123,10 +123,17 @@ clear ib
 ib = find(log10(eps_cham)<-8.5);
 eps_cham(ib) = nan ;
 
+ib = find(log10(eps_cham)>-5);
+eps_cham(ib) = nan ;
+
+
 % discard chipod epsilons below 8.5 (same as chanmeleon)
 if screen_chi==1
  clear ib
  ib = find(log10(eps_chi)<-8.5);
+ eps_chi(ib) = nan;
+ 
+ ib = find(log10(eps_chi)>-5);
  eps_chi(ib) = nan;
  
  clear ib
