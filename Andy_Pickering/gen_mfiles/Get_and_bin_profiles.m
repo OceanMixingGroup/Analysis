@@ -65,16 +65,18 @@ for ic = 1:length(cnums_to_get)
     try
         
         % regular chi-pod method on binned data
-        clear avg
-        if strcmp(project_short,'eq14')
-            load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))
-        else
-            load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
-        end
-        chb = avg ; clear avg
+        %         clear avg
+        %         if strcmp(project_short,'eq14')
+        %             load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))
+        %         else
+        %             load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
+        %         end
+        %         chb = avg ; clear avg
+        
+        chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
         if screen_ml==1
-        chb = discard_convection_eq14_chi(chb,cnum);
+            chb = discard_convection_eq14_chi(chb,cnum);
         end
         
         izb = find(chb.P<Pmin);
@@ -89,7 +91,7 @@ for ic = 1:length(cnums_to_get)
         avg.CHI(izb)     = nan;
         
         if screen_ml==1
-        avg = discard_convection_eq14_cham(avg,cnum);
+            avg = discard_convection_eq14_cham(avg,cnum);
         end
         
         %% discard chameleon epsilons below noise floor
@@ -97,11 +99,13 @@ for ic = 1:length(cnums_to_get)
         clear ib
         ib = find( log10(avg.EPSILON)<-8.5 );
         avg.EPSILON(ib) = nan ;
+        %avg.EPSILON(ib) = 1e-12 ;
         
         if screen_chi==1
-        clear ib
-        ib = find( log10(chb.eps1)<-8.5);
-        chb.eps1(ib) = nan ;
+            clear ib
+            ib = find( log10(chb.eps1)<-8.5);
+                    chb.eps1(ib) = nan ;
+            % chb.eps1(ib) = 1e-12 ;
         end
         
         [eps_cham(:,ic), ~ , ~] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,0);
