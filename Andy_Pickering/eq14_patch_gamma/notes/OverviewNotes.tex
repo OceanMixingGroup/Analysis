@@ -14,6 +14,7 @@
 \graphicspath{
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/}
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/chi_eps_profiles_diffNprof_profavgs/zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20_nfft_128_screen_chi_1/}
+{/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/figures/boot_eps_profiles_multprof/}
 }
 
 \title{Summary of $\chi$pod / Chameleon EQ14 Analysis}
@@ -159,8 +160,8 @@ Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is locat
 \url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/eq14_patch_gamma/figures/chi_eps_profiles_diffNprof_profavgs/zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20_nfft_128_screen_chi_1}. %In general, it seems that averaging profiles does not change the comparsion much; $\epsilon_{\chi}$ is still biased low.
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_profile_1751_eps_profiles_compare.png}
-\caption{Example of averaging multiple profiles together. Left panels show a single profile from chamleeon and chi-pod method. Right panels show average of $+/-$ 5 (middle) and 25 (right) profiles, averaged in 10m depth bins. Data in mixed layer and shallower than 20m have been excluded.}
+\includegraphics[scale=0.8]{eps_boot_prof_cnum_1576.png}
+\caption{Example of averaging multiple profiles together. Left panels show a single profile from chamleeon and chi-pod method. Right panel shows bootstrap average of 5 profiles, averaged in 10m depth bins, with 95\% confidence intervals. Data in mixed layer and shallower than 20m have been excluded.}
 \label{prof_avg_ex}
 \end{figure}
 
@@ -168,21 +169,15 @@ Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is locat
 
 I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. 
 
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq14_NormScat_chiVscham_diff_prof_avg_screen_chi_1.png}
-%\caption{}
-%\label{}
-%\end{figure}
-
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_chiVscham_chiANDeps_diff_prof_avg_screen_chi_1.png}
+\includegraphics[scale=0.8]{eq14_chiVscham_chiANDeps_diff_prof_avg_screen_chi_1_zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{2D Histograms of $\chi_{chi}$ vs $\chi$ (left) and $\epsilon_{\chi}$ vs $\epsilon$ (right) for different numbers of profiles averaged.}
 \label{}
 \end{figure}
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_eps_ratio_hist_diff_prof_avg.png}
+\includegraphics[scale=0.8]{eq14_eps_ratio_hist_diff_prof_avg_zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{(log10) Ratio of $\epsilon_{\chi}/\epsilon$ for different numbers of profiles averaged. Consecutive chunks of N profiles were averaged, and then (normalized) histogram of the ratios was plotted. Vertical lines and numbers to right are mean of $log_{10}[\epsilon_{\chi}/\epsilon]$ for each distribution. }
 \label{}
 \end{figure}
@@ -204,7 +199,7 @@ I also looked at the effects of averaging each profile in different sized depth 
 %\end{figure}
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_chiVscham_chiANDeps_diff_dz_screen_chi_1.png}
+\includegraphics[scale=0.8]{eq14_chiVscham_chiANDeps_diff_dz_screen_chi_1_zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{2D Histograms of $\chi_{chi}$ vs $\chi$ (left) and $\epsilon_{\chi}$ vs $\epsilon$ (right) averaged over different size depth bins}
 \label{}
 \end{figure}
@@ -212,7 +207,7 @@ I also looked at the effects of averaging each profile in different sized depth 
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq14_chiVscham_hist_diff_dz_screen_chi_1.png}
+\includegraphics[scale=0.8]{eq14_chiVscham_hist_diff_dz_screen_chi_1_zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{Histogram of log10 of ratio $\epsilon_{\chi}/\epsilon$ for different amounts of vertical averaging. Vertical lines are mean of $log_{10}[\epsilon_{\chi}/\epsilon]$ for each distribution.}
 \label{}
 \end{figure}
