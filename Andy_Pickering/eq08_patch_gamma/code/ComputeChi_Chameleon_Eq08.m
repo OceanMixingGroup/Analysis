@@ -21,13 +21,13 @@ makeplots = 0
 savespec  = 1  % option to save wavenumber spectra
 
 % Params for chipod calculations
-Params.z_smooth = 1;     % distance to smooth N^2 and dTdz over
-Params.nfft     = 128;   %
-Params.fmax     = 32;     %
+Params.z_smooth = 10  ;  % distance to smooth N^2 and dTdz over
+Params.nfft     = 128 ;  %
+Params.fmax     = 15   ;  %
 Params.TPthresh = 1e-6;  %
-Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor
-Params.fc       = 99     % cutoff frequency for response correction
-Params.gamma    = 0.2    % mixing efficiency
+Params.resp_corr= 0   ;  % correct TP spectra for freq response of thermistor
+Params.fc       = 99  ;  % cutoff frequency for response correction
+Params.gamma    = 0.2 ;  % mixing efficiency
 
 % specify method of computing N^2 and dT/dz
 whN2dTdz  = 'regular'
@@ -71,10 +71,16 @@ hb=waitbar(0);
 %%
 tstart=tic;
 % loop through each cast
-for icast=1:3000
+
+cnums_to_do = 1000:3000 ;
+
+for icast = 1:length(cnums_to_do)%200:600%1:3000
     
     % update waitbar
-    waitbar(icast/3000,hb,['time elapsed=' num2str(round(toc(tstart)/60)) 'mins'])
+    waitbar(icast/length(cnums_to_do),hb,['time elapsed=' num2str(round(toc(tstart)/60)) 'mins'])
+    
+    clear cnum
+    cnum = cnums_to_do(icast)
     
     try
         
@@ -83,7 +89,7 @@ for icast=1:3000
         clear tpspec kspec kkspec fspec kks ks
         
         % Load the data for this cast
-        load(fullfile(save_dir_cal,['eq08_' sprintf('%04d',icast) '_avg.mat']))
+        load(fullfile(save_dir_cal,['eq08_' sprintf('%04d',cnum) '_avg.mat']))
         clear cal
         cal     = cal2;
         cal.T1  = cal.T;
@@ -92,17 +98,17 @@ for icast=1:3000
         
         % Average temp and sal in 1m bins like we normally do for CTD data
         clear zmin dz zmax tbin zbin sbin
-        zmin=nanmin(cal.P);
-        dz=1;
-        zmax=nanmax(cal.P);
-        minobs=2;
+        zmin = nanmin(cal.P);
+        dz   = 1;
+        zmax = nanmax(cal.P);
+        minobs = 2;
         [tbin zbin Nobs] = binprofile(cal.T1 ,cal.P, zmin, dz, zmax, minobs);
         [sbin zbin Nobs] = binprofile(cal.SAL,cal.P, zmin, dz, zmax, minobs);
         clear zmin dz zmax minobs
         
         % Put in 'ctd' structure
         clear ctd z_smooth
-        ctd = struct();
+        ctd    = struct();
         ctd.t1 = tbin;
         ctd.s1 = sbin;
         ctd.p  = zbin;
@@ -142,12 +148,12 @@ for icast=1:3000
         
         %~ make 'avg' structure for the processed data
         clear avg
-        avg=struct();
-        avg.Params=Params;
-        tfields={'datenum','P','N2','dTdz','fspd','T','S','P','theta','sigma',...
+        avg = struct();
+        avg.Params = Params;
+        tfields = {'datenum','P','N2','dTdz','fspd','T','S','P','theta','sigma',...
             'chi1','eps1','KT1','TP1var','kstart','kstop'};
-        for n=1:length(tfields)
-            avg.(tfields{n})=NaN*ones(Nwindows,1);
+        for n = 1:length(tfields)
+            avg.(tfields{n}) = NaN*ones(Nwindows,1);
         end
         
         avg.FspdStd = avg.fspd;
@@ -294,10 +300,10 @@ for icast=1:3000
         avg.MakeInfo = ['Made ' datestr(now) ' w/ ComputeChi_Chameleon_Eq08.m'];
         
         % save results
-        save( fullfile( datdirsave,['eq08_' sprintf('%04d',icast) '_avg.mat']),'avg')
+        save( fullfile( datdirsave,['eq08_' sprintf('%04d',cnum) '_avg.mat']),'avg')
         
     catch
-        disp(['error on profile ' num2str(icast)])
+        disp(['error on profile ' num2str(cnum)])
     end
     
 end % icast
