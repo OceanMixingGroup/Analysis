@@ -1,0 +1,265 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% Compare_diff_fmax_eq08_eq14.m
+%
+% Compare chipod estimates, eps_chi vs eps for different values of fmax ,etc
+%
+% note I think chameleon data are processed using fmax=32hz?
+%
+% - ComputeChi_Chameleon_Eq08.m
+% - 
+%
+%----------------------
+% 5/12/17 - A.Pickering
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%%
+
+clear ; close all
+
+project = 'eq08'
+
+cnums_to_get = 200:2800%
+%cnums_to_get = get_cham_cnums_eq14 ;
+
+if strcmp(project','eq14')
+bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+cnums_to_get = setdiff(cnums_to_get,bad_prof);
+end
+
+eval([project '_patches_paths'])
+%eq14_patches_paths
+
+screen_chi = 1 ;
+Pmin       = 80;
+screen_ml  = 0 ;
+
+Params.gamma    = 0.2;
+Params.fmax     = 32 ;
+Params.z_smooth = 10 ;
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/code
+
+dz = 2 ;
+
+[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+
+% Get data again for different fmax value
+Params.fmax = 15 ;
+[chipod2, cham2] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+
+% Get data again for different fmax value
+Params.fmax = 7 ;
+[chipod3, cham3] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+
+%
+if strcmp(project,'eq14')
+Params.fmax = 5 ;
+[chipod4, cham4] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+end
+
+%% histograms of chipod chi,epsilon 
+
+figure(1);clf
+
+subplot(211)
+h1 = histogram(log10(chipod.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+hold on
+h2 = histogram(log10(chipod2.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+h3 = histogram(log10(chipod3.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+if strcmp(project,'eq14')
+    h4 = histogram(log10(chipod4.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+else
+    legend([h1 h2 h3],'32hz','15hz','7hz')
+end
+
+grid on
+xlim([-11 -3])
+xlabel('log_{10}[\chi_{\chi}]')
+ylabel('pdf')
+
+subplot(212)
+h1 = histogram(log10(chipod.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+hold on
+h2 = histogram(log10(chipod2.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+h3 = histogram(log10(chipod3.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+if strcmp(project,'eq14')
+    h4 = histogram(log10(chipod4.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+else
+    legend([h1 h2 h3],'32hz','15hz','7hz')
+end
+
+grid on
+xlim([-8.5 -4])
+xlabel('log_{10}[\epsilon_{\chi}]')
+
+figname = [project '_chi_eps_histograms_diff_fmax']
+print( fullfile(fig_dir, figname), '-dpng')
+
+%% histograms of ratio of chipod:cham chi,epsilon 
+
+figure(1);clf
+
+subplot(211)
+h1 = histogram(log10(chipod.chi ./ cham.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
+hold on
+h2 = histogram(log10(chipod2.chi ./ cham.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
+h3 = histogram(log10(chipod3.chi ./ cham.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
+if strcmp(project,'eq14')
+    h4 = histogram(log10(chipod4.chi ./ cham.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+else
+    legend([h1 h2 h3],'32hz','15hz','7hz')
+end
+
+grid on
+xlim([-3 3])
+xlabel('log_{10}[\chi_{\chi}/\chi]')
+ylabel('pdf')
+
+subplot(212)
+h1 = histogram(log10(chipod.eps ./ cham.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
+hold on
+h2 = histogram(log10(chipod2.eps ./ cham.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
+h3 = histogram(log10(chipod3.eps ./ cham.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
+if strcmp(project,'eq14')
+    h4 = histogram(log10(chipod4.chi ./ cham.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+else
+    legend([h1 h2 h3],'32hz','15hz','7hz')
+end
+
+grid on
+xlim([-3 3])
+xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
+
+figname = [project '_chi_eps_ratio_histograms_diff_fmax']
+print( fullfile(fig_dir, figname), '-dpng')
+
+%% Plot 2D histograms chipod vs cham values of chi and epsilon
+
+figure(3);clf
+agutwocolumn(1)
+wysiwyg
+
+if strcmp(project,'eq14')
+    rr=4;cc=2;
+else
+rr=3;cc=2;
+end
+
+subplot(rr,cc,1)
+histogram2( log10(cham.chi(:)), log10(chipod.chi(:)), 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-12 -4])
+ylim([-12 -4])
+xlabel('\chi','fontsize',16)
+ylabel('\chi_{\chi}','fontsize',16)
+title('32hz')
+
+subplot(rr,cc,2)
+histogram2( log10(cham.eps(:)), log10(chipod.eps(:)),50, 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-8.5 -4])
+ylim([-8.5 -4])
+xlabel('\epsilon ','fontsize',16)
+ylabel('\epsilon_{\chi}','fontsize',16)
+title('32hz')
+
+subplot(rr,cc,3)
+histogram2( log10(cham.chi(:)), log10(chipod2.chi(:)), 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-12 -4])
+ylim([-12 -4])
+xlabel('\chi','fontsize',16)
+ylabel('\chi_{\chi}','fontsize',16)
+title('15hz')
+
+subplot(rr,cc,4)
+histogram2( log10(cham.eps(:)), log10(chipod2.eps(:)),50, 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-8.5 -4])
+ylim([-8.5 -4])
+xlabel('\epsilon ','fontsize',16)
+ylabel('\epsilon_{\chi}','fontsize',16)
+title('15hz')
+%
+
+subplot(rr,cc,5)
+histogram2( log10(cham.chi(:)), log10(chipod3.chi(:)), 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-12 -4])
+ylim([-12 -4])
+xlabel('\chi','fontsize',16)
+ylabel('\chi_{\chi}','fontsize',16)
+title('7hz')
+
+subplot(rr,cc,6)
+histogram2( log10(cham.eps(:)), log10(chipod3.eps(:)),50, 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-8.5 -4])
+ylim([-8.5 -4])
+xlabel('\epsilon ','fontsize',16)
+ylabel('\epsilon_{\chi}','fontsize',16)
+title('7hz')
+
+if strcmp(project,'eq14')
+    
+subplot(rr,cc,7)
+histogram2( log10(cham.chi(:)), log10(chipod4.chi(:)), 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-12 -4])
+ylim([-12 -4])
+xlabel('\chi','fontsize',16)
+ylabel('\chi_{\chi}','fontsize',16)
+title('5hz')
+
+subplot(rr,cc,8)
+histogram2( log10(cham.eps(:)), log10(chipod4.eps(:)),50, 'DisplayStyle','tile')
+hold on
+xvec=linspace(-11,-4,100);
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+xlim([-8.5 -4])
+ylim([-8.5 -4])
+xlabel('\epsilon ','fontsize',16)
+ylabel('\epsilon_{\chi}','fontsize',16)
+title('5hz')
+    
+end
+
+figname = [project '_chi_eps_2Dhistograms_diff_fmax']
+print( fullfile(fig_dir, figname), '-dpng')
+
+%%
