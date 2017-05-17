@@ -22,7 +22,7 @@ Params.nfft     = 128;   % # points to use in computing spectra
 Params.TPthresh = 1e-6;  % minimum dT/dz variance
 Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
-Params.gamma    = 0.05 ;   % mixing efficiency
+Params.gamma    = 0.2 ;   % mixing efficiency
 
 makeplots = 0
 savespec  = 1  % option to save wavenumber spectra
@@ -69,8 +69,10 @@ hb=waitbar(0);
 tstart=tic;
 % loop through each cast
 
-cnums_to_do = get_cham_cnums_eq14
-%id = find(cnums_to_do>1554);
+%cnums_to_do = get_cham_cnums_eq14
+cnums_to_do = 1500:1600 ;
+%id = find(cnums_to_do>1650);
+%cnums_to_do = cnums_to_do(id);
 %%
 
 for icast=1:length(cnums_to_do)
@@ -87,52 +89,56 @@ for icast=1:length(cnums_to_do)
     try
         
         % Load the data for this cast
-        load(fullfile(save_dir_cal,['EQ14_' sprintf('%04d',cnum) '.mat']))
-        clear cal
-        cal=cal2;
+         clear cal ctd head
+         load(fullfile(path_chipod_bin,'cal',['zsmooth_' num2str(Params.z_smooth)],['eq14_' num2str(cnum) '_cal.mat']))
+         
         
-        % Average temp and sal in 1m bins like we normally do for CTD data
-        clear zmin dz zmax tbin zbin sbin
-        zmin=nanmin(cal.P);
-        dz=1;
-        zmax=nanmax(cal.P);
-        minobs=2;
-        [tbin zbin Nobs] = binprofile(cal.T1 ,cal.P, zmin, dz, zmax, minobs);
-        [sbin zbin Nobs] = binprofile(cal.SAL,cal.P, zmin, dz, zmax, minobs);
-        clear zmin dz zmax minobs
-        
-        % Put in 'ctd' structure
-        clear ctd z_smooth
-        ctd = struct();
-        ctd.t1 = tbin;
-        ctd.s1 = sbin;
-        ctd.p  = zbin;
-        
-        % add in lat and lon (from sum_eq14.m)
-        clear idot lat1 lat2
-        idot=strfind(head.lon.start,'.');
-        lon1=str2num(head.lon.start(1:idot-3));
-        lon2=str2num(head.lon.start(idot-2:end))/60;
-        ctd.lon=nanmean([lon1 lon2]);
-        
-        clear idot lat1 lat2
-        idot=strfind(head.lat.start,'.');
-        lat1=str2num(head.lat.start(1:idot-3));
-        lat2=str2num(head.lat.start(idot-2:end))/60;
-        ctd.lat=nanmean([lat1 lat2]);
-        % ctd.lat=nanmean([str2num(head.lat.start) str2num(head.lat.end)]);
-        
-        % compute N^2 and dT/dz
-        if strcmp(whN2dTdz, 'regular')
-            ctd = Compute_N2_dTdz_forChi(ctd,Params.z_smooth);
-        elseif strcmp(whN2dTdz, 'regular2')
-            ctd = Compute_N2_dTdz_forChi_2(ctd);
-        elseif strcmp(whN2dTdz, 'line')
-            ctd = Compute_N2_dTdz_forChi_line(ctd,1);
-        elseif strcmp(whN2dTdz, 'raw_line')
-            % use raw (24hz) CTD data to comptue N^2 and Tz
-            ctd = Compute_N2_dTdz_forChi_raw_line(ctd,cal,0.5);
-        end
+%         load(fullfile(save_dir_cal,['EQ14_' sprintf('%04d',cnum) '.mat']))
+%         clear cal
+%         cal=cal2;
+%         
+%         % Average temp and sal in 1m bins like we normally do for CTD data
+%         clear zmin dz zmax tbin zbin sbin
+%         zmin=nanmin(cal.P);
+%         dz=1;
+%         zmax=nanmax(cal.P);
+%         minobs=2;
+%         [tbin zbin Nobs] = binprofile(cal.T1 ,cal.P, zmin, dz, zmax, minobs);
+%         [sbin zbin Nobs] = binprofile(cal.SAL,cal.P, zmin, dz, zmax, minobs);
+%         clear zmin dz zmax minobs
+%         
+%         % Put in 'ctd' structure
+%         clear ctd z_smooth
+%         ctd = struct();
+%         ctd.t1 = tbin;
+%         ctd.s1 = sbin;
+%         ctd.p  = zbin;
+%         
+%         % add in lat and lon (from sum_eq14.m)
+%         clear idot lat1 lat2
+%         idot=strfind(head.lon.start,'.');
+%         lon1=str2num(head.lon.start(1:idot-3));
+%         lon2=str2num(head.lon.start(idot-2:end))/60;
+%         ctd.lon=nanmean([lon1 lon2]);
+%         
+%         clear idot lat1 lat2
+%         idot=strfind(head.lat.start,'.');
+%         lat1=str2num(head.lat.start(1:idot-3));
+%         lat2=str2num(head.lat.start(idot-2:end))/60;
+%         ctd.lat=nanmean([lat1 lat2]);
+%         % ctd.lat=nanmean([str2num(head.lat.start) str2num(head.lat.end)]);
+%         
+%         % compute N^2 and dT/dz
+%         if strcmp(whN2dTdz, 'regular')
+%             ctd = Compute_N2_dTdz_forChi(ctd,Params.z_smooth);
+%         elseif strcmp(whN2dTdz, 'regular2')
+%             ctd = Compute_N2_dTdz_forChi_2(ctd);
+%         elseif strcmp(whN2dTdz, 'line')
+%             ctd = Compute_N2_dTdz_forChi_line(ctd,1);
+%         elseif strcmp(whN2dTdz, 'raw_line')
+%             % use raw (24hz) CTD data to comptue N^2 and Tz
+%             ctd = Compute_N2_dTdz_forChi_raw_line(ctd,cal,0.5);
+%         end
         
         % Make windows for chi calcs
         clear TP
@@ -206,6 +212,7 @@ for icast=1:length(cnums_to_do)
         avg.tdif = sw_tdif_ctdchi(avg.S,avg.T,avg.P);
         
         avg.n_iter = nan*ones(size(avg.P));
+        avg.fstop = nan*ones(size(avg.P));
         
         % loop through each window and do the chi computation
         for iwind=1:Nwindows
@@ -237,6 +244,12 @@ for icast=1:length(cnums_to_do)
                     avg.tdif(iwind),avg.dTdz(iwind),'nsqr',avg.N2(iwind),'fmax',Params.fmax,'gamma',Params.gamma);%,'doplots',1);
                 %            pause
                 %            'doplots',1 for plots
+                
+                figure(1);clf
+                 plot(fliplr(epsil1),'o-');shg
+                 title(['fstop=' num2str(stats.f_stop)])
+                 pause
+                
                 avg.chi1(iwind)   = chi1(1);
                 avg.eps1(iwind)   = epsil1(1);
                 avg.KT1(iwind)    = 0.5*chi1(1)/avg.dTdz(iwind)^2;
@@ -244,6 +257,7 @@ for icast=1:length(cnums_to_do)
                 avg.kstop(iwind)  = stats.k_stop;
                 
                 avg.n_iter(iwind) = length(chi1);
+                avg.fstop(iwind) = stats.f_stop;
                 
                 if savespec==1
                     % 02/17/16 - AP - save spectra
