@@ -17,6 +17,7 @@
 clear ; close all
 
 project = 'eq08'
+%project = 'eq14'
 
 cnums_to_get = 200:2800%
 %cnums_to_get = get_cham_cnums_eq14 ;
@@ -30,11 +31,10 @@ eval([project '_patches_paths'])
 %eq14_patches_paths
 
 screen_chi = 1 ;
-Pmin       = 80;
-screen_ml  = 0 ;
+Pmin       = 20;
+screen_ml  = 1 ;
 
 Params.gamma    = 0.2;
-Params.fmax     = 32 ;
 Params.z_smooth = 10 ;
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
@@ -42,6 +42,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/co
 
 dz = 2 ;
 
+Params.fmax     = 32 ;
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 
 % Get data again for different fmax value
@@ -54,7 +55,7 @@ Params.fmax = 7 ;
 
 %
 if strcmp(project,'eq14')
-Params.fmax = 5 ;
+Params.fmax = 10 ;
 [chipod4, cham4] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 end
 
@@ -69,9 +70,9 @@ h2 = histogram(log10(chipod2.chi),'Normalization','pdf','DisplayStyle','stair','
 h3 = histogram(log10(chipod3.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
 if strcmp(project,'eq14')
     h4 = histogram(log10(chipod4.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
-    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','10hz')
 else
-    legend([h1 h2 h3],'32hz','15hz','7hz')
+    legend([h1 h2 h3],'32hz','15hz','10hz')
 end
 
 grid on
@@ -86,7 +87,7 @@ h2 = histogram(log10(chipod2.eps),'Normalization','pdf','DisplayStyle','stair','
 h3 = histogram(log10(chipod3.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
 if strcmp(project,'eq14')
     h4 = histogram(log10(chipod4.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
-    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','10hz')
 else
     legend([h1 h2 h3],'32hz','15hz','7hz')
 end
@@ -95,6 +96,7 @@ grid on
 xlim([-8.5 -4])
 xlabel('log_{10}[\epsilon_{\chi}]')
 
+%
 figname = [project '_chi_eps_histograms_diff_fmax']
 print( fullfile(fig_dir, figname), '-dpng')
 
@@ -109,9 +111,9 @@ h2 = histogram(log10(chipod2.chi ./ cham.chi),'Normalization','pdf','DisplayStyl
 h3 = histogram(log10(chipod3.chi ./ cham.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
 if strcmp(project,'eq14')
     h4 = histogram(log10(chipod4.chi ./ cham.chi),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
-    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','10hz')
 else
-    legend([h1 h2 h3],'32hz','15hz','7hz')
+    legend([h1 h2 h3],'32hz','15hz','10hz')
 end
 
 grid on
@@ -126,7 +128,7 @@ h2 = histogram(log10(chipod2.eps ./ cham.eps),'Normalization','pdf','DisplayStyl
 h3 = histogram(log10(chipod3.eps ./ cham.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2)
 if strcmp(project,'eq14')
     h4 = histogram(log10(chipod4.chi ./ cham.eps),'Normalization','pdf','DisplayStyle','stair','LineWidth',2);
-    legend([h1 h2 h3 h4],'32hz','15hz','7hz','5hz')
+    legend([h1 h2 h3 h4],'32hz','15hz','7hz','10hz')
 else
     legend([h1 h2 h3],'32hz','15hz','7hz')
 end
@@ -242,7 +244,7 @@ xlim([-12 -4])
 ylim([-12 -4])
 xlabel('\chi','fontsize',16)
 ylabel('\chi_{\chi}','fontsize',16)
-title('5hz')
+title('10hz')
 
 subplot(rr,cc,8)
 histogram2( log10(cham.eps(:)), log10(chipod4.eps(:)),50, 'DisplayStyle','tile')
@@ -255,7 +257,7 @@ xlim([-8.5 -4])
 ylim([-8.5 -4])
 xlabel('\epsilon ','fontsize',16)
 ylabel('\epsilon_{\chi}','fontsize',16)
-title('5hz')
+title('10hz')
     
 end
 

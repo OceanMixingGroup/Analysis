@@ -21,9 +21,9 @@ makeplots = 0
 savespec  = 1  % option to save wavenumber spectra
 
 % Params for chipod calculations
-Params.z_smooth = 1   ;  % distance to smooth N^2 and dTdz over
+Params.z_smooth = 10   ;  % distance to smooth N^2 and dTdz over
 Params.nfft     = 128 ;  %
-Params.fmax     = 15  ;  %
+Params.fmax     = 7  ;  %
 Params.TPthresh = 1e-6;  %
 Params.resp_corr= 0   ;  % correct TP spectra for freq response of thermistor
 Params.fc       = 99  ;  % cutoff frequency for response correction
@@ -72,7 +72,7 @@ hb=waitbar(0);
 tstart=tic;
 % loop through each cast
 
-cnums_to_do = 2005:2800 ;
+cnums_to_do = 1500:1600 ;
 
 for icast = 1:length(cnums_to_do)
     
@@ -219,7 +219,7 @@ for icast = 1:length(cnums_to_do)
         avg.tdif = sw_tdif_ctdchi(avg.S,avg.T,avg.P);
         
         avg.n_iter = nan*ones(size(avg.P));
-        avg.fmax   = nan*ones(size(avg.P));
+        avg.fstop   = nan*ones(size(avg.P));
         
         % loop through each window and do the chi computation
         for iwind=1:Nwindows
@@ -258,7 +258,7 @@ for icast = 1:length(cnums_to_do)
                 avg.kstop(iwind)  = stats.k_stop;
                 
                 avg.n_iter(iwind) = length(chi1);
-                avg.fmax(iwind)   = stats.f_stop;
+                avg.fstop(iwind)   = stats.f_stop;
                 
                 if savespec==1
                     % 02/17/16 - AP - save spectra

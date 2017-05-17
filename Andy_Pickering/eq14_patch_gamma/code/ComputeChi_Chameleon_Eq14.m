@@ -17,7 +17,7 @@ clear ; close all
 
 % Params for chipod calculations
 Params.z_smooth = 10;    % distance to smooth N^2 and dTdz over
-Params.fmax     = 7;    % freq. to integrate dT/dz spectrum up to (ie noise level)
+Params.fmax     = 10;    % freq. to integrate dT/dz spectrum up to (ie noise level)
 Params.nfft     = 128;   % # points to use in computing spectra
 Params.TPthresh = 1e-6;  % minimum dT/dz variance
 Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
@@ -42,6 +42,8 @@ addpath(fullfile(mixpath,'CTD_Chipod','mfiles')) ;
 addpath(fullfile(mixpath,'chipod','compute_chi')); % get_chipod_chi.md
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/code
+
+project = 'eq14'
 eq14_patches_paths
 
 if Params.resp_corr==0
@@ -69,10 +71,11 @@ hb=waitbar(0);
 tstart=tic;
 % loop through each cast
 
-%cnums_to_do = get_cham_cnums_eq14
-cnums_to_do = 1500:1600 ;
-%id = find(cnums_to_do>1650);
-%cnums_to_do = cnums_to_do(id);
+cnums_to_do = get_cham_cnums_eq14
+%cnums_to_do = 1500:1600 ;
+id = find(cnums_to_do>1406);
+cnums_to_do = cnums_to_do(id);
+
 %%
 
 for icast=1:length(cnums_to_do)
@@ -245,10 +248,10 @@ for icast=1:length(cnums_to_do)
                 %            pause
                 %            'doplots',1 for plots
                 
-                figure(1);clf
-                 plot(fliplr(epsil1),'o-');shg
-                 title(['fstop=' num2str(stats.f_stop)])
-                 pause
+%                 figure(1);clf
+%                  plot(fliplr(epsil1),'o-');shg
+%                  title(['fstop=' num2str(stats.f_stop)])
+%                  pause
                 
                 avg.chi1(iwind)   = chi1(1);
                 avg.eps1(iwind)   = epsil1(1);
@@ -308,7 +311,7 @@ for icast=1:length(cnums_to_do)
         avg.MakeInfo = ['Made ' datestr(now) ' w/ ComputeChi_Chameleon_Eq14.m'];
         
         % save results
-        save(fullfile(datdirsave,['EQ14_' sprintf('%04d',cnum) '_avg.mat']),'avg','-v7')
+        save(fullfile(datdirsave,[project '_' sprintf('%04d',cnum) '_avg.mat']),'avg','-v7')
         
     catch
         disp(['error on cast ' num2str(cnum)])
