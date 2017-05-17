@@ -216,8 +216,63 @@ print(fullfile(fig_dir, figname), '-dpng')
 %% 2D hist vs depth?
 
 
+clear ; close all
+
+Params.gamma = 0.2;
+Params.fmax  = 7  ;
+Params.z_smooth=10;
+Params.resp_corr=0;
+Params.fc=99;
+
+dz = 2 ;
+
+cnums_to_get = get_cham_cnums_eq14;
+bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+cnums_to_get = setdiff(cnums_to_get,bad_prof);
+
+eq14_patches_paths
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
+screen_chi = 1
+Pmin       = 20
+screen_ml  = 1
+
+%[chipod, cham] =Get_all_chipod_cham_data(path_chipod_bin,...
+ %   path_cham_avg,Params,cnums_to_get,project_short,Pmin,screen_chi,screen_ml)
+% reload data, screening convective regions
+[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 
 
+%%
+
+P = repmat(chipod.P,1,length(chipod.cnum));
+
+figure(33);clf
+agutwocolumn(1)
+wysiwyg
+
+subplot(211)
+histogram2( real(log10( chipod.chi ./ cham.chi )), P, 'DisplayStyle','tile')
+axis ij
+ylabel('P','fontsize',16)
+xlabel('log_{10}[\chi_{\chi}/\chi]','fontsize',16)
+xlim([-3 3])
+colorbar
+caxis([0 1000])
+freqline(0,'k-')
+
+subplot(212)
+histogram2( real(log10( chipod.eps ./ cham.eps )), P, 'DisplayStyle','tile')
+axis ij
+ylabel('P','fontsize',16)
+xlabel('log_{10}[\epsilon_{\chi}/\epsilon]','fontsize',16)
+xlim([-3 3])
+caxis([0 1000])
+colorbar
+freqline(0,'k-')
+
+figname=['eq14_chi_eps_Vs_P_2Dhist_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
+print(fullfile(fig_dir,figname),'-dpng')
 
 
 %% See if gamma computed from multi-profile averageds of N2,Tz,chi,eps is 0.2?
