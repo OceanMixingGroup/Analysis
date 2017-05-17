@@ -120,9 +120,8 @@ dz=10; % bin size
 eq14_patches_paths
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-plot_dir = fullfile(fig_dir,'boot_eps_profiles')
+plot_dir = fullfile(fig_dir,['boot_eps_profiles_zsmooth_' num2str(Params.z_smooth)])
 ChkMkDir(plot_dir)
-
 
 Pmin=10;
 screen_chi=1
