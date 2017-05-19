@@ -11,10 +11,10 @@
 
 clear ; close all
 
-project = 'eq14'
-%project = 'eq08'
+%project = 'eq14'
+project = 'eq08'
 
-cnum = 1583
+cnum = 1513
 
 eval([project '_patches_paths'])
 
