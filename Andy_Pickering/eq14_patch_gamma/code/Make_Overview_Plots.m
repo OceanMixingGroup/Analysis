@@ -20,7 +20,10 @@ clear ; close all
 
 Params.gamma = 0.2;
 Params.fmax  = 7  ;
-Params.z_smooth=10;
+Params.z_smooth=1;
+Params.resp_corr=0;
+Params.fc=99;
+
 dz = 2 ;
 cnums_to_get = get_cham_cnums_eq14;
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
@@ -28,6 +31,7 @@ cnums_to_get = setdiff(cnums_to_get,bad_prof);
 
 eq14_patches_paths
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
 screen_chi=1
 screen_ml=0
@@ -51,7 +55,7 @@ ax1 = subplot(rr,cc,1);
 ezpc(cham.cnum,cham.P,log10(cham.chi))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \chi chameleon')
@@ -60,7 +64,7 @@ ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \chi \chi-pod')
@@ -69,7 +73,7 @@ ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-6 -2])
 colorbar
 ylabel('P [db]')
@@ -79,7 +83,7 @@ ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-4 -0])
 colorbar
 ylabel('P [db]')
@@ -87,8 +91,8 @@ xlabel('cast #')
 title('log_{10} dT/dz')
 
 linkaxes([ax1 ax2 ax3 ax4])
-%
-figname = [project_short '_Pcolor_BothChi_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin_screen_chi_' num2str(screen_chi)]
+%%
+figname = [project_short '_Pcolor_BothChi_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
 
@@ -105,7 +109,7 @@ ax1 = subplot(rr,cc,1) ;
 ezpc(cham.cnum,cham.P,log10(cham.eps))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \epsilon chameleon')
@@ -115,7 +119,7 @@ ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.eps))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \epsilon chi-pod')
@@ -125,7 +129,7 @@ ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-6 -2])
 colorbar
 ylabel('P [db]')
@@ -135,7 +139,7 @@ ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
 hold on
 plot(zml_cnum,zml,'k')
-hline(80,'k--')
+%hline(80,'k--')
 caxis([-4 -0])
 colorbar
 ylabel('P [db]')
@@ -144,7 +148,7 @@ title('log_{10} dT/dz')
 
 linkaxes([ax1 ax2 ax3 ax4])
 %
-figname = [project_short '_Pcolor_BothEps_N2_Tz_zsmooth_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin_screen_chi_' num2str(screen_chi)]
+figname = [project_short '_Pcolor_BothEps_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
 
@@ -155,9 +159,11 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 clear ; close all
 
-Params.gamma = 0.2;
-Params.fmax  = 7  ;
-Params.z_smooth=10;
+Params.gamma   = 0.2;
+Params.fmax    = 7  ;
+Params.z_smooth=1;
+Params.resp_corr=0;
+Params.fc=99;
 
 dz = 2 ;
 
@@ -209,7 +215,7 @@ ylabel('\epsilon_{\chi}','fontsize',16)
 
 %
 %figname = [project_short '_chamVschipod_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
-figname = [project_short '_chamVschipod_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin_screen_chi_' num2str(screen_chi)]
+figname = [project_short '_chamVschipod_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
 
@@ -218,11 +224,11 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 clear ; close all
 
-Params.gamma = 0.2;
-Params.fmax  = 7  ;
-Params.z_smooth=10;
-Params.resp_corr=0;
-Params.fc=99;
+Params.gamma    = 0.2;
+Params.fmax     = 7  ;
+Params.z_smooth = 1;
+Params.resp_corr= 0;
+Params.fc       = 99;
 
 dz = 2 ;
 
@@ -419,9 +425,9 @@ clear ; %close all
 
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
-Params.gamma = 0.2 ;
-Params.fmax  = 7   ;
-Params.z_smooth = 10 ;
+Params.gamma    = 0.2 ;
+Params.fmax     = 7   ;
+Params.z_smooth = 1 ;
 Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
 
@@ -499,17 +505,18 @@ for dz=[1 10 50]
 end
 
 %
+clear figname
 figname=['eq14_chiVscham_chiANDeps_diff_dz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir,figname),'-dpng')
-
+clear figname
 
 %% histogram of epsilon ratio for different size depth averaging
 
 clear ; %close all
 
-Params.gamma = 0.2 ;
-Params.fmax  = 7   ;
-Params.z_smooth = 10 ;
+Params.gamma    = 0.2 ;
+Params.fmax     = 7   ;
+Params.z_smooth = 1 ;
 Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
 
@@ -576,10 +583,11 @@ subplot(211)
 xlabel(['\chi_{\chi}/\chi'],'fontsize',16)
 
 %
+clear figname
 figname=['eq14_chiVscham_hist_diff_dz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir,figname),'-dpng')
-
-
+clear figname
+%%
 % %% plot normalized chi vs eps for averaging diffferent numbers of profiles
 % 
 % clear ; %close all
@@ -681,7 +689,7 @@ clear ; %close all
 
 Params.gamma    = 0.2;
 Params.fmax     = 7  ;
-Params.z_smooth = 10  ;
+Params.z_smooth = 1  ;
 Params.resp_corr= 0  ;  % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;  % cutoff frequency for response correction
 
@@ -786,6 +794,7 @@ for dp = [2 10 50]
 end % dp
 
 %
+clear figname
 figname=['eq14_chiVscham_chiANDeps_diff_prof_avg_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 %figname=['eq14_chiVscham_chiANDeps_diff_prof_avg_screen_chi_' num2str(screen_chi) '_Pmin_80']
 print(fullfile(fig_dir,figname),'-dpng')
@@ -795,9 +804,9 @@ print(fullfile(fig_dir,figname),'-dpng')
 
 clear ;% close all
 
-Params.gamma = 0.2;
-Params.fmax  = 7  ;
-Params.z_smooth =1 ;
+Params.gamma    = 0.2;
+Params.fmax     = 7  ;
+Params.z_smooth = 1 ;
 Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
 
@@ -867,7 +876,7 @@ for dp = [1 10 50 ]
     
     subplot(212)
     hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax))
-    xlim([-2 2])
+    xlim([-3 3])
     ylim([0 1.2])
     grid on
     hold on
@@ -875,8 +884,8 @@ for dp = [1 10 50 ]
     text(1.5,0.8-(iax*0.1),num2str(roundx(nanmean(log10(eps_chi_all./eps_cham_all)),2)),'color',cols(iax),'fontsize',14)
     hold on
     
-    h=[h hh];
-    iax=iax+1
+    h   = [h hh];
+    iax = iax+1
     
 end % dp
 %
@@ -937,6 +946,8 @@ freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:) )))
 
 %figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]
 %figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin) '_screen_chi_' num2str(screen_chi)]
+
+clear figname
 figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print( fullfile(fig_dir,figname),'-dpng')
 
