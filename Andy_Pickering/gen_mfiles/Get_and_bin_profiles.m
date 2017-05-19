@@ -76,7 +76,11 @@ for ic = 1:length(cnums_to_get)
         chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
         if screen_ml==1
-            chb = discard_convection_eq14_chi(chb,cnum);
+            if strcmp(project_short,'eq14')
+                chb = discard_convection_eq14_chi(chb,cnum);
+            elseif strcmp(project_short,'eq08')
+                chb = discard_convection_eq08_chi(chb,cnum);
+            end
         end
         
         izb = find(chb.P<Pmin);
@@ -91,7 +95,13 @@ for ic = 1:length(cnums_to_get)
         avg.CHI(izb)     = nan;
         
         if screen_ml==1
-            avg = discard_convection_eq14_cham(avg,cnum);
+%            avg = discard_convection_eq14_cham(avg,cnum);
+            if strcmp(project_short,'eq14')
+                avg = discard_convection_eq14_cham(avg,cnum);
+            elseif strcmp(project_short,'eq08')
+                avg = discard_convection_eq08_cham(avg,cnum);
+            end
+
         end
         
         %% discard chameleon epsilons below noise floor
@@ -104,7 +114,9 @@ for ic = 1:length(cnums_to_get)
         if screen_chi==1
             clear ib
             ib = find( log10(chb.eps1)<-8.5);
-                    chb.eps1(ib) = nan ;
+            chb.eps1(ib) = nan ;
+            ib = find( log10(chb.eps1)>-5);
+            chb.eps1(ib) = nan ;
             % chb.eps1(ib) = 1e-12 ;
         end
         

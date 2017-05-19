@@ -12,7 +12,7 @@ function [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_ch
 %
 % Compile data from binned chipod method and chameleon for specified
 % profiles, averaged in bins of size dz. Then average profiles together.
-% For eq08 and eq14. 
+% For eq08 and eq14.
 %
 %
 % INPUT
@@ -55,42 +55,53 @@ P_cham = [];
 
 cnums = [];
 %hb = waitbar(0,['averaging profiles'])
-for cnum = cnums_to_get 
+for cnum = cnums_to_get
     
     clear avg ch chb
     
     try
         
         % regular chi-pod method on binned data
-%         clear avg
-%         if strcmp(project_short,'eq14')
-%         load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))            
-%         else
-%         load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
-%         end
-%         chb = avg;clear avg
+        %         clear avg
+        %         if strcmp(project_short,'eq14')
+        %         load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))
+        %         else
+        %         load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
+        %         end
+        %         chb = avg;clear avg
         chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
         if screen_ml==1
-        chb = discard_convection_eq14_chi(chb,cnum);
+            %        chb = discard_convection_eq14_chi(chb,cnum);
+            if strcmp(project_short,'eq14')
+                chb = discard_convection_eq14_chi(chb,cnum);
+            elseif strcmp(project_short,'eq08')
+                chb = discard_convection_eq08_chi(chb,cnum);
+            end
+            
         end
         
         % chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
         
         if screen_ml==1
-        avg = discard_convection_eq14_cham(avg,cnum);
+            %        avg = discard_convection_eq14_cham(avg,cnum);
+            if strcmp(project_short,'eq14')
+                avg = discard_convection_eq14_cham(avg,cnum);
+            elseif strcmp(project_short,'eq08')
+                avg = discard_convection_eq08_cham(avg,cnum);
+            end
         end
         
         P_chi  = [ P_chi(:) ; chb.P(:) ] ;
         P_cham = [ P_cham(:) ; avg.P(:)] ;
-                
+        
         eps_cham = [eps_cham(:) ; avg.EPSILON(:) ];
         eps_chi  = [eps_chi(:)  ; chb.eps1(:) ];
-                 
+        
         chi_cham = [chi_cham(:) ; avg.CHI(:) ];
         chi_chi  = [chi_chi(:)  ; chb.chi1(:) ];
-                
+        
         N2_cham = [N2_cham(:) ; avg.N2(:) ];
         N2_chi  = [N2_chi(:)  ; chb.N2(:) ];
         
@@ -129,16 +140,15 @@ eps_cham(ib) = nan ;
 
 % discard chipod epsilons below 8.5 (same as chanmeleon)
 if screen_chi==1
- clear ib
- ib = find(log10(eps_chi)<-8.5);
- eps_chi(ib) = nan;
- 
- ib = find(log10(eps_chi)>-5);
- eps_chi(ib) = nan;
- 
- clear ib
- ib = find(log10(eps_chi)>-5);
- eps_chi(ib) = nan;
+    
+    clear ib
+    ib = find(log10(eps_chi)<-8.5);
+    eps_chi(ib) = nan;
+    
+    clear ib
+    ib = find(log10(eps_chi)>-5);
+    eps_chi(ib) = nan;
+    
 end
 
 %% now bin-average profiles together
