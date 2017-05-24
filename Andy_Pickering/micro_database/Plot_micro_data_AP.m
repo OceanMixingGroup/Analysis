@@ -298,6 +298,7 @@ for i = [1:3,5,10]
         histogram(fullratio,'edgeColor','none','Normalization','pdf')
         grid on
         freqline(nanmean(fullratio),'k--')
+        title(tnm)
         xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
         print( fullfile( fig_dir,['KToverK_hist_' tnm '.png']), '-dpng')
         xlim([-3 3])
