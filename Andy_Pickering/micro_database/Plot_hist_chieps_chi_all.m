@@ -1,30 +1,21 @@
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% Plot_micro_data_AP.m
+% Plot_hist_chieps_chi_all.m
 %
-% Modified from plotKtOverKr.m (by Amy Waterhouse)
 %
-%--------------------
+%----------------
 % 5/24/17 - A.Pickering
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
-%
-clear ; close all
 
-my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
-fig_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures'
-%
-addpath /Users/Andy/Cruises_Research/mixingsoftware/colormaps/
-%
-% Kt/krho (using eqs 1 +2)
-% KT =1/2 * chi / < dT=dz >^2 (1)
-% Kr =0.2 * eps / N^2 (2)
+figure(2);clf
+agutwocolumn(0.7)
+wysiwyg
 
-colz = cbrewer('qual','Paired',26);
-
+hs=[] ; % collect handles for legend
 for i = [1:3,5,10]
     
-    close all
+    % close all
     clear tnm K presK Kt hrp hrp96 hrp97
     
     if i == 3
@@ -243,96 +234,32 @@ for i = [1:3,5,10]
     %~~ make figures
     
     
-    % Amy's original 2X2 figure
-    %~~~~~~~~~~~
-    figure('paperposition',[0 0 11 4],'color','w'); wysiwyg;
-    ax=subplot(221);
-    pcolor(1:size(presK,2),nanmean(presK,2)',log10(abs(K)));
-    axis ij; colorbar;
-    caxis([-8 -4])
-    ylabel('Depth (m)');
-    xlabel('log_{10} K_{\rho} (m^2 s^{-1})')
-    grid on; shading flat;
-    title(tnm)
-    colormap(ax,cbrewer('seq','Blues',11))
     
-    ax=subplot(222);
-    pcolor(1:size(presK,2),nanmean(presK(1:end-1,:),2)',log10(KT));
-    axis ij; colorbar;
-    set(gca,'yticklabel',[])
-    caxis([-8 -4])
-    xlabel('log_{10} K_{T} (m^2 s^{-1})')
-    grid on; shading flat;
-    colormap(ax,cbrewer('seq','Blues',11))
-    
-    ax2=subplot(223);
-    pcolor(1:size(presK,2),nanmean(presK(1:end-1,:),2)',log10(KT./abs(K(1:end-1,:))));
-    axis ij; colorbar;
-    caxis([-2 2])
-    ylabel('Depth (m)')
-    %set(gca,'yticklabel',[])
-    xlabel('log_{10} K_{T} / K_{\rho} ')
-    grid on; shading flat;
-    colormap(ax2,parula)
-    
+    clear fullratio
     fullratio = log10(KT./abs(K(1:end-1,:)));
     fullratio = fullratio(:);
-    edges = [-5:.2:5];
-    [n]=histcounts(fullratio,edges);
     
-    ax2=subplot(224);
-    bar(edges(1:end-1)+diff(edges(1:2))/2,n);
-    xlabel('log10(K_T/K_{\rho})')
-    ylabel('number of counts');
-    set(gca,'xtick',[-5:1:5])
-    grid on;
-    
-    %export_fig('-dpng','-r100',['KToverK_' tnm '.png']);
     
     %~~~~~~~~~~~
     
     %%
-    try
-        %~~~~~~~~~~~
-        figure(2);clf
-        histogram(fullratio,'edgeColor','none','Normalization','pdf')
-        grid on
-        freqline(nanmean(fullratio),'k--')
-        xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
-        print( fullfile( fig_dir,['KToverK_hist_' tnm '.png']), '-dpng')
-        xlim([-3 3])
-        print( fullfile( fig_dir,['KToverK_hist_xlim' tnm '.png']), '-dpng')
-        
-    end
-    %%
+    %try
+    %~~~~~~~~~~~
+    figure(2)
+    h=histogram(fullratio,'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+    hold on
+    grid on
+    xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
+    xlim([-3 3])
+    hold on
+    %
+    hs=[hs h] ;
     
-    try
-        figure(3);clf
-        histogram2( real(log10(eps)), real(log10(eps_chi)),'DisplayStyle','tile')
-        xlim([-12 -5])
-        ylim([-12 -5])
-        xvec = linspace(-12,-5,100);
-        hold on
-        plot(xvec,xvec,'k--')
-        plot(xvec,xvec-1,'r--')
-        plot(xvec,xvec+1,'r--')
-        title(tnm)
-        xlabel('log_{10}[\epsilon]','fontsize',16)
-        ylabel('log_{10}[\epsilon_{\chi}]','fontsize',16)
-        print( fullfile( fig_dir,['eps_chi_VS_eps_' tnm '.png']), '-dpng')
-        
-    end
-    %%
-    addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+end % i
+
+%%
+ylabel('pdf')
+legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces')
+print( fullfile( fig_dir,['KToverK_hist_ALL.png']), '-dpng')
     
-    try
-        figure(4);clf
-        h = chi_vs_eps_normalized_plot(eps, chi, N2, dTdz)
-        title(tnm)
-        print( fullfile( fig_dir,['chi_eps_Norm_' tnm '.png']), '-dpng')
-        
-    end
-    
-    
-    %%
-end
+%%
