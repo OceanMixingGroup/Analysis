@@ -16,10 +16,10 @@ xvec=linspace(1e-7,1e-1,100);
 h1=plot( log10(xvec), log10(xvec*2*0.2),'k-');
 h2=plot( log10(xvec), log10(xvec*2*0.1),'r-');
 h3=plot( log10(xvec), log10(xvec*2*0.05),'c-');
-ylim([-7.5 -1])
-xlim([-5.5 -1])
+ylim([-8 -1])
+xlim([-6.5 -1])
 ylabel('log_{10} [\chi / T_{z}^{2}]','fontsize',16)
 xlabel('log_{10} [\epsilon / N^{2}]','fontsize',16)
-legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','best','orientation','horizontal')
+legend([h1 h2 h3],['\gamma=0.2'],['\gamma=0.1'],['\gamma=0.05'],'location','south','orientation','horizontal')
 
 %%

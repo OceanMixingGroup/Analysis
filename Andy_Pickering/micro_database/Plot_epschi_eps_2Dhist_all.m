@@ -1,22 +1,24 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% Plot_hist_chieps_chi_all.m
+% Plot_epschi_eps_2Dhist_all.m
 %
 %
 %----------------
-% 5/24/17 - A.Pickering
+% 5/25/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-figure(2);clf
-agutwocolumn(0.7)
-wysiwyg
+clear ; close all
 
 my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
 fig_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures'
 
-hs=[] ; % collect handles for legend
+figure(2);clf
+agutwocolumn(1)
+wysiwyg
 
+hs=[] ; % collect handles for legend
+iax=1
 for i = [1:3,5,10]
     
     % close all
@@ -246,86 +248,55 @@ for i = [1:3,5,10]
     
     %~~~~~~~~~~~
     
-    %%
-    %try
-    %~~~~~~~~~~~
+    ib = find(log10(eps)<-9);
+    %eps(ib)=nan;
+    
+    axlims=[-12 -6];
+    %    axlims=[-9 -6];
+    
+    
     figure(2)
-    h=histogram(fullratio,'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+    subplot(3,2,iax)
+    histogram2( real(log10(eps)), real(log10(eps_chi)),'Xbinedges',[-12:0.15:-5],'Ybinedges',[-12:0.15:-5],'DisplayStyle','tile','Normalization','pdf')
+    xlim(axlims)
+    ylim(axlims)
+    xvec = linspace(-12,-5,100);
     hold on
-    grid on
-    xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
-    xlim([-3 3])
-    hold on
-    %
-    hs=[hs h] ;
+    plot(xvec,xvec,'k--')
+    plot(xvec,xvec-1,'r--')
+    plot(xvec,xvec+1,'r--')
+    title(tnm)
+    xlabel('log_{10}[\epsilon]','fontsize',16)
+    ylabel('log_{10}[\epsilon_{\chi}]','fontsize',16)
+    
+    iax = iax + 1;
     
 end % i
 
-%% add data from EQ14
+% add EQ14 data
 
-%~~~
-
-% 
-% Params.gamma = 0.2 ;
-% Params.fmax  = 7 ;
-% Params.z_smooth = 1 ;
-% Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99 ;    % cutoff frequency for response correction
-% 
-% Pmin       = 20
-% screen_ml  = 1
-% screen_chi = 1
-% 
-% dz = 10 % bin size
-% 
-% zmin=0;
-% zmax=200;
-% 
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-% addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/code/
-% 
-% eq14_patches_paths
-% 
-% cnums_to_get = get_cham_cnums_eq14 ;
-% bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-% cnums_to_get = setdiff(cnums_to_get,bad_prof);
-% 
-% [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml)
-% 
-% 
-% % Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
-% 
-% %figure(13);clf
-% h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');
-% %hold on
-
-%~~~
-
-clear cham eps_chi
-
-%load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
-load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
-
+%load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
+load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 eps_chi = cham.N2 .* cham.CHI / 2 / 0.2 ./ (cham.DTDZ.^2) ;
-%ib = find(log10(cham.EPSILON)<-8.5);
-%ib = find(cham.P<80);
-%cham.EPSILON(ib)=nan;
-%eps_chi(ib)=nan;
 
-h=histogram(log10(eps_chi./cham.EPSILON),'Normalization','pdf','EdgeColor','none')
-
-%~~~
-hs=[hs h] 
-
-%~~~
+subplot(3,2,6)
+histogram2( real(log10(cham.EPSILON)), real(log10(eps_chi)),'Xbinedges',[-12:0.15:-5],'Ybinedges',[-12:0.15:-5],'DisplayStyle','tile','Normalization','pdf')
+xlim(axlims)
+ylim(axlims)
+xvec = linspace(-12,-5,100);
+hold on
+plot(xvec,xvec,'k--')
+plot(xvec,xvec-1,'r--')
+plot(xvec,xvec+1,'r--')
+title('EQ14')
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('log_{10}[\epsilon_{\chi}]','fontsize',16)
 
 
 
 
 %%
-ylabel('pdf')
-legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces','EQ14')
-print( fullfile( fig_dir,['epschi_eps_hist_ALL.png']), '-dpng')
-    
+
+print( fullfile( fig_dir,['epschi_eps_2Dhist_ALL.png']), '-dpng')
+
 %%

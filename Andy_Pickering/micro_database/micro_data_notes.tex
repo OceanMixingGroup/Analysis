@@ -1,0 +1,85 @@
+\documentclass[11pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{epstopdf}
+\usepackage{hyperref}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+
+\graphicspath{
+{/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures/}
+}
+
+\title{Analysis of some data from microstructure database}
+\author{Andy Pickering}
+%\date{}                                           % Activate to display a given date or no date
+
+
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+\newpage
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Overview}
+
+I analyzed some data sets from the microstructure database that Amy set up, to compare the results to my EQ14 analysis.
+
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Methods}
+
+\begin{itemize}
+
+
+\end{itemize}
+
+I computed $\epsilon_{\chi}$ as 
+\begin{equation}
+\epsilon_{\chi} = \frac{N^2\chi}{2\gamma<T_{z}^{2}}
+\end{equation}
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Results}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{epschi_eps_hist_ALL.png}
+\caption{Histograms of (log10) the ratio $\epsilon_{\chi}/\epsilon$.}
+\label{}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{chi_eps_norm_ALL.png}
+\caption{$\chi$ vs $\epsilon$, normalized such that the slope is proportional to $\gamma$.}
+\label{}
+\end{figure}
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{epschi_eps_2Dhist_ALL.png}
+\caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$.}
+\label{}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\end{document}  
+
+
