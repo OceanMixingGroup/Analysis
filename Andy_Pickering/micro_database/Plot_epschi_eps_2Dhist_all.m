@@ -11,7 +11,7 @@
 clear ; close all
 
 
-eps_thresh = 0
+eps_thresh = 1
 eps_floor  = -10
 
 my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
@@ -256,7 +256,7 @@ for i = [1:3,5,10]
     
     figure(2)
     subplot(3,2,iax)
-    histogram2( real(log10(eps)), real(log10(eps_chi)),'Xbinedges',[-12:0.2:-5],'Ybinedges',[-12:0.2:-5],'DisplayStyle','tile','Normalization','pdf')
+    histogram2( real(log10(eps)), real(log10(eps_chi)),'Xbinedges',[-12:0.15:-5],'Ybinedges',[-12:0.15:-5],'DisplayStyle','tile','Normalization','pdf')
     xlim(axlims)
     ylim(axlims)
     xvec = linspace(-12,-5,100);
@@ -289,7 +289,7 @@ end
 
 
 subplot(3,2,6)
-histogram2( real(log10(cham.EPSILON)), real(log10(eps_chi)),'Xbinedges',[-12:0.2:-5],'Ybinedges',[-12:0.2:-5],'DisplayStyle','tile','Normalization','pdf')
+histogram2( real(log10(cham.EPSILON)), real(log10(eps_chi)),'Xbinedges',[-12:0.15:-5],'Ybinedges',[-12:0.15:-5],'DisplayStyle','tile','Normalization','pdf')
 xvec = linspace(-12,-5,100);
 hold on
 plot(xvec,xvec,'k--')
