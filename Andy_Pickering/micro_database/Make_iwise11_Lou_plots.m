@@ -61,6 +61,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 figure(4);clf
 h = chi_vs_eps_normalized_plot(EP1, CH1, N2, dTdz)
+title('IWISE 11 - ASS')
 
 print( fullfile( fig_dir,['chi_eps_Norm_iwise11ASS.png']), '-dpng')
      
