@@ -8,6 +8,13 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
+
+clear ; close all
+
+eps_thresh = 0
+eps_floor  = -10
+
+
 figure(2);clf
 agutwocolumn(0.7)
 wysiwyg
@@ -235,16 +242,18 @@ for i = [1:3,5,10]
         
     end
     
+    
+    
+    if eps_thresh==1
+        ib = find(log10(eps)<eps_floor);
+        eps(ib)=nan;
+        eps_chi(ib)=nan;
+        chi(ib)=nan;
+    end
+    
+    
+    
     %~~ make figures
-    
-    
-    
-    clear fullratio
-%    fullratio = log10(KT./abs(K(1:end-1,:)));
-%    fullratio = fullratio(:);
-    
-    
-    %~~~~~~~~~~~
     
     %%
     %try
@@ -265,37 +274,37 @@ end % i
 
 %~~~
 
-% 
+%
 % Params.gamma = 0.2 ;
 % Params.fmax  = 7 ;
 % Params.z_smooth = 1 ;
 % Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
 % Params.fc       = 99 ;    % cutoff frequency for response correction
-% 
+%
 % Pmin       = 20
 % screen_ml  = 1
 % screen_chi = 1
-% 
+%
 % dz = 10 % bin size
-% 
+%
 % zmin=0;
 % zmax=200;
-% 
+%
 % addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 % addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
 % addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/code/
-% 
+%
 % eq14_patches_paths
-% 
+%
 % cnums_to_get = get_cham_cnums_eq14 ;
 % bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
 % cnums_to_get = setdiff(cnums_to_get,bad_prof);
-% 
+%
 % [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml)
-% 
-% 
+%
+%
 % % Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
-% 
+%
 % %figure(13);clf
 % h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');
 % %hold on
@@ -308,24 +317,26 @@ load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/proce
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
 
 eps_chi = cham.N2 .* cham.CHI / 2 / 0.2 ./ (cham.DTDZ.^2) ;
-%ib = find(log10(cham.EPSILON)<-8.5);
-%ib = find(cham.P<80);
-%cham.EPSILON(ib)=nan;
-%eps_chi(ib)=nan;
+if eps_thresh==1
+    ib = find(log10(cham.EPSILON)<-8.5);
+    %ib = find(cham.P<80);
+    cham.EPSILON(ib)=nan;
+    eps_chi(ib)=nan;
+end
 
 h=histogram(log10(eps_chi./cham.EPSILON),'Normalization','pdf','EdgeColor','none')
 
 %~~~
-hs=[hs h] 
+hs=[hs h]
 
-%~~~
-
-
-
-
-%%
+%
+ylim([0 1])
 ylabel('pdf')
 legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces','EQ14')
-print( fullfile( fig_dir,['epschi_eps_hist_ALL.png']), '-dpng')
-    
+
+if eps_thresh==1
+    print( fullfile( fig_dir,['epschi_eps_hist_ALL_eps_thresh.png']), '-dpng')
+else
+    print( fullfile( fig_dir,['epschi_eps_hist_ALL.png']), '-dpng')
+end
 %%

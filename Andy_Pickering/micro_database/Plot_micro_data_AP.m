@@ -22,6 +22,9 @@ addpath /Users/Andy/Cruises_Research/mixingsoftware/colormaps/
 
 colz = cbrewer('qual','Paired',26);
 
+eps_thresh = 1
+eps_floor  = -10
+
 for i = [1:3,5,10]
     
     close all
@@ -240,6 +243,13 @@ for i = [1:3,5,10]
         
     end
     
+    if eps_thresh==1
+        ib = find(log10(eps)<eps_floor);
+        eps(ib)=nan;
+        eps_chi(ib)=nan;
+        chi(ib)=nan;
+    end
+    
     %~~ make figures
     
     
@@ -295,14 +305,21 @@ for i = [1:3,5,10]
     try
         %~~~~~~~~~~~
         figure(2);clf
-        histogram(fullratio,'edgeColor','none','Normalization','pdf')
+        histogram(log10(eps_chi./eps),'edgeColor','none','Normalization','pdf')
         grid on
-        freqline(nanmean(fullratio),'k--')
+        freqline(nanmean(log10(eps_chi./eps)),'k--')
         title(tnm)
         xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
-        print( fullfile( fig_dir,['KToverK_hist_' tnm '.png']), '-dpng')
-        xlim([-3 3])
-        print( fullfile( fig_dir,['KToverK_hist_xlim' tnm '.png']), '-dpng')
+        if eps_thresh==1
+            print( fullfile( fig_dir,['KToverK_hist_' tnm '_eps_thresh.png']), '-dpng')
+            xlim([-3 3])
+            print( fullfile( fig_dir,['KToverK_hist_xlim' tnm '_eps_thresh.png']), '-dpng')
+            
+        else
+            print( fullfile( fig_dir,['KToverK_hist_' tnm '.png']), '-dpng')
+            xlim([-3 3])
+            print( fullfile( fig_dir,['KToverK_hist_xlim' tnm '.png']), '-dpng')
+        end
         
     end
     %%
@@ -310,8 +327,14 @@ for i = [1:3,5,10]
     try
         figure(3);clf
         histogram2( real(log10(eps)), real(log10(eps_chi)),'DisplayStyle','tile')
-        xlim([-12 -5])
-        ylim([-12 -5])
+        if eps_thresh==1
+            xlim([eps_floor -5])
+            ylim([eps_floor -5])
+            
+        else
+            xlim([-12 -5])
+            ylim([-12 -5])
+        end
         xvec = linspace(-12,-5,100);
         hold on
         plot(xvec,xvec,'k--')
@@ -320,7 +343,12 @@ for i = [1:3,5,10]
         title(tnm)
         xlabel('log_{10}[\epsilon]','fontsize',16)
         ylabel('log_{10}[\epsilon_{\chi}]','fontsize',16)
-        print( fullfile( fig_dir,['eps_chi_VS_eps_' tnm '.png']), '-dpng')
+        
+        if eps_thresh==1
+            print( fullfile( fig_dir,['eps_chi_VS_eps_' tnm '_eps_thresh.png']), '-dpng')
+        else
+            print( fullfile( fig_dir,['eps_chi_VS_eps_' tnm '.png']), '-dpng')
+        end
         
     end
     %%
@@ -330,7 +358,12 @@ for i = [1:3,5,10]
         figure(4);clf
         h = chi_vs_eps_normalized_plot(eps, chi, N2, dTdz)
         title(tnm)
-        print( fullfile( fig_dir,['chi_eps_Norm_' tnm '.png']), '-dpng')
+        
+        if eps_thresh==1
+            print( fullfile( fig_dir,['chi_eps_Norm_' tnm '_eps_thresh.png']), '-dpng')
+        else
+            print( fullfile( fig_dir,['chi_eps_Norm_' tnm '.png']), '-dpng')
+        end
         
     end
     

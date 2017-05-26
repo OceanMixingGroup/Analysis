@@ -10,10 +10,13 @@
 
 clear ; close all
 
+
+eps_thresh=0
+eps_floor=-10
+
 my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
 fig_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures'
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
 
 figure(2);clf
 agutwocolumn(1)
@@ -242,19 +245,19 @@ for i = [1:3,5,10]
     %~~ make figures
     
     
-    
-    clear fullratio
-    fullratio = log10(KT./abs(K(1:end-1,:)));
-    fullratio = fullratio(:);
-    
+    if eps_thresh==1
+        ib = find(log10(eps)<eps_floor);
+        eps(ib)=nan;
+        eps_chi(ib)=nan;
+        chi(ib)=nan;
+        % axlims=[eps_floor -6];
+    else
+        % axlims=[-12 -6];
+        
+    end
     
     %~~~~~~~~~~~
     
-    ib = find(log10(eps)<-9);
-    %eps(ib)=nan;
-    
-    axlims=[-12 -6];
-    %    axlims=[-9 -6];
     
     
     figure(2)
@@ -263,7 +266,7 @@ for i = [1:3,5,10]
     title(tnm)
     
     if iax~=1
-    legend('off')
+        legend('off')
     end
     
     iax = iax + 1;
@@ -276,12 +279,24 @@ load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/proce
 load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 %eps_chi = cham.N2 .* cham.CHI / 2 / 0.2 ./ (cham.DTDZ.^2) ;
 
-    subplot(3,2,6)
-    h = chi_vs_eps_normalized_plot(cham.EPSILON, cham.CHI, cham.N2, cham.DTDZ) ;
-    title('EQ14')
+if eps_thresh==1
+    ib = find(log10(cham.EPSILON)<-8.5);
+    %ib = find(cham.P<80);
+    cham.EPSILON(ib)=nan;
+%    eps_chi(ib)=nan;
+end
+
+
+subplot(3,2,6)
+h = chi_vs_eps_normalized_plot(cham.EPSILON, cham.CHI, cham.N2, cham.DTDZ) ;
+title('EQ14')
 legend('off')
 %%
 
-print( fullfile( fig_dir,['chi_eps_norm_ALL.png']), '-dpng')
-
+if eps_thresh==1
+    print( fullfile( fig_dir,['chi_eps_norm_ALL_eps_thresh.png']), '-dpng')
+    
+else
+    print( fullfile( fig_dir,['chi_eps_norm_ALL.png']), '-dpng')
+end
 %%
