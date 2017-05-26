@@ -20,7 +20,7 @@ hs=[] ; % collect handles for legend
 for i = [1:3,5,10]
     
     % close all
-    clear tnm K presK Kt hrp hrp96 hrp97
+    clear tnm K presK Kt hrp hrp96 hrp97 eps_chi eps chi N2 dTdz
     
     if i == 3
         
@@ -240,8 +240,8 @@ for i = [1:3,5,10]
     
     
     clear fullratio
-    fullratio = log10(KT./abs(K(1:end-1,:)));
-    fullratio = fullratio(:);
+%    fullratio = log10(KT./abs(K(1:end-1,:)));
+%    fullratio = fullratio(:);
     
     
     %~~~~~~~~~~~
@@ -250,7 +250,7 @@ for i = [1:3,5,10]
     %try
     %~~~~~~~~~~~
     figure(2)
-    h=histogram(fullratio,'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+    h=histogram(real(log10(eps_chi./eps)),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
     hold on
     grid on
     xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
@@ -304,8 +304,8 @@ end % i
 
 clear cham eps_chi
 
-%load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
-load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
+load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
+%load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
 
 eps_chi = cham.N2 .* cham.CHI / 2 / 0.2 ./ (cham.DTDZ.^2) ;
 %ib = find(log10(cham.EPSILON)<-8.5);

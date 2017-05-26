@@ -30,24 +30,45 @@
 %~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
 
-I analyzed some data sets from the microstructure database that Amy set up, to compare the results to my EQ14 analysis.
+Analysis of some global microstructure data, to compare the results to my EQ14 analysis. Specifically I am looking at $\gamma$ and the ratio of $\epsilon_{\chi}/\epsilon$, where $\epsilon_{\chi}$ is computed as 
 
-
-
-
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Methods}
-
-\begin{itemize}
-
-
-\end{itemize}
-
-I computed $\epsilon_{\chi}$ as 
 \begin{equation}
 \epsilon_{\chi} = \frac{N^2\chi}{2\gamma<T_{z}^{2}}
 \end{equation}
 
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Data}
+
+Data are from the microstructure data base at \url{https://microstructure.ucsd.edu/}. I am using matlab files made from the raw database files by Amy Waterhouse (shared w/ me via Google drive). 
+
+
+%~~~~~~~~~~~~~~~~~~~~~
+\section{Code}
+
+Code and results (including figures and these notes) are available in a github repository: \url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/micro_database}
+
+\begin{itemize}
+
+\item \verb+Plot_micro_data_AP.m+
+
+\item \verb+Plot_hist_chieps_chi_all.m+
+
+\item \verb+Plot_epschi_eps_2Dhist_all.m+
+
+\item \verb+ Plot_chi_eps_norm_all.m+
+
+\end{itemize}
+
+
+%
+%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%\section{Methods}
+%
+%\begin{itemize}
+%
+%
+%\end{itemize}
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
