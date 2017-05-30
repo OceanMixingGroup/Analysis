@@ -27,26 +27,38 @@
 \tableofcontents
 \newpage
 
-%~~~~~~~~~~~~~~~~~~~~~
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
 
-Analysis of some global microstructure data, to compare the results to my EQ14 analysis. Specifically I am looking at $\gamma$ and the ratio of $\epsilon_{\chi}/\epsilon$, where $\epsilon_{\chi}$ is computed as 
+Analysis of some global microstructure datasets, to compare the results to my EQ14 analysis. Specifically I am looking at $\gamma$ and the ratio of $\epsilon_{\chi}/\epsilon$, where $\epsilon_{\chi}$ is computed as 
 
 \begin{equation}
-\epsilon_{\chi} = \frac{N^2\chi}{2\gamma<T_{z}^{2}}
+\epsilon_{\chi} = \frac{N^2\chi}{2\gamma T_{z}^{2}}
 \end{equation}
+, in the framework of trying to estime $\epsilon$ from thermistor profiles.
 
 
-%~~~~~~~~~~~~~~~~~~~~~
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Data}
 
-Data are from the microstructure data base at \url{https://microstructure.ucsd.edu/}. I am using matlab files made from the raw database files by Amy Waterhouse (shared w/ me via Google drive). 
+\begin{itemize}
 
-IWISE 11 vmp data were shared with me by Lou St. Laurent.
+\item Data are from the microstructure data base at \url{https://microstructure.ucsd.edu/}. I am using matlab files made from the raw database files by Amy Waterhouse (shared w/ me via Google drive). 
 
-EQ14 data are from Jim Moum and company.
+\item IWISE 11 vmp data were shared with me by Lou St. Laurent.
 
-%~~~~~~~~~~~~~~~~~~~~~
+\item EQ14 data are from Jim Moum and company.
+
+\end{itemize}
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Code}
 
 Code and results (including figures and these notes) are available in a github repository: \url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/micro_database}
@@ -74,11 +86,13 @@ Code and results (including figures and these notes) are available in a github r
 %\end{itemize}
 
 
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
 
 
 
+%~~~~~~~~~~~~
+\subsection{Histograms of $\epsilon_{\chi}/\epsilon$}
 %~~~~~~~~~~~~
 
 \begin{figure}[htbp]
@@ -95,8 +109,6 @@ Code and results (including figures and these notes) are available in a github r
 \end{figure}
 
 
-
-
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{KToverK_hist_iwise11ASS.png}
 \caption{Histograms of (log10) the ratio $\epsilon_{\chi}/\epsilon$.}
@@ -107,6 +119,9 @@ Code and results (including figures and these notes) are available in a github r
 
 
 
+\clearpage
+%~~~~~~~~~~~~
+\subsection{Plots of normalized $\chi$ vs $\epsilon$}
 %~~~~~~~~~~~~
 
 \begin{figure}[htbp]
@@ -131,7 +146,13 @@ Code and results (including figures and these notes) are available in a github r
 
 
 
+
+
+\clearpage
 %~~~~~~~~~~~~
+\subsection{2D Histograms of $\epsilon_{\chi}$ vs $\epsilon$}
+%~~~~~~~~~~~~
+
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{epschi_eps_2Dhist_ALL.png}
 \caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$.}
@@ -157,7 +178,8 @@ Code and results (including figures and these notes) are available in a github r
 
 
 
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \end{document}  
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
