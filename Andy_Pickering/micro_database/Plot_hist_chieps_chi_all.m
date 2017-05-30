@@ -11,16 +11,16 @@
 
 clear ; close all
 
-eps_thresh = 0
-eps_floor  = -10
+eps_thresh = 0   % option to impose lower threshold on epsilon
+eps_floor  = -10 % value to use ( discards log10(eps)<eps_floor )
 
+% set directory paths once here
+my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
+fig_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures'
 
 figure(2);clf
 agutwocolumn(0.7)
 wysiwyg
-
-my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
-fig_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures'
 
 hs=[] ; % collect handles for legend
 
@@ -37,16 +37,16 @@ for i = [1:3,5,10]
         %load('../../data/natre/natre_hrp_for_map.mat')
         load( fullfile( my_data_dir,'natre','natre_hrp_for_map.mat'))
         
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
+%         K = 0.2 * hrp.eps ./ hrp.N2;
+%         presK = hrp.pres;
+%         
+%         KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
-        
-        eps = hrp.eps;
-        chi = hrp.chit;
-        N2  = hrp.N2;
-        dTdz = (diffs(hrp.temp)./diffs(hrp.pres));% dTdz = [dTdz(:) ; nan];
-        eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
+        eps  = hrp.eps ;
+        chi  = hrp.chit;
+        N2   = hrp.N2  ;
+        dTdz = (diffs(hrp.temp)./diffs(hrp.pres)) ; 
+        eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2) ;
         
     elseif i == 1
         
@@ -54,24 +54,20 @@ for i = [1:3,5,10]
         tnm = 'BBTRE (smooth)';
         %load('../../data/bbtre/bbtre_hrp_for_map.mat')
         load( fullfile( my_data_dir,'bbtre','bbtre_hrp_for_map.mat'))
-        hrp96=hrp;  %[1:20,71:75]
-        %load('../../data/bbtre/bbtre97_hrp_for_map.mat')
-        load( fullfile( my_data_dir,'bbtre','bbtre97_hrp_for_map.mat'))
-        %hrp97=hrp;  % 1:36
-        % why isn't hrp97 used?
+        hrp96 = hrp;  %[1:20,71:75]
         
         % Krho?
-        hrp_bbtre_smooth = 0.2*([hrp96.eps(:, [2:5,7:20,71:74])])./([hrp96.N2(:, [2:5,7:20,71:74])]);
+        %hrp_bbtre_smooth = 0.2 * hrp96.eps(:, [2:5,7:20,71:74]) ./ hrp96.N2(:, [2:5,7:20,71:74] );
         
-        K = hrp_bbtre_smooth;
-        presK=hrp96.pres(:, [2:5,7:20,71:74]);
+        %K = hrp_bbtre_smooth;
+        %presK=hrp96.pres(:, [2:5,7:20,71:74]);
         
-        KT = 0.5 * hrp96.chit(1:end-1,[2:5,7:20,71:74]) ./ (diff(hrp96.temp(:,[2:5,7:20,71:74]))./diff(hrp96.pres(:,[2:5,7:20,71:74]))).^2;
+        %KT = 0.5 * hrp96.chit(1:end-1,[2:5,7:20,71:74]) ./ (diff(hrp96.temp(:,[2:5,7:20,71:74]))./diff(hrp96.pres(:,[2:5,7:20,71:74]))).^2;
         
         eps = hrp.eps(:, [2:5,7:20,71:74]);
         chi = hrp.chit(:, [2:5,7:20,71:74]);
         N2  = hrp.N2(:, [2:5,7:20,71:74]);
-        dTdz= (diffs(hrp.temp(:, [2:5,7:20,71:74]))./diffs(hrp.pres(:, [2:5,7:20,71:74])));% dTdz = [dTdz(:) ; nan];
+        dTdz= (diffs(hrp.temp(:, [2:5,7:20,71:74]))./diffs(hrp.pres(:, [2:5,7:20,71:74])));
         eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
         
         
@@ -82,29 +78,32 @@ for i = [1:3,5,10]
         tnm = 'BBTRE (rough)';
         %load('../../data/bbtre/bbtre_hrp_for_map.mat')
         load( fullfile( my_data_dir,'bbtre','bbtre_hrp_for_map.mat'))
-        hrp96=hrp;
+        hrp96 = hrp;
         %load('../../data/bbtre/bbtre97_hrp_for_map.mat')
         load(fullfile(my_data_dir,'bbtre','bbtre97_hrp_for_map.mat'))
-        hrp97=hrp;
-        
-        % Krho?
-        % mixed hrp96 and hrp97?
-        hrp_bbtre_rough = 0.2*([hrp96.eps(1:10815,[1,6,21:70,75]) hrp97.eps(:,1:end)])./([hrp96.N2(1:10815,[1,6,21:70,75]) hrp97.N2(:,1:end)]);
-        K = hrp_bbtre_rough;
-        
-        presK = [hrp96.pres(1:10815,[1,6,21:70,75]) hrp97.pres(:,1:end)];
-        
-        KT = 0.5 * ([hrp96.chit(1:10815-1,[1,6,21:70,75]) hrp97.chit(1:end-1,1:end)])./  (diff([hrp96.temp(1:10815,[1,6,21:70,75]) hrp97.temp(:,1:end)])./diff([hrp96.pres(1:10815,[1,6,21:70,75]) hrp97.pres(:,1:end)])).^2;
+        hrp97 = hrp;
         
         clear temp p
         temp = [hrp96.temp(1:10815,[1,6,21:70,75]) hrp97.temp(:,1:end)];
         p= [hrp96.pres(1:10815,[1,6,21:70,75]) hrp97.pres(:,1:end)];
         
-        eps = [hrp96.eps(1:10815,[1,6,21:70,75]) hrp97.eps(:,1:end)];
-        chi = [hrp96.chit(1:10815,[1,6,21:70,75]) hrp97.chit(:,1:end)];%hrp.chit;
-        N2  = [hrp96.N2(1:10815,[1,6,21:70,75]) hrp97.N2(:,1:end)];%hrp.N2;
-        dTdz= diffs(temp)./diffs(p);% dTdz = [dTdz(:) ; nan];
+        eps = [ hrp96.eps(1:10815,[1,6,21:70,75]) hrp97.eps(:,1:end) ];
+        chi = [ hrp96.chit(1:10815,[1,6,21:70,75]) hrp97.chit(:,1:end) ];
+        N2  = [ hrp96.N2(1:10815,[1,6,21:70,75]) hrp97.N2(:,1:end) ];
+        dTdz= diffs(temp)./diffs(p);
         eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
+
+        % Krho?
+        % mixed hrp96 and hrp97?
+        %hrp_bbtre_rough = 0.2*([hrp96.eps(1:10815,[1,6,21:70,75]) hrp97.eps(:,1:end)])./([hrp96.N2(1:10815,[1,6,21:70,75]) hrp97.N2(:,1:end)]);
+        %K = hrp_bbtre_rough;
+        K = 0.2 * eps ./ N2 ;
+        
+        presK = [hrp96.pres(1:10815,[1,6,21:70,75]) hrp97.pres(:,1:end)];
+        
+        %KT = 0.5 * ([hrp96.chit(1:10815-1,[1,6,21:70,75]) hrp97.chit(1:end-1,1:end)])./  (diff([hrp96.temp(1:10815,[1,6,21:70,75]) hrp97.temp(:,1:end)])./diff([hrp96.pres(1:10815,[1,6,21:70,75]) hrp97.pres(:,1:end)])).^2;
+        KT = 0.5 * chi ./ (dTdz.^2) ;
+        
         
     elseif i == 4
         
@@ -115,14 +114,15 @@ for i = [1:3,5,10]
         tnm = 'Ladder';
         %load('../../data/ladder/ladder_hrp_for_map.mat')
         load (fullfile( my_data_dir,'ladder','ladder_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
         
-        eps = hrp.eps;
+        %KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        
+        eps = hrp.eps ;
         chi = hrp.chit;
-        N2  = hrp.N2;
+        N2  = hrp.N2  ;
         dTdz= (diffs(hrp.temp)./diffs(hrp.pres));% dTdz = [dTdz(:) ; nan];
         eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
         
@@ -136,10 +136,10 @@ for i = [1:3,5,10]
         % only plot down to 2216m since below that one profile exists
         %load('../../data/graviluck/graviluck_hrp_for_map.mat')
         load(fullfile(my_data_dir,'graviluck','graviluck_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+%        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
         eps = hrp.eps;
         chi = hrp.chit;
@@ -156,10 +156,10 @@ for i = [1:3,5,10]
         tnm= 'Fieberling';
         %load('../../data/fieberling/fieberling_hrp_for_map.mat')
         load( fullfile( my_data_dir,'fieberling','fieberling_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        %KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
         eps = hrp.eps;
         chi = hrp.chit;
@@ -176,10 +176,10 @@ for i = [1:3,5,10]
         tnm= 'Dimes_{DP}';
         %load('../../data/dimes/dimes_hrp_for_map.mat')
         load( fullfile( my_data_dir,'dimes','dimes_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        %KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
         eps = hrp.eps;
         chi = hrp.chit;
@@ -194,14 +194,14 @@ for i = [1:3,5,10]
         tnm= 'Dimes_{West}';
         %load('../../data/dimes/dimes_pacific_hrp_for_map.mat')
         load( fullfile( my_data_dir,'dimes','dimes_pacific_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        %KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
-        eps = hrp.eps;
+        eps = hrp.eps ;
         chi = hrp.chit;
-        N2  = hrp.N2;
+        N2  = hrp.N2 ;
         dTdz= (diffs(hrp.temp)./diffs(hrp.pres));% dTdz = [dTdz(:) ; nan];
         eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
         
@@ -212,14 +212,14 @@ for i = [1:3,5,10]
         tnm= 'Toto';
         %load('../../data/toto/toto_hrp_for_map.mat')
         load( fullfile( my_data_dir, 'toto','toto_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        %KT = 0.5 *  hrp.chit(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
-        eps = hrp.eps;
+        eps = hrp.eps ;
         chi = hrp.chit;
-        N2  = hrp.N2;
+        N2  = hrp.N2  ;
         dTdz= (diffs(hrp.temp)./diffs(hrp.pres));% dTdz = [dTdz(:) ; nan];
         eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
         
@@ -229,21 +229,22 @@ for i = [1:3,5,10]
         clear K KT eps chi N2 dTdz eps_chi
         %load('../../data/geotraces/geotraces_hrp_for_map.mat');
         load( fullfile( my_data_dir,'geotraces','geotraces_hrp_for_map.mat'))
-        K = 0.2 * hrp.eps ./ hrp.N2;
-        presK = hrp.pres;
         
-        KT = 0.5 *  hrp.chi(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
+        %K = 0.2 * hrp.eps ./ hrp.N2;
+        %presK = hrp.pres;
+        
+        %KT = 0.5 *  hrp.chi(1:end-1,:) ./ (diff(hrp.temp)./diff(hrp.pres)).^2;
         
         eps = hrp.eps;
         chi = hrp.chi;
-        N2  = hrp.N2;
+        N2  = hrp.N2 ;
         dTdz= (diffs(hrp.temp)./diffs(hrp.pres));% dTdz = [dTdz(:) ; nan];
         eps_chi = N2 .* chi / 2 / 0.2 ./ (dTdz.^2);
         
     end
     
     
-    
+    % 
     if eps_thresh==1
         ib = find(log10(eps)<eps_floor);
         eps(ib)=nan;
@@ -329,10 +330,34 @@ h=histogram(log10(eps_chi./cham.EPSILON),'Normalization','pdf','EdgeColor','none
 %~~~
 hs=[hs h]
 
+
+%~~~~ add IWISE11 data from Lou
+clear cham hrp
+clear N2 dTdz eps_chi TEM PRS LAT SAL CH1
+load('/Users/Andy/Cruises_Research/ChiPod/IWISE11_And_vmp/Data/VMP/IWISE-ASS.mat')
+
+% compute N^2
+
+N2 = nan * ones(size(CH1));
+dTdz =nan * ones(size(CH1));
+for ip = 1:length(LAT)
+    N2(:,ip) = [sw_bfrq(SAL(:,ip),TEM(:,ip),PRS,LAT(ip)) ; nan];
+    dTdz(:,ip) = diffs( TEM(:,ip)) ./ diffs(PRS) ;
+end
+%
+eps_chi = N2 .* CH1 /2 /0.2 ./ (dTdz.^2);
+
+h=histogram( real(log10(eps_chi./EP1)),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)%,'EdgeColor','none')
+
+%~~~
+hs=[hs h]
+
+
+
 %
 ylim([0 1])
 ylabel('pdf')
-legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces','EQ14')
+legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces','EQ14','IWISE11')
 
 if eps_thresh==1
     print( fullfile( fig_dir,['epschi_eps_hist_ALL_eps_thresh.png']), '-dpng')
