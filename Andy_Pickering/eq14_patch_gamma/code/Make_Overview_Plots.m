@@ -26,6 +26,7 @@ Params.fc=99;
 
 dz = 2 ;
 cnums_to_get = get_cham_cnums_eq14;
+cnums_to_get = cnums_to_get(cnums_to_get>500);
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
 cnums_to_get = setdiff(cnums_to_get,bad_prof);
 
@@ -90,8 +91,7 @@ ylabel('P [db]')
 xlabel('cast #')
 title('log_{10} dT/dz')
 
-linkaxes([ax1 ax2 ax3 ax4])
-%%
+linkaxes([ax1 ax2 ax3 ax4])%%
 figname = [project_short '_Pcolor_BothChi_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
@@ -151,6 +151,80 @@ linkaxes([ax1 ax2 ax3 ax4])
 figname = [project_short '_Pcolor_BothEps_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
+
+
+%% Combine above 2 plots - plot chi,eps,n2,dtdz on 6X1 panel plot
+
+figure(1);clf
+agutwocolumn(1)
+wysiwyg
+
+rr=6 ;
+cc=1 ;
+
+ax1 = subplot(rr,cc,1);
+ezpc(cham.cnum,cham.P,log10(cham.chi))
+hold on
+plot(zml_cnum,zml,'k')
+%hline(80,'k--')
+caxis([-11 -4])
+colorbar
+title('log_{10} \chi chameleon')
+
+ax2 = subplot(rr,cc,2);
+ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
+hold on
+plot(zml_cnum,zml,'k')
+%hline(80,'k--')
+caxis([-11 -4])
+colorbar
+title('log_{10} \chi \chi-pod')
+
+ax3 = subplot(rr,cc,3) ;
+ezpc(cham.cnum,cham.P,log10(cham.eps))
+hold on
+plot(zml_cnum,zml,'k')
+%hline(80,'k--')
+caxis([-11 -4])
+colorbar
+title('log_{10} \epsilon chameleon')
+ylabel('P [db]')
+
+ax4 = subplot(rr,cc,4);
+ezpc(chipod.cnum,chipod.P,log10(chipod.eps))
+hold on
+plot(zml_cnum,zml,'k')
+%hline(80,'k--')
+caxis([-11 -4])
+colorbar
+title('log_{10} \epsilon chi-pod')
+ylabel('P [db]')
+
+
+ax5 = subplot(rr,cc,5);
+ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
+hold on
+plot(zml_cnum,zml,'k')
+%hline(80,'k--')
+caxis([-6 -2])
+colorbar
+ylabel('P [db]')
+title('log_{10} N^2')
+
+ax6 = subplot(rr,cc,6);
+ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
+hold on
+plot(zml_cnum,zml,'k')
+%hline(80,'k--')
+caxis([-4 -0])
+colorbar
+ylabel('P [db]')
+xlabel('cast #')
+title('log_{10} dT/dz')
+
+linkaxes([ax1 ax2 ax3 ax4 ax5 ax6])%%
+figname = [project_short '_Pcolor_Both_epsANDChi_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
+print(fullfile(fig_dir, figname), '-dpng')
 
 
 %% Plot 2D histogram of chipod method vs chameleon
