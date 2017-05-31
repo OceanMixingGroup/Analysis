@@ -11,7 +11,7 @@
 clear ; close all
 
 
-eps_thresh =  1
+eps_thresh =  0
 eps_floor  = -10
 
 %my_data_dir = '/Users/Andy/Google Drive/ChiCalculations/data/'
@@ -36,7 +36,7 @@ for i = [1:3,5,10]
     %~~ make figures
     
     figure(2)
-    subplot(3,2,iax)
+    subplot(4,2,iax)
     h = chi_vs_eps_normalized_plot(mix.eps, mix.chi, mix.N2, mix.dTdz) ;
     title(mix.project)
     
@@ -62,9 +62,39 @@ if eps_thresh==1
 end
 
 
-subplot(3,2,6)
+subplot(4,2,6)
 h = chi_vs_eps_normalized_plot(cham.EPSILON, cham.CHI, cham.N2, cham.DTDZ) ;
 title('EQ14')
+legend('off')
+
+%% add IWISE 11 data
+
+
+clear cham hrp
+clear N2 dTdz eps_chi TEM PRS LAT SAL CH1 eps EP1
+load('/Users/Andy/Cruises_Research/ChiPod/IWISE11_And_vmp/Data/VMP/IWISE-ASS.mat')
+
+% compute N^2
+
+N2   = nan * ones(size(CH1)) ;
+dTdz = nan * ones(size(CH1)) ;
+for ip = 1:length(LAT)
+    N2(:,ip) = [ sw_bfrq( SAL(:,ip),TEM(:,ip),PRS,LAT(ip) ) ; nan ] ;
+    dTdz(:,ip) = diffs( TEM(:,ip)) ./ diffs(PRS) ;
+end
+%
+%eps_chi = N2 .* CH1 /2 /0.2 ./ (dTdz.^2);
+
+if eps_thresh==1
+    ib = find(log10(eps)<eps_floor);
+    eps(ib)=nan;
+    eps_chi(ib)=nan;
+    chi(ib)=nan;
+end
+
+subplot(4,2,7)
+h = chi_vs_eps_normalized_plot(EP1, CH1, N2, dTdz) ;
+title('IWISE11')
 legend('off')
 
 
