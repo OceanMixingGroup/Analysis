@@ -22,11 +22,17 @@ function [chipod, cham] =Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,P
 % zmax
 % Pmin - data < Pmin nan'd out
 % screen_chi - Nan chi (log) epsilons below -8.5
-% screen_ml - Nan out mixed layer depths that are convectively unstable
+% screen_ml  - Nan out mixed layer depths that are convectively unstable
 %
 % OUTPUT
 % - chipod : structure w/ binned profiles
 % - cham   : ""
+%
+% DEPENDS
+% - load_chipod_avg.m
+% - discard_convection_eq14_cham.m
+% - discard_convection_eq14_chi.m
+% - binprofile.m
 %
 %-----------------
 % 4/14/17 - A.Pickering
@@ -49,9 +55,6 @@ N2_cham = empty_array;
 Tz_chi  = empty_array;
 Tz_cham = empty_array;
 
-%P_cham_avg = empty_array;
-%P_chi_avg  = empty_array;
-
 hb = waitbar(0,['getting binned profiles for ' project_short])
 for ic = 1:length(cnums_to_get)
     
@@ -63,15 +66,7 @@ for ic = 1:length(cnums_to_get)
     clear avg ch chb
     
     try
-        
-        % regular chi-pod method on binned data
-        %         clear avg
-        %         if strcmp(project_short,'eq14')
-        %             load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))
-        %         else
-        %             load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
-        %         end
-        %         chb = avg ; clear avg
+               
         
         chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
@@ -95,13 +90,12 @@ for ic = 1:length(cnums_to_get)
         avg.CHI(izb)     = nan;
         
         if screen_ml==1
-%            avg = discard_convection_eq14_cham(avg,cnum);
+            
             if strcmp(project_short,'eq14')
                 avg = discard_convection_eq14_cham(avg,cnum);
             elseif strcmp(project_short,'eq08')
                 avg = discard_convection_eq08_cham(avg,cnum);
             end
-
         end
         
         %% discard chameleon epsilons below noise floor

@@ -13,7 +13,6 @@
 
 \graphicspath{
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/figures/}
-{/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/figures/chi_eps_profiles_diffNprof_profavgs/zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20_nfft_128_screen_chi_1/}
 {/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/figures/boot_eps_profiles_multprof/}
 }
 
@@ -36,21 +35,12 @@
 
 \begin{itemize}
 
-\item This document is an attempt to provide an overview/summary of what i've found in my $\chi$pod analysis so far. 
-
-\item The motivation/goal for all this work is to show if /how well the CTD-$\chi$pod method works for estimating $\chi$,$\epsilon$, $K_T$, etc from fast temperature (thermistor) profiles. The idea is to deploy $\chi$pods on regular CTD casts on WOCE/CLIVAR cruises etc. to making mixing measurements.
+\item This document is an attempt to provide an overview/summary of some analysis i've done with the EQ08 data. The motivation/goal for all this work is to show if /how well the CTD-$\chi$pod method works for estimating $\chi$,$\epsilon$, $K_T$, etc from fast temperature (thermistor) profiles. The idea is to deploy $\chi$pods on regular CTD casts on WOCE/CLIVAR cruises etc. to making mixing measurements.
 
 \item Before dealing with all the issues with the CTD deployments (depth loops, entrained water, rosette-induced turbulence etc.), I wanted to verify that the method itself worked w/out these complications. 
 
 \item The Chameleon microstructure profiler has both thermistor and shear probes, so this seemed like an ideal way to test the method. I would apply the $\chi$pod method to the chameleon thermistor data only ($\chi_{\chi},\epsilon_{\chi}$), and compare to the `true' results computed using the shear probes ($\chi$,$\epsilon$).
 
-\item I found that the estimates of $\chi$ agreed well, but un-averaged $\epsilon_{\chi}$ was biased low compared to $\epsilon$ (Figure \ref{chi_overview},\ref{eps_overview},\ref{chamVschi}).
-
-\item The $\chi$pod method requires assuming a mixing efficiency, and uses the normal assumption that $\gamma=0.2$. I computed gamma from the chameleon data (formula) and found that it was about an order of magnitude smaller than 0.2; hence the low epsilon estimates?
-
-%\item One idea was that we should be computing gamma over patches, and it's meaningless outside of patches. Previous work has found gamma is close to 0.2 . So I tried computing patches and gamma. This can be a whole other can of worms (lots of choices to make in how to identify patches, compute N2, Tz etc), but I found I could get gammas close to 0.2 .  And on a point-by-point basis, $\epsilon_{\chi}$ agreed better with $\epsilon_{\chi}$. But then we have much fewer data points... 
-
-\item The comparison of $\epsilon_{\chi}$ to $\epsilon$ seems to improve with increased averaging (of either multiple profiles or larger depth ranges). 
 
 \end{itemize}
 
@@ -66,15 +56,15 @@
 
 \item Data are from Chameleon profiles near the equator during the `EQ08' experiment.
 
-%\item Sally shared w/ me Chameleon data that she and Jim processed. I ended up re-processing it using a smaller fmax (7Hz) because it looked like the thermistor spectra rolled off much lower than the assumed 32Hz.
+\item $\chi$pod method is applied to thermistor data from Chameleon profiles in : \verb+ComputeChi_Chameleon_Eq08.m+
 
-%\item \verb+ComputeChi_Chameleon_eq08.m+ : Applies $\chi$pod method to Chameleon profiles from eq08.
+\item The noise floor of Chamleon $\epsilon$ was determined to be $log_{10}[\epsilon]=-8.5$. Values below this threshold were discarded. $\chi$pod values below this threshold were also discarded, in order to make a valid comparison. An upper limit of $log_{10}[\epsilon]=-5$ was also applied.
 
-\item \verb+Make_Overview_Plots_eq08.m+ Makes almost all the figures in this document.
+\item I re-processed the Chameleon data (\verb+run_eq08_AP.m+) using a fmax of 15hz for the $\chi$ calculations, based on looking at spectra and where they rolled off.
 
-\item The noise floor of Chamleon $\epsilon$ was determined to be $log_{10}[\epsilon]=-8.5$. Values below this threshold were discarded. $\chi$pod values below this threshold were also discarded, in order to make a valid comparison. An upper limit of $log_{10}[\epsilon]=-5$ (determined by Jim?) was also applied.
+\item Data including surface convection was identified and excluded in the analysis. The mixed layer depth was identified using a criteria of $\sigma -\simga_{surface}=0.04$. This depth is shown in figures \ref{chi_overview} and \ref{eps_overview}. These depths were found w/ \verb+Identify_ML_eq08.m+
 
-%\item Data including surface convection was identified and excluded in the analysis. The mixed layer depth was identified using a criteria of $\sigma -\simga_{surface}=0.04$. This depth is shown in figures \ref{chi_overview} and \ref{eps_overview}.
+\item  The figures in this document are made w/ \verb+Make_Overview_Plots_eq08.m+.
 
 \end{itemize}
 
@@ -92,7 +82,7 @@
 % misc_Appr14.m
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq08_Pcolor_BothChi_N2_Tz_screen_chi_1_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{Comparison of $\chi$ from chameleon method and chi-pod method, for eq08 chameleon profiles. Each profile was averaged in 2m bins.  Black line shows shows convective regions excluded in further analysis.}
+\caption{Comparison of $\chi$ from chameleon method and chi-pod method, for eq08 chameleon profiles. Date from each profile were averaged in 2m bins.  Black line shows shows convective regions excluded in further analysis.}
 \label{chi_overview}
 \end{figure}
 
@@ -103,32 +93,50 @@
 \end{figure}
 
 
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Comparing individual estimates of $\epsilon$}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+\begin{itemize}
+
+\item The $\chi$pod method tends to slightly over-estimate $\chi$, and underestimate $\epsilon$ (Figures \ref{chamVschi},\ref{epsrathist_eq08}).
+
+\item The bias in $\eposilon$ tends to be larger (more negative) at shallower depths (Figure \ref{2DvsP}).
+
+\end{itemize}
+
+
 %  plot of $\chi$pod vs cham for chi and eps
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_chamVschipod_screen_chi_1_Pmin_80_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\includegraphics[scale=0.8]
+{eq08_chamVschipod_screen_chi_1_Pmin_20_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{Comparison of $\chi$ (top) and $\epsilon$ (lower) from chameleon method and chi-pod method, for eq08 chameleon profiles. Each profile was averaged in 2m bins.  Values of $\epsion$ below chameleon noise floor ($log_{10}[\epsilon]=-8.5$) have been nan'd out. Black line is 1:1, red lines are $+/-$ order of magnitude. }
 \label{chamVschi}
 \end{figure}
 
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_chi_eps_Vs_P_2Dhist_screen_chi_1_Pmin_0_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{ 2D histograms of ratios $\chi_{\chi}$ and $\epsilon_{\chi}$ ratios vs depth.}
-\label{chamVschi}
-\end{figure}
-
-
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_10mbinned_eps_ratios_screen_chi_1_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\includegraphics[scale=0.8]
+{eq08_2mbinned_eps_ratios_screen_chi_1_screenml_1_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+%{eq08_2mbinned_eps_ratios_screen_chi_1_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{eq08: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values. Estimates for each profile were averaged in 10m depth bins. Vertical line shows mean of $log_{10}[\epsilon_{\chi}/\epsilon]$.}
 \label{epsrathist_eq08}
 \end{figure}
+
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]
+{eq08_chi_eps_Vs_P_2Dhist_screen_chi_1_Pmin_0_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\caption{ 2D histograms of ratios $\chi_{\chi}/\chi$ and $\epsilon_{\chi}/\epsilon$ ratios vs depth.}
+\label{2DvsP}
+\end{figure}
+
+
+
 
 
 
@@ -143,13 +151,15 @@ Assuming that
 \begin{equation}
 \gamma=\frac{N^2 \chi}{2\epsilon<T_z>^2}
 \end{equation}
-, plotting [$\chi/t_{z}^{2}$] vs [$\epsilon/N\^2$] should follow a straight line with slope equal to $2\gamma$.
+, plotting [$\chi/t_{z}^{2}$] vs [$\epsilon/N\^2$] should follow a straight line with slope equal to $2\gamma$. The Chameleon data from EQ08 tend to fall near $\gamma=0.1$ or slightly lower (Figure \ref{chiepsnorm}).
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_10mbinned_eps_vs_chi_normalized_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\includegraphics[scale=0.8]
+{eq08_2mbinned_eps_vs_chi_normalized_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+%{eq08_10mbinned_eps_vs_chi_normalized_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{eq08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
-\label{}
+\label{chiepsnorm}
 \end{figure}
 
 
@@ -158,32 +168,29 @@ Assuming that
 
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Averaging many profiles of $\epsilon$}
+\subsection{Averaging multiple profiles }
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Figure \ref{prof_avg_ex} shows one example. A folder with many profiles is located at:
-\url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/eq08_patch_gamma/figures/chi_eps_profiles_diffNprof_profavgs/zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20_nfft_128_screen_chi_1}. %In general, it seems that averaging profiles does not change the comparsion much; $\epsilon_{\chi}$ is still biased low.
 
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eps_boot_prof_cnum_1576.png}
-\caption{Example of averaging multiple profiles together. Left panels show a single profile from chamleeon and chi-pod method. Right panel shows bootstrap average of 5 profiles, averaged in 10m depth bins, with 95\% confidence intervals. Data in mixed layer and shallower than 20m have been excluded.}
-\label{prof_avg_ex}
-\end{figure}
+\begin{itemize}
+
+\item 
+
+\end{itemize}
 
 
-
-I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs chameleon epsilon, for data averaged across different numbers of profiles. 
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
-{eq08_chiVscham_chiANDeps_diff_prof_avg_screen_chi_1_Pmin_80_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{2D Histograms of $\chi_{chi}$ vs $\chi$ (left) and $\epsilon_{\chi}$ vs $\epsilon$ (right) for different numbers of profiles averaged. Using *1m* smoothed N2 and Tz.}
+{eq08_chiVscham_chiANDeps_diff_prof_avg_screen_chi_1_Pmin_20_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\caption{2D Histograms of $\chi_{chi}$ vs $\chi$ (left) and $\epsilon_{\chi}$ vs $\epsilon$ (right) for different numbers of profiles averaged.}
 \label{}
 \end{figure}
 
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_chiVscham_chiANDeps_diff_dz_screen_chi_1_Pmin_80_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\includegraphics[scale=0.8]
+{eq08_eps_ratio_hist_diff_prof_avg_Pmin_20zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{(log10) Ratio of $\epsilon_{\chi}/\epsilon$ for different numbers of profiles averaged. Consecutive chunks of N profiles were averaged, and then (normalized) histogram of the ratios was plotted. Vertical lines and numbers to right are mean of $log_{10}[\epsilon_{\chi}/\epsilon]$ for each distribution. }
 \label{}
 \end{figure}
@@ -191,86 +198,68 @@ I tried making plots of normalized chi vs eps, and scatterplots of chi-pod vs ch
 
 
 
+
+
+
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{Effects of averaging in different-sized depth bins}
+\subsection{Averaging over different-sized depth bins}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 I also looked at the effects of averaging each profile in different sized depth bins instead of averaging profiles.
 
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eq08_NormScat_chiVscham_diff_dz_screen_chi_1.png}
-%\caption{Normalized plots of $\chi$ vs $\epsilon$ for different amounts of vertical averaging.}
-%\label{}
-%\end{figure}
+
+\begin{itemize}
+
+\item The bias in $\epsilon$ is decreased with averaging over larger depth intervals, although the bias in $\chi$ increases slightly (Figure \ref{hist_diffdz}).
+
+\end{itemize}
+
+
 
 \begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_chiVscham_chiANDeps_diff_dz_screen_chi_1_Pmin_80_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+\includegraphics[scale=0.8]
+{eq08_chiVscham_chiANDeps_diff_dz_screen_chi_1_Pmin_20_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{2D Histograms of $\chi_{chi}$ vs $\chi$ (left) and $\epsilon_{\chi}$ vs $\epsilon$ (right) averaged over different size depth bins}
-\label{}
+\label{2Dhist_diffdz}
 \end{figure}
 
 
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
-{eq08_chiVscham_hist_diff_dz_screen_chi_1_Pmin_80_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
+{eq08_chiVscham_hist_diff_dz_screen_chi_1_Pmin_20_zsm10m_fmax15Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{Histogram of log10 of ratio $\epsilon_{\chi}/\epsilon$ for different amounts of vertical averaging. Vertical lines are mean of $log_{10}[\epsilon_{\chi}/\epsilon]$ for each distribution.}
-\label{}
+\label{hist_diffdz}
 \end{figure}
 
 
 
-%
+
+
+
+
 %\clearpage
 %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%\section{Effects of averaging different numbers of profiles}
+%\section{Summary}
 %%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-
-
-
-
-
-\clearpage
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\subsection{$\gamma$ computed from averaged quantities}
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma=0.2$ (or a different gamma)? Estimates from the averaged data are larger (Figure \ref{gambox_eq08}) but still slightly less than 0.2 .
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eq08_gamma_point_avg_box_10mbinned.png}
-\caption{Boxplots of $log_{10}[\gamma]$ for a set of profiles from eq08. Left is for all 1m avg data. Right is for data from all profiles averaged in 10m bins. Horizontal dashed line indicates $\gamma=0.2$.}
-\label{gambox_eq08}
-\end{figure}
-
-
-
-\clearpage
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-\section{Summary}
-%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-\begin{itemize}
-
-\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon_{\chi}$ are biased low compared to Chameleon $\epsilon$.
-
-\item This appears to be because $\gamma$ computed from the Chameleon data is lower than the assumed 0.2
-
-\item $\gamma$ computed from averaged data (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is closer to 0.2
-
-\item Averaging many $\epsilon$ profiles or averaging depth reduces the bias %if we use same noise floor for $\epsilon$ as Chameleon).
-
-\end{itemize}
-
-%Questions:
 %
 %\begin{itemize}
-%\item Would be good to have 'standard' code to compute $\chi$ from thermistor data etc.? Thermistor response/noise level varies a lot though, would need a standard way to determine correction.
+%
+%\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon_{\chi}$ are biased low compared to Chameleon $\epsilon$.
+%
+%\item This appears to be because $\gamma$ computed from the Chameleon data is lower than the assumed 0.2
+%
+%%\item $\gamma$ computed from averaged data (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is closer to 0.2
+%
+%\item Averaging $\epsilon$ over more profiles reduces the bias ?? (Figure \ref{}).
+%
+%\item Averaging $\epsilon$ over larger depth intervals reduces the bias (Figure \ref{}).
+%
+%
 %\end{itemize}
-
 
 
 \end{document}  

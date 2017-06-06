@@ -2,12 +2,11 @@ function h = scatter_chi_eps_chipod_cham(chipod,cham)
 
 %%
 
-h= figure;clf
+h = figure;clf
 agutwocolumn(1)
 wysiwyg
 
-subplot(211)
-%histogram2( log10(cham.chi(icham,:)), log10(chipod.chi(ichi,:)), 'DisplayStyle','tile')
+ax1 = subplot(211) ;
 histogram2( log10(cham.chi(:)), log10(chipod.chi(:)), 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
@@ -19,8 +18,7 @@ ylim([-12 -4])
 xlabel('\chi','fontsize',16)
 ylabel('\chi_{\chi}','fontsize',16)
 
-subplot(212)
-%histogram2( log10(cham.eps(icham,:)), log10(chipod.eps(ichi,:)),50, 'DisplayStyle','tile')
+ax2 = subplot(212);
 histogram2( log10(cham.eps(:)), log10(chipod.eps(:)),50, 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);

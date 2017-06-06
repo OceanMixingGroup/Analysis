@@ -18,11 +18,11 @@
 
 clear ; close all
 
-Params.gamma = 0.2;
-Params.fmax  = 7  ;
-Params.z_smooth=1;
-Params.resp_corr=0;
-Params.fc=99;
+Params.gamma     = 0.2;
+Params.fmax      = 7  ;
+Params.z_smooth  = 1  ;
+Params.resp_corr = 0  ;
+Params.fc        = 99 ;
 
 dz = 2 ;
 cnums_to_get = get_cham_cnums_eq14;
@@ -30,13 +30,13 @@ cnums_to_get = cnums_to_get(cnums_to_get>500);
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
 cnums_to_get = setdiff(cnums_to_get,bad_prof);
 
+screen_chi = 1 ;
+screen_ml  = 0 ;
+Pmin       = 0 ;
+
 eq14_patches_paths
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
-
-screen_chi=1
-screen_ml=0
-Pmin=0;
 
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 
@@ -49,14 +49,12 @@ figure(1);clf
 agutwocolumn(1)
 wysiwyg
 
-rr=4 ;
-cc=1 ;
+rr=4 ; cc=1 ;
 
 ax1 = subplot(rr,cc,1);
 ezpc(cham.cnum,cham.P,log10(cham.chi))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \chi chameleon')
@@ -74,7 +72,6 @@ ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-6 -2])
 colorbar
 ylabel('P [db]')
@@ -84,7 +81,6 @@ ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-4 -0])
 colorbar
 ylabel('P [db]')
@@ -109,7 +105,6 @@ ax1 = subplot(rr,cc,1) ;
 ezpc(cham.cnum,cham.P,log10(cham.eps))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \epsilon chameleon')
@@ -119,7 +114,6 @@ ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.eps))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \epsilon chi-pod')
@@ -129,7 +123,6 @@ ax3 = subplot(rr,cc,3);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-6 -2])
 colorbar
 ylabel('P [db]')
@@ -139,7 +132,6 @@ ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-4 -0])
 colorbar
 ylabel('P [db]')
@@ -166,7 +158,6 @@ ax1 = subplot(rr,cc,1);
 ezpc(cham.cnum,cham.P,log10(cham.chi))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \chi chameleon')
@@ -175,7 +166,6 @@ ax2 = subplot(rr,cc,2);
 ezpc(chipod.cnum,chipod.P,log10(chipod.chi))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \chi \chi-pod')
@@ -184,7 +174,6 @@ ax3 = subplot(rr,cc,3) ;
 ezpc(cham.cnum,cham.P,log10(cham.eps))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \epsilon chameleon')
@@ -194,18 +183,15 @@ ax4 = subplot(rr,cc,4);
 ezpc(chipod.cnum,chipod.P,log10(chipod.eps))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-11 -4])
 colorbar
 title('log_{10} \epsilon chi-pod')
 ylabel('P [db]')
 
-
 ax5 = subplot(rr,cc,5);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.N2)))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-6 -2])
 colorbar
 ylabel('P [db]')
@@ -215,14 +201,14 @@ ax6 = subplot(rr,cc,6);
 ezpc(chipod.cnum,chipod.P,real(log10(cham.Tz)))
 hold on
 plot(zml_cnum,zml,'k')
-%hline(80,'k--')
 caxis([-4 -0])
 colorbar
 ylabel('P [db]')
 xlabel('cast #')
 title('log_{10} dT/dz')
 
-linkaxes([ax1 ax2 ax3 ax4 ax5 ax6])%%
+linkaxes([ax1 ax2 ax3 ax4 ax5 ax6])
+
 figname = [project_short '_Pcolor_Both_epsANDChi_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
@@ -233,11 +219,11 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 clear ; close all
 
-Params.gamma   = 0.2;
-Params.fmax    = 7  ;
-Params.z_smooth=1;
-Params.resp_corr=0;
-Params.fc=99;
+Params.gamma     = 0.2;
+Params.fmax      = 7  ;
+Params.z_smooth  = 1  ;
+Params.resp_corr = 0  ;
+Params.fc        = 99 ;
 
 dz = 2 ;
 
@@ -245,12 +231,13 @@ cnums_to_get = get_cham_cnums_eq14;
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
 cnums_to_get = setdiff(cnums_to_get,bad_prof);
 
-eq14_patches_paths
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
 screen_chi = 1
 Pmin       = 20
 screen_ml  = 1
+
+
+eq14_patches_paths
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 % reload data, screening convective regions
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
@@ -262,7 +249,6 @@ agutwocolumn(1)
 wysiwyg
 
 subplot(211)
-%histogram2( log10(cham.chi(icham,:)), log10(chipod.chi(ichi,:)), 'DisplayStyle','tile')
 histogram2( log10(cham.chi(:)), log10(chipod.chi(:)), 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
@@ -275,7 +261,6 @@ xlabel('\chi','fontsize',16)
 ylabel('\chi_{\chi}','fontsize',16)
 
 subplot(212)
-%histogram2( log10(cham.eps(icham,:)), log10(chipod.eps(ichi,:)),50, 'DisplayStyle','tile')
 histogram2( log10(cham.eps(:)), log10(chipod.eps(:)),50, 'DisplayStyle','tile')
 hold on
 xvec=linspace(-11,-4,100);
@@ -288,21 +273,19 @@ xlabel('\epsilon ','fontsize',16)
 ylabel('\epsilon_{\chi}','fontsize',16)
 
 %
-%figname = [project_short '_chamVschipod_' num2str(Params.z_smooth) '_' num2str(dz) 'mbin']
 figname = [project_short '_chamVschipod_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir, figname), '-dpng')
 
 
-%% 2D hist vs depth?
-
+%% 2D hist of the ratio of chipod/cham vs depth?
 
 clear ; close all
 
-Params.gamma    = 0.2;
-Params.fmax     = 7  ;
-Params.z_smooth = 1;
-Params.resp_corr= 0;
-Params.fc       = 99;
+Params.gamma     = 0.2;
+Params.fmax      = 7  ;
+Params.z_smooth  = 1  ;
+Params.resp_corr = 0  ;
+Params.fc        = 99 ;
 
 dz = 2 ;
 
@@ -310,20 +293,14 @@ cnums_to_get = get_cham_cnums_eq14;
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
 cnums_to_get = setdiff(cnums_to_get,bad_prof);
 
-eq14_patches_paths
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
 screen_chi = 1
 Pmin       = 20
 screen_ml  = 1
 
-%[chipod, cham] =Get_all_chipod_cham_data(path_chipod_bin,...
- %   path_cham_avg,Params,cnums_to_get,project_short,Pmin,screen_chi,screen_ml)
-% reload data, screening convective regions
+eq14_patches_paths
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
-
-
-%%
 
 P = repmat(chipod.P,1,length(chipod.cnum));
 
@@ -355,7 +332,7 @@ figname=['eq14_chi_eps_Vs_P_2Dhist_screen_chi_' num2str(screen_chi) '_' MakeChiP
 print(fullfile(fig_dir,figname),'-dpng')
 
 
-%% See if gamma computed from multi-profile averageds of N2,Tz,chi,eps is 0.2?
+%% See if gamma computed from multi-profile averages of N2,Tz,chi,eps is 0.2?
 % compare to gamma computed from individual 1m data points in every profile
 
 clear ; %close all
@@ -366,11 +343,6 @@ eq14_patches_paths
 
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed/Cstar=0_032/sum/eq14_sum_clean.mat')
 load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
-
-%cnum_range = [2400 3000];
-
-%clear cnums
-%cnums = [cnum_range(1) : cnum_range(2) ];
 
 cnums = get_cham_cnums_eq14;
 
@@ -419,7 +391,7 @@ linkaxes([ax1 ax2])
 
 figname=[project_short '_gamma_point_avg_box_' num2str(dz) 'mbinned']
 print(fullfile(fig_dir,figname),'-dpng')
-
+%%
 
 % %% Plot normalized chi vs eps for different vertical averaging
 % 
@@ -499,14 +471,14 @@ clear ; %close all
 
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
-Params.gamma    = 0.2 ;
-Params.fmax     = 7   ;
-Params.z_smooth = 1 ;
-Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
-Params.fc       = 99 ;    % cutoff frequency for response correction
+Params.gamma     = 0.2;
+Params.fmax      = 7  ;
+Params.z_smooth  = 1  ;
+Params.resp_corr = 0  ;     % correct TP spectra for freq response of thermistor?
+Params.fc        = 99 ;    % cutoff frequency for response correction
 
-screen_chi = 1
-screen_ml  = 1
+screen_chi = 1 ;
+screen_ml  = 1 ;
 Pmin       = 20;
 
 zmin=0  ;
@@ -526,16 +498,14 @@ figure(8);clf
 agutwocolumn(1)
 wysiwyg
 
-iax=1
-rr=3
-cc=2
-for dz=[1 10 50]
+iax=1 ; rr=3 ; cc=2 ;
+for dz = [1 10 50]
     
     clear chipod cham
-    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml)
+    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml) ;
     
     subplot(rr,cc,iax)
-    hh=histogram2(  real(log10(cham.chi)),log10(chipod.chi),80,'DisplayStyle','tile')
+    hh = histogram2(  real(log10(cham.chi)),log10(chipod.chi),80,'DisplayStyle','tile');
     grid on
     hold on
     xvec=linspace(-11,-4,100);
@@ -554,7 +524,7 @@ for dz=[1 10 50]
     iax=iax+1;
     
     subplot(rr,cc,iax)
-    hh=histogram2(  real(log10(cham.eps)),log10(chipod.eps),80,'DisplayStyle','tile')
+    hh = histogram2(  real(log10(cham.eps)),log10(chipod.eps),80,'DisplayStyle','tile');
     grid on
     hold on
     xvec=linspace(-11,-4,100);
@@ -580,7 +550,7 @@ end
 
 %
 clear figname
-figname=['eq14_chiVscham_chiANDeps_diff_dz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
+figname = ['eq14_chiVscham_chiANDeps_diff_dz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir,figname),'-dpng')
 clear figname
 
@@ -588,15 +558,15 @@ clear figname
 
 clear ; %close all
 
-Params.gamma    = 0.2 ;
-Params.fmax     = 7   ;
-Params.z_smooth = 1 ;
-Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
-Params.fc       = 99 ;    % cutoff frequency for response correction
+Params.gamma     = 0.2;
+Params.fmax      = 7  ;
+Params.z_smooth  = 1  ;
+Params.resp_corr = 0  ;
+Params.fc        = 99 ;
 
-screen_chi = 1
+screen_chi = 1 ;
 Pmin       = 20;
-screen_ml  = 1
+screen_ml  = 1 ;
 
 %dz = 10 % bin size
 zmin=0  ;
@@ -768,10 +738,11 @@ Params.resp_corr= 0  ;  % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;  % cutoff frequency for response correction
 
 
-screen_chi= 1
-screen_ml = 1
-dz        = 10 % bin size
-Pmin      = 20
+screen_chi= 1 ;
+screen_ml = 1 ;
+Pmin      = 20;
+
+dz        = 10; % bin size
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
@@ -819,7 +790,7 @@ for dp = [2 10 50]
     end % idx
     
     subplot(3,2,iax)
-    hh=histogram2(  real(log10(chi_cham_all)),log10(chi_chi_all),40,'DisplayStyle','tile')
+    hh = histogram2(  real(log10(chi_cham_all)),log10(chi_chi_all),40,'DisplayStyle','tile');
     grid on
     hold on
     xvec=linspace(-11,-4,100);
@@ -840,7 +811,7 @@ for dp = [2 10 50]
     iax = iax+1;
     
     subplot(3,2,iax)
-    hh=histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),20,'DisplayStyle','tile')
+    hh = histogram2(  real(log10(eps_cham_all)),log10(eps_chi_all),20,'DisplayStyle','tile');
     grid on
     hold on
     xvec=linspace(-11,-4,100);
@@ -880,17 +851,15 @@ clear ;% close all
 
 Params.gamma    = 0.2;
 Params.fmax     = 7  ;
-Params.z_smooth = 1 ;
-Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
+Params.z_smooth = 1  ;
+Params.resp_corr= 0  ;    % correct TP spectra for freq response of thermistor?
 Params.fc       = 99 ;    % cutoff frequency for response correction
 
-
-screen_chi = 1
-Pmin       = 20
-screen_ml  = 1
+screen_chi = 1 ;
+Pmin       = 20;
+screen_ml  = 1 ;
 
 dz = 10 % bin size
-
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
@@ -900,9 +869,7 @@ figure(12);clf
 agutwocolumn(1)
 wysiwyg
 
-h=[]
-iax=1
-cols=['b','r','g']
+h=[] ; iax=1 ;cols=['b','r','g'];
 for dp = [1 10 50 ]
     
     eps_cham_all = [];
@@ -978,15 +945,15 @@ print( fullfile(fig_dir,['eq14_eps_ratio_hist_diff_prof_avg_' MakeChiPathStr(Par
 
 clear ;% close all
 
-Params.gamma = 0.2 ;
-Params.fmax  = 7 ;
-Params.z_smooth = 1 ;
-Params.resp_corr= 0;     % correct TP spectra for freq response of thermistor?
-Params.fc       = 99 ;    % cutoff frequency for response correction
+Params.gamma    = 0.2 ;
+Params.fmax     = 7   ;
+Params.z_smooth = 1   ;
+Params.resp_corr= 0   ;   % correct TP spectra for freq response of thermistor?
+Params.fc       = 99  ;   % cutoff frequency for response correction
 
-Pmin       = 20
-screen_ml  = 1
-screen_chi = 1
+Pmin       = 20;
+screen_ml  = 1 ;
+screen_chi = 1 ;
 
 dz = 10 % bin size
 
@@ -1008,24 +975,18 @@ cnums_to_get = setdiff(cnums_to_get,bad_prof);
 % Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
 
 figure(13);clf
-h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');
+h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');;
 hold on
 xlim([-3 3])
 grid on
 xlabel('log_{10}[\epsilon_{\chi} /\epsilon ]')
 ylabel('pdf')
-%title([project_short ' ' num2str(dz) ' m binned, Pmin=' num2str(Pmin)])
 title([project_short ' ' num2str(dz) ' m binned '])
 freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:) )))
-
-%figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin)]
-%figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_Pmin' num2str(Pmin) '_screen_chi_' num2str(screen_chi)]
 
 clear figname
 figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 print( fullfile(fig_dir,figname),'-dpng')
-
-%
 
 %% Plot eps vs chi, normalized so slope is equal to 1/2*gamma
 

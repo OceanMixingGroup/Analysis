@@ -1,4 +1,4 @@
-function avg=average_data_gen1_AP_7hz(series,varargin)
+function avg=average_data_gen1_AP_15hz(series,varargin)
 %
 % This is a modified version of average_data_gen. The only difference is it
 % calls calc_chi_AP isntead of calc_chi. In calc_chi_AP I am varing fmax to
@@ -294,7 +294,7 @@ for i=1:length(series)
                 end
                 avg=select_epsilon(avg,epsilon_glitch_factor);
                 for n=1:nmax
-                    eval(['	avg.CHI' from1 '(n)=calc_chi_AP_fmax_7hz(cal.' from '(1+(min_ind(n)-1)*head.irep.' from  ...
+                    eval(['	avg.CHI' from1 '(n)=calc_chi_AP_fmax_15hz(cal.' from '(1+(min_ind(n)-1)*head.irep.' from  ...
                         ':max_ind(n)*head.irep.' from '),avg.FALLSPD(n),avg.EPSILON(n),nfft,sw_visc(sal(n),temp(n),pres(n)),' ...
                         'sw_tdif(sal(n),temp(n),pres(n)),' ...
                         ' head.sensor_index.' from ');'])

@@ -1,5 +1,5 @@
 function [chi,k,spec,k_batch,spec_batch]= ...
-   calc_chi_AP_fmax_7hz(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num,head)
+   calc_chi_AP_fmax_15hz(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num,head)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % function calc_chi(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num)
 % program to calculate chi from tp data once we know epsilon.
@@ -70,7 +70,7 @@ f_stop = k_end * fspd;
 
 
 %**************
-fmax=7;
+fmax=15;
 %**************
 
 

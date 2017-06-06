@@ -21,9 +21,9 @@ makeplots = 0
 savespec  = 1  % option to save wavenumber spectra
 
 % Params for chipod calculations
-Params.z_smooth = 10   ;  % distance to smooth N^2 and dTdz over
+Params.z_smooth = 1   ;  % distance to smooth N^2 and dTdz over
 Params.nfft     = 128 ;  %
-Params.fmax     = 20  ;  %
+Params.fmax     = 15  ;  %
 Params.TPthresh = 1e-6;  %
 Params.resp_corr= 0   ;  % correct TP spectra for freq response of thermistor
 Params.fc       = 99  ;  % cutoff frequency for response correction
@@ -72,7 +72,7 @@ hb=waitbar(0);
 tstart=tic;
 % loop through each cast
 
-cnums_to_do = 200:2800 ;
+cnums_to_do = 2000:2800 ;
 
 for icast = 1:length(cnums_to_do)
     
