@@ -1,6 +1,10 @@
 # Analyses by Andy Pickering.
 
-This repository contains code and results of analysis done by Andy Pickerin as postdoc at OSU.
+This repository contains code and results of analysis done by Andy Pickering as postdoc at OSU. By putting them on github, i'm hoping to:
+- Make it easier to share analyses (instead of emailing pdfs etc..)
+- Make it easy to update analyses / fix bugs.
+- Make it easier for colleagues to see actual code used, giving them a better understanding of the analysis and also spot mistakes/bugs.
+- Provide a detailed record and allow others to more easily pick up and continue analyses in future.
 
 
 ## Effect of sampling speed on overturns 
