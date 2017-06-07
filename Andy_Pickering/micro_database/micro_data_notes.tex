@@ -31,8 +31,10 @@
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Overview}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Analysis of some global microstructure datasets, to compare the results to my EQ14 analysis. Specifically I am looking at $\gamma$ and the ratio of $\epsilon_{\chi}/\epsilon$, where $\epsilon_{\chi}$ is computed as 
+
+Analysis of some global microstructure datasets, to compare the results to my EQ14 analysis. Specifically I am looking at $\gamma$ and the ratio of $\epsilon_{\chi}/\epsilon$, where $\gamma$ is the mixing efficiency ( more accurately mixing coefficient?) and $\epsilon_{\chi}$ is computed as 
 
 \begin{equation}
 \epsilon_{\chi} = \frac{N^2\chi}{2\gamma T_{z}^{2}}
@@ -45,6 +47,8 @@ Analysis of some global microstructure datasets, to compare the results to my EQ
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Data}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
 \begin{itemize}
 
@@ -52,7 +56,7 @@ Analysis of some global microstructure datasets, to compare the results to my EQ
 
 \item IWISE 11 vmp data were shared with me by Lou St. Laurent.
 
-\item EQ14 data are from Jim Moum and company.
+\item EQ14 data are from Jim Moum and group at OSU.
 
 \end{itemize}
 
@@ -60,6 +64,7 @@ Analysis of some global microstructure datasets, to compare the results to my EQ
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Code}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Code and results (including figures and these notes) are available in a github repository: \url{https://github.com/OceanMixingGroup/Analysis/tree/master/Andy_Pickering/micro_database}
 
@@ -76,28 +81,72 @@ Code and results (including figures and these notes) are available in a github r
 \end{itemize}
 
 
-%
-%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%\section{Methods}
-%
-%\begin{itemize}
-%
-%
-%\end{itemize}
+
+
 
 
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 
+
+\clearpage
+%~~~~~~~~~~~~
+\subsection{Histograms of $\chi$ and $\epsilon$}
+%~~~~~~~~~~~~
+
+Most of the data sets contain mostly small values of $\epsilon$ (Figure \ref{chiepshists}). Graviluck and IWISE11 seem to be the only ones w/ $\epsilon$ values as large as EQ08.
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{eps_hist_ALL.png}
+\caption{Histograms of (log10)  $\chi$ and $\epsilon$ for different data sets.}
+\label{chiepshists}
+\end{figure}
+
+
+
+
+\clearpage
+%~~~~~~~~~~~~
+\subsection{2D Histograms of $\epsilon_{\chi}$ vs $\epsilon$}
+%~~~~~~~~~~~~
+
+Figures \ref{2Dhist} and \ref{2Dhistthresh} show 2D histograms of $\epsilon_{\chi}$ vs $\epsilon$ for the various data sets. Based on Figure \ref{2Dhist}, I estimated the $\epsilon$ noise level at about $log_{10}\epsilon=-10$ (except for EQ14, which is estimated to be -8.5). Data below these noise levels are exluded in Figure \ref{2Dhistthresh}.
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{epschi_eps_2Dhist_ALL.png}
+\caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$.}
+\label{2Dhist}
+\end{figure}
+
+
+\begin{figure}[htbp]
+\includegraphics[scale=0.8]{epschi_eps_2Dhist_ALL_eps_thresh.png}
+\caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$. Values below estimated noise level of $log_{10}[\epsilon]=-10$ discarded.}
+\label{2Dhistthresh}
+\end{figure}
+
+
+
+
+\clearpage
 %~~~~~~~~~~~~
 \subsection{Histograms of $\epsilon_{\chi}/\epsilon$}
 %~~~~~~~~~~~~
 
+
+\begin{itemize}
+
+\item EQ08 and IWISE11 are biased low. Geotraces is biased high. Most of the others are close to 0.
+
+\end{itemize}
+
+
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{epschi_eps_hist_ALL.png}
-\caption{Histograms of (log10) the ratio $\epsilon_{\chi}/\epsilon$.}
+\caption{Histograms of (log10) the ratio $\epsilon_{\chi}/\epsilon$ for different data sets.}
 \label{}
 \end{figure}
 
@@ -107,13 +156,6 @@ Code and results (including figures and these notes) are available in a github r
 \caption{Histograms of (log10) the ratio $\epsilon_{\chi}/\epsilon$. Values below estimated noise level of $log_{10}[\epsilon]=-10$ discarded.}
 \label{}
 \end{figure}
-
-
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{KToverK_hist_iwise11ASS.png}
-%\caption{Histograms of (log10) the ratio $\epsilon_{\chi}/\epsilon$.}
-%\label{}
-%\end{figure}
 
 
 
@@ -138,40 +180,6 @@ Code and results (including figures and these notes) are available in a github r
 \end{figure}
 
 
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{chi_eps_Norm_iwise11ASS.png}
-%\caption{$\chi$ vs $\epsilon$, normalized such that the slope is proportional to $\gamma$.}
-%\label{}
-%\end{figure}
-
-
-
-
-
-\clearpage
-%~~~~~~~~~~~~
-\subsection{2D Histograms of $\epsilon_{\chi}$ vs $\epsilon$}
-%~~~~~~~~~~~~
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{epschi_eps_2Dhist_ALL.png}
-\caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$.}
-\label{}
-\end{figure}
-
-
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{epschi_eps_2Dhist_ALL_eps_thresh.png}
-\caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$. Values below estimated noise level of $log_{10}[\epsilon]=-10$ discarded.}
-\label{}
-\end{figure}
-
-
-%\begin{figure}[htbp]
-%\includegraphics[scale=0.8]{eps_chi_VS_eps_iwise11ASS.png}
-%\caption{2D histograms of $\epsilon_{\chi}$ vs $\epsilon$.}
-%\label{}
-%\end{figure}
 
 
 

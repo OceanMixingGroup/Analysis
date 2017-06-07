@@ -1,25 +1,25 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-% Plot_hist_chieps_eps_all.m
+% Plot_hist_chi_eps_all.m
 %
-% Plot histogram of ratio of chi_epsilon / epsilon for different datasets
+% Plot histograms of chi and epsilon from different datasets.
 %
 %----------------
-% 5/24/17 - A.Pickering
+% 6/7/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
 
 clear ; close all
 
-eps_thresh = 1   % option to impose lower threshold on epsilon
+eps_thresh = 0   % option to impose lower threshold on epsilon
 eps_floor  = -10 % value to use ( discards log10(eps)<eps_floor )
 
 % set directory paths once here
 fig_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/micro_database/figures'
 
 figure(2);clf
-agutwocolumn(0.7)
+agutwocolumn(1)
 wysiwyg
 
 hs=[] ; % collect handles for legend
@@ -40,11 +40,22 @@ for i = [1:3,5,10]
     %try
     %~~~~~~~~~~~
     figure(2)
-    h=histogram( real( log10(mix.eps_chi ./ mix.eps) ),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+
+        subplot(211)
+    %    h=histogram( real( log10(mix.eps_chi ./ mix.eps) ),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+    h=histogram( real( log10( mix.chi) ),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
     hold on
     grid on
-    xlabel('log_{10}[\epsilon_{\chi}/\epsilon]')
-    xlim([-3 3])
+    xlim([-13 -4])
+    ylim([0 1])
+    
+    subplot(212)
+    %    h=histogram( real( log10(mix.eps_chi ./ mix.eps) ),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+    h=histogram( real( log10( mix.eps) ),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)
+    hold on
+    grid on
+    
+   xlim([-12 -4])
     hold on
     %
     hs=[hs h] ;
@@ -68,7 +79,12 @@ if eps_thresh==1
     eps_chi(ib)=nan;
 end
 
-h=histogram(log10(eps_chi./cham.EPSILON),'Normalization','pdf','EdgeColor','none')
+subplot(211)
+h=histogram(log10(cham.CHI),'Normalization','pdf','EdgeColor','none')
+
+
+subplot(212)
+h=histogram(log10(cham.EPSILON),'Normalization','pdf','EdgeColor','none')
 
 %~~~
 hs=[hs h]
@@ -97,21 +113,32 @@ if eps_thresh==1
     chi(ib)=nan;
 end
 
+subplot(211)
+h=histogram( real(log10(CH1)),'Normalization','pdf','DisplayStyle','stair','Linewidth',2);%,'EdgeColor','none')
 
-h=histogram( real(log10(eps_chi./EP1)),'Normalization','pdf','DisplayStyle','stair','Linewidth',2)%,'EdgeColor','none')
+subplot(212)
+h=histogram( real(log10(EP1)),'Normalization','pdf','DisplayStyle','stair','Linewidth',2);%,'EdgeColor','none')
 
 %~~~
 hs=[hs h]
 
 
+subplot(211)
 ylim([0 1])
-ylabel('pdf')
+ylabel('pdf','fontsize',16)
+%legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces','EQ14','IWISE11')
+xlabel('log_{10}[\chi]','fontsize',16)
+
+subplot(212)
+ylim([0 1])
+ylabel('pdf','fontsize',16)
 legend(hs,'BBTRE (smooth)', 'BBTRE (rough)','Natre','Graviluck', 'Geotraces','EQ14','IWISE11')
+xlabel('log_{10}[\epsilon]','fontsize',16)
 
 if eps_thresh==1
-    print( fullfile( fig_dir,['epschi_eps_hist_ALL_eps_thresh.png']), '-dpng')
+    print( fullfile( fig_dir,['eps_hist_ALL_thresh.png']), '-dpng')
 else
-    print( fullfile( fig_dir,['epschi_eps_hist_ALL.png']), '-dpng')
+    print( fullfile( fig_dir,['eps_hist_ALL.png']), '-dpng')
 end
 
 %%
