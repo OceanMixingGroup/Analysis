@@ -18,7 +18,7 @@
 clear ; close all
 
 Params.gamma    = 0.2;
-Params.fmax     = 15 ;
+Params.fmax     = 7 ;
 Params.z_smooth = 10 ;
 Params.resp_corr= 0  ;
 Params.fc       = 99 ;
