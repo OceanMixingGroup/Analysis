@@ -7,7 +7,7 @@ This repository contains code and results of analysis done by Andy Pickering as 
 - Provide a detailed record and allow others to more easily pick up and continue analyses in future.
 
 
-## Effect of sampling speed on overturns 
+## Effect of sampling speed on overturns measured by profiling instruments
 - Motivated by computing overturns from moored profiler (MP) data during IWISE. Wanted to see how the finite sampling speed affected overturn calculations (overturns assume instantaneous profile).
 - <https://github.com/andypicke/SimProfiler>
 - <https://github.com/OceanMixingGroup/Analysis/blob/master/Andy_Pickering/OverturnsBiases/OverturnBiasPaper/OverturnsBiasesPaper.pdf>
