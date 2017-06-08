@@ -1,8 +1,18 @@
 function chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
+% Loads profile of chipod-method applied to Chameleon data.
 %
+% INPUT
+% path_chipod_bin
+% project_short
+% Params
+% cnum 
 %
+% OUTPUT
+% chb
+%
+%---------------
 % 5/9/17 - A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%

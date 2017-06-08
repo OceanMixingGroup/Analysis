@@ -1,9 +1,7 @@
 function avg=average_data_gen1_AP_15hz(series,varargin)
 %
 % This is a modified version of average_data_gen. The only difference is it
-% calls calc_chi_AP isntead of calc_chi. In calc_chi_AP I am varing fmax to
-% see the effect on the chi calculations.
-% 06/29/16 - A.Pickering
+% calls calc_chi_AP_Xhz isntead of calc_chi. - A.Pickering
 %
 %
 % function AVG=AVERAGE_DATA(SERIES,PROPERTY1,VALUE1,PROPERTY2,VALUE2,...)
