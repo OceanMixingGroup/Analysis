@@ -67,6 +67,7 @@ for cnum = cnums_to_get
         % load chipod-method profile
         chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
+        % discard data in convectively unstable regions
         if screen_ml==1
             if strcmp(project_short,'eq14')
                 chb = discard_convection_eq14_chi(chb,cnum);
@@ -78,6 +79,7 @@ for cnum = cnums_to_get
         % load chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
         
+        % discard data in convectively unstable regions
         if screen_ml==1
             if strcmp(project_short,'eq14')
                 avg = discard_convection_eq14_cham(avg,cnum);
