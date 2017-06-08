@@ -1,0 +1,75 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\renewcommand{\UrlFont}{\rmfamily}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Kunze et~al.(2006)Kunze, Firing, Hummon, Chereskin,, and
+  Thurnherr}]{kunzeetal06}
+Kunze, E., E.~Firing, J.~Hummon, T.~K. Chereskin, and A.~Thurnherr, 2006:
+  Global abyssal mixing inferred from lowered {ADCP} shear and {CTD} strain
+  profiles. \textit{Journal of Physical Oceanography}, \textbf{36~(8)},
+  1553--1576.
+
+\bibitem[{Melet et~al.(2013)Melet, Hallberg, Legg,, and Polzin}]{meletetal13}
+Melet, A., R.~Hallberg, S.~Legg, and K.~L. Polzin, 2013: Sensitivity of the
+  ocean state to the vertical distribution of internal-tide-driven mixing.
+  \textit{J. Phys. Oceanogr.}, \textbf{43~(3)}, 602--615,
+  \doi{http://dx.doi.org/10.1175/JPO-D-12-055.1}.
+
+\bibitem[{Moum and Nash(2009)Moum, and Nash}]{moumnash09}
+Moum, J., and J.~Nash, 2009: {Mixing measurements on an equatorial ocean
+  mooring}. \textit{J. Atmos. Ocean. Tech.}, \textbf{26}, 317--336.
+
+\bibitem[{Munk and Wunsch(1998)Munk, and Wunsch}]{munkwunsch98}
+Munk, W., and C.~Wunsch, 1998: Abyssal recipes {II}: energetics of tidal and
+  wind mixing. \textit{Deep-Sea Res. Part {I}}, \textbf{45}, 1977--2010.
+
+\bibitem[{Munk(1966)}]{munk66}
+Munk, W.~H., 1966: Abyssal recipes. \textit{Deep-Sea Res.}, \textbf{13},
+  707--730.
+
+\bibitem[{Osborn and Cox(1972)Osborn, and Cox}]{osborncox72}
+Osborn, T.~R., and C.~S. Cox, 1972: Oceanic fine structure. \textit{Geophys.
+  Fluid Dyn.}, \textbf{3}, 321--345.
+
+\bibitem[{Perlin and Moum(2012)Perlin, and Moum}]{perlinmoum12}
+Perlin, A., and J.~Moum, 2012: Comparison of thermal variance dissipation rates
+  from moored and profiling instruments at the equator. \textit{Journal of
+  Atmospheric and Oceanic Technology}, \textbf{29~(9)}, 1347--1362.
+
+\bibitem[{Polzin et~al.(2013)Polzin, {Naveira Garabato}, Huussen, Sloyan,, and
+  Waterman}]{polzinetal13}
+Polzin, K.~L., A.~C. {Naveira Garabato}, T.~N. Huussen, B.~M. Sloyan, and S.~N.
+  Waterman, 2013: Finescale parameterizations of turbulent dissipation.
+  \textit{Rev. Geophys.}, \textbf{submitted}.
+
+\bibitem[{Thorpe(1977)}]{thorpe77}
+Thorpe, S., 1977: Turbulence and mixing in a {S}cottish {L}och. \textit{Philos.
+  Trans. R. Soc. London Ser. A}, \textbf{286}, 125--181.
+
+\bibitem[{Waterhouse et~al.(2014)}]{waterhouseetal14}
+Waterhouse, A.~F., and Coauthors, 2014: Global patterns of diapycnal mixing
+  from measurements of the turbulent dissipation rate. \textit{J. Phys.
+  Oceanogr.}, \textbf{44~(7)}, 1854--1872.
+
+\bibitem[{Whalen et~al.(2015)Whalen, MacKinnon, Talley,, and
+  Waterhouse}]{whalenetal15}
+Whalen, C.~B., J.~A. MacKinnon, L.~D. Talley, and A.~F. Waterhouse, 2015:
+  Estimating the mean diapycnal mixing using a finescale strain
+  parameterization. \textit{Journal of Physical Oceanography}, \textbf{45~(4)},
+  1174--1188, \doi{10.1175/JPO-D-14-0167.1},
+  \urlprefix\url{http://dx.doi.org/10.1175/JPO-D-14-0167.1}.
+
+\bibitem[{Whalen et~al.(2012)Whalen, Talley,, and Mac{K}innon}]{whalenetal12}
+Whalen, C.~B., L.~D. Talley, and J.~A. Mac{K}innon, 2012: Spatial and temporal
+  variability of global ocean mixing inferred from argo profiles.
+  \textit{Geophys. Res. Lett.}, \textbf{39~(L18612)},
+  doi:10.1029/2012GL053\,196.
+
+\end{thebibliography}

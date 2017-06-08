@@ -1,0 +1,91 @@
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{CTD-photo.jpeg}\\
+  \caption{Photo of \textit{R/V Revelle} CTD rosette with $\chi$-pod attached (black unit at upper right). *To be replaced by photo from EQ14*}
+  \label{f1}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{SN1001_Cast02_Fig5_T_P_dTdz_fspd.png}\\
+  \caption{Example timeseries from one CTD cast. a) CTD pressure. b) Fallspeed of CTD ($dp/dz$) .c) Accelerations measured by $\chi$-pod. d) Temperature from CTD and $\chi$-pod (calibrated). e) Temperature derivative $dT/dt$ measured by $\chi$-pod sensor 1. f) Temperature derivative $dT/dt$ measured by $\chi$-pod sensor 2.}
+  \label{f2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{wind11_specs.png}\\
+  \caption{Example temperature gradient spectra from EQ14. Solid blue and black lines show the observed spectra, before and after a response correction was applied. Dashed lines show the theoretical Kraichnan spectra for the $\chi$pod estimates. Purple line is Kraichnan spectra for chameleon $\chi$ and $\epsilon$. Vertical dashed line indicates the maximum wavenumber used in the $\chi$pod calculation.}
+  \label{specexamp}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{Hist_kbrat.png}\\
+  \caption{Histogram of the ratio of the maximum observed wavenumber $k_{max}$ to the Batchelor wavenumber $k_b$ for all profiles in EQ14.}
+  \label{histkbrat}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_chiVsTrue_chi_zsm10m_fmax15Hz_respcorr1_fc_10hz_gamma20.png}\\
+  \caption{Depth-time plots of $\chi$ from both methods for EQ14 data.}
+  \label{eq14_eps_pcolor}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ08_chiVsTrue_chi_zsm10m_fmax10Hz_respcorr1_gamma20.png}\\
+  \caption{Depth-time plots of $\chi$ from both methods for EQ08 data.}
+  \label{eq08_eps_pcolor}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_2dhist_chi_zsm10m_fmax15Hz_respcorr1_fc_10hz_gamma20.png}\\
+  \caption{2D histogram of $\chi$ from chameleon (x-axis) and chipod method (y-axes). Each panel uses a different value of fmax.}
+  \label{eq14_chi_2dhist}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ08_2dhist_chi_zsm10m_fmax10Hz_respcorr1_gamma20.png}\\
+  \caption{EQ08: 2D histogram of $\chi$ from chameleon (x-axis) and chipod method (y-axes). Each panel uses a different value of fmax.}
+  \label{eq08_chi_2dhist}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_ctdChipod_vs_chamMean_chi_scatter_zsm20_fmax20.png}\\
+  \caption{Scatter plot of $\chi$ from CTD-$\chi$pod profiles versus the mean of bracketing chameleon profiles. Black dashed line shows 1:1, red are $\pm$ 10 X. **replace with histogram of ratios, or combine into one figure?**}
+  \label{eq14_cdtChi_vs_cham}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_CtdChipod_hist_chi_ratios.png}\\
+  \caption{Histogram of $log_{10}$ of the ratio of $\chi$ for nearby casts. One line is for CTD-$\chi$pod profiles versus the bracketing chameleon profiles. Another line is for the before vs. after chameleon profiles. *Note bias is small/zero, and the variability (spread) between CTD/cham is similar to the natural variability between cham profiles.*}
+  \label{eq14_cdtChi_vs_cham_hist}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_chi_cham_meanProf_all.png}\\
+  \caption{Time mean of $\chi$ for all CTD-$\chi$pod - chameleon cast pairs, with 95\% bootstrap confidence intervals.}
+  \label{ctd_cham_chi_boot_all}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{P16N_BothLegs_Transect_Combined.png}\\
+  \caption{Example chipod data from P16N. *need to clean up*}
+  \label{}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{Hist_perr_fspdvary.png}\\
+  \caption{Histogram of \% error for $\chi$ computed with constant $\pm$ fspd added.}
+  \label{FspdSensHist}
+\end{figure}
+\efloatseparator
+ 

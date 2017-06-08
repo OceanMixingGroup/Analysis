@@ -1,0 +1,53 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: ChipodMethods_jn_may21-2016.aux
+White space in argument---line 16 of file ChipodMethods_jn_may21-2016.aux
+ : \citation{nash99,gregg80
+ :                          ( @article{gregg80, Author = {Michael C. Gregg and T.B. Meagher}, Journal = jgr, Number = {C5}, Pages = {2779-2786}, Title = {The dynamic response of glass rod thermistors}, Volume = 85, Year = 1980} )}
+I'm skipping whatever remains of this command
+The style file: ametsoc2014.bst
+Database file #1: main.bib.bib
+Warning--I didn't find a database entry for "nash99"
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 21 entries,
+            3493 wiz_defined-function locations,
+            845 strings with 8942 characters,
+and the built_in function-call counts, 24888 in all, are:
+= -- 3174
+> -- 592
+< -- 12
++ -- 404
+- -- 150
+* -- 1179
+:= -- 2344
+add.period$ -- 42
+call.type$ -- 21
+change.case$ -- 154
+chr.to.int$ -- 21
+cite$ -- 21
+duplicate$ -- 2709
+empty$ -- 1289
+format.name$ -- 195
+if$ -- 5054
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 217
+newline$ -- 74
+num.names$ -- 84
+pop$ -- 1062
+preamble$ -- 1
+purify$ -- 133
+quote$ -- 0
+skip$ -- 1695
+stack$ -- 0
+substring$ -- 1361
+swap$ -- 2350
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 189
+warning$ -- 0
+while$ -- 115
+width$ -- 0
+write$ -- 244
+(There was 1 error message)

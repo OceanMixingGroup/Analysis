@@ -1,0 +1,91 @@
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{IMG_0198.JPG}\\
+  \caption{Photo of CTD rosette during EQ14 with $\chi$\DIFdelbeginFL \DIFdelFL{-pods }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{pods }\DIFaddendFL attached.}
+  \label{f1}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{kbratVsEps.png}\\
+  \caption{Ratio of the maximum observed wavenumber $k_{max}=f_{max}/u$ to the Batchelor wavenumber $k_b$ for different values of $\epsilon$, assuming a $f_{max}=7Hz$. Each line is for a different flowspeed.}
+  \label{kbratVseps}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{SN1001_Cast02_Fig5_T_P_dTdz_fspd.png}\\
+  \caption{Example timeseries from one CTD cast during EQ14. a) CTD pressure. b) Fallspeed of CTD ($dp/dt$) .c) Vertical and horizontal accelerations measured by $\chi$\DIFdelbeginFL \DIFdelFL{-pod}\DIFdelendFL \DIFaddbeginFL \DIFaddFL{pod}\DIFaddendFL . d) Temperature from CTD and (calibrated) $\chi$\DIFdelbeginFL \DIFdelFL{-pod }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{pod }\DIFaddendFL sensors. T2 is offset slightly for visualization. e) Temperature derivative $dT/dt$ measured by the upward-looking $\chi$\DIFdelbeginFL \DIFdelFL{-pod }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{pod }\DIFaddendFL sensor T1. f) Temperature derivative $dT/dt$ measured by the downward-looking $\chi$\DIFdelbeginFL \DIFdelFL{-pod }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{pod }\DIFaddendFL sensor T2.}
+  \label{f2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\DIFaddbeginFL \includegraphics[width=38pc,angle=0]{DepthLoopExample2TS.png}\\
+  \caption{\DIFaddFL{Portion of a CTD cast showing depth vs time (top) for a portion of an upcast, with data flagged as loops in red. Lower panel shows corresponding $\chi$pod timeseries of $dT/dt$ for that time with discarded loop data in red. Note that variance tends to be larger during depth loops due to entrained water and CTD-induced turbulence.}}
+  \label{depthloops2}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\DIFaddendFL \includegraphics[width=38pc,angle=0]{ExSpec_HiLowEps.png}\\
+  \caption{Example temperature gradient spectra from EQ14, for high (top) and low (bottom) $\epsilon$. Solid black line with circles show the observed spectra. Dashed line shows the fitted theoretical Kraichnan spectra for the $\chi$pod estimates. Magenta line is Kraichnan spectra for Chameleon $\chi$ and $\epsilon$ measured at the same depth. Vertical dashed blue(red) lines indicate the minimum (maximum) wavenumber used in the $\chi$pod calculation. The Batchelor wavenumber $k_b$ is also indicated by the vertical cyan line.}
+  \label{specexamp}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_chiVsTrue_chi_zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}\\
+  \caption{Depth-time plots of $log_{10}\chi$ from both methods for EQ14 data. Top: $\chi$pod method. Black diamonds indicate casts used for comparison with CTD-$\chi$pod profiles. Bottom: Chameleon.}
+  \label{eq14_eps_pcolor}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_2dhist_chi_WITHhist_zsm10m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}\\
+  \caption{Left: 2D histogram of $log_{10}(\chi)$ from Chameleon (x-axis) and $\chi$pod method (y-axes). Values from each profile were averaged in the same 5m depth bins. Right: Normalized histogram of $\log_{10}[\chi_{\chi}/\chi_{\epsilon}]$. Vertical dashed line indicates the mean of the the distribution.}
+  \label{eq14_chi_2dhist}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_ctdChipod_vs_chamMean_chi_scatter_WITHhist.png}\\
+  \caption{Left: Scatter plot of $\chi$ from CTD-$\chi$pod profiles versus the mean of bracketing Chameleon profiles. Black dashed line shows 1:1, red are $\pm$ 10 X. Right: Normalized histogram of the log of ratios.}
+  \label{eq14_cdtChi_vs_cham}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_CtdChipod_hist_chi_ratios.png}\\
+  \caption{Histogram of $log_{10}$ of the ratio of $\chi$ for nearby casts. The first set is for the before (cham1) and after (cham2) Chameleon profiles. the 2nd is CTD-$\chi$pod profiles versus the before(cham1) profiles. The last is CTD-$\chi$pod profiles versus the after(cham2) profiles. Dashed lines show the medians of each set.  Note that bias is small/zero, and the variability (spread) between CTD/cham is similar to the natural variability between cham profiles.}
+  \label{eq14_cdtChi_vs_cham_hist}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{EQ14_chi_cham_meanProf_all.png}\\
+  \caption{Time mean of $\chi$ for all CTD-$\chi$pod - Chameleon cast pairs, with 95\% bootstrap confidence intervals.}
+  \label{ctd_cham_chi_boot_all}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{Hist_perr_fspdvary.png}\\
+  \caption{Histogram of \% error for $\chi$ computed with constant added to fallspeed, in order to examine sensitivity to fallspeed.}
+  \label{FspdSensHist}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{MLEfitsEQ14_Whist.png}\\
+  \caption{Left: 2D histograms of $\chi$ computed using the interative $\chi$\DIFdelbeginFL \DIFdelFL{-pod }\DIFdelendFL \DIFaddbeginFL \DIFaddFL{pod }\DIFaddendFL method (top) and the MLE fit (bottom) versus $\chi$ computed from Chameleon. Note that the MLE method underestimates $\chi$ at larger magnitudes. Right: Histograms of the log of ratios for different ranges of $\epsilon$.}
+  \label{mlefits}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[t]
+  \noindent\includegraphics[width=38pc,angle=0]{yq08a_TransFunc.png}\\
+  \caption{Measured FP07 thermistor transfer functions from historical database. Vertical dashed lines show the frequency range used in $\chi$pod method. Dashed blue line is a generic transfer function found to best match measured functions, and is used when response functions are no longer measured.}
+  \label{xfr}
+\end{figure}
+\efloatseparator
+ 
