@@ -8,7 +8,7 @@ function [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,
 % Similar to Get_binned_profiles, but returns matrix of profiles instead of
 % one vector. (each profile is binned, but profiles are not averaged)
 %
-% - log10(chamleon epsilon) < -8.5 are discarded
+% - log10(chamleon epsilon) < -8.5 or >-5 are discarded
 % 
 %
 %
@@ -112,15 +112,16 @@ for ic = 1:length(cnums_to_get)
         clear ib
         ib = find( log10(avg.EPSILON)<-8.5 );
         avg.EPSILON(ib) = nan ;
-        %avg.EPSILON(ib) = 1e-12 ;
         
+        ib = find(log10(avg.EPSILON)>-5);
+        avg.EPSILON(ib) = nan ;
+
         if screen_chi==1
             clear ib
             ib = find( log10(chb.eps1)<-8.5);
             chb.eps1(ib) = nan ;
             ib = find( log10(chb.eps1)>-5);
             chb.eps1(ib) = nan ;
-            % chb.eps1(ib) = 1e-12 ;
         end
         
         [eps_cham(:,ic), ~ , ~] = binprofile(avg.EPSILON, avg.P, 0, dz, 200,0);
