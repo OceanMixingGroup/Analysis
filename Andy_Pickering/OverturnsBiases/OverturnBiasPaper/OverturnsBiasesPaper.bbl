@@ -1,0 +1,68 @@
+\begin{thebibliography}{12}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\renewcommand{\UrlFont}{\rmfamily}
+\providecommand{\urlprefix}{URL }
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi:\discretionary{}{}{}#1}\else
+  \providecommand{\doi}{doi:\discretionary{}{}{}\begingroup
+  \urlstyle{rm}\Url}\fi
+\providecommand{\eprint}[2][]{\url{#2}}
+
+\bibitem[{Alford et~al.(2011)}]{alfordetal11b}
+Alford, M.~H., and Coauthors, 2011: {Energy flux and dissipation in Luzon
+  Strait: Two tales of two ridges}. \textit{J. Phys. Oceanogr.},
+  \textbf{41~(11)}, 2211--2222.
+
+\bibitem[{Buijsman et~al.(2012)Buijsman, Klymak,, and Legg}]{buijsmanetal12}
+Buijsman, M.~C., J.~M. Klymak, and S.~Legg, 2012: {Double Ridge Internal Tide
+  Interference and its Effect on Dissipation in Luzon Strait}. \textit{J. Phys.
+  Oceanogr.}, \textbf{42~(8)}, 1337--1356.
+
+\bibitem[{Dillon(1982)}]{dillon82}
+Dillon, T.~M., 1982: Vertical overturns: A comparison of {T}horpe and {O}zmidov
+  length scales. \textit{J. Geophys. Res.}, \textbf{87}, 9601--9613.
+
+\bibitem[{Ferron et~al.(1998)Ferron, Mercier, Speer, Gargett,, and
+  Polzin}]{ferronetal98}
+Ferron, B.~H., H.~Mercier, K.~Speer, A.~Gargett, and K.~Polzin, 1998: Mixing in
+  the {R}omanche {F}racture {Z}one. \textit{J. Phys. Oceanogr.}, \textbf{28},
+  1929--1945.
+
+\bibitem[{Galbraith and Kelley(1996)Galbraith, and Kelley}]{galbraithkelley96}
+Galbraith, P.~S., and D.~E. Kelley, 1996: Identifying overturns in {CTD}
+  profiles. \textit{J. Atmos. Ocean. Tech.}, \textbf{13}, 688--702.
+
+\bibitem[{Jayne(2009)}]{jayne09}
+Jayne, S.~R., 2009: The impact of abyssal mixing parameterizations in an ocean
+  general circulation model. \textit{J. Phys. Oceanogr.}, \textbf{39},
+  1756---1775.
+
+\bibitem[{Melet et~al.(2013)Melet, Hallberg, Legg,, and Polzin}]{meletetal13}
+Melet, A., R.~Hallberg, S.~Legg, and K.~L. Polzin, 2013: Sensitivity of the
+  ocean state to the vertical distribution of internal-tide-driven mixing.
+  \textit{J. Phys. Oceanogr.}, \textbf{43~(3)}, 602--615,
+  \doi{http://dx.doi.org/10.1175/JPO-D-12-055.1}.
+
+\bibitem[{Munk and Wunsch(1998)Munk, and Wunsch}]{munkwunsch98}
+Munk, W., and C.~Wunsch, 1998: Abyssal recipes {II}: energetics of tidal and
+  wind mixing. \textit{Deep-Sea Res. Part {I}}, \textbf{45}, 1977--2010.
+
+\bibitem[{Munk(1966)}]{munk66}
+Munk, W.~H., 1966: Abyssal recipes. \textit{Deep-Sea Res.}, \textbf{13},
+  707--730.
+
+\bibitem[{Ozmidov(1965)}]{ozmidov65}
+Ozmidov, R.~V., 1965: On the turbulent exchange in a stably stratified ocean.
+  \textit{Izv., Atmos. Oceanic Phys.}, \textbf{1}, 853--860.
+
+\bibitem[{Thorpe(1977)}]{thorpe77}
+Thorpe, S., 1977: Turbulence and mixing in a {S}cottish {L}och. \textit{Philos.
+  Trans. R. Soc. London Ser. A}, \textbf{286}, 125--181.
+
+\bibitem[{Waterhouse et~al.(2014)}]{waterhouseetal14}
+Waterhouse, A.~F., and Coauthors, 2014: Global patterns of diapycnal mixing
+  from measurements of the turbulent dissipation rate. \textit{J. Phys.
+  Oceanogr.}, \textbf{44~(7)}, 1854--1872.
+
+\end{thebibliography}

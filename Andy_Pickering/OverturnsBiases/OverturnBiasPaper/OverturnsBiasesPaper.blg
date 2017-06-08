@@ -1,0 +1,47 @@
+This is BibTeX, Version 0.99d (TeX Live 2013)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: OverturnsBiasesPaper.aux
+The style file: ametsoc2014.bst
+Database file #1: /Users/Andy/Cruises_Research/wavebib/main.bib.bib
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+You've used 12 entries,
+            3493 wiz_defined-function locations,
+            790 strings with 7529 characters,
+and the built_in function-call counts, 13946 in all, are:
+= -- 1795
+> -- 293
+< -- 7
++ -- 214
+- -- 75
+* -- 639
+:= -- 1320
+add.period$ -- 24
+call.type$ -- 12
+change.case$ -- 83
+chr.to.int$ -- 12
+cite$ -- 12
+duplicate$ -- 1537
+empty$ -- 731
+format.name$ -- 98
+if$ -- 2826
+int.to.chr$ -- 1
+int.to.str$ -- 1
+missing$ -- 121
+newline$ -- 47
+num.names$ -- 48
+pop$ -- 593
+preamble$ -- 1
+purify$ -- 71
+quote$ -- 0
+skip$ -- 957
+stack$ -- 0
+substring$ -- 776
+swap$ -- 1334
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 108
+warning$ -- 0
+while$ -- 67
+width$ -- 0
+write$ -- 143

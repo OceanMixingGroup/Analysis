@@ -1,0 +1,73 @@
+
+Misc Overturns Paper notes
+
+
+
+Title: “ Analysis of errors in turbulent dissipation estimated with overturns from profiling instruments”?
+
+
+~~ Abstract
+
+The errors in turbulent dissipation rate computed from overturns measured by a profiling instrument are investigated. Two main sources of errors are identified. First, the profiler under samples the density field, resulting in zero bias but a nonzero uncertainty that increases with slower sampling speed. Second, each ‘profile’ is not instantaneous but sampled over a finite time period during which the background density field may change. This results in measured overturns larger or smaller than the true size, and in some cases may introduce overturns in a stable profile. These effects are quantified by resampling moored temperature measurements highly resolved in time. The error in epsilon is shown to be proportional to the (true) size of the overturn, a result of the non-linearity. The results are applicable to common profiling instruments such as moored profilers and CTDs.
+
+
+~~ Intro
+
+Turbulence is an important but difficult oceanographic variable to measure. It results in vertical mixing of nutrients, pollutants, heat, salt etc. In addition to the local effects, turbulent mixing maintains the ocean’s meridional overturning circulation by mixing dense abyssal water with lighter water above. Climate models are sensitive to the location and magnitude of mixing. These models do not resolve the small-scale mixing processes, so they must be parameterized.
+
+Direct measurement of mixing is difficult: expensive, time-consuming, requires expertise. Improving, but still very few direct measurements (Waterhouse map etc.). 
+
+For this reason, overturn method has become common. Requires only CTD profiles; common, lots of them, relatively cheap. Method background…. 
+
+Problem: Overturns assume instantaneous vertical profile. Real profiles require some finite time. During this time, turbulence can develop and background displacements can advect overturns. This will decrease or increase the apparent overturn size measured by the instrument, and in extreme cases could introduce apparent overturns in a profile that is actually stable. 
+
+~~ Data and Methods
+
+Methods apply to any stationery profiling instrument. We focus on two specific, common ones: MP and CTD. ** Note with CTD the instrument comes all the way up to surface, not just depth range of T-chain. ** similar with MP. The ‘true’ value is calculated using all data. The data is then resampled along a depth-time path of a profiling instrument traveling at a constant speed. Temperature is interpolated onto this sampling path. Each up or down segment of the path (Figure xx?) results in one ‘profile’ at the time of the midpoint of the segment. These profiles are then used to compute overturns and turbulent dissipation.
+
+~~ Brief description of the data, and general turbulence regime. Mostly tidally forced , lee waves etc. 
+
+
+~~ Results
+
+A) Effect of profiling speed
+
+Error is worse with slower speeds… 
+
+B) Dependence on (actual) overturn size
+
+The error scales with the magnitude of the actual turbulence/ overturn. Test whether this is consistent with Lt^2 and symmetric under/over estimating of Lt.
+
+
+C) angled sampling versus just under sampling. Compare instantaneous profiles taken at midpoint of sampling patterns to mean from all profiles. Do for a bunch of different start times.
+
+
+~~ Discussion
+
+Turbulence at T-chains is dominated by tidal lee waves. Will results from here apply elsewhere? 
+
+
+Advocate that best method is combination of observations and model to guide them. Models like MITgcm can be run relatively quickly and cheaply compared to observations (Maarten Luzon, Klymak Kaena). The models can guide observations, which can then improve the models. We all win!
+
+
+Caveats: 
+
+-MP slows down if going against strong vertical velocity. (does it ever go faster if w is in same direction? or is it limited to a maximum speed).
+
+- Usually only down CTD profile used. 
+
+
+~~~~~~~ Conclusions
+
+The finite time taken for a profiling instrument to sample the water column results in errors in the measured overturn size and resulting epsilon.
+
+On average, measured epsilon is biased high. The bias is inversely proportional to the speed of the profiler (or really the time it takes for 1 profile).
+
+The error/bias is proportional to the true overturn size/epsilon. 
+
+
+
+
+
+
+

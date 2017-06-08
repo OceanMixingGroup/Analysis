@@ -1,0 +1,82 @@
+
+
+
+
+Need to figure out where Jonathan got his resampled paths:
+
+ tcase=[-1 -.66 -.33 0 .33 .66 1]
+x_oset=round(tcase*45*(linspace(-.5,.5,length(xx.z))));
+
+% the T-chain is gridded to 2 min (120 sec). 
+
+% depth range of T-chain is 1500m (same for all T-chains?)
+
+45 is mins. Ex for tcase==1, the top of the profile is offset -45/2 mins and bottom is offset +45/2 mins. So total profile time is 45 min?
+
+
+* take each ‘MP’ angled profile and assume it is one profile at time at center?
+
+
+have list of z_samp,t_samp. Just cycle through, find closest z_real and t_real for each, take that data_real as the resampled data. Also get the dat_real profiles at the center times of each profile to compare.
+
+
+9 Nov: Yesterday I got JN’s code for resampling running mostly and reproduced the results he got. Then I spent some time coming up with a more realistic sampling. In his, he sampled every real profile as if it was sampled along an angle in z-t. But actual sampling will be different - the number of ‘profiles’ will decrease and the profiler will go up and down, not from top to bottom through every profile. 
+
+Comparing results from this to what JN got….
+
+
+
+~~~~~
+
+10 Nov.
+
+Chatted with JN quickly about initial results. His showed that epsilon was biased high for up or down profiles. Mine shows no mean bias but instantaneous profiles depending on start time can be off by a similar amount to his bias.  
+
+His method uses only up or only down profiles, and samples every profile (basically takes half a sawtooth and slides it in time). Mine uses the whole sawtooth and only samples along that (not every real profile). Our results should be similar to me doing it for a bunch of start times and averaging; however they aren’t (looks like no mean bias). Could be because of the up followed by down. 
+
+To-Do
+
+First see if I can reproduce JN’s results with my code. Do my sampling for up only, every profile (so just slide in time). Do I get a similar bias? 
+
+- this should be relatively simple. Take half the sawtooth, z vector will be the same for all profiles, time vector gets shifted. Then find real data along that path in same way and compute overturns.
+
+- Compare resampled profiles to real profiles just at same times - the difference between this and all real profiles might isolate the effect of just under sampling from the angled sampling issue?
+
+
+
+~~~~~
+
+
+Reasons resampled epsilon would be biased high for up and down profiling:
+
+- Profiler could slow if vertical velocity is against it, but we ignore this for now.
+
+- If profiler is going same direction as displacement, we expect overturn to be smaller than actual. Opposite if going against it. Both of these situations will happen depending on phasing between profiler and displacement. 
+
+- Something to do with epsilon being lognormal? 
+
+- There is a limit to how small overturns can get (if we keep shrinking overturn, end up with stable profile?), but not how big? So end up with more big ones. 
+
+* look at actual overturn sizes in both.
+
+JN notes that because dissipation goes as overturn^2, halving it quarters it and doubling it quadruples it… ?
+
+Test this! Do resampling for a short time period (one big turbulent period). Plot histogram of overturn sizes for real and resampled. 
+
+Try to separate under sampling from the angled sampling issue? Compare to real data only at times of profiles?
+
+% as a test, take histogram of overturn sizes from real data for one event. Make half (a random half) the overturns 10 % smaller, and half 10% larger. Plot new histogram. 
+
+
+%
+16 Jan
+
+have been doing 100 cases, each shifted 2 mins, for each different speed to get range of phases. But maybe I should be doing a different number for each (the number that cycles through the time it takes for 1 profile?) to get a comparable range of phases?
+
+
+
+
+
+
+~~~~~
+
