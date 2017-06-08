@@ -1,6 +1,10 @@
 function [chi,k,spec,k_batch,spec_batch]= ...
    calc_chi_AP_fmax_7hz(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num,head)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% Modified version of calc_chi by A.Pickering to use a different fmax when
+% integrating dT/dt spectrum
+%
 % function calc_chi(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num)
 % program to calculate chi from tp data once we know epsilon.
 % Optional output arguments are [chi,k,spec,k_batch,spec_batch]

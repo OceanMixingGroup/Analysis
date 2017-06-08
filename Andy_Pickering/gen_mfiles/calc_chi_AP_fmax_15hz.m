@@ -1,6 +1,10 @@
 function [chi,k,spec,k_batch,spec_batch]= ...
-   calc_chi_AP_fmax_15hz(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num,head)
+    calc_chi_AP_fmax_15hz(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num,head)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% Modified version of calc_chi by A.Pickering to use a different fmax when
+% integrating dT/dt spectrum
+%
 % function calc_chi(tp,fallspd,epsilon,nfft,nu,thermal_diff,head_index_num)
 % program to calculate chi from tp data once we know epsilon.
 % Optional output arguments are [chi,k,spec,k_batch,spec_batch]
@@ -8,13 +12,13 @@ function [chi,k,spec,k_batch,spec_batch]= ...
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 if any(isnan(tp))
-  chi=NaN;
-return
+    chi=NaN;
+    return
 end
 
 if ~exist('head','var')
-  % Try getting it from global:
-  global head
+    % Try getting it from global:
+    global head
 end
 
 % slow_sample_rate=head.samplerate/32; THIS IS NOT CORRECT FOR MARLIN DATA, but calculated
@@ -24,10 +28,10 @@ slow_sample_rate=head.slow_samp_rate;
 filt_ord=4;
 fspd=.01*mean(fallspd);
 if nargin==3
-  nu=1.1898e-06;
-  thermal_diff=1.5e-07;
-  nfft=256;
-  head_index_num=head.sensor_index.TP;
+    nu=1.1898e-06;
+    thermal_diff=1.5e-07;
+    nfft=256;
+    head_index_num=head.sensor_index.TP;
 end
 
 irep_tp=head.modulas(head_index_num);
@@ -37,18 +41,18 @@ temp=deblank(head.sensor_id(head_index_num,:));
 % The following are the cutoff frequencies for the the
 % thermistor transfer function:
 if strcmp(temp,'TC97')
-   f_c=100;
+    f_c=100;
 elseif strcmp(temp,'TP2')
-   f_c=20;
-   fcutoff=40;
-   filt_ord=2.3;
+    f_c=20;
+    fcutoff=40;
+    filt_ord=2.3;
 elseif strcmp(temp,'T_prime')
-   f_c=14;
-   fcutoff=40;
-   filt_ord=1.7;
+    f_c=14;
+    fcutoff=40;
+    filt_ord=1.7;
 else
-   f_c=32;% 12<f_c<21 for single pole (pole=1) and 25<f_c<37 for double pole (pole=2)
-   pole=2; % pole=2;
+    f_c=32;% 12<f_c<21 for single pole (pole=1) and 25<f_c<37 for double pole (pole=2)
+    pole=2; % pole=2;
 end
 
 % first perform the power spectral density calculation

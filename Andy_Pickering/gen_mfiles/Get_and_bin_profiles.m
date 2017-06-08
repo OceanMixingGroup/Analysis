@@ -9,14 +9,14 @@ function [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,
 % one vector. (each profile is binned, but profiles are not averaged)
 %
 % - log10(chamleon epsilon) < -8.5 or >-5 are discarded
-% 
+%
 %
 %
 % INPUT
 % - path_chipod_bin : Set in eq08_patches_paths or eq14_patches_paths
 % - path_cham_avg   : Set in eq08_patches_paths or eq14_patches_paths
 % - dz              : bin size to average in
-% - Params          : Params for chipod method 
+% - Params          : Params for chipod method
 % - cnums_to_get    : cast numbers to retrieve data for
 % - project_short   : Project name (Set in eq08_patches_paths or
 % eq14_patches_paths)
@@ -73,7 +73,7 @@ for ic = 1:length(cnums_to_get)
     clear avg ch chb
     
     try
-               
+        
         % load chipod-method profile
         chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
@@ -100,7 +100,7 @@ for ic = 1:length(cnums_to_get)
         avg.CHI(izb)     = nan;
         
         % discard data in convectively unstable regions
-        if screen_ml==1            
+        if screen_ml==1
             if strcmp(project_short,'eq14')
                 avg = discard_convection_eq14_cham(avg,cnum);
             elseif strcmp(project_short,'eq08')
@@ -108,14 +108,14 @@ for ic = 1:length(cnums_to_get)
             end
         end
         
-        % discard chameleon epsilons below noise floor        
+        % discard chameleon epsilons below noise floor
         clear ib
         ib = find( log10(avg.EPSILON)<-8.5 );
         avg.EPSILON(ib) = nan ;
         
         ib = find(log10(avg.EPSILON)>-5);
         avg.EPSILON(ib) = nan ;
-
+        
         if screen_chi==1
             clear ib
             ib = find( log10(chb.eps1)<-8.5);
