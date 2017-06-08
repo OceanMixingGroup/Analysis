@@ -16,15 +16,18 @@ function [chipod, cham] = Get_binned_data_avg_profile_v2(path_chipod_bin,path_ch
 %
 %
 % INPUT
-% path_chipod_bin
-% path_cham_avg
-% dz
-% Params
-% cnums_to_get
-% project_short
-% Pmin
-% screen_chi
-% screen_ml
+% - path_chipod_bin : Set in eq08_patches_paths or eq14_patches_paths
+% - path_cham_avg   : Set in eq08_patches_paths or eq14_patches_paths
+% - dz              : bin size to average in
+% - Params          : Params for chipod method 
+% - cnums_to_get    : cast numbers to retrieve data for
+% - project_short   : Project name (Set in eq08_patches_paths or
+% eq14_patches_paths)
+% - Pmin            : All data where (P < Pmin) nan'd out
+% - screen_chi      : Nan chipod (log) epsilons below -8.5 (noise floor of
+% Chameleon)
+% - screen_ml       : Nan out mixed layer depths that are convectively
+% unstable (determined in Identify_mixedlayer_eq 08/14
 %
 % OUTPUT
 %
@@ -61,31 +64,21 @@ for cnum = cnums_to_get
     
     try
         
-        % regular chi-pod method on binned data
-        %         clear avg
-        %         if strcmp(project_short,'eq14')
-        %         load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[upper(project_short) '_' sprintf('%04d',cnum) '_avg.mat']))
-        %         else
-        %         load( fullfile( path_chipod_bin, ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr0_fc_99hz_gamma' num2str(Params.gamma*100) '_nfft_128'],[project_short '_' sprintf('%04d',cnum) '_avg.mat']))
-        %         end
-        %         chb = avg;clear avg
+        % load chipod-method profile
         chb = load_chipod_avg(path_chipod_bin,project_short,Params,cnum) ;
         
         if screen_ml==1
-            %        chb = discard_convection_eq14_chi(chb,cnum);
             if strcmp(project_short,'eq14')
                 chb = discard_convection_eq14_chi(chb,cnum);
             elseif strcmp(project_short,'eq08')
                 chb = discard_convection_eq08_chi(chb,cnum);
-            end
-            
+            end            
         end
         
-        % chamelon data (1m bins)
+        % load chamelon data (1m bins)
         load(fullfile( path_cham_avg, [project_short '_' sprintf('%04d',cnum) '_avg.mat']) )
         
         if screen_ml==1
-            %        avg = discard_convection_eq14_cham(avg,cnum);
             if strcmp(project_short,'eq14')
                 avg = discard_convection_eq14_cham(avg,cnum);
             elseif strcmp(project_short,'eq08')
@@ -117,19 +110,20 @@ for cnum = cnums_to_get
 end % cnum
 %delete(hb)
 
-%% Nan out values shallower than Pmin
+% Nan out values shallower than Pmin
 
 clear ib
 ib = find(P_cham<Pmin);
+chi_cham(ib) = nan;
 eps_cham(ib) = nan;
 
 clear ib
 ib = find(P_chi<Pmin);
+chi_chi(ib) = nan;
 eps_chi(ib) = nan;
 
 
-%% discard chameleon epsilons below noise floor
-
+% discard chameleon epsilons below noise floor
 clear ib
 ib = find(log10(eps_cham)<-8.5);
 eps_cham(ib) = nan ;
@@ -143,10 +137,12 @@ if screen_chi==1
     
     clear ib
     ib = find(log10(eps_chi)<-8.5);
+    chi_chi(ib) = nan;
     eps_chi(ib) = nan;
     
     clear ib
     ib = find(log10(eps_chi)>-5);
+    chi_chi(ib) = nan;
     eps_chi(ib) = nan;
     
 end
