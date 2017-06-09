@@ -23,6 +23,13 @@ clear ; close all
 use_15hz = 0 % use fmax=15 instead
 use_10hz = 1
 
+% folder with raw Chameleon data files
+path_raw='/Volumes/SP PHD U3/NonBackup/EQ08/raw/'
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/code/
+eq08_patches_paths
+
+
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/calibrate/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general
@@ -30,13 +37,6 @@ addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
 addpath /Volumes/'SP PHD U3'/NonBackup/EQ08/mfiles/
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
-% folder with raw Chameleon data files
-path_raw='/Volumes/SP PHD U3/NonBackup/EQ08/raw/'
-
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/code/
-eq08_patches_paths
-
 
 if use_15hz==1
     save_dir_cal = '/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc_AP_15hz/cal/';
