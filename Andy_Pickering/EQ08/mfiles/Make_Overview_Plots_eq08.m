@@ -26,7 +26,7 @@ Params.fc       = 99 ;
 eq08_patches_paths
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
-%%
+%
 dz = 2 ;
 cnums_to_get = 200:2700;
 
@@ -40,7 +40,12 @@ Pmin      = 0 ;
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
+save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+if exist(fullfile(analysis_dir,project_short,'Data',save_name),'file')==2
+load(fullfile(analysis_dir,project_short,'Data',save_name))
+else
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+end
 
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/data/eq08_mldepths.mat')
 
@@ -56,12 +61,9 @@ for i=1:4
 end
 shg
 
-%
-
 figname = [project_short '_Pcolor_BothChi_N2_Tz_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
 
 print(fullfile(fig_dir, figname), '-dpng')
-
 
 %% Pcolor of chipod & cham *eps*, and N2,Tz
 
@@ -226,8 +228,12 @@ dz = 2 ;
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-% reload data, screening convective regions
+save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+if exist(fullfile(analysis_dir,project_short,'Data',save_name))==2
+load(fullfile(analysis_dir,project_short,'Data',save_name))
+else
 [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+end
 
 %h = scatter_chi_eps_chipod_cham(chipod,cham) ;
 
@@ -390,13 +396,17 @@ wysiwyg
 iax = 1 ;
 rr=3 ; cc=2 ;
 
-for dz=[1 10 50]
+for dz=[2 10 50]
     
-    clear chipod cham
-    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml) ;
+    save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+    if exist(fullfile(analysis_dir,project_short,'Data',save_name),'file')==2
+        load(fullfile(analysis_dir,project_short,'Data',save_name))
+    else
+        [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+    end
     
     subplot(rr,cc,iax)
-    hh=histogram2(  real(log10(cham.chi)),log10(chipod.chi),'XBinEdges',[-10:0.15:-4],'YBinEdges',[-10:0.15:-4],'DisplayStyle','tile','EdgeColor','none')
+    hh = histogram2(  real(log10(cham.chi)),log10(chipod.chi),'XBinEdges',[-10:0.15:-4],'YBinEdges',[-10:0.15:-4],'DisplayStyle','tile','EdgeColor','none')
     grid on
     hold on
     xvec=linspace(-11,-4,100);
