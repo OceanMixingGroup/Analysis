@@ -29,7 +29,7 @@ ChkMkDir(fig_dir)
 
 % chameleon 1m avg processed
 %path_cham_avg       = '/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc/avg/';
-path_cham_avg       = '/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc_AP_15hz/avg/';
+path_cham_avg       = '/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc_AP_10hz/avg/';
 
 % chipod method applied to 1m binned  data
 path_chipod_bin     = '/Users/Andy/Cruises_Research/ChiPod/EQ08/Data/cham_proc/chipod_method_bin/';

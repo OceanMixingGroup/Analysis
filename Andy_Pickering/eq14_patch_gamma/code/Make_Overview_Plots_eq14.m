@@ -35,6 +35,9 @@ screen_ml  = 0 ;
 Pmin       = 0 ;
 
 eq14_patches_paths
+
+%%
+
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
@@ -222,13 +225,14 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 % Reload data and get rid of mixed layer regions
 
-clear ; close all
+%clear ; close all
+clear cham chipod
 
-Params.gamma     = 0.2;
-Params.fmax      = 7  ;
-Params.z_smooth  = 1  ;
-Params.resp_corr = 0  ;
-Params.fc        = 99 ;
+% Params.gamma     = 0.2;
+% Params.fmax      = 7  ;
+% Params.z_smooth  = 1  ;
+% Params.resp_corr = 0  ;
+% Params.fc        = 99 ;
 
 dz = 2 ;
 
@@ -297,6 +301,7 @@ print( fullfile(fig_dir,fname),'-dpng')
 % [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 
 %h = scatter_chi_eps_chipod_cham(chipod,cham) ;
+%% 2D histograms of chi, eps vs chameleon
 
 h = figure;clf
 agutwocolumn(1)
@@ -331,41 +336,7 @@ figname = [project_short '_chamVschipod_screen_chi_' num2str(screen_chi) '_Pmin_
 print(fullfile(fig_dir, figname), '-dpng')
 
 
-%% 2D histograms of chi, eps vs chameleon
 
-figure(3);clf
-agutwocolumn(1)
-wysiwyg
-
-subplot(211)
-histogram2( log10(cham.chi(:)), log10(chipod.chi(:)), 'DisplayStyle','tile')
-hold on
-xvec=linspace(-11,-4,100);
-plot(xvec,xvec,'k--')
-plot(xvec,xvec-1,'r--')
-plot(xvec,xvec+1,'r--')
-xlim([-11 -4])
-ylim([-11 -4])
-xlabel('log_{10}[\chi]','fontsize',16)
-ylabel('log_{10}[\chi_{\chi}]','fontsize',16)
-title(['fmax=' num2str(Params.fmax) ', zsmooth= ' num2str(Params.z_smooth) ', dz=' num2str(dz)])
-
-
-subplot(212)
-histogram2( log10(cham.eps(:)), log10(chipod.eps(:)),50, 'DisplayStyle','tile')
-hold on
-xvec=linspace(-11,-4,100);
-plot(xvec,xvec,'k--')
-plot(xvec,xvec-1,'r--')
-plot(xvec,xvec+1,'r--')
-xlim([-8.5 -4.5])
-ylim([-8.5 -4.5])
-xlabel('log_{10}[\epsilon] ','fontsize',16)
-ylabel('log_{10}[\epsilon_{\chi}]','fontsize',16)
-
-%
-figname = [project_short '_chamVschipod_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
-print(fullfile(fig_dir, figname), '-dpng')
 
 %%
 
@@ -466,15 +437,16 @@ print(fullfile(fig_dir,figname),'-dpng')
 
 %% plot chi vs chi and eps vs eps for different depth bin averaging
 
-clear ; %close all
+clear cham chipod
+ %close all
 
 addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
-Params.gamma     = 0.2;
-Params.fmax      = 7  ;
-Params.z_smooth  = 1  ;
-Params.resp_corr = 0  ;     % correct TP spectra for freq response of thermistor?
-Params.fc        = 99 ;    % cutoff frequency for response correction
+% Params.gamma     = 0.2;
+% Params.fmax      = 7  ;
+% Params.z_smooth  = 1  ;
+% Params.resp_corr = 0  ;     % correct TP spectra for freq response of thermistor?
+% Params.fc        = 99 ;    % cutoff frequency for response correction
 
 screen_chi = 1 ;
 screen_ml  = 1 ;
@@ -554,13 +526,14 @@ clear figname
 
 %% histogram of epsilon ratio for different size depth averaging
 
-clear ; %close all
+clear cham chipod
+ %close all
 
-Params.gamma     = 0.2;
-Params.fmax      = 7  ;
-Params.z_smooth  = 1  ;
-Params.resp_corr = 0  ;
-Params.fc        = 99 ;
+% Params.gamma     = 0.2;
+% Params.fmax      = 7  ;
+% Params.z_smooth  = 1  ;
+% Params.resp_corr = 0  ;
+% Params.fc        = 99 ;
 
 screen_chi = 1 ;
 Pmin       = 20;
@@ -642,13 +615,14 @@ clear figname
 
 %% Plot chi vs chi, eps vs eps, for different # profiles averaged
 
-clear ; %close all
+clear cham chipod 
+ %close all
 
-Params.gamma    = 0.2;
-Params.fmax     = 7  ;
-Params.z_smooth = 1  ;
-Params.resp_corr= 0  ;  % correct TP spectra for freq response of thermistor?
-Params.fc       = 99 ;  % cutoff frequency for response correction
+% Params.gamma    = 0.2;
+% Params.fmax     = 7  ;
+% Params.z_smooth = 1  ;
+% Params.resp_corr= 0  ;  % correct TP spectra for freq response of thermistor?
+% Params.fc       = 99 ;  % cutoff frequency for response correction
 
 
 screen_chi= 1 ;
@@ -760,13 +734,14 @@ print(fullfile(fig_dir,figname),'-dpng')
 
 %% May 1 2017 - plot histograms of eps_chi/eps for differnt # prof avg.
 
-clear ;% close all
+clear cham chipod 
+% close all
 
-Params.gamma    = 0.2;
-Params.fmax     = 7  ;
-Params.z_smooth = 1  ;
-Params.resp_corr= 0  ;    % correct TP spectra for freq response of thermistor?
-Params.fc       = 99 ;    % cutoff frequency for response correction
+% Params.gamma    = 0.2;
+% Params.fmax     = 7  ;
+% Params.z_smooth = 1  ;
+% Params.resp_corr= 0  ;    % correct TP spectra for freq response of thermistor?
+% Params.fc       = 99 ;    % cutoff frequency for response correction
 
 screen_chi = 1 ;
 Pmin       = 20;
