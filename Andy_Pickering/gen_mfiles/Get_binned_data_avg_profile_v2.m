@@ -125,12 +125,14 @@ chi_chi(ib) = nan;
 eps_chi(ib) = nan;
 
 
-% discard chameleon epsilons below noise floor
+% discard chameleon chi,epsilons below noise floor for epsilon
 clear ib
 ib = find(log10(eps_cham)<-8.5);
+chi_cham(ib) = nan ;
 eps_cham(ib) = nan ;
 
 ib = find(log10(eps_cham)>-5);
+chi_cham(ib) = nan ;
 eps_cham(ib) = nan ;
 
 
