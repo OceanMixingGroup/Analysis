@@ -15,7 +15,7 @@ clear ; close all
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-for whcase = 9:11
+for whcase = 13:16
     
     switch whcase
         
@@ -194,6 +194,67 @@ for whcase = 9:11
             dz = 50 ;
             cnums_to_get = get_cham_cnums_eq14;
             screen_chi= 1 ; screen_ml = 1 ; Pmin  = 20 ;
+            
+            
+            %%%
+        case 13
+            
+            this_proj = 'eq14'
+            eval([this_proj '_patches_paths'])
+            
+            Params.gamma    = 0.2;
+            Params.fmax     = 7  ;
+            Params.z_smooth = 10 ;
+            Params.resp_corr= 0  ;
+            Params.fc       = 99 ;
+            
+            dz = 2 ;
+            cnums_to_get = get_cham_cnums_eq14 ;
+            screen_chi= 1 ; screen_ml = 0 ; Pmin  = 0 ;
+            
+        case 14
+            this_proj = 'eq14'
+            eval([this_proj '_patches_paths'])
+            
+            Params.gamma    = 0.2;
+            Params.fmax     = 7  ;
+            Params.z_smooth = 10 ;
+            Params.resp_corr= 0  ;
+            Params.fc       = 99 ;
+            
+            dz = 2 ;
+            cnums_to_get = get_cham_cnums_eq14 ;
+            screen_chi= 1 ; screen_ml = 1 ; Pmin  = 20 ;
+            
+        case 15
+            this_proj = 'eq14'
+            eval([this_proj '_patches_paths'])
+            
+            Params.gamma    = 0.2;
+            Params.fmax     = 7  ;
+            Params.z_smooth = 10 ;
+            Params.resp_corr= 0  ;
+            Params.fc       = 99 ;
+            
+            dz = 10 ;
+            cnums_to_get = get_cham_cnums_eq14;
+            screen_chi= 1 ; screen_ml = 1 ; Pmin  = 20 ;
+            
+        case 16
+            
+            this_proj = 'eq14'
+            eval([this_proj '_patches_paths'])
+            
+            Params.gamma    = 0.2;
+            Params.fmax     = 7  ;
+            Params.z_smooth = 10 ;
+            Params.resp_corr= 0  ;
+            Params.fc       = 99 ;
+            
+            dz = 50 ;
+            cnums_to_get = get_cham_cnums_eq14;
+            screen_chi= 1 ; screen_ml = 1 ; Pmin  = 20 ;
+            
             
             
     end % switch
