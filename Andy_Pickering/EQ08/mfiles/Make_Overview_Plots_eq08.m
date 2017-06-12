@@ -19,7 +19,7 @@ clear ; close all
 
 Params.gamma    = 0.2;
 Params.fmax     = 10  ;
-Params.z_smooth = 10 ;
+Params.z_smooth = 1 ;
 Params.resp_corr= 0  ;
 Params.fc       = 99 ;
 
@@ -35,13 +35,13 @@ addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 eq08_patches_paths
 
 save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
-if exist(fullfile(analysis_dir,project_short,'Data',save_name),'file')==2
-    load(fullfile(analysis_dir,project_short,'Data',save_name))
+if exist(fullfile(analysis_dir,project_short,'data',save_name),'file')==2
+    load(fullfile(analysis_dir,project_short,'data',save_name))
 else
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 end
 
-load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/data/eq08_mldepths.mat')
+load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08/data/eq08_mldepths.mat')
 
 %% Plot distributions of chi, eps
 
@@ -248,7 +248,7 @@ figname = [project_short '_chamVschipod_screen_chi_' num2str(screen_chi) '_Pmin_
 print(fullfile(fig_dir, figname), '-dpng')
 
 
-%% 1D Histograms of ratio of chi-pod epsilon to chameleon epsilon 
+%% 1D Histograms of ratio of chi-pod epsilon to chameleon epsilon
 
 figure(13);clf
 agutwocolumn(0.8)
@@ -315,27 +315,8 @@ print( fullfile(fig_dir,fname),'-dpng')
 
 %% plot chi vs chi and eps vs eps for different depth bin averaging
 
-clear cham chipod; 
+clear cham chipod;
 
-% Params.gamma    = 0.2 ;
-% Params.fmax     = 15  ;
-% Params.z_smooth = 10   ;
-% Params.resp_corr= 0   ;  % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99  ;  % cutoff frequency for response correction
-% 
-% screen_chi = 1  ;
-% screen_ml  = 1  ;
-% Pmin       = 20 ;
-% 
-% zmin=0  ;
-% zmax=200;
-% 
-% cnums_to_get = 200:2700;
-
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-% addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-
-%eq08_patches_paths
 
 figure(8);clf
 agutwocolumn(1)
@@ -407,17 +388,7 @@ clear figname
 
 %% histogram of epsilon ratio for different size depth averaging
 
-clear cham chipod; %close all
-
-% Params.gamma    = 0.2 ;
-% Params.fmax     = 15  ;
-% Params.z_smooth = 10  ;
-% Params.resp_corr= 0   ;  % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99  ;  % cutoff frequency for response correction
-
-% screen_chi = 1 ;
-% Pmin       = 20 ;
-% screen_ml  = 1 ;
+clear cham chipod; %
 
 zmin=0  ;
 zmax=200;
@@ -499,18 +470,9 @@ clear figname
 
 clear cham chipod ; %close all
 
-% Params.gamma    = 0.2 ;
-% Params.fmax     = 15  ;
-% Params.z_smooth = 10  ;
-% Params.resp_corr= 0   ; % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99  ; % cutoff frequency for response correction
 
-
-% screen_chi= 1
-% screen_ml = 1
-% Pmin      = 20
-% 
- dz        = 2 % bin size
+%
+dz        = 2 % bin size
 
 
 figure(11);clf
@@ -569,7 +531,7 @@ for dp = [2 10 20]
     if iax==5
         xlabel('log_{10} [\chi ]','fontsize',16)
     end
-        
+    
     iax = iax+1;
     
     subplot(3,2,iax)
@@ -608,20 +570,7 @@ print(fullfile(fig_dir,figname),'-dpng')
 
 %% May 1 2017 - plot histograms of eps_chi/eps for differnt # prof avg.
 
-clear cham chipod;% close all
-%
-% Params.gamma    = 0.2 ;
-% Params.fmax     = 15  ;
-% Params.z_smooth = 10  ;
-% Params.resp_corr= 0   ;  % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99  ;  % cutoff frequency for response correction
-
-% screen_chi = 1  ;
-% Pmin       = 20 ;
-% screen_ml  = 1  ;
-
-%dz = 10 % bin size
-
+clear cham chipod ;
 
 figure(12);clf
 agutwocolumn(1)
