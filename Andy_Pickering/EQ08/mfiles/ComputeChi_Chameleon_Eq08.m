@@ -9,6 +9,13 @@
 %
 % After this, combine all profiles w/ Combine_XXXX_chi.m
 %
+% DEPENDS ON
+% - eq08_patches_paths
+% - MakeCtdChiWindows
+% - sw_visc_ctdchi
+% - sw_tdif_ctdchi
+% - fast_psd
+% - get_chipod_chi
 %
 %------------------------
 % 04/3/17 - A.Pickering - andypicke@gmail.com
@@ -31,9 +38,6 @@ Params.gamma    = 0.2 ;  % mixing efficiency
 
 % specify method of computing N^2 and dT/dz
 whN2dTdz  = 'regular'
-%whN2dTdz = 'regular2'
-%whN2dTdz = 'line'
-%whN2dTdz = 'raw_line'
 
 % Add all the paths we need from mixing software
 mixpath = '/Users/Andy/Cruises_Research/mixingsoftware/' ;
@@ -52,13 +56,8 @@ if Params.resp_corr==0
 end
 
 % Make directory to save processed casts in (name based on Params)
-if strcmp(whN2dTdz, 'regular')
-    datdirsave=fullfile(path_chipod_bin,...
-        ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gamma' num2str(Params.gamma*100) '_nfft_' num2str(Params.nfft)]);
-else
-    datdirsave=fullfile(path_chipod_bin,...
-        ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gamma' num2str(Params.gamma*100) '_nfft_' num2str(Params.nfft) '_' whN2dTdz]);
-end
+datdirsave=fullfile(path_chipod_bin,...
+    ['zsm' num2str(Params.z_smooth) 'm_fmax' num2str(Params.fmax) 'Hz_respcorr' num2str(Params.resp_corr) '_fc_' num2str(Params.fc) 'hz_gamma' num2str(Params.gamma*100) '_nfft_' num2str(Params.nfft)]);
 
 disp(['Data will be saved to ' datdirsave])
 
@@ -91,7 +90,7 @@ for icast = 1:length(cnums_to_do)
         % Load the data for this cast (MakeCasts_eq08.m)
         clear cal ctd head
         load(fullfile(path_chipod_bin,'cal',['zsmooth_' num2str(Params.z_smooth)],['eq08_' num2str(cnum) '_cal.mat']))
-                
+        
         % Make windows for chi calcs
         clear TP
         TP = cal.TP;
