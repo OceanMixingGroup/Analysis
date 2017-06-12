@@ -59,7 +59,10 @@ linkaxes([ax1 ax2])
 %% save file with depth for each cast to use in thresholding
 
 zml_cnum=cham.castnumber;
-save('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/data/EQ14_mldepths.mat','zml','zml_cnum')
+
+eq14_patches_paths
+
+save( fullfile(analysis_dir,project_short,'data','EQ14_mldepths.mat'),'zml','zml_cnum')
 
 
 %%
