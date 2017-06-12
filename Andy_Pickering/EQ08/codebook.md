@@ -26,6 +26,8 @@ When applying the chi-pod method to profiles, a structure **Params** is required
 - **fmax** - Max frequency to integrate dT/dt spectrum up to. Determined by where sensor response rolls off, depends on individual thermistor. For eq08, I estimated this to be about 10hz.
 - **z_smooth** - The depth interval over which N^2 and dT/dz are smoothed for the chipod calculations.
 - **gamma** - Mixing efficiency (Default 0.2).
+- **nfft**
+- **TPthresh**
 - **resp_corr** - Option to apply response correction to thermistor spectra. 
 - **fc** - Cutoff frequency for response correction, if applied.
 
