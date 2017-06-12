@@ -18,7 +18,7 @@ addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 %load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 eq08_patches_paths
 %
-cnums_to_get = 200:2800;
+cnums_to_get = 200:2700;
 %load( fullfile( path_cham_avg,['eq08_' sprintf('%04d',cnum) '_avg.mat']) )
 
 Params.gamma    = 0.2;
@@ -61,8 +61,8 @@ linkaxes([ax1 ax2])
 %
 
 thresh=0.04
-zml=nan*ones(1,length(1:3000));
-for i=1:3000%length(cham.cnum)
+zml=nan*ones(1,length(1:2700));
+for i=1:2700%length(cham.cnum)
     %    id=find( cham.SIGMA(:,i)>(cham.SIGMA(1,i)+thresh) );
     %if ~isempty(ig)
     try
@@ -85,17 +85,18 @@ for i=1:3000%length(cham.cnum)
 end
 
 hold on
-plot(1:3000,zml,'k')
+
+zml_cnum=1:2700;
+
+plot(zml_cnum,zml,'k')
 subplot(211)
 hold on
-plot(1:3000,zml,'k')
+plot(zml_cnum,zml,'k')
 
 linkaxes([ax1 ax2])
 
 %% save file with depth for each cast to use in thresholding
 
-zml_cnum=1:3000;
-save('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/data/eq08_mldepths.mat','zml','zml_cnum')
-
+save( fullfile(analysis_dir,project_short,'data','eq08_mldepths.mat'),'zml','zml_cnum')
 
 %%
