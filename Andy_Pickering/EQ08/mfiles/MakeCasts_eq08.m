@@ -23,9 +23,6 @@ Params.z_smooth = 1  ;  % distance to smooth N^2 and dTdz over
 
 % specify method of computing N^2 and dT/dz
 whN2dTdz  = 'regular'
-%whN2dTdz = 'regular2'
-%whN2dTdz = 'line'
-%whN2dTdz = 'raw_line'
 
 % Add all the paths we need from mixing software
 mixpath = '/Users/Andy/Cruises_Research/mixingsoftware/' ;
@@ -35,19 +32,15 @@ addpath(fullfile(mixpath,'marlcham'))
 addpath(fullfile(mixpath,'CTD_Chipod','mfiles')) ;
 addpath(fullfile(mixpath,'chipod','compute_chi')); % get_chipod_chi.md
 
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/code/
 eq08_patches_paths
 
 
-% Make directory to save processed casts in (name based on Params)
-datdirsave=fullfile(path_chipod_bin);
-
 %%
-disp(['Data will be saved to ' datdirsave])
+disp(['Data will be saved to ' path_chipod_bin])
 
 % check if directory exists, make new if not
-ChkMkDir(datdirsave)
-ChkMkDir(fullfile(datdirsave,'cal',['zsmooth_' num2str(Params.z_smooth)]))
+ChkMkDir(path_chipod_bin)
+ChkMkDir(fullfile(path_chipod_bin,'cal',['zsmooth_' num2str(Params.z_smooth)]))
 % initialize a waitbar
 hb=waitbar(0);
 
@@ -55,7 +48,7 @@ hb=waitbar(0);
 tstart=tic;
 % loop through each cast
 
-cnums_to_do = 193:2800 ;
+cnums_to_do = 193:2700 ;
 
 warning off
 
@@ -117,7 +110,7 @@ for icast = 1:length(cnums_to_do)
         ctd = Compute_N2_dTdz_forChi(ctd,Params.z_smooth);
         
         % save data here for loading during later chipod processing
-        save( fullfile(datdirsave,'cal',['zsmooth_' num2str(Params.z_smooth)],['eq08_' num2str(cnum) '_cal.mat']),'cal','ctd','head' )
+        save( fullfile(path_chipod_bin,'cal',['zsmooth_' num2str(Params.z_smooth)],['eq08_' num2str(cnum) '_cal.mat']),'cal','ctd','head' )
         
     catch
         
