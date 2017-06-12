@@ -2,7 +2,7 @@
 %
 % Make_Overview_Plots.m
 %
-% Making plots for chi-pod overview notes
+% Making plots for  eq14 chi-pod overview notes
 %
 % Depends:
 % - Get_and_bin_profiles.m
@@ -17,6 +17,9 @@
 %%
 
 clear ; close all
+
+addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
 Params.gamma     = 0.2;
 Params.fmax      = 7  ;
@@ -36,13 +39,16 @@ Pmin       = 0 ;
 
 eq14_patches_paths
 
-%%
-
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
 %%
-[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+%[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+
+save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+if exist(fullfile(analysis_dir,project_short,'data',save_name),'file')==2
+    load(fullfile(analysis_dir,project_short,'data',save_name))
+else
+    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+end
 
 load('/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq14_patch_gamma/data/EQ14_mldepths.mat')
 
@@ -225,30 +231,30 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 % Reload data and get rid of mixed layer regions
 
-%clear ; close all
 clear cham chipod
-
-% Params.gamma     = 0.2;
-% Params.fmax      = 7  ;
-% Params.z_smooth  = 1  ;
-% Params.resp_corr = 0  ;
-% Params.fc        = 99 ;
 
 dz = 2 ;
 
-cnums_to_get = get_cham_cnums_eq14;
-bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-cnums_to_get = setdiff(cnums_to_get,bad_prof);
+% cnums_to_get = get_cham_cnums_eq14;
+% bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
+% cnums_to_get = setdiff(cnums_to_get,bad_prof);
 
 screen_chi = 1
 Pmin       = 20
 screen_ml  = 1
 
-eq14_patches_paths
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+%eq14_patches_paths
+%addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
 % reload data, screening convective regions
-[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+%[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+
+save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+if exist(fullfile(analysis_dir,project_short,'data',save_name),'file')==2
+    load(fullfile(analysis_dir,project_short,'data',save_name))
+else
+    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+end
 
 %%
 % Plot CHAMELEON eps vs chi, normalized so slope is equal to 1/2*gamma
@@ -277,30 +283,6 @@ fname = [project_short '_' num2str(dz) 'mbinned_eps_vs_chi_normalized_' MakeChiP
 print( fullfile(fig_dir,fname),'-dpng')
 
 
-%%
-% clear cham chipod
-% 
-% % Params.gamma     = 0.2;
-% % Params.fmax      = 15 ;
-% % Params.z_smooth  = 10 ;
-% % Params.resp_corr = 0  ;
-% % Params.fc        = 99 ;
-% %
-% % dz = 2 ;
-% 
-% % Reload data and get rid of mixed layer regions
-% cnums_to_get = 200:2700;
-% screen_chi = 1 ;
-% Pmin       = 20;
-% screen_ml  = 1 ;
-% dz = 2 ;
-% 
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-% 
-% % reload data, screening convective regions
-% [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
-
-%h = scatter_chi_eps_chipod_cham(chipod,cham) ;
 %% 2D histograms of chi, eps vs chameleon
 
 h = figure;clf
@@ -340,7 +322,7 @@ print(fullfile(fig_dir, figname), '-dpng')
 
 %%
 
-% Histograms of ratio of chi-pod epsilon to chameleon epsilon 
+% Histograms of ratio of chi-pod epsilon to chameleon epsilon
 
 figure(13);clf
 agutwocolumn(0.8)
@@ -380,28 +362,6 @@ clear figname
 
 %% 2D hist of the ratio of chipod/cham vs depth?
 
-% clear ; close all
-%
-% Params.gamma     = 0.2;
-% Params.fmax      = 7  ;
-% Params.z_smooth  = 1  ;
-% Params.resp_corr = 0  ;
-% Params.fc        = 99 ;
-%
-% dz = 2 ;
-%
-% cnums_to_get = get_cham_cnums_eq14;
-% bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-% cnums_to_get = setdiff(cnums_to_get,bad_prof);
-%
-% screen_chi = 1
-% Pmin       = 20
-% screen_ml  = 1
-%
-% eq14_patches_paths
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-%
-% [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 %
 P = repmat(chipod.P,1,length(chipod.cnum));
 
@@ -438,15 +398,9 @@ print(fullfile(fig_dir,figname),'-dpng')
 %% plot chi vs chi and eps vs eps for different depth bin averaging
 
 clear cham chipod
- %close all
+%close all
 
-addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
-
-% Params.gamma     = 0.2;
-% Params.fmax      = 7  ;
-% Params.z_smooth  = 1  ;
-% Params.resp_corr = 0  ;     % correct TP spectra for freq response of thermistor?
-% Params.fc        = 99 ;    % cutoff frequency for response correction
+%addpath /Users/Andy/Cruises_Research/mixingsoftware/CTD_Chipod/mfiles/
 
 screen_chi = 1 ;
 screen_ml  = 1 ;
@@ -455,10 +409,10 @@ Pmin       = 20;
 zmin=0  ;
 zmax=200;
 
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-
-eq14_patches_paths
+% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+% addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
+%
+% eq14_patches_paths
 
 cnums_to_get = get_cham_cnums_eq14 ;
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
@@ -469,10 +423,17 @@ agutwocolumn(1)
 wysiwyg
 
 iax=1 ; rr=3 ; cc=2 ;
-for dz = [1 10 50]
+for dz = [2 10 50]
     
     clear chipod cham
-    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml) ;
+    %    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml) ;
+    
+    save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+    if exist(fullfile(analysis_dir,project_short,'data',save_name),'file')==2
+        load(fullfile(analysis_dir,project_short,'data',save_name))
+    else
+        [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+    end
     
     subplot(rr,cc,iax)
     hh = histogram2(  real(log10(cham.chi)),log10(chipod.chi),80,'DisplayStyle','tile','XBinEdges',[-11:0.2:-4],'YBinEdges',[-11:0.2:-4],'Edgecolor','none');
@@ -527,7 +488,7 @@ clear figname
 %% histogram of epsilon ratio for different size depth averaging
 
 clear cham chipod
- %close all
+%close all
 
 % Params.gamma     = 0.2;
 % Params.fmax      = 7  ;
@@ -543,10 +504,10 @@ screen_ml  = 1 ;
 zmin=0  ;
 zmax=200;
 
-addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-
-eq14_patches_paths
+% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
+% addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
+%
+% eq14_patches_paths
 
 cnums_to_get = get_cham_cnums_eq14 ;
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
@@ -561,10 +522,16 @@ iax=1
 cols=['b','r','g']
 h=[]
 
-for dz = [1 10 50]
+for dz = [2 10 50]
     
     clear chipod cham
-    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml) ;
+    %    [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml) ;
+    save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
+    if exist(fullfile(analysis_dir,project_short,'data',save_name),'file')==2
+        load(fullfile(analysis_dir,project_short,'data',save_name))
+    else
+        [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
+    end
     
     subplot(2,1,1)
     hh=histogram( log10( chipod.chi(:) ./ cham.chi(:)),[-3:0.1:3], 'Normalization','pdf','DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax));
@@ -582,7 +549,7 @@ for dz = [1 10 50]
     subplot(2,1,2)
     histogram( log10( chipod.eps(:) ./ cham.eps(:)),[-3:0.1:3], 'Normalization','pdf','DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax));
     grid on
-    xlim([-3 2])
+    xlim([-3 3])
     ylim([0 1])
     hold on
     freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:))),cols(iax))
@@ -597,11 +564,12 @@ for dz = [1 10 50]
 end
 
 
-legend(h,'1m','10m','50m')
+
 xlabel(['log_{10}[\epsilon_{\chi}/\epsilon]'],'fontsize',16)
 ylabel('pdf')
 %
 subplot(211)
+legend(h,'2m','10m','50m')
 xlabel(['log_{10}[\chi_{\chi}/\chi]'],'fontsize',16)
 title(['fmax=' num2str(Params.fmax) ', zsmooth= ' num2str(Params.z_smooth) ])
 ylabel('pdf')
@@ -615,8 +583,8 @@ clear figname
 
 %% Plot chi vs chi, eps vs eps, for different # profiles averaged
 
-clear cham chipod 
- %close all
+clear cham chipod
+%close all
 
 % Params.gamma    = 0.2;
 % Params.fmax     = 7  ;
@@ -640,7 +608,7 @@ agutwocolumn(1)
 wysiwyg
 
 iax=1;
-for dp = [2 10 50]
+for dp = [2 10 20]
     
     eps_cham_all = [];
     chi_cham_all = [];
@@ -734,7 +702,7 @@ print(fullfile(fig_dir,figname),'-dpng')
 
 %% May 1 2017 - plot histograms of eps_chi/eps for differnt # prof avg.
 
-clear cham chipod 
+clear cham chipod
 % close all
 
 % Params.gamma    = 0.2;
@@ -758,7 +726,7 @@ agutwocolumn(1)
 wysiwyg
 
 h=[] ; iax=1 ;cols=['b','r','g'];
-for dp = [1 10 50 ]
+for dp = [2 10 20 ]
     
     eps_cham_all = [];
     chi_cham_all = [];
@@ -794,7 +762,7 @@ for dp = [1 10 50 ]
     end % idx
     
     subplot(211)
-    histogram(  log10(chi_chi_all./chi_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax)) ;
+    hh = histogram(  log10(chi_chi_all./chi_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax)) ;
     xlim([-2 2])
     ylim([0 1.5])
     grid on
@@ -804,7 +772,7 @@ for dp = [1 10 50 ]
     hold on
     
     subplot(212)
-    hh=histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax)) ;
+    histogram(  log10(eps_chi_all./eps_cham_all),[-2:0.15:2],'Normalization','pdf','FaceAlpha',0.5,'DisplayStyle','stair','LineWidth',2,'EdgeColor',cols(iax)) ;
     xlim([-3 3])
     ylim([0 1.2])
     grid on
@@ -814,70 +782,24 @@ for dp = [1 10 50 ]
     hold on
     
     h   = [h hh];
-    iax = iax+1
+    iax = iax+1 ;
     
 end % dp
 %
 subplot(212)
-legend(h,'1 profile','10 profiles','50 profiles')
 xlabel('\epsilon_{\chi}/\epsilon','fontsize',16)
 ylabel('pdf','fontsize',16)
 
 subplot(211)
+legend(h,'2 profile','10 profiles','20 profiles')
 xlabel('\chi_{\chi}/\chi','fontsize',16)
 ylabel('pdf','fontsize',16)
 title(['fmax=' num2str(Params.fmax) ', zsmooth= ' num2str(Params.z_smooth) ])
 
 print( fullfile(fig_dir,['eq14_eps_ratio_hist_diff_prof_avg_' MakeChiPathStr(Params)]), '-dpng')
 
-% %% compute 10m avg profiles and plot ratio of chameleon to binned profiles
-%
-% clear ;% close all
-%
-% Params.gamma    = 0.2 ;
-% Params.fmax     = 7   ;
-% Params.z_smooth = 1   ;
-% Params.resp_corr= 0   ;   % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99  ;   % cutoff frequency for response correction
-%
-% Pmin       = 20;
-% screen_ml  = 1 ;
-% screen_chi = 1 ;
-%
-% dz = 10 % bin size
-%
-% zmin=0;
-% zmax=200;
-%
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-% addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-%
-% eq14_patches_paths
-%
-% cnums_to_get = get_cham_cnums_eq14 ;
-% bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-% cnums_to_get = setdiff(cnums_to_get,bad_prof);
-%
-% [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,zmin,zmax,Pmin,screen_chi,screen_ml)
-%
-%
-% % Histograms of ratio of chi-pod epsilon to chameleon epsilon (10bins)
-%
-% figure(13);clf
-% h1 = histogram(log10( chipod.eps(:) ./ cham.eps(:) ),'EdgeColor','none','Normalization','pdf');;
-% hold on
-% xlim([-3 3])
-% grid on
-% xlabel('log_{10}[\epsilon_{\chi} /\epsilon ]')
-% ylabel('pdf')
-% title([project_short ' ' num2str(dz) ' m binned '])
-% freqline(nanmean(log10( chipod.eps(:) ./ cham.eps(:) )))
-%
-% clear figname
-% figname=[project_short '_' num2str(dz) 'mbinned_eps_ratios_screen_chi_' num2str(screen_chi) '_' MakeChiPathStr(Params)]
-% print( fullfile(fig_dir,figname),'-dpng')
 
-%%
+%
 %% See if gamma computed from multi-profile averages of N2,Tz,chi,eps is 0.2?
 % compare to gamma computed from individual 1m data points in every profile
 
