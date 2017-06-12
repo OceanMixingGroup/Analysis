@@ -1,9 +1,10 @@
 
 # Outline of code and processing for EQ08 chi-pod analysis
 
+## Main Scripts
 Listed below are the main codes that are run for this analysis, in approximately the order they need to be run in. 
 
--  _**eq08_patches_paths.m**_ - Sets all the paths for data and output.
+-  _**eq08_patches_paths.m**_ - (in gen_mfiles/) Sets all the paths for data and output.
 
 -  _**make_cham_cal_files_eq08_AP.m**_ - Process the raw Chameleon profiles and produce mat files with calibrated t,s,p,t' etc. . These files are what the chi-pod method is applied to.
 
@@ -18,3 +19,27 @@ Listed below are the main codes that are run for this analysis, in approximately
 - _**make_combined_data_files.m**_  - Combine and average chameleon and chi-pod method profiles for different sets of parameters, and save data files that can be loaded when making plots etc.. Loading/combining all the profiles is kind of slow, so good to not have to repeat it when modifying plots or analysis.
 
 -  _**Make_Overview_Plots_eq08.m**_ - Make plots for notes.
+
+
+## Params for chi-pod method
+When applying the chi-pod method to profiles, a structure **Params** is required, containing the following parameters. The output files are saved in folders named according to these params.
+- **fmax** - Max frequency to integrate dT/dt spectrum up to. Determined by where sensor response rolls off, depends on individual thermistor. For eq08, I estimated this to be about 10hz.
+- **z_smooth** - The depth interval over which N^2 and dT/dz are smoothed for the chipod calculations.
+- **gamma** - Mixing efficiency (Default 0.2).
+- **resp_corr** - Option to apply response correction to thermistor spectra. 
+- **fc** - Cutoff frequency for response correction, if applied.
+
+## Parameters for plots
+In Make_Overview_plots_eq08, there are some additional parameters for loading the data to plot.
+- ** screen_chi**
+- **screen_ml**
+- **Pmin**
+
+## Helper Functions
+
+- _**cali_eq08.m**_
+- _**tag_file_eq08.m**_
+- _**modify_header_eq08.m**_
+- _**load_cal_eq08.m**_
+- _**discard_convection_eq08_cham.m**-
+- _**discard_convection_eq08_chi.m**-
