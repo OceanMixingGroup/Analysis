@@ -10,13 +10,13 @@
 clear analysis_dir project_long project_short
 
 analysis_dir   = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering' ;
-project_long   = 'eq14_patch_gamma' ;
+project_patch   = 'eq14_patch_gamma' ;
 project_short  = 'eq14' ;
 
-save_dir_patch = fullfile(analysis_dir,project_long,'data','patches') ;
+save_dir_patch = fullfile(analysis_dir,project_patch,'data','patches') ;
 
 % chameleon profiles processed for patches only
-save_dir_avg_patch = fullfile(analysis_dir,project_long,'data','avg_patch') ;
+save_dir_avg_patch = fullfile(analysis_dir,project_patch,'data','avg_patch') ;
 
 %save_dir_avg   = fullfile(analysis_dir,project_long,'data','avg') ;
 

@@ -9,21 +9,21 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
-project_long      = 'eq08_patch_gamma' ;
-project_short     = 'eq08' ;
+project_patch  = 'eq08_patch_gamma' ;
+project_short  = 'eq08' ;
 
-analysis_dir = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering' ;
+analysis_dir   = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering' ;
 
-save_dir_patch = fullfile(analysis_dir,project_long,'data','patches') ;
+save_dir_patch = fullfile(analysis_dir,project_patch,'data','patches') ;
 ChkMkDir(save_dir_patch)
 
-save_dir_avg   = fullfile(analysis_dir,project_short,'data','avg') ;
+save_dir_avg   = fullfile(analysis_dir,project_patch,'data','avg') ;
 %ChkMkDir(save_dir_avg)
 
 save_dir_avg_patch = fullfile(analysis_dir,project_short,'data','avg_patch') ;
 ChkMkDir(save_dir_avg_patch)
 
-save_dir_cal = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/EQ08/Data/cham_proc/cal/' ;
+save_dir_cal   = '/Users/Andy/Cruises_Research/Analysis/Andy_Pickering/EQ08/Data/cham_proc/cal/' ;
 
 fig_dir = fullfile(analysis_dir,project_short,'figures');
 ChkMkDir(fig_dir)
