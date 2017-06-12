@@ -11,6 +11,7 @@
 % raw_load.m
 % cali_eq08.m
 % average_data_gen1.m
+% average_data_gen1_AP_10hz.m
 %
 %------------------
 % 03/15/16 - A.Pickering - apickering@coas.oregonstate.edu
@@ -24,17 +25,15 @@ use_15hz = 0 % use fmax=15 instead
 use_10hz = 1
 
 % folder with raw Chameleon data files
-path_raw='/Volumes/SP PHD U3/NonBackup/EQ08/raw/'
+path_cham_raw='/Volumes/SP PHD U3/NonBackup/EQ08/raw/'
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-eq08_patches_paths
-
-
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/calibrate/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general
 addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
-addpath /Volumes/'SP PHD U3'/NonBackup/EQ08/mfiles/
+
+eq08_patches_paths
 
 
 if use_15hz==1
@@ -49,7 +48,7 @@ ChkMkDir(path_cham_avg)
 tag_file_eq08
 
 global data head cal q
-q.script.pathname =  path_raw;
+q.script.pathname =  path_cham_raw;
 q.script.prefix = 'eq08';
 series={'fallspd','t','tp','c','mht','s','theta','sigma','sigma_order','n2','epsilon1','epsilon2',...
     'chi','az2','dtdz','drhodz','varaz','varlt','varlt_theta','scat','ax_tilt','ay_tilt'};
@@ -89,8 +88,7 @@ for cast=[193:543,545:547,549,551:685,687:719,721:789,791,...
         cali_eq08;
         warning off
         
-        % * 3/15/16 - AP - skip this part, just want calibrated T' *
-        %     average calibrated data into 1m bins
+        
         %     nfft=128;
         nfft=128;
         if use_15hz==1

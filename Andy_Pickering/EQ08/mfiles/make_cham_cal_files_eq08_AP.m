@@ -26,14 +26,12 @@ use_15hz = 0 % use fmax=15 instead
 use_10hz = 1
 
 % folder with raw Chameleon data files
-path_raw='/Volumes/SP PHD U3/NonBackup/EQ08/raw/'
+path_cham_raw='/Volumes/SP PHD U3/NonBackup/EQ08/raw/'
 
-%addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/eq08_patch_gamma/code/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/calibrate/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/marlcham/
 addpath /Users/Andy/Cruises_Research/mixingsoftware/general
 addpath /Users/Andy/Cruises_Research/mixingsoftware/seawater/
-addpath /Volumes/'SP PHD U3'/NonBackup/EQ08/mfiles/
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
@@ -51,7 +49,7 @@ ChkMkDir(save_dir_cal)
 tag_file_eq08
 
 global data head cal q
-q.script.pathname =  path_raw;
+q.script.pathname =  path_cham_raw;
 q.script.prefix = 'eq08';
 series={'fallspd','t','tp','c','mht','s','theta','sigma','sigma_order','n2','epsilon1','epsilon2',...
     'chi','az2','dtdz','drhodz','varaz','varlt','varlt_theta','scat','ax_tilt','ay_tilt'};
