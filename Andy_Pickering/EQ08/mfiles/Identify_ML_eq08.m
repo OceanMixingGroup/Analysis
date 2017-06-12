@@ -2,8 +2,7 @@
 %
 % Identify_ML_eq08.m
 %
-% trying to find criteria to exclude convective regions near surface in
-% EQ08
+% Find convective regions near surface in EQ08, to be excluded in analysis
 %
 %
 %-----------------
@@ -15,11 +14,9 @@ clear ; close all
 
 addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
 
-%load('/Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/Data/chameleon/processed_AP_7hz/sum/eq14_sum_clean.mat')
 eq08_patches_paths
 %
 cnums_to_get = 200:2700;
-%load( fullfile( path_cham_avg,['eq08_' sprintf('%04d',cnum) '_avg.mat']) )
 
 Params.gamma    = 0.2;
 Params.fmax     = 15  ;
@@ -63,8 +60,7 @@ linkaxes([ax1 ax2])
 thresh=0.04
 zml=nan*ones(1,length(1:2700));
 for i=1:2700%length(cham.cnum)
-    %    id=find( cham.SIGMA(:,i)>(cham.SIGMA(1,i)+thresh) );
-    %if ~isempty(ig)
+    
     try
         
         clear avg
