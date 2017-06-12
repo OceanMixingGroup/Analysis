@@ -5,7 +5,7 @@
 
 -  _**run_eq08_avg_AP.m**_ - Run the Chameleon processing to produce 1-m avg profiles of chi and epsilon (using shear probe data). I run this processing again using a smaller fmax because the spectra look like they roll off much lower than the normally assumed 32hz.
 
-- _**Identify_ML_eq08.m**_ - Identify the mixed layer depth, in order to exclude data where the water column is convectively unstable from further analysis.
+- _**Identify_ML_eq08.m**_ - Identify the mixed layer depth, in order to exclude data where the water column is convectively unstable from further analysis. These data are excluded w/ the functions _**discard_convection_eq08_cham**_ and _**discard_convection_eq08_chi**_.
 
 -  _**ComputeChi_Chameleon_Eq08.m**_  - Apply chi-pod method to Chameleon profiles (thermistor data only, not shear probe).
 
