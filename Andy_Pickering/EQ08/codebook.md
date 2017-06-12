@@ -3,6 +3,8 @@
 
 Listed below are the main codes that are run for this analysis, in approximately the order they need to be run in. 
 
+-  _**eq08_patches_paths.m**_ - Sets all the paths for data and output.
+
 -  _**make_cham_cal_files_eq08_AP.m**_ - Process the raw Chameleon profiles and produce mat files with calibrated t,s,p,t' etc. . These files are what the chi-pod method is applied to.
 
 -  _**run_eq08_avg_AP.m**_ - Run the Chameleon processing to produce 1-m avg profiles of chi and epsilon (using shear probe data). I run this processing again using a smaller fmax because the spectra look like they roll off much lower than the normally assumed 32hz.
