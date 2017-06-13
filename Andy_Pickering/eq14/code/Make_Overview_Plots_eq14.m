@@ -227,27 +227,14 @@ figname = [project_short '_Pcolor_Both_epsANDChi_N2_Tz_screen_chi_' num2str(scre
 print(fullfile(fig_dir, figname), '-dpng')
 
 
-%% Plot 2D histogram of chipod method vs chameleon
-
-% Reload data and get rid of mixed layer regions
+%% Reload data, screening surface and mixed layer regions
 
 clear cham chipod
 
 dz = 2 ;
-
-% cnums_to_get = get_cham_cnums_eq14;
-% bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
-% cnums_to_get = setdiff(cnums_to_get,bad_prof);
-
 screen_chi = 1
 Pmin       = 20
 screen_ml  = 1
-
-%eq14_patches_paths
-%addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-
-% reload data, screening convective regions
-%[chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 
 save_name = [project_short '_screen_chi_' num2str(screen_chi) '_screen_ml_' num2str(screen_ml) '_Pmin_' num2str(Pmin) '_dz_' num2str(dz) '_'  MakeChiPathStr(Params) '.mat']
 if exist(fullfile(analysis_dir,project_short,'data',save_name),'file')==2
@@ -256,8 +243,37 @@ else
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 end
 
-%%
-% Plot CHAMELEON eps vs chi, normalized so slope is equal to 1/2*gamma
+
+%% Plot ratio of chipod/cham chi and eps, vs. actual epsilon
+
+figure(1);clf
+h = figure ; clf
+agutwocolumn(1)
+wysiwyg
+
+ax1 = subplot(211) ;
+histogram2( log10(cham.eps),log10(chipod.chi ./ cham.chi ), 'DisplayStyle','tile','Normalization','pdf')
+hold on
+ylim([-2.5 2.5])
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('log_{10}[\chi_{\chi}/\chi]','fontsize',16)
+title(['fmax=' num2str(Params.fmax) ', zsmooth= ' num2str(Params.z_smooth) ', dz=' num2str(dz)])
+hline(0,'k')
+caxis([0 0.5])
+
+ax2 = subplot(212);
+histogram2( log10(cham.eps), log10(chipod.eps ./ cham.eps),50, 'DisplayStyle','tile','Normalization','pdf')
+hold on
+xlim([-8.5 -4.5])
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('log_{10}[\epsilon_{\chi}/\epsilon]','fontsize',16)
+hline(0,'k')
+caxis([0 0.4])
+
+figname = [project_short '_ratios_vs_eps_' num2str(screen_chi) '_Pmin_' num2str(Pmin) '_' MakeChiPathStr(Params)]
+print(fullfile(fig_dir, figname), '-dpng')
+
+%% Plot CHAMELEON eps vs chi, normalized so slope is equal to 1/2*gamma
 
 figure(14);clf
 agutwocolumn(0.8)
@@ -488,26 +504,13 @@ clear figname
 %% histogram of epsilon ratio for different size depth averaging
 
 clear cham chipod
-%close all
-
-% Params.gamma     = 0.2;
-% Params.fmax      = 7  ;
-% Params.z_smooth  = 1  ;
-% Params.resp_corr = 0  ;
-% Params.fc        = 99 ;
 
 screen_chi = 1 ;
 Pmin       = 20;
 screen_ml  = 1 ;
 
-%dz = 10 % bin size
 zmin=0  ;
 zmax=200;
-
-% addpath /Users/Andy/Cruises_Research/Analysis/Andy_Pickering/gen_mfiles/
-% addpath /Users/Andy/Cruises_Research/ChiPod/Cham_Eq14_Compare/mfiles/
-%
-% eq14_patches_paths
 
 cnums_to_get = get_cham_cnums_eq14 ;
 bad_prof=[2282 2283 2391 2762 2953]; % profiles where temp. is bad
@@ -564,7 +567,6 @@ for dz = [2 10 50]
 end
 
 
-
 xlabel(['log_{10}[\epsilon_{\chi}/\epsilon]'],'fontsize',16)
 ylabel('pdf')
 %
@@ -584,14 +586,6 @@ clear figname
 %% Plot chi vs chi, eps vs eps, for different # profiles averaged
 
 clear cham chipod
-%close all
-
-% Params.gamma    = 0.2;
-% Params.fmax     = 7  ;
-% Params.z_smooth = 1  ;
-% Params.resp_corr= 0  ;  % correct TP spectra for freq response of thermistor?
-% Params.fc       = 99 ;  % cutoff frequency for response correction
-
 
 screen_chi= 1 ;
 screen_ml = 1 ;
@@ -859,4 +853,5 @@ linkaxes([ax1 ax2])
 
 figname=[project_short '_gamma_point_avg_box_' num2str(dz) 'mbinned']
 print(fullfile(fig_dir,figname),'-dpng')
+
 %%

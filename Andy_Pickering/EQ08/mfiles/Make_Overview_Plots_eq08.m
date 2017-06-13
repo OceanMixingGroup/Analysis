@@ -194,11 +194,11 @@ freqline(0,'k-')
 figname = [project_short '_chi_eps_Vs_P_2Dhist_screen_chi_' num2str(screen_chi) '_Pmin_' num2str(Pmin) '_' MakeChiPathStr(Params)]
 print(fullfile(fig_dir,figname),'-dpng')
 
-%%
+%% Reload data, screening surface and mixed layer regions
+
 
 clear cham chipod
 
-% Reload data and get rid of mixed layer regions
 %cnums_to_get = 200:2700;
 screen_chi = 1 ;
 Pmin       = 20;
@@ -211,6 +211,37 @@ if exist(fullfile(analysis_dir,project_short,'Data',save_name))==2
 else
     [chipod, cham] = Get_and_bin_profiles(path_chipod_bin,path_cham_avg,dz,Params,cnums_to_get,project_short,0,200,Pmin,screen_chi,screen_ml);
 end
+
+%% Plot ratio of chipod/cham chi and eps, vs. actual epsilon
+
+figure(1);clf
+h = figure ; clf
+agutwocolumn(1)
+wysiwyg
+
+ax1 = subplot(211) ;
+histogram2( log10(cham.eps),log10(chipod.chi ./ cham.chi ), 'DisplayStyle','tile','Normalization','pdf')
+hold on
+ ylim([-2.5 2.5])
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('log_{10}[\chi_{\chi}/\chi]','fontsize',16)
+title(['fmax=' num2str(Params.fmax) ', zsmooth= ' num2str(Params.z_smooth) ', dz=' num2str(dz)])
+hline(0,'k')
+caxis([0 0.4])
+
+ax2 = subplot(212);
+histogram2( log10(cham.eps), log10(chipod.eps ./ cham.eps),50, 'DisplayStyle','tile','Normalization','pdf')
+hold on
+xlim([-8.5 -4.5])
+%ylim([-8.5 -4.5])
+xlabel('log_{10}[\epsilon]','fontsize',16)
+ylabel('log_{10}[\epsilon_{\chi}/\epsilon]','fontsize',16)
+hline(0,'k')
+caxis([0 0.3])
+
+
+figname = [project_short '_ratios_vs_eps_' num2str(screen_chi) '_Pmin_' num2str(Pmin) '_' MakeChiPathStr(Params)]
+print(fullfile(fig_dir, figname), '-dpng')
 
 
 %% Plot 2D histograms of chipod method vs chameleon, for chi and eps
