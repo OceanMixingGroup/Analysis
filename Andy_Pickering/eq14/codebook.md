@@ -33,7 +33,7 @@ When applying the chi-pod method to profiles, a structure **Params** is required
 ## Parameters for plots
 In Make_Overview_plots_eq14, there are some additional parameters for loading the data to plot.
 - **screen_chi** - Discard chi-pod chi and epsilon where log10(epsilon) < -8.5; this is same noise floor used for Chameleon.
-- **screen_ml** - Discard data where water column is convectively unstable (**Identify_ML_eq08.m**)
+- **screen_ml** - Discard data where water column is convectively unstable (**Identify_ML_eq14.m**)
 - **Pmin** - Discard all data shallower than Pmin
 
 ## Helper Functions
