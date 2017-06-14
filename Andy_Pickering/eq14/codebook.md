@@ -15,6 +15,8 @@
 
 -  _**ComputeChi_Chameleon_Eq14**_  - Apply chi-pod method to Chameleon profiles (thermistor data only, not shear probe).
 
+- _**gen_mfiles/make_combined_data_files.m**_  - Combine and average chameleon and chi-pod method profiles for different sets of parameters, and save data files that can be loaded when making plots etc.. Loading/combining all the profiles is kind of slow, so good to not have to repeat it when modifying plots or analysis.
+
 -  _**Make_Overview_Plots_eq14**_ - Make plots for notes (<https://github.com/OceanMixingGroup/Analysis/blob/master/Andy_Pickering/eq14/notes/OverviewNotes.pdf>).
 
 
