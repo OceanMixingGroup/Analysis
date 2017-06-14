@@ -15,10 +15,35 @@
 
 -  _**ComputeChi_Chameleon_Eq14**_  - Apply chi-pod method to Chameleon profiles (thermistor data only, not shear probe).
 
--  _**Make_Overview_Plots_eq14**_ - Make plots for notes.
+-  _**Make_Overview_Plots_eq14**_ - Make plots for notes (<https://github.com/OceanMixingGroup/Analysis/blob/master/Andy_Pickering/eq14/notes/OverviewNotes.pdf>).
+
+
+
+
+## Params for chi-pod method
+When applying the chi-pod method to profiles, a structure **Params** is required, containing the following parameters. The output files are saved in folders named according to these params.
+- **fmax** - Max frequency to integrate dT/dt spectrum up to. Determined by where sensor response rolls off, depends on individual thermistor. For eq08, I estimated this to be about 10hz.
+- **z_smooth** - The depth interval over which N^2 and dT/dz are smoothed for the chipod calculations.
+- **gamma** - Mixing efficiency (Default 0.2).
+- **nfft** - # points to use for spectra (default 128)
+- **TPthresh** - Threshold for dT/dz spectra power, to avoid doing calculation where signal is very small/noise.
+- **resp_corr** - Option to apply response correction to thermistor spectra. 
+- **fc** - Cutoff frequency for response correction, if applied.
+
+## Parameters for plots
+In Make_Overview_plots_eq14, there are some additional parameters for loading the data to plot.
+- **screen_chi** - Discard chi-pod chi and epsilon where log10(epsilon) < -8.5; this is same noise floor used for Chameleon.
+- **screen_ml** - Discard data where water column is convectively unstable (**Identify_ML_eq08.m**)
+- **Pmin** - Discard all data shallower than Pmin
 
 ## Helper Functions
 
--
+Chameleon processing:
+- _**cali_eq14.m**_
+- _**tag_file_eq14.m**_
 
--
+Other 
+- _**load_cal_eq14.m**_
+- _**gen_mfiles/discard_convection_eq14_cham.m**-
+- _**gen_mfiles/discard_convection_eq014_chi.m**-
+- _**gen_mfiles/Get_and_bin_profiles.m**_
