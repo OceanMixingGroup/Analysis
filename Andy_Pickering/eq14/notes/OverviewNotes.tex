@@ -97,22 +97,21 @@
 %~~~~~~~~~~~~~~~~~~
 
 
-
+%~~
 \begin{itemize}
 
 \item Both $\chi_{\chi}$ and $\epsilon_{\chi}$ appear to capture the depth and time structure of $\chi$ and $\epsilon$ well (Figures \ref{chi_overview},\ref{eps_overview}).
 
-
 \end{itemize}
+%~~
 
 
-
-% misc_Appr14.m
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_Pcolor_BothChi_N2_Tz_screen_chi_1_zsm1m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{Comparison of $\chi$ from chameleon method and chi-pod method, for EQ14 chameleon profiles. Each profile was averaged in 2m bins.  Black line shows shows convective regions excluded in further analysis.}
 \label{chi_overview}
 \end{figure}
+
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq14_Pcolor_BothEps_N2_Tz_screen_chi_1_zsm1m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
@@ -187,17 +186,21 @@ I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Ch
 
 
 
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \subsection{Dependence of bias on actual $\epsilon$}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+Figure \ref{biasvseps} shows that the bias in $\chi$ and $\epsilon$ is inversely proportional to the actual $\epsilon$ measured by Chameleon. The dependence of bias in $\chi$ not as strong as for $\epsilon$.
+
+
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
 {eq14_ratios_vs_eps_1_Pmin_20_zsm1m_fmax7Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{ 2D histograms of ratios $\chi_{\chi}/\chi$ and $\epsilon_{\chi}/\epsilon$ ratios vs $\epsilon$.}
-\label{}
+\label{biasvseps}
 \end{figure}
 
 
@@ -235,14 +238,14 @@ Assuming that
 
 \begin{itemize}
 
-\item Averaging over multiple profiles reduces the bias in both $\chi$ and $\epsilon$ (Figures \ref{2Dhistdiffprof},\ref{histdiffprof}).
+\item Averaging over multiple profiles does not seem to have much of an effect on the bias in both $\chi$ and $\epsilon$ (Figures \ref{2Dhistdiffprof},\ref{histdiffprof}).
 
-\item Averaging 10 profiles together seems to give the smallest bias.
+%\item Averaging 10 profiles together seems to give the smallest bias.
 
 \end{itemize}
 
 
-Figure \ref{prof_avg_ex} shows one example. 
+%Figure \ref{prof_avg_ex} shows one example. 
 
 
 \begin{figure}[htbp]
@@ -259,11 +262,11 @@ Figure \ref{prof_avg_ex} shows one example.
 \end{figure}
 
 
-\begin{figure}[htbp]
-\includegraphics[scale=0.8]{eps_boot_prof_cnum_1576.png}
-\caption{Example of averaging multiple profiles together. Left panels show a single profile from chamleeon and chi-pod method. Right panel shows bootstrap average of 5 profiles, averaged in 10m depth bins, with 95\% confidence intervals. Data in mixed layer and shallower than 20m have been excluded.}
-\label{prof_avg_ex}
-\end{figure}
+%\begin{figure}[htbp]
+%\includegraphics[scale=0.8]{eps_boot_prof_cnum_1576.png}
+%\caption{Example of averaging multiple profiles together. Left panels show a single profile from chamleeon and chi-pod method. Right panel shows bootstrap average of 5 profiles, averaged in 10m depth bins, with 95\% confidence intervals. Data in mixed layer and shallower than 20m have been excluded.}
+%\label{prof_avg_ex}
+%\end{figure}
 
 
 
@@ -318,6 +321,32 @@ If we compute gamma from time-averaged $N^2,T_z,\chi,\epsilon$ do we get $\gamma
 
 
 
+
+
+
+
+\clearpage
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\subsection{Summary}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+\begin{itemize}
+
+\item Both $\chi_{\chi}$ and $\epsilon_{\chi}$ appear to capture the depth and time structure of $\chi$ and $\epsilon$ well (Figures \ref{chi_overview},\ref{eps_overview}).
+
+
+\item Both $\chi_{\chi}$ and $\epsilon_{\chi}$ are biased low (Figures \ref{2DchamVschi},\ref{histchamVschi}); the $\epsilon_{\chi}$ bias is larger (more negative).
+
+\item The bias in $\chi$ is relatively constant with depth; the bias in $\epsilon$ is more negative at shallower depths (Figure \ref{chamVschivsP}).
+
+\item Figure \ref{biasvseps} shows that the bias in $\chi$ and $\epsilon$ is inversely proportional to the actual $\epsilon$ measured by Chameleon. The dependence of bias in $\chi$ not as strong as for $\epsilon$.
+
+\item Averaging over multiple profiles does not seem to have much of an effect on the bias in both $\chi$ and $\epsilon$ (Figures \ref{2Dhistdiffprof},\ref{histdiffprof}).
+
+\item Averaging over large depth bins reduces the bias in both $\chi$ and $\epsilon$ (Figures \ref{2Dhistdiffdz},\ref{histdiffdz}).
+
+
+\end{itemize}
 
 
 
