@@ -60,7 +60,7 @@
 
 \item The noise floor of Chamleon $\epsilon$ was determined to be $log_{10}[\epsilon]=-8.5$. Values below this threshold were discarded. $\chi$pod values below this threshold were also discarded, in order to make a valid comparison. An upper limit of $log_{10}[\epsilon]=-5$ was also applied.
 
-\item I re-processed the Chameleon data (\verb+run_eq08_AP.m+) using a fmax of 15hz for the $\chi$ calculations, based on looking at spectra and where they rolled off.
+\item I re-processed the Chameleon data (\verb+run_eq08_AP.m+) using a fmax of 10hz for the $\chi$ calculations, based on looking at spectra and where they rolled off.
 
 \item Data including surface convection was identified and excluded in the analysis. The mixed layer depth was identified using a criteria of $\sigma -\simga_{surface}=0.04$. This depth is shown in figures \ref{chi_overview} and \ref{eps_overview}. These depths were found w/ \verb+Identify_ML_eq08.m+
 
@@ -80,6 +80,11 @@
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+
+
+\subsection{Overview}
+
+
 \begin{itemize}
 
 \item $\chi$pod method estimates of $\chi$ and $\epsilon$ capture the depth and time structure well (Figures \ref{chi_overview},\ref{eps_overview}).
@@ -87,19 +92,16 @@
 \end{itemize}
 
 
-
-\subsection{Overview}
-
 % misc_Appr14.m
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq08_Pcolor_BothChi_N2_Tz_screen_chi_1_zsm10m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{Comparison of $\chi$ from chameleon method and chi-pod method, for eq08 chameleon profiles. Date from each profile were averaged in 2m bins.  Black line shows shows convective regions excluded in further analysis.}
+\caption{Comparison of $\chi$ from chameleon method and chi-pod method, for eq08 chameleon profiles. Data from each profile were averaged in 2m bins.  Black line shows shows convective regions excluded in further analysis. $N^2$ and $dT/dz$ from chameleon are also show in lower panels.}
 \label{chi_overview}
 \end{figure}
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq08_Pcolor_BothEps_N2_Tz_screen_chi_1_zsm10m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{Comparison of $\epsilon$ from chameleon method and chi-pod method, for eq08 chameleon profiles. Each profile was averaged in 2m bins.  Values of $\epsilon_{\chi}$ and $\epsilon$ below chameleon noise floor ($log_{10}[\epsilon]=-8.5$) have been nan'd out. Black line shows shows convective regions excluded in further analysis.}
+\caption{Comparison of $\epsilon$ from chameleon method and chi-pod method, for eq08 chameleon profiles. Each profile was averaged in 2m bins.  Values of $\epsilon_{\chi}$ and $\epsilon$ below chameleon noise floor ($log_{10}[\epsilon]=-8.5$) have been nan'd out. Black line shows shows convective regions excluded in further analysis. $N^2$ and $dT/dz$ from chameleon are also show in lower panels.}
 \label{eps_overview}
 \end{figure}
 
@@ -113,11 +115,17 @@
 \subsection{$\epsilon_{\chi}$ vs $\epsilon$}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Chameleon data, where $\epsilon_{\chi}=N^2\chi/2/\gamma/T_{z}^{2}$, using $\gamma=0.2$. $\epsilon_{\chi}$ underestimates $\epsilon$, showing that that relationship (assumed in $\chi$pod processing does not hold here.
+
+I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Chameleon data, where
+\begin{equation}
+ \epsilon_{\chi}=\frac{N^2\chi}{2\gamma T_{z}^{2}}
+ \label{epschieq}
+ \end{equation}
+ , using $\gamma=0.2$. $\epsilon_{\chi}$ underestimates $\epsilon$, showing that that relationship (assumed in $\chi$pod processing does not hold here.
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]{eq08_epschi_vs_eps.png}
-\caption{2D histogram of $\epsilon_{\chi}$ vs $\epsilon$ for Chameleon data.}
+\caption{(Left) 2D histogram of $\epsilon_{\chi}$ (eq. \ref{epschieq}) vs $\epsilon$ for Chameleon data. (Right) Histogram of $log_{10}[$\epsilon_{\chi}/\epsilon]$}
 \label{}
 \end{figure}
 
@@ -154,7 +162,7 @@ I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Ch
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
 {eq08_2mbinned_eps_ratios_screen_chi_1_screenml_1_zsm10m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{eq08: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values. Estimates for each profile were averaged in 10m depth bins. Vertical line shows mean of $log_{10}[\epsilon_{\chi}/\epsilon]$.}
+\caption{eq08: Histogram of the ratio of $\epsilon$ estimates from $\chi$pod method to the chameleon values. Estimates for each profile were averaged in 10m depth bins. Vertical lines shows mean of $log_{10}[\chi_{\chi}/\chi]$ and $log_{10}[\epsilon_{\chi}/\epsilon]$.}
 \label{epsrathist_eq08}
 \end{figure}
 
@@ -200,7 +208,7 @@ Figure \ref{biasvseps} shows that the bias in epsilon is inversely proportional 
 Assuming that
 \begin{equation}
 \gamma=\frac{N^2 \chi}{2\epsilon<T_z>^2}
-\label{eq1}
+\label{eqgam}
 \end{equation}
 , plotting [$\chi/t_{z}^{2}$] vs [$\epsilon/N\^2$] should follow a straight line with slope equal to $2\gamma$. The Chameleon data from EQ08 tend to fall near $\gamma=0.1$ or slightly lower (Figure \ref{chiepsnorm}).
 
@@ -208,7 +216,7 @@ Assuming that
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
 {eq08_2mbinned_eps_vs_chi_normalized_zsm10m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
-\caption{eq08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
+\caption{Chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$ (assuming eq. \ref{eqgam}).}
 \label{chiepsnorm}
 \end{figure}
 
