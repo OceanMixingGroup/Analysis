@@ -71,10 +71,21 @@
 
 
 
+
+
+
 \clearpage
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \section{Results}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+\begin{itemize}
+
+\item $\chi$pod method estimates of $\chi$ and $\epsilon$ capture the depth and time structure well (Figures \ref{chi_overview},\ref{eps_overview}).
+
+\end{itemize}
+
 
 
 \subsection{Overview}
@@ -109,6 +120,7 @@ I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Ch
 \caption{2D histogram of $\epsilon_{\chi}$ vs $\epsilon$ for Chameleon data.}
 \label{}
 \end{figure}
+
 
 
 
@@ -167,12 +179,14 @@ I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Ch
 \subsection{Dependence of bias on actual $\epsilon$}
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+Figure \ref{biasvseps} shows that the bias in epsilon is inversely proportional to the actual $\epsilon$ measured by Chameleon. The bias in $\chi$ does not seem to have a strong dependence on $\epsilon$.
+
 
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
 {eq08_ratios_vs_eps_1_Pmin_20_zsm1m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{ 2D histograms of ratios $\chi_{\chi}/\chi$ and $\epsilon_{\chi}/\epsilon$ ratios vs $\epsilon$.}
-\label{}
+\label{biasvseps}
 \end{figure}
 
 
@@ -187,6 +201,7 @@ I first compared $\epsilon_{\chi}$ vs $\epsilon_{\chi}$ vs $\epsilon$ for the Ch
 Assuming that
 \begin{equation}
 \gamma=\frac{N^2 \chi}{2\epsilon<T_z>^2}
+\label{eq1}
 \end{equation}
 , plotting [$\chi/t_{z}^{2}$] vs [$\epsilon/N\^2$] should follow a straight line with slope equal to $2\gamma$. The Chameleon data from EQ08 tend to fall near $\gamma=0.1$ or slightly lower (Figure \ref{chiepsnorm}).
 
@@ -194,7 +209,6 @@ Assuming that
 \begin{figure}[htbp]
 \includegraphics[scale=0.8]
 {eq08_2mbinned_eps_vs_chi_normalized_zsm10m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
-%{eq08_10mbinned_eps_vs_chi_normalized_zsm10m_fmax10Hz_respcorr0_fc_99hz_gamma20.png}
 \caption{eq08: 10m binned  chameleon $\epsilon/N\^2$ vs $\chi/t_{z}^{2}$. Lines show different values of $\gamma$. Values of $\epsilon$ below noise floor ($log_{10}\epsilon<-8.5$) are discarded also.}
 \label{chiepsnorm}
 \end{figure}
@@ -211,7 +225,7 @@ Assuming that
 
 \begin{itemize}
 
-\item 
+\item Averaging multiple profiles together does not seem to have much of an effect on the bias in $\chi$ or $\epsilon$.
 
 \end{itemize}
 
@@ -278,27 +292,33 @@ I also looked at the effects of averaging each profile in different sized depth 
 
 
 
-%\clearpage
-%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%\section{Summary}
-%%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-%
-%\begin{itemize}
-%
-%\item Inidivudal (and 10m binned) $\chi$pod estimates of $\epsilon_{\chi}$ are biased low compared to Chameleon $\epsilon$.
-%
-%\item This appears to be because $\gamma$ computed from the Chameleon data is lower than the assumed 0.2
-%
-%%\item $\gamma$ computed from averaged data (across profiles) $N^2$, $T_z$, $\chi$, and $\epsilon$ is closer to 0.2
-%
-%\item Averaging $\epsilon$ over more profiles reduces the bias ?? (Figure \ref{}).
-%
-%\item Averaging $\epsilon$ over larger depth intervals reduces the bias (Figure \ref{}).
-%
-%
-%\end{itemize}
+\clearpage
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+\section{Summary}
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
+\begin{itemize}
+
+\item $\chi$pod method estimates of $\chi$ and $\epsilon$ capture the depth and time structure well.
+
+\item The $\chi$pod method tends to slightly over-estimate $\chi$, and underestimate $\epsilon$ (Figures \ref{chamVschi},\ref{epsrathist_eq08}). $\epsilon$ seems to be more under-estimated at higher values of $\epsilon$.
+
+\item The bias in $\epsilon$ tends to be larger (more negative) at shallower depths (Figure \ref{2DvsP}).
+
+\item $\gamma$ estimated from the Chameleon data (eq. \ref{eq1}) tend to fall near $\gamma=0.1$ or slightly lower (Figure \ref{chiepsnorm}).
+
+\item Averaging multiple profiles together does not seem to have much of an effect on the bias in $\chi$ or $\epsilon$.
+
+
+\item The bias in $\epsilon$ is decreased with averaging over larger depth intervals, although the bias in $\chi$ increases slightly (Figure \ref{hist_diffdz}).
+
+
+\end{itemize}
+
+
+
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 \end{document}  
 
 
