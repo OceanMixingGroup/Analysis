@@ -16,7 +16,7 @@ Listed below are the main codes that are run for this analysis, in approximately
 
 -  _**ComputeChi_Chameleon_Eq08.m**_  - Apply chi-pod method to Chameleon profiles (thermistor data only, not shear probe).
 
-- _**make_combined_data_files.m**_  - Combine and average chameleon and chi-pod method profiles for different sets of parameters, and save data files that can be loaded when making plots etc.. Loading/combining all the profiles is kind of slow, so good to not have to repeat it when modifying plots or analysis.
+- _**gen_mfiles/make_combined_data_files.m**_  - Combine and average chameleon and chi-pod method profiles for different sets of parameters, and save data files that can be loaded when making plots etc.. Loading/combining all the profiles is kind of slow, so good to not have to repeat it when modifying plots or analysis.
 
 -  _**Make_Overview_Plots_eq08.m**_ - Make plots for notes (<https://github.com/OceanMixingGroup/Analysis/blob/master/Andy_Pickering/EQ08/Notes/OverviewNotes_eq08.pdf>).
 
