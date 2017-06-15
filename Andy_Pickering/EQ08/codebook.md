@@ -1,6 +1,11 @@
 
 # Outline of code and processing for EQ08 chi-pod analysis
 
+Got raw data from Jim Moum via Google Drive. There are 3 folders:
+- /mfiles
+- /processed
+- /raw
+
 ## Main Scripts
 Listed below are the main codes that are run for this analysis, in approximately the order they need to be run in. 
 
