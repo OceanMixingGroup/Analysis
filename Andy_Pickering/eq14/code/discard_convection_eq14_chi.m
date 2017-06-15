@@ -1,9 +1,19 @@
 function avg = discard_convection_eq14_chi(avg,cnum)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
+% Discard chi and epsilon data from mixed layer, identified in
+% Identify_ML_eq14.m
 %
 %
+% INPUT
+% - avg  : binned chi-pod method profile
+% - cnum : castnumber
 %
+% OUTPUT
+% - avg : chi-pod profile w/ ML data NaNd out
+%
+%~~~~~~~~~~~~
+% A.Pickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 

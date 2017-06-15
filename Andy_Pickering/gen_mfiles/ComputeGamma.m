@@ -1,7 +1,9 @@
 function gam=ComputeGamma(n2,dtdz,chi,eps)
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %
-%
+% Compute gamma (mixing efficiency)
+% 
+%~~~~~~~~~~~~~~
 % 10/27/16 - APickering
 %~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%

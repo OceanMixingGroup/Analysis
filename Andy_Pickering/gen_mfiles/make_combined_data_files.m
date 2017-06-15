@@ -5,6 +5,8 @@
 % Getting and averaging/combining all the chipod and cham profiles takes a
 % long time, so here i'll do that and save the results for loading .
 %
+% DEPENDS
+% - Get_and_bin_profiles.m
 %
 %~~~~~~~~~~~~~~~~
 % 6/9/17 - A.Pickering
