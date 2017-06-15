@@ -1,9 +1,12 @@
-%%
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%
 % PlotEpsProfiles2X2_v2.m
-
+%
+%
+%
+%~~~~~~~~~~~~~~
 % June 17, 2015 - A. Pickering
-
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %%
 
 clear ; close all
@@ -15,7 +18,7 @@ whmoor=3 ; xl=[1e-9 10^(-5.5)]
 %whmoor=1 ; xl=[1e-9 10^(-5.9)]
 %whmoor=2 ; xl=[1e-9 10^(-5.9)]
 
-cd /Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases
+cd /Users/Andy/Cruises_Research/AnalysisAndy_Pickering/OverturnsBiases
 
 % load ' true ' data
 load(['/Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases/Data/Tchain' num2str(whmoor) '/Tchain' num2str(whmoor) '_RecomputedEps_MinOT_' num2str(minOT) '.mat'])

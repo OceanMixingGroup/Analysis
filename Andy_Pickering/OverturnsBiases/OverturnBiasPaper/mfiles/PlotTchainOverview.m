@@ -1,15 +1,18 @@
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+%
+% PlotTchainOverview.m
 %
 %
-%
+%~~~~~~~~~~~~~~~~~~~~
 % June 17, 2015 - A. Pickering
-%
+%~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %% Plot epsilon
 
 clear ; close all
-saveplot=1
-plotiso=1
-minOT=50
-whmoor=3 % mooring #
+saveplot = 1
+plotiso  = 1
+minOT    = 50
+whmoor   = 3 % mooring #
 
 cd /Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases
 
@@ -57,7 +60,7 @@ colorbar
 if plotiso==1
     hold on
     contour(xx2.yday(id),xx2.z,xx2.T(:,id),clev,'k')
-%       contour(xx2.yday(id),xx2.z,xx2.T(:,id),tm(1:50:end),'k')
+    %       contour(xx2.yday(id),xx2.z,xx2.T(:,id),tm(1:50:end),'k')
 end
 SubplotLetterMW('T')
 ylabel('Depth','fontsize',16)
@@ -71,8 +74,8 @@ caxis(cl)
 
 if plotiso==1
     hold on
-%    contour(xx2.yday(id),xx2.z,xx2.T(:,id),clev,'k')
-%       contour(xx2.yday(id),xx2.z,xx2.T(:,id),tm(1:50:end),'k')
+    %    contour(xx2.yday(id),xx2.z,xx2.T(:,id),clev,'k')
+    %       contour(xx2.yday(id),xx2.z,xx2.T(:,id),tm(1:50:end),'k')
 end
 
 
@@ -86,13 +89,13 @@ SubplotLetterMW('\epsilon')
 linkaxes(ax,'x')
 %
 if saveplot==1
-%    fname=fullfile('/Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases','NotesOverturnBiases',)
+    %    fname=fullfile('/Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases','NotesOverturnBiases',)
     
-        figdir='/Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases/NotesOverturnBiases'
+    figdir='/Users/Andy/Cruises_Research/IWISE/Analysis/S9/Dissipation/OverturnsBiases/NotesOverturnBiases'
     ChkMkDir(figdir)
     figname=['Tchain' num2str(whmoor) '_Overview']
     print('-dpng',fullfile(figdir,figname))
-
+    
 end
 
 %%
