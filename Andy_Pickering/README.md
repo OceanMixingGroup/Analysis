@@ -33,5 +33,7 @@ This repository contains code and results of analysis done by Andy Pickering as 
 
 ## Gamma calculations
 Calculated mixing efficiency from EQ14 chameleon profiles, using binned data and data computed over patches only. 
+- https://github.com/OceanMixingGroup/Analysis/blob/master/Andy_Pickering/eq08_patch_gamma/notes/eq08_patch_gamma_notes.pdf
+- https://github.com/OceanMixingGroup/Analysis/blob/master/Andy_Pickering/eq14_patch_gamma/notes/eq14_patch_gamma_notes.pdf
 
 
